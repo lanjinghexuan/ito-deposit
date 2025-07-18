@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-	"ito/internal/data"
-
 	pb "ito/api/user/v1"
+	model "ito/app/user/internal/data"
+	"ito/internal/data"
 )
 
 type UserService struct {
@@ -32,7 +32,7 @@ func (s *UserService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.
 	return &pb.GetUserReply{}, nil
 }
 func (s *UserService) ListUser(ctx context.Context, req *pb.ListUserRequest) (*pb.ListUserReply, error) {
-	var userData []*data.Users
+	var userData []*model.Users
 	s.DB.DB.Table("users").Find(&userData)
 	var dataList []*pb.UserList
 	for _, v := range userData {
