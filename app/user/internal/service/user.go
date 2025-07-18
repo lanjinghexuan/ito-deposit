@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"ito/app/user/internal/data"
+	"ito/internal/data"
 
 	pb "ito/api/user/v1"
 )
