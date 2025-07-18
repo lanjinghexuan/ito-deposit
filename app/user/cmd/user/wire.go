@@ -7,9 +7,9 @@ package main
 
 import (
 	"ito/app/user/internal/conf"
-	"ito/app/user/internal/data"
 	"ito/app/user/internal/server"
 	"ito/app/user/internal/service"
+	"ito/internal/data"
 
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
