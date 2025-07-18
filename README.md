@@ -129,6 +129,9 @@ kratos proto openapi api/user/v1/user.proto
 - 各服务的入口在 `cmd/<service>` 目录下
 - 依赖注入入口为 `wire.go`，自动生成实现为 `wire_gen.go`
 - API 定义统一放在 `api/` 目录
+- 目前示例文件在 `app/user`
+- 数据库初始化文件在 `app/user/internal/data/data.go`
+- 数据库使用示例在 `app/user/internal/service/user.go`
 
 ---
 
