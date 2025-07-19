@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package api.helloworld.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "ito-deposit/api/helloworld/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.helloworld.v1";
+
+service Order {
+	rpc CreateOrder (CreateOrderRequest) returns (CreateOrderReply);
+	rpc UpdateOrder (UpdateOrderRequest) returns (UpdateOrderReply);
+	rpc DeleteOrder (DeleteOrderRequest) returns (DeleteOrderReply);
+	rpc GetOrder (GetOrderRequest) returns (GetOrderReply);
+	rpc ListOrder (ListOrderRequest) returns (ListOrderReply){
+		option (google.api.http) = {
+			get: "/order"
+		};
+	};
+}
+
+message CreateOrderRequest {}
+message CreateOrderReply {}
+
+message UpdateOrderRequest {}
+message UpdateOrderReply {}
+
+message DeleteOrderRequest {}
+message DeleteOrderReply {}
+
+message GetOrderRequest {}
+message GetOrderReply {}
+
+message ListOrderRequest {}
+message ListOrderReply {}

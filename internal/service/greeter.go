@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	v1 "ito/api/helloworld/v1"
-	"ito/internal/biz"
+	v1 "ito-deposit/api/helloworld/v1"
+	"ito-deposit/internal/biz"
 )
 
 // GreeterService is a greeter service.

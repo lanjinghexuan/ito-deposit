@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package api.helloworld.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "ito-deposit/api/helloworld/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.helloworld.v1";
+
+service Deposit {
+	rpc CreateDeposit (CreateDepositRequest) returns (CreateDepositReply);
+	rpc UpdateDeposit (UpdateDepositRequest) returns (UpdateDepositReply);
+	rpc DeleteDeposit (DeleteDepositRequest) returns (DeleteDepositReply);
+	rpc GetDeposit (GetDepositRequest) returns (GetDepositReply);
+	rpc ListDeposit (ListDepositRequest) returns (ListDepositReply){
+		option (google.api.http) = {
+			get: "/deposit"
+		};
+	};
+}
+
+message CreateDepositRequest {}
+message CreateDepositReply {}
+
+message UpdateDepositRequest {}
+message UpdateDepositReply {}
+
+message DeleteDepositRequest {}
+message DeleteDepositReply {}
+
+message GetDepositRequest {}
+message GetDepositReply {}
+
+message ListDepositRequest {}
+message ListDepositReply {}

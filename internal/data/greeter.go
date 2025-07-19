@@ -3,7 +3,7 @@ package data
 import (
 	"context"
 
-	"ito/internal/biz"
+	"ito-deposit/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/log"
 )
