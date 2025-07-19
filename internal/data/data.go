@@ -2,6 +2,7 @@ package data
 
 import (
 	"fmt"
+	"github.com/redis/go-redis/v9"
 	"ito-deposit/internal/conf"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -16,8 +17,8 @@ var ProviderSet = wire.NewSet(NewData, NewGreeterRepo)
 
 // Data .
 type Data struct {
-	DB *gorm.DB
-	// TODO wrapped database client
+	DB    *gorm.DB
+	Redis *redis.Client
 }
 
 // NewData .
@@ -31,7 +32,17 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 		fmt.Println("err:", err)
 		panic("failed to connect database")
 	}
+	redisDB := RedisInit(c)
 	return &Data{
-		DB: db,
+		DB:    db,
+		Redis: redisDB,
 	}, cleanup, nil
+}
+
+func RedisInit(c *conf.Data) *redis.Client {
+	rdb := redis.NewClient(&redis.Options{
+		Addr:            c.Redis.Addr,
+		DisableIdentity: true,
+	})
+	return rdb
 }
