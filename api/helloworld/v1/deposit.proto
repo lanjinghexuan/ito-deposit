@@ -20,7 +20,9 @@ service Deposit {
 	};
 }
 
-message CreateDepositRequest {}
+message CreateDepositRequest {
+
+}
 message CreateDepositReply {}
 
 message UpdateDepositRequest {}

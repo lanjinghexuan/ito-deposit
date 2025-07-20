@@ -3,10 +3,12 @@ package service
 import (
 	"context"
 	"github.com/redis/go-redis/v9"
+
 	"gorm.io/gorm"
-	"ito-deposit/internal/data"
 	"math/rand"
 	"time"
+
+	"ito-deposit/internal/data"
 
 	pb "ito-deposit/api/helloworld/v1"
 )
@@ -14,7 +16,8 @@ import (
 type UserService struct {
 	pb.UnimplementedUserServer
 	RedisDb *redis.Client
-	DB      *gorm.DB
+
+	DB *gorm.DB
 }
 
 func NewUserService(redis, mysql data.Data) *UserService {
