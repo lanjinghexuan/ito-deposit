@@ -103,7 +103,7 @@ make --version
 如果要修改conf.proto 文件
 修改后根目录输入命令 
 ```
-make conf
+make config
 ```
 
 官方地址
