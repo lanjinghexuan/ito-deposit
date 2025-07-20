@@ -71,3 +71,40 @@ wire
 如需详细了解 Kratos 命令用法，请参考 [Kratos 官方文档](https://go-kratos.dev/docs/getting-started/)。  
 如需自定义项目结构或添加新业务 proto，只需重复第 3-4 步即可。
 
+方案 1：使用 Chocolatey（推荐）
+Chocolatey 是 Windows 的包管理器，可快速安装make。
+
+安装 Chocolatey
+以管理员身份打开 PowerShell，执行：
+powershell
+```
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+```
+
+
+
+安装 make
+在 PowerShell 中执行：
+powershell
+```
+choco install make
+```
+
+
+
+验证安装
+重启 PowerShell 或 Git Bash，输入：
+bash
+```
+make --version
+```
+
+
+如果要修改conf.proto 文件
+修改后根目录输入命令 
+```
+make conf
+```
+
+官方地址
+https://go-kratos.dev/docs/component/config#%E4%BD%BF%E7%94%A8-1
