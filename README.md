@@ -108,3 +108,18 @@ make config
 
 官方地址
 https://go-kratos.dev/docs/component/config#%E4%BD%BF%E7%94%A8-1
+
+
+//git 解决冲突
+```
+git fetch origin
+git merge main
+// 解决本地冲突后  
+git add .
+git commit -m '解决冲突'
+git push
+git checkout main
+git merge wxy   // 自己的分支
+git  push 
+
+```
