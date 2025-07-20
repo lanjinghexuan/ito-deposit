@@ -2,16 +2,26 @@ package service
 
 import (
 	"context"
+	"github.com/redis/go-redis/v9"
+	"gorm.io/gorm"
+	"ito-deposit/internal/data"
+	"math/rand"
+	"time"
 
 	pb "ito-deposit/api/helloworld/v1"
 )
 
 type UserService struct {
 	pb.UnimplementedUserServer
+	RedisDb *redis.Client
+	DB      *gorm.DB
 }
 
-func NewUserService() *UserService {
-	return &UserService{}
+func NewUserService(redis, mysql data.Data) *UserService {
+	return &UserService{
+		RedisDb: redis.Redis,
+		DB:      mysql.DB,
+	}
 }
 
 func (s *UserService) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserReply, error) {
@@ -28,4 +38,71 @@ func (s *UserService) GetUser(ctx context.Context, req *pb.GetUserRequest) (*pb.
 }
 func (s *UserService) ListUser(ctx context.Context, req *pb.ListUserRequest) (*pb.ListUserReply, error) {
 	return &pb.ListUserReply{}, nil
+}
+func (s *UserService) SendSms(ctx context.Context, req *pb.SendSmsRequest) (*pb.SendSmsReply, error) {
+	code := rand.Intn(9000) + 1000
+	s.RedisDb.Set(context.Background(), "sendSms"+req.Mobile+req.Source, code, time.Minute*5)
+	return &pb.SendSmsReply{
+		Code: 200,
+		Msg:  "短信发送成功",
+	}, nil
+}
+func (s *UserService) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterReply, error) {
+	get := s.RedisDb.Get(context.Background(), "sendSms"+req.Mobile+"register")
+	if get.Val() != req.SmsCode {
+		return &pb.RegisterReply{
+			Code: 500,
+			Msg:  "验证码错误",
+		}, nil
+	}
+	user := data.Users{
+		Username: req.Username,
+		Mobile:   req.Mobile,
+		Password: req.Password,
+	}
+	err := s.DB.Debug().Create(&user).Error
+	if err != nil {
+		return &pb.RegisterReply{
+			Code: 500,
+			Msg:  "注册失败",
+		}, nil
+	}
+	return &pb.RegisterReply{
+		Code: 200,
+		Msg:  "注册成功",
+	}, nil
+}
+func (s *UserService) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginReply, error) {
+	get := s.RedisDb.Get(context.Background(), "sendSms"+req.Mobile+"login")
+	if get.Val() != req.SmsCode {
+		return &pb.LoginReply{
+			Code: 500,
+			Msg:  "验证码错误",
+		}, nil
+	}
+	var user data.Users
+	err := s.DB.Debug().Where("mobile = ?", req.Mobile).Find(&user).Error
+	if err != nil {
+		return &pb.LoginReply{
+			Code: 500,
+			Msg:  "查询失败",
+		}, nil
+	}
+	if user.Id == 0 {
+		return &pb.LoginReply{
+			Code: 500,
+			Msg:  "用户不存在",
+		}, nil
+	}
+	if req.Password != user.Password {
+		return &pb.LoginReply{
+			Code: 500,
+			Msg:  "密码错误",
+		}, nil
+	}
+	return &pb.LoginReply{
+		Code: 200,
+		Msg:  "登录成功",
+		Id:   user.Id,
+	}, nil
 }

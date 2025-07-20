@@ -34,3 +34,33 @@ message GetUserReply {}
 
 message ListUserRequest {}
 message ListUserReply {}
+
+message SendSmsRequest {
+	string mobile = 1;
+	string source = 2;
+}
+message SendSmsReply {
+	int64 code = 1;
+	string msg = 2;
+}
+message RegisterRequest {
+	string mobile = 1;
+	string password = 2;
+	string smsCode = 3;
+	string username = 4;
+}
+message RegisterReply {
+	int64 code = 1;
+	string msg = 2;
+}
+message LoginRequest {
+	string mobile = 1;
+	string password = 2;
+	string smsCode = 3;
+	string username = 4;
+}
+message LoginReply {
+	int64 code = 1;
+	string msg = 2;
+	int64 id = 3;
+}

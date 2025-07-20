@@ -382,6 +382,358 @@ func (*ListUserReply) Descriptor() ([]byte, []int) {
 	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{9}
 }
 
+type SendSmsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Mobile        string                 `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty"`
+	Source        string                 `protobuf:"bytes,2,opt,name=source,proto3" json:"source,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SendSmsRequest) Reset() {
+	*x = SendSmsRequest{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SendSmsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SendSmsRequest) ProtoMessage() {}
+
+func (x *SendSmsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SendSmsRequest.ProtoReflect.Descriptor instead.
+func (*SendSmsRequest) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *SendSmsRequest) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+func (x *SendSmsRequest) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
+type SendSmsReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SendSmsReply) Reset() {
+	*x = SendSmsReply{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SendSmsReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SendSmsReply) ProtoMessage() {}
+
+func (x *SendSmsReply) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SendSmsReply.ProtoReflect.Descriptor instead.
+func (*SendSmsReply) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *SendSmsReply) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *SendSmsReply) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type RegisterRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Mobile        string                 `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	SmsCode       string                 `protobuf:"bytes,3,opt,name=smsCode,proto3" json:"smsCode,omitempty"`
+	Username      string                 `protobuf:"bytes,4,opt,name=username,proto3" json:"username,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegisterRequest) Reset() {
+	*x = RegisterRequest{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterRequest) ProtoMessage() {}
+
+func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterRequest.ProtoReflect.Descriptor instead.
+func (*RegisterRequest) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *RegisterRequest) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetSmsCode() string {
+	if x != nil {
+		return x.SmsCode
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+type RegisterReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegisterReply) Reset() {
+	*x = RegisterReply{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterReply) ProtoMessage() {}
+
+func (x *RegisterReply) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterReply.ProtoReflect.Descriptor instead.
+func (*RegisterReply) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *RegisterReply) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *RegisterReply) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type LoginRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Mobile        string                 `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	SmsCode       string                 `protobuf:"bytes,3,opt,name=smsCode,proto3" json:"smsCode,omitempty"`
+	Username      string                 `protobuf:"bytes,4,opt,name=username,proto3" json:"username,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LoginRequest) Reset() {
+	*x = LoginRequest{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginRequest) ProtoMessage() {}
+
+func (x *LoginRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
+func (*LoginRequest) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *LoginRequest) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+func (x *LoginRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *LoginRequest) GetSmsCode() string {
+	if x != nil {
+		return x.SmsCode
+	}
+	return ""
+}
+
+func (x *LoginRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+type LoginReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	Id            int64                  `protobuf:"varint,3,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LoginReply) Reset() {
+	*x = LoginReply{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginReply) ProtoMessage() {}
+
+func (x *LoginReply) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginReply.ProtoReflect.Descriptor instead.
+func (*LoginReply) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *LoginReply) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *LoginReply) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *LoginReply) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
 var File_api_helloworld_v1_user_proto protoreflect.FileDescriptor
 
 const file_api_helloworld_v1_user_proto_rawDesc = "" +
@@ -396,7 +748,31 @@ const file_api_helloworld_v1_user_proto_rawDesc = "" +
 	"\x0eGetUserRequest\"\x0e\n" +
 	"\fGetUserReply\"\x11\n" +
 	"\x0fListUserRequest\"\x0f\n" +
-	"\rListUserReply2\xbe\x03\n" +
+	"\rListUserReply\"@\n" +
+	"\x0eSendSmsRequest\x12\x16\n" +
+	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x16\n" +
+	"\x06source\x18\x02 \x01(\tR\x06source\"4\n" +
+	"\fSendSmsReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\"{\n" +
+	"\x0fRegisterRequest\x12\x16\n" +
+	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x18\n" +
+	"\asmsCode\x18\x03 \x01(\tR\asmsCode\x12\x1a\n" +
+	"\busername\x18\x04 \x01(\tR\busername\"5\n" +
+	"\rRegisterReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\"x\n" +
+	"\fLoginRequest\x12\x16\n" +
+	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x18\n" +
+	"\asmsCode\x18\x03 \x01(\tR\asmsCode\x12\x1a\n" +
+	"\busername\x18\x04 \x01(\tR\busername\"B\n" +
+	"\n" +
+	"LoginReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x12\x0e\n" +
+	"\x02id\x18\x03 \x01(\x03R\x02id2\xbe\x03\n" +
 	"\x04User\x12V\n" +
 	"\n" +
 	"CreateUser\x12$.api.helloworld.v1.CreateUserRequest\x1a\".api.helloworld.v1.CreateUserReply\x12V\n" +
@@ -420,7 +796,7 @@ func file_api_helloworld_v1_user_proto_rawDescGZIP() []byte {
 	return file_api_helloworld_v1_user_proto_rawDescData
 }
 
-var file_api_helloworld_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_api_helloworld_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_api_helloworld_v1_user_proto_goTypes = []any{
 	(*CreateUserRequest)(nil), // 0: api.helloworld.v1.CreateUserRequest
 	(*CreateUserReply)(nil),   // 1: api.helloworld.v1.CreateUserReply
@@ -432,6 +808,12 @@ var file_api_helloworld_v1_user_proto_goTypes = []any{
 	(*GetUserReply)(nil),      // 7: api.helloworld.v1.GetUserReply
 	(*ListUserRequest)(nil),   // 8: api.helloworld.v1.ListUserRequest
 	(*ListUserReply)(nil),     // 9: api.helloworld.v1.ListUserReply
+	(*SendSmsRequest)(nil),    // 10: api.helloworld.v1.SendSmsRequest
+	(*SendSmsReply)(nil),      // 11: api.helloworld.v1.SendSmsReply
+	(*RegisterRequest)(nil),   // 12: api.helloworld.v1.RegisterRequest
+	(*RegisterReply)(nil),     // 13: api.helloworld.v1.RegisterReply
+	(*LoginRequest)(nil),      // 14: api.helloworld.v1.LoginRequest
+	(*LoginReply)(nil),        // 15: api.helloworld.v1.LoginReply
 }
 var file_api_helloworld_v1_user_proto_depIdxs = []int32{
 	0, // 0: api.helloworld.v1.User.CreateUser:input_type -> api.helloworld.v1.CreateUserRequest
@@ -462,7 +844,7 @@ func file_api_helloworld_v1_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_user_proto_rawDesc), len(file_api_helloworld_v1_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
