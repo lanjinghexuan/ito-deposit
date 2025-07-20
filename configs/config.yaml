@@ -6,7 +6,7 @@ server:
     addr: 0.0.0.0:9000
     timeout: 1s
   jwt:
-    authkey: 9999
+    authkey: a9999
 data:
   database:
     driver: mysql

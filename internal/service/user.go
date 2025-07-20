@@ -20,10 +20,10 @@ type UserService struct {
 	DB *gorm.DB
 }
 
-func NewUserService(redis, mysql data.Data) *UserService {
+func NewUserService(datas *data.Data) *UserService {
 	return &UserService{
-		RedisDb: redis.Redis,
-		DB:      mysql.DB,
+		RedisDb: datas.Redis,
+		DB:      datas.DB,
 	}
 }
 
