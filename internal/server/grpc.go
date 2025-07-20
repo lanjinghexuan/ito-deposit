@@ -1,6 +1,8 @@
 package server
 
 import (
+	"github.com/go-kratos/kratos/v2/middleware/auth/jwt"
+	jwtv5 "github.com/golang-jwt/jwt/v5"
 	v1 "ito-deposit/api/helloworld/v1"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/service"
@@ -26,6 +28,15 @@ func NewGRPCServer(c *conf.Server, greeter *service.GreeterService, order *servi
 	if c.Grpc.Timeout != nil {
 		opts = append(opts, grpc.Timeout(c.Grpc.Timeout.AsDuration()))
 	}
+
+	if false {
+		opts = append(opts, grpc.Middleware(
+			jwt.Server(func(token *jwtv5.Token) (interface{}, error) {
+				return []byte(c.Jwt.Authkey), nil
+			}),
+		))
+	}
+
 	srv := grpc.NewServer(opts...)
 	v1.RegisterGreeterServer(srv, greeter)
 	v1.RegisterUserServer(srv, user)

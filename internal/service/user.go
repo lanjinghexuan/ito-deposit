@@ -2,16 +2,21 @@ package service
 
 import (
 	"context"
+	"github.com/redis/go-redis/v9"
+	"ito-deposit/internal/data"
 
 	pb "ito-deposit/api/helloworld/v1"
 )
 
 type UserService struct {
 	pb.UnimplementedUserServer
+	RedisDb *redis.Client
 }
 
-func NewUserService() *UserService {
-	return &UserService{}
+func NewUserService(redisDB data.Data) *UserService {
+	return &UserService{
+		RedisDb: redisDB.Redis,
+	}
 }
 
 func (s *UserService) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserReply, error) {
