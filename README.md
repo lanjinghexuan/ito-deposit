@@ -123,3 +123,42 @@ git merge wxy   // 自己的分支
 git  push 
 
 ```
+
+---
+
+## JWT 白名单接口添加说明
+
+本项目默认对 HTTP 接口启用了 JWT 认证。如果有接口不需要认证（如登录、注册、获取 token 等），需将其添加到白名单。
+
+### 步骤：
+1. 打开 `internal/server/http.go` 文件。
+2. 找到 `NewWhiteListMatcher` 方法。
+3. 在 `whiteList` 变量中，按如下格式添加不需要认证的接口路径：
+
+```go
+whiteList["/api.helloworld.v1.Deposit/ReturnToken"] = struct{}{}
+whiteList["/shop.interface.v1.ShopInterface/Register"] = struct{}{}
+// 继续添加...
+```
+
+接口路径格式为：`/包名.服务名/方法名`，可在 proto 文件中查找。
+
+4. 保存文件，重新编译并启动服务。
+
+---
+
+## 启动服务
+
+在项目根目录下，使用 Kratos 命令一键启动服务（支持热更新）：
+
+```bash
+kratos run
+```
+
+如需指定配置文件，可加参数：
+
+```bash
+kratos run -conf ./configs/config.yaml
+```
+
+---

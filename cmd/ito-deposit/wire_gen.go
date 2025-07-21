@@ -34,7 +34,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	orderService := service.NewOrderService()
 	userService := service.NewUserService(dataData)
 	homeService := service.NewHomeService()
-	depositService := service.NewDepositService()
+	depositService := service.NewDepositService(dataData, confServer)
 	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, logger)
 	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, logger)
 	app := newApp(logger, grpcServer, httpServer)

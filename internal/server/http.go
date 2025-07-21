@@ -8,7 +8,6 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/selector"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	jwtv5 "github.com/golang-jwt/jwt/v5"
-	"github.com/gorilla/handlers"
 	v1 "ito-deposit/api/helloworld/v1"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/service"
@@ -31,7 +30,7 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 
-	if false {
+	if true {
 		opts = append(opts, http.Middleware(
 			selector.Server(
 				jwt.Server(func(token *jwtv5.Token) (interface{}, error) {
@@ -42,11 +41,7 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 			).
 				Match(NewWhiteListMatcher()).
 				Build(),
-		), http.Filter(handlers.CORS(
-			handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
-			handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}),
-			handlers.AllowedOrigins([]string{"*"}),
-		)))
+		))
 	}
 	srv := http.NewServer(opts...)
 	v1.RegisterGreeterHTTPServer(srv, greeter)
@@ -60,7 +55,7 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList := make(map[string]struct{})
 	// 添加不需要 JWT 验证的接口到白名单
-	whiteList["/shop.interface.v1.ShopInterface/Login"] = struct{}{}
+	whiteList["/api.helloworld.v1.Deposit/ReturnToken"] = struct{}{}
 	whiteList["/shop.interface.v1.ShopInterface/Register"] = struct{}{}
 	return func(ctx context.Context, operation string) bool {
 		if _, ok := whiteList[operation]; ok {

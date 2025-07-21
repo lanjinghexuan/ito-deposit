@@ -18,6 +18,18 @@ service Deposit {
 			get: "/deposit"
 		};
 	};
+
+	rpc ReturnToken (ReturnTokenReq) returns (ReturnTokenRes){
+		option (google.api.http) = {
+			get: "/returntoken"
+		};
+	};
+
+	rpc DecodeToken (ReturnTokenReq) returns (ReturnTokenRes){
+		option (google.api.http) = {
+			get: "/decodetoken"
+		};
+	};
 }
 
 message CreateDepositRequest {
@@ -36,3 +48,19 @@ message GetDepositReply {}
 
 message ListDepositRequest {}
 message ListDepositReply {}
+
+message ReturnTokenReq{
+
+}
+
+message ReturnTokenRes{
+	string token  =1;
+	int32 coe =2 ;
+	string msg = 3;
+}
+
+message decodeTokenRes{
+	string data  =1;
+	int32 coe =2 ;
+	string msg = 3;
+}
