@@ -24,6 +24,8 @@ const (
 	Deposit_DeleteDeposit_FullMethodName = "/api.helloworld.v1.Deposit/DeleteDeposit"
 	Deposit_GetDeposit_FullMethodName    = "/api.helloworld.v1.Deposit/GetDeposit"
 	Deposit_ListDeposit_FullMethodName   = "/api.helloworld.v1.Deposit/ListDeposit"
+	Deposit_ReturnToken_FullMethodName   = "/api.helloworld.v1.Deposit/ReturnToken"
+	Deposit_DecodeToken_FullMethodName   = "/api.helloworld.v1.Deposit/DecodeToken"
 )
 
 // DepositClient is the client API for Deposit service.
@@ -35,6 +37,8 @@ type DepositClient interface {
 	DeleteDeposit(ctx context.Context, in *DeleteDepositRequest, opts ...grpc.CallOption) (*DeleteDepositReply, error)
 	GetDeposit(ctx context.Context, in *GetDepositRequest, opts ...grpc.CallOption) (*GetDepositReply, error)
 	ListDeposit(ctx context.Context, in *ListDepositRequest, opts ...grpc.CallOption) (*ListDepositReply, error)
+	ReturnToken(ctx context.Context, in *ReturnTokenReq, opts ...grpc.CallOption) (*ReturnTokenRes, error)
+	DecodeToken(ctx context.Context, in *ReturnTokenReq, opts ...grpc.CallOption) (*ReturnTokenRes, error)
 }
 
 type depositClient struct {
@@ -95,6 +99,26 @@ func (c *depositClient) ListDeposit(ctx context.Context, in *ListDepositRequest,
 	return out, nil
 }
 
+func (c *depositClient) ReturnToken(ctx context.Context, in *ReturnTokenReq, opts ...grpc.CallOption) (*ReturnTokenRes, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReturnTokenRes)
+	err := c.cc.Invoke(ctx, Deposit_ReturnToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *depositClient) DecodeToken(ctx context.Context, in *ReturnTokenReq, opts ...grpc.CallOption) (*ReturnTokenRes, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReturnTokenRes)
+	err := c.cc.Invoke(ctx, Deposit_DecodeToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DepositServer is the server API for Deposit service.
 // All implementations must embed UnimplementedDepositServer
 // for forward compatibility.
@@ -104,6 +128,8 @@ type DepositServer interface {
 	DeleteDeposit(context.Context, *DeleteDepositRequest) (*DeleteDepositReply, error)
 	GetDeposit(context.Context, *GetDepositRequest) (*GetDepositReply, error)
 	ListDeposit(context.Context, *ListDepositRequest) (*ListDepositReply, error)
+	ReturnToken(context.Context, *ReturnTokenReq) (*ReturnTokenRes, error)
+	DecodeToken(context.Context, *ReturnTokenReq) (*ReturnTokenRes, error)
 	mustEmbedUnimplementedDepositServer()
 }
 
@@ -128,6 +154,12 @@ func (UnimplementedDepositServer) GetDeposit(context.Context, *GetDepositRequest
 }
 func (UnimplementedDepositServer) ListDeposit(context.Context, *ListDepositRequest) (*ListDepositReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListDeposit not implemented")
+}
+func (UnimplementedDepositServer) ReturnToken(context.Context, *ReturnTokenReq) (*ReturnTokenRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReturnToken not implemented")
+}
+func (UnimplementedDepositServer) DecodeToken(context.Context, *ReturnTokenReq) (*ReturnTokenRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DecodeToken not implemented")
 }
 func (UnimplementedDepositServer) mustEmbedUnimplementedDepositServer() {}
 func (UnimplementedDepositServer) testEmbeddedByValue()                 {}
@@ -240,6 +272,42 @@ func _Deposit_ListDeposit_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Deposit_ReturnToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReturnTokenReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DepositServer).ReturnToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Deposit_ReturnToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DepositServer).ReturnToken(ctx, req.(*ReturnTokenReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Deposit_DecodeToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReturnTokenReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DepositServer).DecodeToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Deposit_DecodeToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DepositServer).DecodeToken(ctx, req.(*ReturnTokenReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Deposit_ServiceDesc is the grpc.ServiceDesc for Deposit service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +334,14 @@ var Deposit_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListDeposit",
 			Handler:    _Deposit_ListDeposit_Handler,
+		},
+		{
+			MethodName: "ReturnToken",
+			Handler:    _Deposit_ReturnToken_Handler,
+		},
+		{
+			MethodName: "DecodeToken",
+			Handler:    _Deposit_DecodeToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

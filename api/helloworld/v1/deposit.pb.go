@@ -382,6 +382,162 @@ func (*ListDepositReply) Descriptor() ([]byte, []int) {
 	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{9}
 }
 
+type ReturnTokenReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReturnTokenReq) Reset() {
+	*x = ReturnTokenReq{}
+	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReturnTokenReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReturnTokenReq) ProtoMessage() {}
+
+func (x *ReturnTokenReq) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReturnTokenReq.ProtoReflect.Descriptor instead.
+func (*ReturnTokenReq) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{10}
+}
+
+type ReturnTokenRes struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	Coe           int32                  `protobuf:"varint,2,opt,name=coe,proto3" json:"coe,omitempty"`
+	Msg           string                 `protobuf:"bytes,3,opt,name=msg,proto3" json:"msg,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReturnTokenRes) Reset() {
+	*x = ReturnTokenRes{}
+	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReturnTokenRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReturnTokenRes) ProtoMessage() {}
+
+func (x *ReturnTokenRes) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReturnTokenRes.ProtoReflect.Descriptor instead.
+func (*ReturnTokenRes) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ReturnTokenRes) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+func (x *ReturnTokenRes) GetCoe() int32 {
+	if x != nil {
+		return x.Coe
+	}
+	return 0
+}
+
+func (x *ReturnTokenRes) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type DecodeTokenRes struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          string                 `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	Coe           int32                  `protobuf:"varint,2,opt,name=coe,proto3" json:"coe,omitempty"`
+	Msg           string                 `protobuf:"bytes,3,opt,name=msg,proto3" json:"msg,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DecodeTokenRes) Reset() {
+	*x = DecodeTokenRes{}
+	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DecodeTokenRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DecodeTokenRes) ProtoMessage() {}
+
+func (x *DecodeTokenRes) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DecodeTokenRes.ProtoReflect.Descriptor instead.
+func (*DecodeTokenRes) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *DecodeTokenRes) GetData() string {
+	if x != nil {
+		return x.Data
+	}
+	return ""
+}
+
+func (x *DecodeTokenRes) GetCoe() int32 {
+	if x != nil {
+		return x.Coe
+	}
+	return 0
+}
+
+func (x *DecodeTokenRes) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
 var File_api_helloworld_v1_deposit_proto protoreflect.FileDescriptor
 
 const file_api_helloworld_v1_deposit_proto_rawDesc = "" +
@@ -396,7 +552,16 @@ const file_api_helloworld_v1_deposit_proto_rawDesc = "" +
 	"\x11GetDepositRequest\"\x11\n" +
 	"\x0fGetDepositReply\"\x14\n" +
 	"\x12ListDepositRequest\"\x12\n" +
-	"\x10ListDepositReply2\xf1\x03\n" +
+	"\x10ListDepositReply\"\x10\n" +
+	"\x0eReturnTokenReq\"J\n" +
+	"\x0eReturnTokenRes\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\x12\x10\n" +
+	"\x03coe\x18\x02 \x01(\x05R\x03coe\x12\x10\n" +
+	"\x03msg\x18\x03 \x01(\tR\x03msg\"H\n" +
+	"\x0edecodeTokenRes\x12\x12\n" +
+	"\x04data\x18\x01 \x01(\tR\x04data\x12\x10\n" +
+	"\x03coe\x18\x02 \x01(\x05R\x03coe\x12\x10\n" +
+	"\x03msg\x18\x03 \x01(\tR\x03msg2\xc7\x05\n" +
 	"\aDeposit\x12_\n" +
 	"\rCreateDeposit\x12'.api.helloworld.v1.CreateDepositRequest\x1a%.api.helloworld.v1.CreateDepositReply\x12_\n" +
 	"\rUpdateDeposit\x12'.api.helloworld.v1.UpdateDepositRequest\x1a%.api.helloworld.v1.UpdateDepositReply\x12_\n" +
@@ -404,7 +569,9 @@ const file_api_helloworld_v1_deposit_proto_rawDesc = "" +
 	"\n" +
 	"GetDeposit\x12$.api.helloworld.v1.GetDepositRequest\x1a\".api.helloworld.v1.GetDepositReply\x12k\n" +
 	"\vListDeposit\x12%.api.helloworld.v1.ListDepositRequest\x1a#.api.helloworld.v1.ListDepositReply\"\x10\x82\xd3\xe4\x93\x02\n" +
-	"\x12\b/depositB7\n" +
+	"\x12\b/deposit\x12i\n" +
+	"\vReturnToken\x12!.api.helloworld.v1.ReturnTokenReq\x1a!.api.helloworld.v1.ReturnTokenRes\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/returntoken\x12i\n" +
+	"\vDecodeToken\x12!.api.helloworld.v1.ReturnTokenReq\x1a!.api.helloworld.v1.ReturnTokenRes\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/decodetokenB7\n" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
 
 var (
@@ -419,7 +586,7 @@ func file_api_helloworld_v1_deposit_proto_rawDescGZIP() []byte {
 	return file_api_helloworld_v1_deposit_proto_rawDescData
 }
 
-var file_api_helloworld_v1_deposit_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_api_helloworld_v1_deposit_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_api_helloworld_v1_deposit_proto_goTypes = []any{
 	(*CreateDepositRequest)(nil), // 0: api.helloworld.v1.CreateDepositRequest
 	(*CreateDepositReply)(nil),   // 1: api.helloworld.v1.CreateDepositReply
@@ -431,23 +598,30 @@ var file_api_helloworld_v1_deposit_proto_goTypes = []any{
 	(*GetDepositReply)(nil),      // 7: api.helloworld.v1.GetDepositReply
 	(*ListDepositRequest)(nil),   // 8: api.helloworld.v1.ListDepositRequest
 	(*ListDepositReply)(nil),     // 9: api.helloworld.v1.ListDepositReply
+	(*ReturnTokenReq)(nil),       // 10: api.helloworld.v1.ReturnTokenReq
+	(*ReturnTokenRes)(nil),       // 11: api.helloworld.v1.ReturnTokenRes
+	(*DecodeTokenRes)(nil),       // 12: api.helloworld.v1.decodeTokenRes
 }
 var file_api_helloworld_v1_deposit_proto_depIdxs = []int32{
-	0, // 0: api.helloworld.v1.Deposit.CreateDeposit:input_type -> api.helloworld.v1.CreateDepositRequest
-	2, // 1: api.helloworld.v1.Deposit.UpdateDeposit:input_type -> api.helloworld.v1.UpdateDepositRequest
-	4, // 2: api.helloworld.v1.Deposit.DeleteDeposit:input_type -> api.helloworld.v1.DeleteDepositRequest
-	6, // 3: api.helloworld.v1.Deposit.GetDeposit:input_type -> api.helloworld.v1.GetDepositRequest
-	8, // 4: api.helloworld.v1.Deposit.ListDeposit:input_type -> api.helloworld.v1.ListDepositRequest
-	1, // 5: api.helloworld.v1.Deposit.CreateDeposit:output_type -> api.helloworld.v1.CreateDepositReply
-	3, // 6: api.helloworld.v1.Deposit.UpdateDeposit:output_type -> api.helloworld.v1.UpdateDepositReply
-	5, // 7: api.helloworld.v1.Deposit.DeleteDeposit:output_type -> api.helloworld.v1.DeleteDepositReply
-	7, // 8: api.helloworld.v1.Deposit.GetDeposit:output_type -> api.helloworld.v1.GetDepositReply
-	9, // 9: api.helloworld.v1.Deposit.ListDeposit:output_type -> api.helloworld.v1.ListDepositReply
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: api.helloworld.v1.Deposit.CreateDeposit:input_type -> api.helloworld.v1.CreateDepositRequest
+	2,  // 1: api.helloworld.v1.Deposit.UpdateDeposit:input_type -> api.helloworld.v1.UpdateDepositRequest
+	4,  // 2: api.helloworld.v1.Deposit.DeleteDeposit:input_type -> api.helloworld.v1.DeleteDepositRequest
+	6,  // 3: api.helloworld.v1.Deposit.GetDeposit:input_type -> api.helloworld.v1.GetDepositRequest
+	8,  // 4: api.helloworld.v1.Deposit.ListDeposit:input_type -> api.helloworld.v1.ListDepositRequest
+	10, // 5: api.helloworld.v1.Deposit.ReturnToken:input_type -> api.helloworld.v1.ReturnTokenReq
+	10, // 6: api.helloworld.v1.Deposit.DecodeToken:input_type -> api.helloworld.v1.ReturnTokenReq
+	1,  // 7: api.helloworld.v1.Deposit.CreateDeposit:output_type -> api.helloworld.v1.CreateDepositReply
+	3,  // 8: api.helloworld.v1.Deposit.UpdateDeposit:output_type -> api.helloworld.v1.UpdateDepositReply
+	5,  // 9: api.helloworld.v1.Deposit.DeleteDeposit:output_type -> api.helloworld.v1.DeleteDepositReply
+	7,  // 10: api.helloworld.v1.Deposit.GetDeposit:output_type -> api.helloworld.v1.GetDepositReply
+	9,  // 11: api.helloworld.v1.Deposit.ListDeposit:output_type -> api.helloworld.v1.ListDepositReply
+	11, // 12: api.helloworld.v1.Deposit.ReturnToken:output_type -> api.helloworld.v1.ReturnTokenRes
+	11, // 13: api.helloworld.v1.Deposit.DecodeToken:output_type -> api.helloworld.v1.ReturnTokenRes
+	7,  // [7:14] is the sub-list for method output_type
+	0,  // [0:7] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_api_helloworld_v1_deposit_proto_init() }
@@ -461,7 +635,7 @@ func file_api_helloworld_v1_deposit_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_deposit_proto_rawDesc), len(file_api_helloworld_v1_deposit_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -19,15 +19,21 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationDepositDecodeToken = "/api.helloworld.v1.Deposit/DecodeToken"
 const OperationDepositListDeposit = "/api.helloworld.v1.Deposit/ListDeposit"
+const OperationDepositReturnToken = "/api.helloworld.v1.Deposit/ReturnToken"
 
 type DepositHTTPServer interface {
+	DecodeToken(context.Context, *ReturnTokenReq) (*ReturnTokenRes, error)
 	ListDeposit(context.Context, *ListDepositRequest) (*ListDepositReply, error)
+	ReturnToken(context.Context, *ReturnTokenReq) (*ReturnTokenRes, error)
 }
 
 func RegisterDepositHTTPServer(s *http.Server, srv DepositHTTPServer) {
 	r := s.Route("/")
 	r.GET("/deposit", _Deposit_ListDeposit0_HTTP_Handler(srv))
+	r.GET("/returntoken", _Deposit_ReturnToken0_HTTP_Handler(srv))
+	r.GET("/decodetoken", _Deposit_DecodeToken0_HTTP_Handler(srv))
 }
 
 func _Deposit_ListDeposit0_HTTP_Handler(srv DepositHTTPServer) func(ctx http.Context) error {
@@ -49,8 +55,48 @@ func _Deposit_ListDeposit0_HTTP_Handler(srv DepositHTTPServer) func(ctx http.Con
 	}
 }
 
+func _Deposit_ReturnToken0_HTTP_Handler(srv DepositHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ReturnTokenReq
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationDepositReturnToken)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ReturnToken(ctx, req.(*ReturnTokenReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ReturnTokenRes)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Deposit_DecodeToken0_HTTP_Handler(srv DepositHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ReturnTokenReq
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationDepositDecodeToken)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DecodeToken(ctx, req.(*ReturnTokenReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ReturnTokenRes)
+		return ctx.Result(200, reply)
+	}
+}
+
 type DepositHTTPClient interface {
+	DecodeToken(ctx context.Context, req *ReturnTokenReq, opts ...http.CallOption) (rsp *ReturnTokenRes, err error)
 	ListDeposit(ctx context.Context, req *ListDepositRequest, opts ...http.CallOption) (rsp *ListDepositReply, err error)
+	ReturnToken(ctx context.Context, req *ReturnTokenReq, opts ...http.CallOption) (rsp *ReturnTokenRes, err error)
 }
 
 type DepositHTTPClientImpl struct {
@@ -61,11 +107,37 @@ func NewDepositHTTPClient(client *http.Client) DepositHTTPClient {
 	return &DepositHTTPClientImpl{client}
 }
 
+func (c *DepositHTTPClientImpl) DecodeToken(ctx context.Context, in *ReturnTokenReq, opts ...http.CallOption) (*ReturnTokenRes, error) {
+	var out ReturnTokenRes
+	pattern := "/decodetoken"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationDepositDecodeToken))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *DepositHTTPClientImpl) ListDeposit(ctx context.Context, in *ListDepositRequest, opts ...http.CallOption) (*ListDepositReply, error) {
 	var out ListDepositReply
 	pattern := "/deposit"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationDepositListDeposit))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *DepositHTTPClientImpl) ReturnToken(ctx context.Context, in *ReturnTokenReq, opts ...http.CallOption) (*ReturnTokenRes, error) {
+	var out ReturnTokenRes
+	pattern := "/returntoken"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationDepositReturnToken))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
