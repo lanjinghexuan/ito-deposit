@@ -12,16 +12,19 @@ service User {
 	rpc Login (LoginRequest) returns (LoginReply){
 		option (google.api.http) = {
 			post: "/login"
+			body: "*"
 		};
 	};
 	rpc Register (RegisterRequest) returns (RegisterReply){
 		option (google.api.http) = {
 			post: "/register"
+			body: "*"
 		};
 	};
 	rpc SendSms (SendSmsRequest) returns (SendSmsReply){
 		option (google.api.http) = {
 			post: "/sendSms"
+			body: "*"
 		};
 	};
 	rpc CreateUser (CreateUserRequest) returns (CreateUserReply);
@@ -31,6 +34,7 @@ service User {
 	rpc ListUser (ListUserRequest) returns (ListUserReply){
 		option (google.api.http) = {
 			post: "/user"
+			body: "*"
 		};
 	};
 }
@@ -51,7 +55,7 @@ message ListUserRequest {}
 message ListUserReply {}
 
 message SendSmsRequest {
-	string mobile = 1;
+	string mobile = 1 ;
 	string source = 2;
 }
 message SendSmsReply {

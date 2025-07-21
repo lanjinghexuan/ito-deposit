@@ -3,194 +3,122 @@
 
 openapi: 3.0.3
 info:
-    title: ""
+    title: User API
     version: 0.0.1
 paths:
-    /decodetoken:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_DecodeToken
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ReturnTokenRes'
-    /deposit:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_ListDeposit
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListDepositReply'
-    /helloworld/{name}:
-        get:
-            tags:
-                - Greeter
-            description: Sends a greeting
-            operationId: Greeter_SayHello
-            parameters:
-                - name: name
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
-    /home:
-        get:
-            tags:
-                - Home
-            operationId: Home_ListHome
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListHomeReply'
     /login:
         post:
             tags:
                 - User
             operationId: User_Login
-            parameters:
-                - name: mobile
-                  in: query
-                  schema:
-                    type: string
-                - name: password
-                  in: query
-                  schema:
-                    type: string
-                - name: smsCode
-                  in: query
-                  schema:
-                    type: string
-                - name: username
-                  in: query
-                  schema:
-                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LoginRequest'
+                required: true
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.LoginReply'
-    /order:
-        get:
-            tags:
-                - Order
-            operationId: Order_ListOrder
-            responses:
-                "200":
-                    description: OK
+                                $ref: '#/components/schemas/LoginReply'
+                default:
+                    description: Default error response
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListOrderReply'
+                                $ref: '#/components/schemas/Status'
     /register:
         post:
             tags:
                 - User
             operationId: User_Register
-            parameters:
-                - name: mobile
-                  in: query
-                  schema:
-                    type: string
-                - name: password
-                  in: query
-                  schema:
-                    type: string
-                - name: smsCode
-                  in: query
-                  schema:
-                    type: string
-                - name: username
-                  in: query
-                  schema:
-                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RegisterRequest'
+                required: true
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.RegisterReply'
-    /returntoken:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_ReturnToken
-            responses:
-                "200":
-                    description: OK
+                                $ref: '#/components/schemas/RegisterReply'
+                default:
+                    description: Default error response
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ReturnTokenRes'
+                                $ref: '#/components/schemas/Status'
     /sendSms:
         post:
             tags:
                 - User
             operationId: User_SendSms
-            parameters:
-                - name: mobile
-                  in: query
-                  schema:
-                    type: string
-                - name: source
-                  in: query
-                  schema:
-                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SendSmsRequest'
+                required: true
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.SendSmsReply'
+                                $ref: '#/components/schemas/SendSmsReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /user:
         post:
             tags:
                 - User
             operationId: User_ListUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ListUserRequest'
+                required: true
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListUserReply'
+                                $ref: '#/components/schemas/ListUserReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
 components:
     schemas:
-        api.helloworld.v1.ListDepositReply:
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ListUserReply:
             type: object
             properties: {}
-        api.helloworld.v1.ListHomeReply:
+        ListUserRequest:
             type: object
             properties: {}
-        api.helloworld.v1.ListOrderReply:
-            type: object
-            properties: {}
-        api.helloworld.v1.ListUserReply:
-            type: object
-            properties: {}
-        api.helloworld.v1.LoginReply:
+        LoginReply:
             type: object
             properties:
                 code:
@@ -199,40 +127,64 @@ components:
                     type: string
                 id:
                     type: string
-        api.helloworld.v1.RegisterReply:
+        LoginRequest:
+            type: object
+            properties:
+                mobile:
+                    type: string
+                password:
+                    type: string
+                smsCode:
+                    type: string
+                username:
+                    type: string
+        RegisterReply:
             type: object
             properties:
                 code:
                     type: string
                 msg:
                     type: string
-        api.helloworld.v1.ReturnTokenRes:
+        RegisterRequest:
             type: object
             properties:
-                token:
+                mobile:
                     type: string
-                coe:
+                password:
+                    type: string
+                smsCode:
+                    type: string
+                username:
+                    type: string
+        SendSmsReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+        SendSmsRequest:
+            type: object
+            properties:
+                mobile:
+                    type: string
+                source:
+                    type: string
+        Status:
+            type: object
+            properties:
+                code:
                     type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
                     format: int32
-                msg:
-                    type: string
-        api.helloworld.v1.SendSmsReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-        helloworld.v1.HelloReply:
-            type: object
-            properties:
                 message:
                     type: string
-            description: The response message containing the greetings
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
 tags:
-    - name: Deposit
-    - name: Greeter
-      description: The greeting service definition.
-    - name: Home
-    - name: Order
     - name: User

@@ -44,8 +44,8 @@ func (s *UserService) ListUser(ctx context.Context, req *pb.ListUserRequest) (*p
 }
 func (s *UserService) SendSms(ctx context.Context, req *pb.SendSmsRequest) (*pb.SendSmsReply, error) {
 	code := rand.Intn(9000) + 1000
-	fmt.Println(req.Mobile)
-	fmt.Println(req.Source)
+	fmt.Printf("[SendSms] raw req: %+v", req) // 打印整个结构体
+	fmt.Printf("[SendSms] mobile=%q source=%q", req.Mobile, req.Source)
 	s.RedisDb.Set(context.Background(), "sendSms"+req.Mobile+req.Source, code, time.Minute*5)
 	return &pb.SendSmsReply{
 		Code: 200,
