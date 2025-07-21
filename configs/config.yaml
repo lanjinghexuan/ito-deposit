@@ -12,6 +12,6 @@ data:
     driver: mysql
     source: root:Hao@10086@tcp(8.155.62.49:3306)/ito?parseTime=True&loc=Local
   redis:
-    addr: 8.155.62.49:6379
-    read_timeout: 0.2s
-    write_timeout: 0.2s
+    addr: 14.103.235.215:6379
+    password: 686c75a503764f121f81cc01c8dc04a7
+    db: 0

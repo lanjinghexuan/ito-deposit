@@ -772,8 +772,12 @@ const file_api_helloworld_v1_user_proto_rawDesc = "" +
 	"LoginReply\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\x12\x0e\n" +
-	"\x02id\x18\x03 \x01(\x03R\x02id2\xbe\x03\n" +
-	"\x04User\x12V\n" +
+	"\x02id\x18\x03 \x01(\x03R\x02id2\xdd\x05\n" +
+	"\x04User\x12W\n" +
+	"\x05Login\x12\x1f.api.helloworld.v1.LoginRequest\x1a\x1d.api.helloworld.v1.LoginReply\"\x0e\x82\xd3\xe4\x93\x02\b\"\x06/login\x12c\n" +
+	"\bRegister\x12\".api.helloworld.v1.RegisterRequest\x1a .api.helloworld.v1.RegisterReply\"\x11\x82\xd3\xe4\x93\x02\v\"\t/register\x12_\n" +
+	"\aSendSms\x12!.api.helloworld.v1.SendSmsRequest\x1a\x1f.api.helloworld.v1.SendSmsReply\"\x10\x82\xd3\xe4\x93\x02\n" +
+	"\"\b/sendSms\x12V\n" +
 	"\n" +
 	"CreateUser\x12$.api.helloworld.v1.CreateUserRequest\x1a\".api.helloworld.v1.CreateUserReply\x12V\n" +
 	"\n" +
@@ -781,7 +785,7 @@ const file_api_helloworld_v1_user_proto_rawDesc = "" +
 	"\n" +
 	"DeleteUser\x12$.api.helloworld.v1.DeleteUserRequest\x1a\".api.helloworld.v1.DeleteUserReply\x12M\n" +
 	"\aGetUser\x12!.api.helloworld.v1.GetUserRequest\x1a\x1f.api.helloworld.v1.GetUserReply\x12_\n" +
-	"\bListUser\x12\".api.helloworld.v1.ListUserRequest\x1a .api.helloworld.v1.ListUserReply\"\r\x82\xd3\xe4\x93\x02\a\x12\x05/userB7\n" +
+	"\bListUser\x12\".api.helloworld.v1.ListUserRequest\x1a .api.helloworld.v1.ListUserReply\"\r\x82\xd3\xe4\x93\x02\a\"\x05/userB7\n" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
 
 var (
@@ -816,21 +820,27 @@ var file_api_helloworld_v1_user_proto_goTypes = []any{
 	(*LoginReply)(nil),        // 15: api.helloworld.v1.LoginReply
 }
 var file_api_helloworld_v1_user_proto_depIdxs = []int32{
-	0, // 0: api.helloworld.v1.User.CreateUser:input_type -> api.helloworld.v1.CreateUserRequest
-	2, // 1: api.helloworld.v1.User.UpdateUser:input_type -> api.helloworld.v1.UpdateUserRequest
-	4, // 2: api.helloworld.v1.User.DeleteUser:input_type -> api.helloworld.v1.DeleteUserRequest
-	6, // 3: api.helloworld.v1.User.GetUser:input_type -> api.helloworld.v1.GetUserRequest
-	8, // 4: api.helloworld.v1.User.ListUser:input_type -> api.helloworld.v1.ListUserRequest
-	1, // 5: api.helloworld.v1.User.CreateUser:output_type -> api.helloworld.v1.CreateUserReply
-	3, // 6: api.helloworld.v1.User.UpdateUser:output_type -> api.helloworld.v1.UpdateUserReply
-	5, // 7: api.helloworld.v1.User.DeleteUser:output_type -> api.helloworld.v1.DeleteUserReply
-	7, // 8: api.helloworld.v1.User.GetUser:output_type -> api.helloworld.v1.GetUserReply
-	9, // 9: api.helloworld.v1.User.ListUser:output_type -> api.helloworld.v1.ListUserReply
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	14, // 0: api.helloworld.v1.User.Login:input_type -> api.helloworld.v1.LoginRequest
+	12, // 1: api.helloworld.v1.User.Register:input_type -> api.helloworld.v1.RegisterRequest
+	10, // 2: api.helloworld.v1.User.SendSms:input_type -> api.helloworld.v1.SendSmsRequest
+	0,  // 3: api.helloworld.v1.User.CreateUser:input_type -> api.helloworld.v1.CreateUserRequest
+	2,  // 4: api.helloworld.v1.User.UpdateUser:input_type -> api.helloworld.v1.UpdateUserRequest
+	4,  // 5: api.helloworld.v1.User.DeleteUser:input_type -> api.helloworld.v1.DeleteUserRequest
+	6,  // 6: api.helloworld.v1.User.GetUser:input_type -> api.helloworld.v1.GetUserRequest
+	8,  // 7: api.helloworld.v1.User.ListUser:input_type -> api.helloworld.v1.ListUserRequest
+	15, // 8: api.helloworld.v1.User.Login:output_type -> api.helloworld.v1.LoginReply
+	13, // 9: api.helloworld.v1.User.Register:output_type -> api.helloworld.v1.RegisterReply
+	11, // 10: api.helloworld.v1.User.SendSms:output_type -> api.helloworld.v1.SendSmsReply
+	1,  // 11: api.helloworld.v1.User.CreateUser:output_type -> api.helloworld.v1.CreateUserReply
+	3,  // 12: api.helloworld.v1.User.UpdateUser:output_type -> api.helloworld.v1.UpdateUserReply
+	5,  // 13: api.helloworld.v1.User.DeleteUser:output_type -> api.helloworld.v1.DeleteUserReply
+	7,  // 14: api.helloworld.v1.User.GetUser:output_type -> api.helloworld.v1.GetUserReply
+	9,  // 15: api.helloworld.v1.User.ListUser:output_type -> api.helloworld.v1.ListUserReply
+	8,  // [8:16] is the sub-list for method output_type
+	0,  // [0:8] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_api_helloworld_v1_user_proto_init() }

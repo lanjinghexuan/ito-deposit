@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"github.com/redis/go-redis/v9"
 
 	"gorm.io/gorm"
@@ -16,8 +17,7 @@ import (
 type UserService struct {
 	pb.UnimplementedUserServer
 	RedisDb *redis.Client
-
-	DB *gorm.DB
+	DB      *gorm.DB
 }
 
 func NewUserService(datas *data.Data) *UserService {
@@ -44,6 +44,8 @@ func (s *UserService) ListUser(ctx context.Context, req *pb.ListUserRequest) (*p
 }
 func (s *UserService) SendSms(ctx context.Context, req *pb.SendSmsRequest) (*pb.SendSmsReply, error) {
 	code := rand.Intn(9000) + 1000
+	fmt.Println(req.Mobile)
+	fmt.Println(req.Source)
 	s.RedisDb.Set(context.Background(), "sendSms"+req.Mobile+req.Source, code, time.Minute*5)
 	return &pb.SendSmsReply{
 		Code: 200,

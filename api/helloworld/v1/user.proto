@@ -9,13 +9,28 @@ option java_multiple_files = true;
 option java_package = "api.helloworld.v1";
 
 service User {
+	rpc Login (LoginRequest) returns (LoginReply){
+		option (google.api.http) = {
+			post: "/login"
+		};
+	};
+	rpc Register (RegisterRequest) returns (RegisterReply){
+		option (google.api.http) = {
+			post: "/register"
+		};
+	};
+	rpc SendSms (SendSmsRequest) returns (SendSmsReply){
+		option (google.api.http) = {
+			post: "/sendSms"
+		};
+	};
 	rpc CreateUser (CreateUserRequest) returns (CreateUserReply);
 	rpc UpdateUser (UpdateUserRequest) returns (UpdateUserReply);
 	rpc DeleteUser (DeleteUserRequest) returns (DeleteUserReply);
 	rpc GetUser (GetUserRequest) returns (GetUserReply);
 	rpc ListUser (ListUserRequest) returns (ListUserReply){
 		option (google.api.http) = {
-			get: "/user"
+			post: "/user"
 		};
 	};
 }
