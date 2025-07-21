@@ -82,4 +82,17 @@ message LoginReply {
 	int64 code = 1;
 	string msg = 2;
 	int64 id = 3;
+	string token = 4;
+}
+message OrderListRequest {
+
+}
+message OrderListReply {
+	int64 code = 1;
+	string msg = 2;
+
+}
+message OrderList{
+	string order_number = 1;
+	int64 user_id = 2;
 }

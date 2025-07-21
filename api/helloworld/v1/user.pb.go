@@ -679,6 +679,7 @@ type LoginReply struct {
 	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
 	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
 	Id            int64                  `protobuf:"varint,3,opt,name=id,proto3" json:"id,omitempty"`
+	Token         string                 `protobuf:"bytes,4,opt,name=token,proto3" json:"token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -734,6 +735,13 @@ func (x *LoginReply) GetId() int64 {
 	return 0
 }
 
+func (x *LoginReply) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
 var File_api_helloworld_v1_user_proto protoreflect.FileDescriptor
 
 const file_api_helloworld_v1_user_proto_rawDesc = "" +
@@ -767,12 +775,13 @@ const file_api_helloworld_v1_user_proto_rawDesc = "" +
 	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x18\n" +
 	"\asmsCode\x18\x03 \x01(\tR\asmsCode\x12\x1a\n" +
-	"\busername\x18\x04 \x01(\tR\busername\"B\n" +
+	"\busername\x18\x04 \x01(\tR\busername\"X\n" +
 	"\n" +
 	"LoginReply\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\x12\x0e\n" +
-	"\x02id\x18\x03 \x01(\x03R\x02id2\xe9\x05\n" +
+	"\x02id\x18\x03 \x01(\x03R\x02id\x12\x14\n" +
+	"\x05token\x18\x04 \x01(\tR\x05token2\xe9\x05\n" +
 	"\x04User\x12Z\n" +
 	"\x05Login\x12\x1f.api.helloworld.v1.LoginRequest\x1a\x1d.api.helloworld.v1.LoginReply\"\x11\x82\xd3\xe4\x93\x02\v:\x01*\"\x06/login\x12f\n" +
 	"\bRegister\x12\".api.helloworld.v1.RegisterRequest\x1a .api.helloworld.v1.RegisterReply\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/register\x12b\n" +

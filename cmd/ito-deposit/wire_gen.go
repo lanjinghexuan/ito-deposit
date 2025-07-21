@@ -32,7 +32,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
 	greeterService := service.NewGreeterService(greeterUsecase)
 	orderService := service.NewOrderService()
-	userService := service.NewUserService(dataData)
+	userService := service.NewUserService(dataData, confServer)
 	homeService := service.NewHomeService()
 	depositService := service.NewDepositService(dataData, confServer)
 	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, logger)

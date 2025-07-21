@@ -3,7 +3,9 @@ package service
 import (
 	"context"
 	"fmt"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/redis/go-redis/v9"
+	"ito-deposit/internal/conf"
 
 	"gorm.io/gorm"
 	"math/rand"
@@ -18,12 +20,14 @@ type UserService struct {
 	pb.UnimplementedUserServer
 	RedisDb *redis.Client
 	DB      *gorm.DB
+	server  *conf.Server
 }
 
-func NewUserService(datas *data.Data) *UserService {
+func NewUserService(datas *data.Data, server *conf.Server) *UserService {
 	return &UserService{
 		RedisDb: datas.Redis,
 		DB:      datas.DB,
+		server:  server,
 	}
 }
 
@@ -105,9 +109,20 @@ func (s *UserService) Login(ctx context.Context, req *pb.LoginRequest) (*pb.Logi
 			Msg:  "密码错误",
 		}, nil
 	}
+	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		// 根据您的需求设置 JWT 中的声明
+		"your_custom_claim": "your_custom_value",
+		"id":                "123",
+	})
+
+	signedString, err := claims.SignedString([]byte(s.server.Jwt.Authkey))
+	if err != nil {
+		return nil, err
+	}
 	return &pb.LoginReply{
-		Code: 200,
-		Msg:  "登录成功",
-		Id:   user.Id,
+		Code:  200,
+		Msg:   "登陆成功",
+		Id:    user.Id,
+		Token: signedString,
 	}, nil
 }

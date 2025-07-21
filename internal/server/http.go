@@ -57,7 +57,8 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	// 添加不需要 JWT 验证的接口到白名单
 	whiteList["/api.helloworld.v1.Deposit/ReturnToken"] = struct{}{}
 	whiteList["/api.helloworld.v1.User/SendSms"] = struct{}{}
-	whiteList["/shop.interface.v1.ShopInterface/Register"] = struct{}{}
+	whiteList["/api.helloworld.v1.User/Register"] = struct{}{}
+	whiteList["/api.helloworld.v1.User/Login"] = struct{}{}
 	return func(ctx context.Context, operation string) bool {
 		if _, ok := whiteList[operation]; ok {
 			return false

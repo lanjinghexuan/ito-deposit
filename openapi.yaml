@@ -127,6 +127,8 @@ components:
                     type: string
                 id:
                     type: string
+                token:
+                    type: string
         LoginRequest:
             type: object
             properties:
