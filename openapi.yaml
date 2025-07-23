@@ -6,6 +6,48 @@ info:
     title: User API
     version: 0.0.1
 paths:
+    /admin:
+        post:
+            tags:
+                - User
+            operationId: User_Admin
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AdminRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AdminRes'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /list:
+        get:
+            tags:
+                - User
+            operationId: User_OrderList
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/OrderListRes'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /login:
         post:
             tags:
@@ -23,7 +65,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/LoginReply'
+                                $ref: '#/components/schemas/LoginRes'
                 default:
                     description: Default error response
                     content:
@@ -47,7 +89,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RegisterReply'
+                                $ref: '#/components/schemas/RegisterRes'
                 default:
                     description: Default error response
                     content:
@@ -71,31 +113,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SendSmsReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /user:
-        post:
-            tags:
-                - User
-            operationId: User_ListUser
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ListUserRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ListUserReply'
+                                $ref: '#/components/schemas/SendSmsRes'
                 default:
                     description: Default error response
                     content:
@@ -104,6 +122,34 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
+        AdminRequest:
+            type: object
+            properties:
+                adminId:
+                    type: string
+                lockerPointId:
+                    type: string
+        AdminRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                pointNum:
+                    type: string
+                yesterdayOrderNum:
+                    type: string
+                lastOrderPrice:
+                    type: number
+                    format: float
+                lastOrderNum:
+                    type: string
+                mouthPrice:
+                    type: number
+                    format: float
+                monthNum:
+                    type: string
         GoogleProtobufAny:
             type: object
             properties:
@@ -112,23 +158,6 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        ListUserReply:
-            type: object
-            properties: {}
-        ListUserRequest:
-            type: object
-            properties: {}
-        LoginReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                id:
-                    type: string
-                token:
-                    type: string
         LoginRequest:
             type: object
             properties:
@@ -140,13 +169,56 @@ components:
                     type: string
                 username:
                     type: string
-        RegisterReply:
+        LoginRes:
             type: object
             properties:
                 code:
                     type: string
                 msg:
                     type: string
+                id:
+                    type: string
+                token:
+                    type: string
+        OrderList:
+            type: object
+            properties:
+                OrderNumber:
+                    type: string
+                UserId:
+                    type: string
+                ScheduledDuration:
+                    type: string
+                ActualDuration:
+                    type: string
+                Price:
+                    type: number
+                    format: float
+                Discount:
+                    type: number
+                    format: float
+                AmountPaid:
+                    type: number
+                    format: float
+                StorageLocationName:
+                    type: string
+                CabinetId:
+                    type: string
+                Status:
+                    type: string
+                DepositStatus:
+                    type: string
+        OrderListRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OrderList'
         RegisterRequest:
             type: object
             properties:
@@ -158,7 +230,7 @@ components:
                     type: string
                 username:
                     type: string
-        SendSmsReply:
+        RegisterRes:
             type: object
             properties:
                 code:
@@ -171,6 +243,13 @@ components:
                 mobile:
                     type: string
                 source:
+                    type: string
+        SendSmsRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
                     type: string
         Status:
             type: object

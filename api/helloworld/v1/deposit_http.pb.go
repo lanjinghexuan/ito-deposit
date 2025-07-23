@@ -20,11 +20,13 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationDepositDecodeToken = "/api.helloworld.v1.Deposit/DecodeToken"
+const OperationDepositGetDepositLocker = "/api.helloworld.v1.Deposit/GetDepositLocker"
 const OperationDepositListDeposit = "/api.helloworld.v1.Deposit/ListDeposit"
 const OperationDepositReturnToken = "/api.helloworld.v1.Deposit/ReturnToken"
 
 type DepositHTTPServer interface {
 	DecodeToken(context.Context, *ReturnTokenReq) (*ReturnTokenRes, error)
+	GetDepositLocker(context.Context, *GetDepositLockerReq) (*GetDepositLockerRes, error)
 	ListDeposit(context.Context, *ListDepositRequest) (*ListDepositReply, error)
 	ReturnToken(context.Context, *ReturnTokenReq) (*ReturnTokenRes, error)
 }
@@ -34,6 +36,7 @@ func RegisterDepositHTTPServer(s *http.Server, srv DepositHTTPServer) {
 	r.GET("/deposit", _Deposit_ListDeposit0_HTTP_Handler(srv))
 	r.GET("/returntoken", _Deposit_ReturnToken0_HTTP_Handler(srv))
 	r.GET("/decodetoken", _Deposit_DecodeToken0_HTTP_Handler(srv))
+	r.GET("/getDepositLocker", _Deposit_GetDepositLocker0_HTTP_Handler(srv))
 }
 
 func _Deposit_ListDeposit0_HTTP_Handler(srv DepositHTTPServer) func(ctx http.Context) error {
@@ -93,8 +96,28 @@ func _Deposit_DecodeToken0_HTTP_Handler(srv DepositHTTPServer) func(ctx http.Con
 	}
 }
 
+func _Deposit_GetDepositLocker0_HTTP_Handler(srv DepositHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetDepositLockerReq
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationDepositGetDepositLocker)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetDepositLocker(ctx, req.(*GetDepositLockerReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetDepositLockerRes)
+		return ctx.Result(200, reply)
+	}
+}
+
 type DepositHTTPClient interface {
 	DecodeToken(ctx context.Context, req *ReturnTokenReq, opts ...http.CallOption) (rsp *ReturnTokenRes, err error)
+	GetDepositLocker(ctx context.Context, req *GetDepositLockerReq, opts ...http.CallOption) (rsp *GetDepositLockerRes, err error)
 	ListDeposit(ctx context.Context, req *ListDepositRequest, opts ...http.CallOption) (rsp *ListDepositReply, err error)
 	ReturnToken(ctx context.Context, req *ReturnTokenReq, opts ...http.CallOption) (rsp *ReturnTokenRes, err error)
 }
@@ -112,6 +135,19 @@ func (c *DepositHTTPClientImpl) DecodeToken(ctx context.Context, in *ReturnToken
 	pattern := "/decodetoken"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationDepositDecodeToken))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *DepositHTTPClientImpl) GetDepositLocker(ctx context.Context, in *GetDepositLockerReq, opts ...http.CallOption) (*GetDepositLockerRes, error) {
+	var out GetDepositLockerRes
+	pattern := "/getDepositLocker"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationDepositGetDepositLocker))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {

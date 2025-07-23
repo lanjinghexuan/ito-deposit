@@ -22,366 +22,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type CreateUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateUserRequest) Reset() {
-	*x = CreateUserRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateUserRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateUserRequest) ProtoMessage() {}
-
-func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
-func (*CreateUserRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{0}
-}
-
-type CreateUserReply struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateUserReply) Reset() {
-	*x = CreateUserReply{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateUserReply) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateUserReply) ProtoMessage() {}
-
-func (x *CreateUserReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateUserReply.ProtoReflect.Descriptor instead.
-func (*CreateUserReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{1}
-}
-
-type UpdateUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateUserRequest) Reset() {
-	*x = UpdateUserRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateUserRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateUserRequest) ProtoMessage() {}
-
-func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
-func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{2}
-}
-
-type UpdateUserReply struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateUserReply) Reset() {
-	*x = UpdateUserReply{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateUserReply) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateUserReply) ProtoMessage() {}
-
-func (x *UpdateUserReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateUserReply.ProtoReflect.Descriptor instead.
-func (*UpdateUserReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{3}
-}
-
-type DeleteUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteUserRequest) Reset() {
-	*x = DeleteUserRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteUserRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteUserRequest) ProtoMessage() {}
-
-func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteUserRequest.ProtoReflect.Descriptor instead.
-func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{4}
-}
-
-type DeleteUserReply struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteUserReply) Reset() {
-	*x = DeleteUserReply{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteUserReply) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteUserReply) ProtoMessage() {}
-
-func (x *DeleteUserReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteUserReply.ProtoReflect.Descriptor instead.
-func (*DeleteUserReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{5}
-}
-
-type GetUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetUserRequest) Reset() {
-	*x = GetUserRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetUserRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetUserRequest) ProtoMessage() {}
-
-func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[6]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
-func (*GetUserRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{6}
-}
-
-type GetUserReply struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetUserReply) Reset() {
-	*x = GetUserReply{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetUserReply) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetUserReply) ProtoMessage() {}
-
-func (x *GetUserReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[7]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetUserReply.ProtoReflect.Descriptor instead.
-func (*GetUserReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{7}
-}
-
-type ListUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListUserRequest) Reset() {
-	*x = ListUserRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListUserRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListUserRequest) ProtoMessage() {}
-
-func (x *ListUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListUserRequest.ProtoReflect.Descriptor instead.
-func (*ListUserRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{8}
-}
-
-type ListUserReply struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListUserReply) Reset() {
-	*x = ListUserReply{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListUserReply) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListUserReply) ProtoMessage() {}
-
-func (x *ListUserReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListUserReply.ProtoReflect.Descriptor instead.
-func (*ListUserReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{9}
-}
-
 type SendSmsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Mobile        string                 `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty"`
@@ -392,7 +32,7 @@ type SendSmsRequest struct {
 
 func (x *SendSmsRequest) Reset() {
 	*x = SendSmsRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[10]
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -404,7 +44,7 @@ func (x *SendSmsRequest) String() string {
 func (*SendSmsRequest) ProtoMessage() {}
 
 func (x *SendSmsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[10]
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -417,7 +57,7 @@ func (x *SendSmsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendSmsRequest.ProtoReflect.Descriptor instead.
 func (*SendSmsRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{10}
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *SendSmsRequest) GetMobile() string {
@@ -434,7 +74,7 @@ func (x *SendSmsRequest) GetSource() string {
 	return ""
 }
 
-type SendSmsReply struct {
+type SendSmsRes struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
 	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
@@ -442,21 +82,21 @@ type SendSmsReply struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *SendSmsReply) Reset() {
-	*x = SendSmsReply{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[11]
+func (x *SendSmsRes) Reset() {
+	*x = SendSmsRes{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *SendSmsReply) String() string {
+func (x *SendSmsRes) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SendSmsReply) ProtoMessage() {}
+func (*SendSmsRes) ProtoMessage() {}
 
-func (x *SendSmsReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[11]
+func (x *SendSmsRes) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -467,19 +107,19 @@ func (x *SendSmsReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SendSmsReply.ProtoReflect.Descriptor instead.
-func (*SendSmsReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{11}
+// Deprecated: Use SendSmsRes.ProtoReflect.Descriptor instead.
+func (*SendSmsRes) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *SendSmsReply) GetCode() int64 {
+func (x *SendSmsRes) GetCode() int64 {
 	if x != nil {
 		return x.Code
 	}
 	return 0
 }
 
-func (x *SendSmsReply) GetMsg() string {
+func (x *SendSmsRes) GetMsg() string {
 	if x != nil {
 		return x.Msg
 	}
@@ -498,7 +138,7 @@ type RegisterRequest struct {
 
 func (x *RegisterRequest) Reset() {
 	*x = RegisterRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[12]
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -510,7 +150,7 @@ func (x *RegisterRequest) String() string {
 func (*RegisterRequest) ProtoMessage() {}
 
 func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[12]
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -523,7 +163,7 @@ func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterRequest.ProtoReflect.Descriptor instead.
 func (*RegisterRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{12}
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *RegisterRequest) GetMobile() string {
@@ -554,7 +194,7 @@ func (x *RegisterRequest) GetUsername() string {
 	return ""
 }
 
-type RegisterReply struct {
+type RegisterRes struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
 	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
@@ -562,21 +202,21 @@ type RegisterReply struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *RegisterReply) Reset() {
-	*x = RegisterReply{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[13]
+func (x *RegisterRes) Reset() {
+	*x = RegisterRes{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *RegisterReply) String() string {
+func (x *RegisterRes) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RegisterReply) ProtoMessage() {}
+func (*RegisterRes) ProtoMessage() {}
 
-func (x *RegisterReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[13]
+func (x *RegisterRes) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -587,19 +227,19 @@ func (x *RegisterReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RegisterReply.ProtoReflect.Descriptor instead.
-func (*RegisterReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{13}
+// Deprecated: Use RegisterRes.ProtoReflect.Descriptor instead.
+func (*RegisterRes) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *RegisterReply) GetCode() int64 {
+func (x *RegisterRes) GetCode() int64 {
 	if x != nil {
 		return x.Code
 	}
 	return 0
 }
 
-func (x *RegisterReply) GetMsg() string {
+func (x *RegisterRes) GetMsg() string {
 	if x != nil {
 		return x.Msg
 	}
@@ -618,7 +258,7 @@ type LoginRequest struct {
 
 func (x *LoginRequest) Reset() {
 	*x = LoginRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[14]
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -630,7 +270,7 @@ func (x *LoginRequest) String() string {
 func (*LoginRequest) ProtoMessage() {}
 
 func (x *LoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[14]
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -643,7 +283,7 @@ func (x *LoginRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
 func (*LoginRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{14}
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *LoginRequest) GetMobile() string {
@@ -674,7 +314,7 @@ func (x *LoginRequest) GetUsername() string {
 	return ""
 }
 
-type LoginReply struct {
+type LoginRes struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
 	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
@@ -684,21 +324,21 @@ type LoginReply struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *LoginReply) Reset() {
-	*x = LoginReply{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[15]
+func (x *LoginRes) Reset() {
+	*x = LoginRes{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LoginReply) String() string {
+func (x *LoginRes) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LoginReply) ProtoMessage() {}
+func (*LoginRes) ProtoMessage() {}
 
-func (x *LoginReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[15]
+func (x *LoginRes) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -709,92 +349,480 @@ func (x *LoginReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LoginReply.ProtoReflect.Descriptor instead.
-func (*LoginReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{15}
+// Deprecated: Use LoginRes.ProtoReflect.Descriptor instead.
+func (*LoginRes) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *LoginReply) GetCode() int64 {
+func (x *LoginRes) GetCode() int64 {
 	if x != nil {
 		return x.Code
 	}
 	return 0
 }
 
-func (x *LoginReply) GetMsg() string {
+func (x *LoginRes) GetMsg() string {
 	if x != nil {
 		return x.Msg
 	}
 	return ""
 }
 
-func (x *LoginReply) GetId() int64 {
+func (x *LoginRes) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-func (x *LoginReply) GetToken() string {
+func (x *LoginRes) GetToken() string {
 	if x != nil {
 		return x.Token
 	}
 	return ""
 }
 
+type OrderListRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *OrderListRequest) Reset() {
+	*x = OrderListRequest{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *OrderListRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OrderListRequest) ProtoMessage() {}
+
+func (x *OrderListRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OrderListRequest.ProtoReflect.Descriptor instead.
+func (*OrderListRequest) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{6}
+}
+
+type OrderListRes struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	List          []*OrderList           `protobuf:"bytes,3,rep,name=list,proto3" json:"list,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *OrderListRes) Reset() {
+	*x = OrderListRes{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *OrderListRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OrderListRes) ProtoMessage() {}
+
+func (x *OrderListRes) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OrderListRes.ProtoReflect.Descriptor instead.
+func (*OrderListRes) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *OrderListRes) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *OrderListRes) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *OrderListRes) GetList() []*OrderList {
+	if x != nil {
+		return x.List
+	}
+	return nil
+}
+
+type OrderList struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	OrderNumber         string                 `protobuf:"bytes,1,opt,name=OrderNumber,proto3" json:"OrderNumber,omitempty"`                 // 业务订单号（唯一标识）
+	UserId              int64                  `protobuf:"varint,2,opt,name=UserId,proto3" json:"UserId,omitempty"`                          // 用户ID（关联用户表）
+	ScheduledDuration   int64                  `protobuf:"varint,3,opt,name=ScheduledDuration,proto3" json:"ScheduledDuration,omitempty"`    // 计划寄存时长（小时）
+	ActualDuration      int64                  `protobuf:"varint,4,opt,name=ActualDuration,proto3" json:"ActualDuration,omitempty"`          // 实际寄存时长（小时）
+	Price               float32                `protobuf:"fixed32,5,opt,name=Price,proto3" json:"Price,omitempty"`                           // 基础费用
+	Discount            float32                `protobuf:"fixed32,6,opt,name=Discount,proto3" json:"Discount,omitempty"`                     // 优惠金额
+	AmountPaid          float32                `protobuf:"fixed32,7,opt,name=AmountPaid,proto3" json:"AmountPaid,omitempty"`                 // 实付金额
+	StorageLocationName string                 `protobuf:"bytes,8,opt,name=StorageLocationName,proto3" json:"StorageLocationName,omitempty"` // 寄存网点名称
+	CabinetId           string                 `protobuf:"bytes,9,opt,name=CabinetId,proto3" json:"CabinetId,omitempty"`                     // 柜子ID
+	Status              int64                  `protobuf:"varint,10,opt,name=Status,proto3" json:"Status,omitempty"`                         // 订单状态：1-待支付、2-寄存中、3-已完成、4-已取消、5-超时、6-异常
+	DepositStatus       int64                  `protobuf:"varint,11,opt,name=DepositStatus,proto3" json:"DepositStatus,omitempty"`           // 押金状态：1-已支付、2-已退还、3-已扣除
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *OrderList) Reset() {
+	*x = OrderList{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *OrderList) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OrderList) ProtoMessage() {}
+
+func (x *OrderList) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OrderList.ProtoReflect.Descriptor instead.
+func (*OrderList) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *OrderList) GetOrderNumber() string {
+	if x != nil {
+		return x.OrderNumber
+	}
+	return ""
+}
+
+func (x *OrderList) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *OrderList) GetScheduledDuration() int64 {
+	if x != nil {
+		return x.ScheduledDuration
+	}
+	return 0
+}
+
+func (x *OrderList) GetActualDuration() int64 {
+	if x != nil {
+		return x.ActualDuration
+	}
+	return 0
+}
+
+func (x *OrderList) GetPrice() float32 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+func (x *OrderList) GetDiscount() float32 {
+	if x != nil {
+		return x.Discount
+	}
+	return 0
+}
+
+func (x *OrderList) GetAmountPaid() float32 {
+	if x != nil {
+		return x.AmountPaid
+	}
+	return 0
+}
+
+func (x *OrderList) GetStorageLocationName() string {
+	if x != nil {
+		return x.StorageLocationName
+	}
+	return ""
+}
+
+func (x *OrderList) GetCabinetId() string {
+	if x != nil {
+		return x.CabinetId
+	}
+	return ""
+}
+
+func (x *OrderList) GetStatus() int64 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *OrderList) GetDepositStatus() int64 {
+	if x != nil {
+		return x.DepositStatus
+	}
+	return 0
+}
+
+type AdminRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AdminId       int64                  `protobuf:"varint,1,opt,name=admin_id,json=adminId,proto3" json:"admin_id,omitempty"`
+	LockerPointId int64                  `protobuf:"varint,2,opt,name=locker_point_id,json=lockerPointId,proto3" json:"locker_point_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AdminRequest) Reset() {
+	*x = AdminRequest{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AdminRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdminRequest) ProtoMessage() {}
+
+func (x *AdminRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdminRequest.ProtoReflect.Descriptor instead.
+func (*AdminRequest) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *AdminRequest) GetAdminId() int64 {
+	if x != nil {
+		return x.AdminId
+	}
+	return 0
+}
+
+func (x *AdminRequest) GetLockerPointId() int64 {
+	if x != nil {
+		return x.LockerPointId
+	}
+	return 0
+}
+
+type AdminRes struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Code              int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Msg               string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	PointNum          int64                  `protobuf:"varint,3,opt,name=point_num,json=pointNum,proto3" json:"point_num,omitempty"`
+	YesterdayOrderNum int64                  `protobuf:"varint,4,opt,name=yesterday_order_num,json=yesterdayOrderNum,proto3" json:"yesterday_order_num,omitempty"`
+	LastOrderPrice    float32                `protobuf:"fixed32,5,opt,name=last_order_price,json=lastOrderPrice,proto3" json:"last_order_price,omitempty"`
+	LastOrderNum      int64                  `protobuf:"varint,6,opt,name=last_order_num,json=lastOrderNum,proto3" json:"last_order_num,omitempty"`
+	MouthPrice        float32                `protobuf:"fixed32,7,opt,name=mouth_price,json=mouthPrice,proto3" json:"mouth_price,omitempty"`
+	MonthNum          int64                  `protobuf:"varint,8,opt,name=month_num,json=monthNum,proto3" json:"month_num,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *AdminRes) Reset() {
+	*x = AdminRes{}
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AdminRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdminRes) ProtoMessage() {}
+
+func (x *AdminRes) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_user_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdminRes.ProtoReflect.Descriptor instead.
+func (*AdminRes) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *AdminRes) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *AdminRes) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *AdminRes) GetPointNum() int64 {
+	if x != nil {
+		return x.PointNum
+	}
+	return 0
+}
+
+func (x *AdminRes) GetYesterdayOrderNum() int64 {
+	if x != nil {
+		return x.YesterdayOrderNum
+	}
+	return 0
+}
+
+func (x *AdminRes) GetLastOrderPrice() float32 {
+	if x != nil {
+		return x.LastOrderPrice
+	}
+	return 0
+}
+
+func (x *AdminRes) GetLastOrderNum() int64 {
+	if x != nil {
+		return x.LastOrderNum
+	}
+	return 0
+}
+
+func (x *AdminRes) GetMouthPrice() float32 {
+	if x != nil {
+		return x.MouthPrice
+	}
+	return 0
+}
+
+func (x *AdminRes) GetMonthNum() int64 {
+	if x != nil {
+		return x.MonthNum
+	}
+	return 0
+}
+
 var File_api_helloworld_v1_user_proto protoreflect.FileDescriptor
 
 const file_api_helloworld_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x1capi/helloworld/v1/user.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"\x13\n" +
-	"\x11CreateUserRequest\"\x11\n" +
-	"\x0fCreateUserReply\"\x13\n" +
-	"\x11UpdateUserRequest\"\x11\n" +
-	"\x0fUpdateUserReply\"\x13\n" +
-	"\x11DeleteUserRequest\"\x11\n" +
-	"\x0fDeleteUserReply\"\x10\n" +
-	"\x0eGetUserRequest\"\x0e\n" +
-	"\fGetUserReply\"\x11\n" +
-	"\x0fListUserRequest\"\x0f\n" +
-	"\rListUserReply\"@\n" +
+	"\x1capi/helloworld/v1/user.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"@\n" +
 	"\x0eSendSmsRequest\x12\x16\n" +
 	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x16\n" +
-	"\x06source\x18\x02 \x01(\tR\x06source\"4\n" +
-	"\fSendSmsReply\x12\x12\n" +
+	"\x06source\x18\x02 \x01(\tR\x06source\"2\n" +
+	"\n" +
+	"SendSmsRes\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\"{\n" +
 	"\x0fRegisterRequest\x12\x16\n" +
 	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x18\n" +
 	"\asmsCode\x18\x03 \x01(\tR\asmsCode\x12\x1a\n" +
-	"\busername\x18\x04 \x01(\tR\busername\"5\n" +
-	"\rRegisterReply\x12\x12\n" +
+	"\busername\x18\x04 \x01(\tR\busername\"3\n" +
+	"\vRegisterRes\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\"x\n" +
 	"\fLoginRequest\x12\x16\n" +
 	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x18\n" +
 	"\asmsCode\x18\x03 \x01(\tR\asmsCode\x12\x1a\n" +
-	"\busername\x18\x04 \x01(\tR\busername\"X\n" +
-	"\n" +
-	"LoginReply\x12\x12\n" +
+	"\busername\x18\x04 \x01(\tR\busername\"V\n" +
+	"\bLoginRes\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\x12\x0e\n" +
 	"\x02id\x18\x03 \x01(\x03R\x02id\x12\x14\n" +
-	"\x05token\x18\x04 \x01(\tR\x05token2\xe9\x05\n" +
-	"\x04User\x12Z\n" +
-	"\x05Login\x12\x1f.api.helloworld.v1.LoginRequest\x1a\x1d.api.helloworld.v1.LoginReply\"\x11\x82\xd3\xe4\x93\x02\v:\x01*\"\x06/login\x12f\n" +
-	"\bRegister\x12\".api.helloworld.v1.RegisterRequest\x1a .api.helloworld.v1.RegisterReply\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/register\x12b\n" +
-	"\aSendSms\x12!.api.helloworld.v1.SendSmsRequest\x1a\x1f.api.helloworld.v1.SendSmsReply\"\x13\x82\xd3\xe4\x93\x02\r:\x01*\"\b/sendSms\x12V\n" +
+	"\x05token\x18\x04 \x01(\tR\x05token\"\x12\n" +
+	"\x10OrderListRequest\"f\n" +
+	"\fOrderListRes\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x120\n" +
+	"\x04list\x18\x03 \x03(\v2\x1c.api.helloworld.v1.OrderListR\x04list\"\xfb\x02\n" +
+	"\tOrderList\x12 \n" +
+	"\vOrderNumber\x18\x01 \x01(\tR\vOrderNumber\x12\x16\n" +
+	"\x06UserId\x18\x02 \x01(\x03R\x06UserId\x12,\n" +
+	"\x11ScheduledDuration\x18\x03 \x01(\x03R\x11ScheduledDuration\x12&\n" +
+	"\x0eActualDuration\x18\x04 \x01(\x03R\x0eActualDuration\x12\x14\n" +
+	"\x05Price\x18\x05 \x01(\x02R\x05Price\x12\x1a\n" +
+	"\bDiscount\x18\x06 \x01(\x02R\bDiscount\x12\x1e\n" +
 	"\n" +
-	"CreateUser\x12$.api.helloworld.v1.CreateUserRequest\x1a\".api.helloworld.v1.CreateUserReply\x12V\n" +
-	"\n" +
-	"UpdateUser\x12$.api.helloworld.v1.UpdateUserRequest\x1a\".api.helloworld.v1.UpdateUserReply\x12V\n" +
-	"\n" +
-	"DeleteUser\x12$.api.helloworld.v1.DeleteUserRequest\x1a\".api.helloworld.v1.DeleteUserReply\x12M\n" +
-	"\aGetUser\x12!.api.helloworld.v1.GetUserRequest\x1a\x1f.api.helloworld.v1.GetUserReply\x12b\n" +
-	"\bListUser\x12\".api.helloworld.v1.ListUserRequest\x1a .api.helloworld.v1.ListUserReply\"\x10\x82\xd3\xe4\x93\x02\n" +
-	":\x01*\"\x05/userB7\n" +
+	"AmountPaid\x18\a \x01(\x02R\n" +
+	"AmountPaid\x120\n" +
+	"\x13StorageLocationName\x18\b \x01(\tR\x13StorageLocationName\x12\x1c\n" +
+	"\tCabinetId\x18\t \x01(\tR\tCabinetId\x12\x16\n" +
+	"\x06Status\x18\n" +
+	" \x01(\x03R\x06Status\x12$\n" +
+	"\rDepositStatus\x18\v \x01(\x03R\rDepositStatus\"Q\n" +
+	"\fAdminRequest\x12\x19\n" +
+	"\badmin_id\x18\x01 \x01(\x03R\aadminId\x12&\n" +
+	"\x0flocker_point_id\x18\x02 \x01(\x03R\rlockerPointId\"\x8b\x02\n" +
+	"\bAdminRes\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x12\x1b\n" +
+	"\tpoint_num\x18\x03 \x01(\x03R\bpointNum\x12.\n" +
+	"\x13yesterday_order_num\x18\x04 \x01(\x03R\x11yesterdayOrderNum\x12(\n" +
+	"\x10last_order_price\x18\x05 \x01(\x02R\x0elastOrderPrice\x12$\n" +
+	"\x0elast_order_num\x18\x06 \x01(\x03R\flastOrderNum\x12\x1f\n" +
+	"\vmouth_price\x18\a \x01(\x02R\n" +
+	"mouthPrice\x12\x1b\n" +
+	"\tmonth_num\x18\b \x01(\x03R\bmonthNum2\xe4\x03\n" +
+	"\x04User\x12X\n" +
+	"\x05Admin\x12\x1f.api.helloworld.v1.AdminRequest\x1a\x1b.api.helloworld.v1.AdminRes\"\x11\x82\xd3\xe4\x93\x02\v:\x01*\"\x06/admin\x12`\n" +
+	"\tOrderList\x12#.api.helloworld.v1.OrderListRequest\x1a\x1f.api.helloworld.v1.OrderListRes\"\r\x82\xd3\xe4\x93\x02\a\x12\x05/list\x12X\n" +
+	"\x05Login\x12\x1f.api.helloworld.v1.LoginRequest\x1a\x1b.api.helloworld.v1.LoginRes\"\x11\x82\xd3\xe4\x93\x02\v:\x01*\"\x06/login\x12d\n" +
+	"\bRegister\x12\".api.helloworld.v1.RegisterRequest\x1a\x1e.api.helloworld.v1.RegisterRes\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/register\x12`\n" +
+	"\aSendSms\x12!.api.helloworld.v1.SendSmsRequest\x1a\x1d.api.helloworld.v1.SendSmsRes\"\x13\x82\xd3\xe4\x93\x02\r:\x01*\"\b/sendSmsB7\n" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
 
 var (
@@ -809,47 +837,37 @@ func file_api_helloworld_v1_user_proto_rawDescGZIP() []byte {
 	return file_api_helloworld_v1_user_proto_rawDescData
 }
 
-var file_api_helloworld_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_api_helloworld_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_api_helloworld_v1_user_proto_goTypes = []any{
-	(*CreateUserRequest)(nil), // 0: api.helloworld.v1.CreateUserRequest
-	(*CreateUserReply)(nil),   // 1: api.helloworld.v1.CreateUserReply
-	(*UpdateUserRequest)(nil), // 2: api.helloworld.v1.UpdateUserRequest
-	(*UpdateUserReply)(nil),   // 3: api.helloworld.v1.UpdateUserReply
-	(*DeleteUserRequest)(nil), // 4: api.helloworld.v1.DeleteUserRequest
-	(*DeleteUserReply)(nil),   // 5: api.helloworld.v1.DeleteUserReply
-	(*GetUserRequest)(nil),    // 6: api.helloworld.v1.GetUserRequest
-	(*GetUserReply)(nil),      // 7: api.helloworld.v1.GetUserReply
-	(*ListUserRequest)(nil),   // 8: api.helloworld.v1.ListUserRequest
-	(*ListUserReply)(nil),     // 9: api.helloworld.v1.ListUserReply
-	(*SendSmsRequest)(nil),    // 10: api.helloworld.v1.SendSmsRequest
-	(*SendSmsReply)(nil),      // 11: api.helloworld.v1.SendSmsReply
-	(*RegisterRequest)(nil),   // 12: api.helloworld.v1.RegisterRequest
-	(*RegisterReply)(nil),     // 13: api.helloworld.v1.RegisterReply
-	(*LoginRequest)(nil),      // 14: api.helloworld.v1.LoginRequest
-	(*LoginReply)(nil),        // 15: api.helloworld.v1.LoginReply
+	(*SendSmsRequest)(nil),   // 0: api.helloworld.v1.SendSmsRequest
+	(*SendSmsRes)(nil),       // 1: api.helloworld.v1.SendSmsRes
+	(*RegisterRequest)(nil),  // 2: api.helloworld.v1.RegisterRequest
+	(*RegisterRes)(nil),      // 3: api.helloworld.v1.RegisterRes
+	(*LoginRequest)(nil),     // 4: api.helloworld.v1.LoginRequest
+	(*LoginRes)(nil),         // 5: api.helloworld.v1.LoginRes
+	(*OrderListRequest)(nil), // 6: api.helloworld.v1.OrderListRequest
+	(*OrderListRes)(nil),     // 7: api.helloworld.v1.OrderListRes
+	(*OrderList)(nil),        // 8: api.helloworld.v1.OrderList
+	(*AdminRequest)(nil),     // 9: api.helloworld.v1.AdminRequest
+	(*AdminRes)(nil),         // 10: api.helloworld.v1.AdminRes
 }
 var file_api_helloworld_v1_user_proto_depIdxs = []int32{
-	14, // 0: api.helloworld.v1.User.Login:input_type -> api.helloworld.v1.LoginRequest
-	12, // 1: api.helloworld.v1.User.Register:input_type -> api.helloworld.v1.RegisterRequest
-	10, // 2: api.helloworld.v1.User.SendSms:input_type -> api.helloworld.v1.SendSmsRequest
-	0,  // 3: api.helloworld.v1.User.CreateUser:input_type -> api.helloworld.v1.CreateUserRequest
-	2,  // 4: api.helloworld.v1.User.UpdateUser:input_type -> api.helloworld.v1.UpdateUserRequest
-	4,  // 5: api.helloworld.v1.User.DeleteUser:input_type -> api.helloworld.v1.DeleteUserRequest
-	6,  // 6: api.helloworld.v1.User.GetUser:input_type -> api.helloworld.v1.GetUserRequest
-	8,  // 7: api.helloworld.v1.User.ListUser:input_type -> api.helloworld.v1.ListUserRequest
-	15, // 8: api.helloworld.v1.User.Login:output_type -> api.helloworld.v1.LoginReply
-	13, // 9: api.helloworld.v1.User.Register:output_type -> api.helloworld.v1.RegisterReply
-	11, // 10: api.helloworld.v1.User.SendSms:output_type -> api.helloworld.v1.SendSmsReply
-	1,  // 11: api.helloworld.v1.User.CreateUser:output_type -> api.helloworld.v1.CreateUserReply
-	3,  // 12: api.helloworld.v1.User.UpdateUser:output_type -> api.helloworld.v1.UpdateUserReply
-	5,  // 13: api.helloworld.v1.User.DeleteUser:output_type -> api.helloworld.v1.DeleteUserReply
-	7,  // 14: api.helloworld.v1.User.GetUser:output_type -> api.helloworld.v1.GetUserReply
-	9,  // 15: api.helloworld.v1.User.ListUser:output_type -> api.helloworld.v1.ListUserReply
-	8,  // [8:16] is the sub-list for method output_type
-	0,  // [0:8] is the sub-list for method input_type
-	0,  // [0:0] is the sub-list for extension type_name
-	0,  // [0:0] is the sub-list for extension extendee
-	0,  // [0:0] is the sub-list for field type_name
+	8,  // 0: api.helloworld.v1.OrderListRes.list:type_name -> api.helloworld.v1.OrderList
+	9,  // 1: api.helloworld.v1.User.Admin:input_type -> api.helloworld.v1.AdminRequest
+	6,  // 2: api.helloworld.v1.User.OrderList:input_type -> api.helloworld.v1.OrderListRequest
+	4,  // 3: api.helloworld.v1.User.Login:input_type -> api.helloworld.v1.LoginRequest
+	2,  // 4: api.helloworld.v1.User.Register:input_type -> api.helloworld.v1.RegisterRequest
+	0,  // 5: api.helloworld.v1.User.SendSms:input_type -> api.helloworld.v1.SendSmsRequest
+	10, // 6: api.helloworld.v1.User.Admin:output_type -> api.helloworld.v1.AdminRes
+	7,  // 7: api.helloworld.v1.User.OrderList:output_type -> api.helloworld.v1.OrderListRes
+	5,  // 8: api.helloworld.v1.User.Login:output_type -> api.helloworld.v1.LoginRes
+	3,  // 9: api.helloworld.v1.User.Register:output_type -> api.helloworld.v1.RegisterRes
+	1,  // 10: api.helloworld.v1.User.SendSms:output_type -> api.helloworld.v1.SendSmsRes
+	6,  // [6:11] is the sub-list for method output_type
+	1,  // [1:6] is the sub-list for method input_type
+	1,  // [1:1] is the sub-list for extension type_name
+	1,  // [1:1] is the sub-list for extension extendee
+	0,  // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_api_helloworld_v1_user_proto_init() }
@@ -863,7 +881,7 @@ func file_api_helloworld_v1_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_user_proto_rawDesc), len(file_api_helloworld_v1_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

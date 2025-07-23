@@ -9,56 +9,45 @@ option java_multiple_files = true;
 option java_package = "api.helloworld.v1";
 
 service User {
-	rpc Login (LoginRequest) returns (LoginReply){
+	rpc Admin (AdminRequest) returns (AdminRes){
+		option (google.api.http) = {
+			post: "/admin"
+			body: "*"
+		};
+	};
+	rpc OrderList (OrderListRequest) returns (OrderListRes){
+		option (google.api.http) = {
+			get: "/list"
+		};
+	};
+	rpc Login (LoginRequest) returns (LoginRes){
 		option (google.api.http) = {
 			post: "/login"
 			body: "*"
 		};
 	};
-	rpc Register (RegisterRequest) returns (RegisterReply){
+	rpc Register (RegisterRequest) returns (RegisterRes){
 		option (google.api.http) = {
 			post: "/register"
 			body: "*"
 		};
 	};
-	rpc SendSms (SendSmsRequest) returns (SendSmsReply){
+	rpc SendSms (SendSmsRequest) returns (SendSmsRes){
 		option (google.api.http) = {
 			post: "/sendSms"
 			body: "*"
 		};
 	};
-	rpc CreateUser (CreateUserRequest) returns (CreateUserReply);
-	rpc UpdateUser (UpdateUserRequest) returns (UpdateUserReply);
-	rpc DeleteUser (DeleteUserRequest) returns (DeleteUserReply);
-	rpc GetUser (GetUserRequest) returns (GetUserReply);
-	rpc ListUser (ListUserRequest) returns (ListUserReply){
-		option (google.api.http) = {
-			post: "/user"
-			body: "*"
-		};
-	};
+
 }
 
-message CreateUserRequest {}
-message CreateUserReply {}
 
-message UpdateUserRequest {}
-message UpdateUserReply {}
-
-message DeleteUserRequest {}
-message DeleteUserReply {}
-
-message GetUserRequest {}
-message GetUserReply {}
-
-message ListUserRequest {}
-message ListUserReply {}
 
 message SendSmsRequest {
 	string mobile = 1 ;
 	string source = 2;
 }
-message SendSmsReply {
+message SendSmsRes {
 	int64 code = 1;
 	string msg = 2;
 }
@@ -68,7 +57,7 @@ message RegisterRequest {
 	string smsCode = 3;
 	string username = 4;
 }
-message RegisterReply {
+message RegisterRes {
 	int64 code = 1;
 	string msg = 2;
 }
@@ -78,7 +67,7 @@ message LoginRequest {
 	string smsCode = 3;
 	string username = 4;
 }
-message LoginReply {
+message LoginRes {
 	int64 code = 1;
 	string msg = 2;
 	int64 id = 3;
@@ -87,12 +76,35 @@ message LoginReply {
 message OrderListRequest {
 
 }
-message OrderListReply {
+message OrderListRes {
 	int64 code = 1;
 	string msg = 2;
-
+	repeated OrderList list = 3;
 }
 message OrderList{
-	string order_number = 1;
-	int64 user_id = 2;
+	string OrderNumber = 1; // 业务订单号（唯一标识）
+	int64 UserId = 2; // 用户ID（关联用户表）
+	int64 ScheduledDuration = 3; // 计划寄存时长（小时）
+	int64 ActualDuration = 4; // 实际寄存时长（小时）
+	float Price = 5; // 基础费用
+	float Discount = 6; // 优惠金额
+	float AmountPaid = 7; // 实付金额
+	string StorageLocationName = 8; // 寄存网点名称
+	string CabinetId = 9; // 柜子ID
+	int64 Status = 10; // 订单状态：1-待支付、2-寄存中、3-已完成、4-已取消、5-超时、6-异常
+	int64 DepositStatus = 11; // 押金状态：1-已支付、2-已退还、3-已扣除
+}
+message AdminRequest {
+	int64 admin_id = 1;
+	int64 locker_point_id = 2;
+}
+message AdminRes {
+	int64 code = 1;
+	string msg = 2;
+	int64 point_num = 3;
+	int64 yesterday_order_num = 4;
+	float last_order_price = 5;
+	int64 last_order_num = 6;
+	float mouth_price = 7;
+	int64 month_num = 8;
 }

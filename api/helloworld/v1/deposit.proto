@@ -30,7 +30,37 @@ service Deposit {
 			get: "/decodetoken"
 		};
 	};
+
+	rpc GetDepositLocker (GetDepositLockerReq) returns (GetDepositLockerRes){
+		option (google.api.http) = {
+			get: "/getDepositLocker"
+		};
+	};
 }
+
+message GetDepositLockerReq{
+	int32 locker_id = 1;
+}
+
+message GetDepositLockerRes{
+	string address  =1;
+	string name = 2;
+	float longitude = 3;
+	float latitude = 4;
+	repeated Locker locker = 5;
+	float free_duration = 6;
+}
+
+message Locker{
+	string name = 1;
+	string description = 2;
+	string size = 3;
+	int32 num = 4;
+	float hourly_rate = 5;
+	int32 locker_type = 6;
+	float free_duration = 7;
+}
+
 
 message CreateDepositRequest {
 
