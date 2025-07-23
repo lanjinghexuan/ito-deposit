@@ -3,124 +3,119 @@
 
 openapi: 3.0.3
 info:
-    title: ""
+    title: Order API
     version: 0.0.1
 paths:
-    /decodetoken:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_DecodeToken
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ReturnTokenRes'
-    /deposit:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_ListDeposit
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListDepositReply'
-    /helloworld/{name}:
-        get:
-            tags:
-                - Greeter
-            description: Sends a greeting
-            operationId: Greeter_SayHello
-            parameters:
-                - name: name
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
-    /home:
-        get:
-            tags:
-                - Home
-            operationId: Home_ListHome
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListHomeReply'
-    /login:
+    /v1/order/create:
         post:
             tags:
-                - User
-            operationId: User_Login
-            parameters:
-                - name: mobile
-                  in: query
-                  schema:
-                    type: string
-                - name: password
-                  in: query
-                  schema:
-                    type: string
-                - name: smsCode
-                  in: query
-                  schema:
-                    type: string
-                - name: username
-                  in: query
-                  schema:
-                    type: string
+                - Order
+            operationId: Order_CreateOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateOrderRequest'
+                required: true
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.LoginReply'
-    /order:
+                                $ref: '#/components/schemas/CreateOrderReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/order/del:
+        post:
+            tags:
+                - Order
+            operationId: Order_DeleteOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DeleteOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteOrderReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/order/get:
         get:
             tags:
                 - Order
+            operationId: Order_GetOrder
+            parameters:
+                - name: id
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetOrderReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/order/update:
+        put:
+            tags:
+                - Order
+            operationId: Order_UpdateOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateOrderReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/orders/list:
+        post:
+            tags:
+                - Order
             operationId: Order_ListOrder
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListOrderReply'
-    /register:
-        post:
-            tags:
-                - User
-            operationId: User_Register
             parameters:
-                - name: mobile
+                - name: page
                   in: query
                   schema:
                     type: string
-                - name: password
+                - name: size
                   in: query
                   schema:
                     type: string
-                - name: smsCode
-                  in: query
-                  schema:
-                    type: string
-                - name: username
+                - name: storageLocationName
                   in: query
                   schema:
                     type: string
@@ -130,109 +125,211 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.RegisterReply'
-    /returntoken:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_ReturnToken
-            responses:
-                "200":
-                    description: OK
+                                $ref: '#/components/schemas/ListOrderReply'
+                default:
+                    description: Default error response
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ReturnTokenRes'
-    /sendSms:
+                                $ref: '#/components/schemas/Status'
+    /v1/orders/show:
         post:
             tags:
-                - User
-            operationId: User_SendSms
-            parameters:
-                - name: mobile
-                  in: query
-                  schema:
-                    type: string
-                - name: source
-                  in: query
-                  schema:
-                    type: string
+                - Order
+            operationId: Order_ShowOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ShowOrderRequest'
+                required: true
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.SendSmsReply'
-    /user:
-        post:
-            tags:
-                - User
-            operationId: User_ListUser
-            responses:
-                "200":
-                    description: OK
+                                $ref: '#/components/schemas/ShowOrderReply'
+                default:
+                    description: Default error response
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListUserReply'
+                                $ref: '#/components/schemas/Status'
 components:
     schemas:
-        api.helloworld.v1.ListDepositReply:
-            type: object
-            properties: {}
-        api.helloworld.v1.ListHomeReply:
-            type: object
-            properties: {}
-        api.helloworld.v1.ListOrderReply:
-            type: object
-            properties: {}
-        api.helloworld.v1.ListUserReply:
-            type: object
-            properties: {}
-        api.helloworld.v1.LoginReply:
+        CreateOrderReply:
             type: object
             properties:
-                code:
+                order:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OrderInfo'
+                payUrl:
                     type: string
-                msg:
+        CreateOrderRequest:
+            type: object
+            properties:
+                orderNumber:
                     type: string
+                userId:
+                    type: string
+                scheduledDuration:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                discount:
+                    type: number
+                    format: double
+                amountPaid:
+                    type: number
+                    format: double
+                storageLocationName:
+                    type: string
+                cabinetId:
+                    type: string
+                depositStatus:
+                    type: string
+                title:
+                    type: string
+                orderId:
+                    type: string
+                status:
+                    type: string
+                hourlyRate:
+                    type: number
+                    format: float
+            description: 创建订单请求
+        DeleteOrderReply:
+            type: object
+            properties:
                 id:
                     type: string
-        api.helloworld.v1.RegisterReply:
+                success:
+                    type: boolean
+        DeleteOrderRequest:
             type: object
             properties:
-                code:
+                status:
                     type: string
-                msg:
-                    type: string
-        api.helloworld.v1.ReturnTokenRes:
-            type: object
-            properties:
-                token:
-                    type: string
-                coe:
+                id:
                     type: integer
                     format: int32
-                msg:
+            description: 删除订单请求
+        GetOrderReply:
+            type: object
+            properties:
+                order:
+                    $ref: '#/components/schemas/OrderInfo'
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
                     type: string
-        api.helloworld.v1.SendSmsReply:
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ListOrderReply:
+            type: object
+            properties:
+                orders:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OrderInfo'
+                total:
+                    type: string
+        OrderInfo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                orderNumber:
+                    type: string
+                userId:
+                    type: string
+                scheduledDuration:
+                    type: string
+                actualDuration:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                discount:
+                    type: number
+                    format: double
+                amountPaid:
+                    type: number
+                    format: double
+                storageLocationName:
+                    type: string
+                cabinetId:
+                    type: string
+                status:
+                    type: string
+                depositStatus:
+                    type: string
+            description: 订单信息
+        ShowOrderReply:
+            type: object
+            properties:
+                order:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OrderInfo'
+                Msg:
+                    type: string
+        ShowOrderRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        Status:
             type: object
             properties:
                 code:
-                    type: string
-                msg:
-                    type: string
-        helloworld.v1.HelloReply:
-            type: object
-            properties:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
                 message:
                     type: string
-            description: The response message containing the greetings
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        UpdateOrderReply:
+            type: object
+            properties:
+                order:
+                    $ref: '#/components/schemas/OrderInfo'
+                payUrl:
+                    type: string
+        UpdateOrderRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                actualDuration:
+                    type: string
+                status:
+                    type: string
+                depositStatus:
+                    type: string
+                hourlyRate:
+                    type: number
+                    format: float
+                lockerType:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                title:
+                    type: string
+            description: 更新订单请求
 tags:
-    - name: Deposit
-    - name: Greeter
-      description: The greeting service definition.
-    - name: Home
     - name: Order
-    - name: User

@@ -13,7 +13,8 @@ import (
 	"ito-deposit/internal/service"
 )
 
-// NewHTTPServer new an HTTP server.
+//
+//NewHTTPServer new an HTTP server.
 func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *service.OrderService, user *service.UserService, home *service.HomeService, deposit *service.DepositService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
@@ -29,7 +30,6 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 	if c.Http.Timeout != nil {
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
-
 	if true {
 		opts = append(opts, http.Middleware(
 			selector.Server(
@@ -43,6 +43,7 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 				Build(),
 		))
 	}
+
 	srv := http.NewServer(opts...)
 	v1.RegisterGreeterHTTPServer(srv, greeter)
 	v1.RegisterUserHTTPServer(srv, user)
