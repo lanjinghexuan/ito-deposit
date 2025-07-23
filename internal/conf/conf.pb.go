@@ -138,6 +138,7 @@ type Data struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Database      *Data_Database         `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
 	Redis         *Data_Redis            `protobuf:"bytes,2,opt,name=redis,proto3" json:"redis,omitempty"`
+	Smscode       string                 `protobuf:"bytes,3,opt,name=smscode,proto3" json:"smscode,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -184,6 +185,13 @@ func (x *Data) GetRedis() *Data_Redis {
 		return x.Redis
 	}
 	return nil
+}
+
+func (x *Data) GetSmscode() string {
+	if x != nil {
+		return x.Smscode
+	}
+	return ""
 }
 
 type Server_HTTP struct {
@@ -492,10 +500,11 @@ const file_conf_conf_proto_rawDesc = "" +
 	"\x04addr\x18\x02 \x01(\tR\x04addr\x123\n" +
 	"\atimeout\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\atimeout\x1a\x1f\n" +
 	"\x03Jwt\x12\x18\n" +
-	"\aauthkey\x18\x01 \x01(\tR\aauthkey\"\x8a\x02\n" +
+	"\aauthkey\x18\x01 \x01(\tR\aauthkey\"\xa4\x02\n" +
 	"\x04Data\x125\n" +
 	"\bdatabase\x18\x01 \x01(\v2\x19.kratos.api.Data.DatabaseR\bdatabase\x12,\n" +
-	"\x05redis\x18\x02 \x01(\v2\x16.kratos.api.Data.RedisR\x05redis\x1a:\n" +
+	"\x05redis\x18\x02 \x01(\v2\x16.kratos.api.Data.RedisR\x05redis\x12\x18\n" +
+	"\asmscode\x18\x03 \x01(\tR\asmscode\x1a:\n" +
 	"\bDatabase\x12\x16\n" +
 	"\x06driver\x18\x01 \x01(\tR\x06driver\x12\x16\n" +
 	"\x06source\x18\x02 \x01(\tR\x06source\x1aa\n" +
