@@ -298,8 +298,7 @@ func (x *CreateOrderRequest) GetHourlyRate() float32 {
 
 type CreateOrderReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Order         []*OrderInfo           `protobuf:"bytes,1,rep,name=order,proto3" json:"order,omitempty"`                 // 创建的订单信息
-	PayUrl        string                 `protobuf:"bytes,2,opt,name=pay_url,json=payUrl,proto3" json:"pay_url,omitempty"` // 支付链接
+	Msg           string                 `protobuf:"bytes,2,opt,name=Msg,proto3" json:"Msg,omitempty"` // 支付链接
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -334,16 +333,9 @@ func (*CreateOrderReply) Descriptor() ([]byte, []int) {
 	return file_api_helloworld_v1_order_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *CreateOrderReply) GetOrder() []*OrderInfo {
+func (x *CreateOrderReply) GetMsg() string {
 	if x != nil {
-		return x.Order
-	}
-	return nil
-}
-
-func (x *CreateOrderReply) GetPayUrl() string {
-	if x != nil {
-		return x.PayUrl
+		return x.Msg
 	}
 	return ""
 }
@@ -556,7 +548,6 @@ func (x *DeleteOrderRequest) GetId() int32 {
 
 type DeleteOrderReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
 	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -590,13 +581,6 @@ func (x *DeleteOrderReply) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteOrderReply.ProtoReflect.Descriptor instead.
 func (*DeleteOrderReply) Descriptor() ([]byte, []int) {
 	return file_api_helloworld_v1_order_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *DeleteOrderReply) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
 }
 
 func (x *DeleteOrderReply) GetSuccess() bool {
@@ -942,10 +926,9 @@ const file_api_helloworld_v1_order_proto_rawDesc = "" +
 	"\border_id\x18\r \x01(\x03R\aorderId\x12\x16\n" +
 	"\x06status\x18\x0f \x01(\x03R\x06status\x12\x1f\n" +
 	"\vhourly_rate\x18\x10 \x01(\x02R\n" +
-	"hourlyRate\"_\n" +
-	"\x10CreateOrderReply\x122\n" +
-	"\x05order\x18\x01 \x03(\v2\x1c.api.helloworld.v1.OrderInfoR\x05order\x12\x17\n" +
-	"\apay_url\x18\x02 \x01(\tR\x06payUrl\"\xfa\x01\n" +
+	"hourlyRate\"$\n" +
+	"\x10CreateOrderReply\x12\x10\n" +
+	"\x03Msg\x18\x02 \x01(\tR\x03Msg\"\xfa\x01\n" +
 	"\x12UpdateOrderRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12'\n" +
 	"\x0factual_duration\x18\x03 \x01(\x03R\x0eactualDuration\x12\x16\n" +
@@ -963,9 +946,8 @@ const file_api_helloworld_v1_order_proto_rawDesc = "" +
 	"\apay_url\x18\x02 \x01(\tR\x06payUrl\"<\n" +
 	"\x12DeleteOrderRequest\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\x03R\x06status\x12\x0e\n" +
-	"\x02id\x18\x02 \x01(\x05R\x02id\"<\n" +
-	"\x10DeleteOrderReply\x12\x0e\n" +
-	"\x02id\x18\x02 \x01(\x03R\x02id\x12\x18\n" +
+	"\x02id\x18\x02 \x01(\x05R\x02id\",\n" +
+	"\x10DeleteOrderReply\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"!\n" +
 	"\x0fGetOrderRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"C\n" +
@@ -982,13 +964,13 @@ const file_api_helloworld_v1_order_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\"V\n" +
 	"\x0eShowOrderReply\x122\n" +
 	"\x05order\x18\x01 \x03(\v2\x1c.api.helloworld.v1.OrderInfoR\x05order\x12\x10\n" +
-	"\x03Msg\x18\x02 \x01(\tR\x03Msg2\xb4\x05\n" +
+	"\x03Msg\x18\x02 \x01(\tR\x03Msg2\xb7\x05\n" +
 	"\x05Order\x12v\n" +
 	"\vCreateOrder\x12%.api.helloworld.v1.CreateOrderRequest\x1a#.api.helloworld.v1.CreateOrderReply\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v1/order/create\x12v\n" +
 	"\vUpdateOrder\x12%.api.helloworld.v1.UpdateOrderRequest\x1a#.api.helloworld.v1.UpdateOrderReply\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\x1a\x10/v1/order/update\x12s\n" +
 	"\vDeleteOrder\x12%.api.helloworld.v1.DeleteOrderRequest\x1a#.api.helloworld.v1.DeleteOrderReply\"\x18\x82\xd3\xe4\x93\x02\x12:\x01*\"\r/v1/order/del\x12g\n" +
-	"\bGetOrder\x12\".api.helloworld.v1.GetOrderRequest\x1a .api.helloworld.v1.GetOrderReply\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/order/get\x12l\n" +
-	"\tListOrder\x12#.api.helloworld.v1.ListOrderRequest\x1a!.api.helloworld.v1.ListOrderReply\"\x17\x82\xd3\xe4\x93\x02\x11\"\x0f/v1/orders/list\x12o\n" +
+	"\bGetOrder\x12\".api.helloworld.v1.GetOrderRequest\x1a .api.helloworld.v1.GetOrderReply\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/order/get\x12o\n" +
+	"\tListOrder\x12#.api.helloworld.v1.ListOrderRequest\x1a!.api.helloworld.v1.ListOrderReply\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v1/orders/list\x12o\n" +
 	"\tShowOrder\x12#.api.helloworld.v1.ShowOrderRequest\x1a!.api.helloworld.v1.ShowOrderReply\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v1/orders/showB7\n" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
 
@@ -1021,28 +1003,27 @@ var file_api_helloworld_v1_order_proto_goTypes = []any{
 	(*ShowOrderReply)(nil),     // 12: api.helloworld.v1.ShowOrderReply
 }
 var file_api_helloworld_v1_order_proto_depIdxs = []int32{
-	0,  // 0: api.helloworld.v1.CreateOrderReply.order:type_name -> api.helloworld.v1.OrderInfo
-	0,  // 1: api.helloworld.v1.UpdateOrderReply.order:type_name -> api.helloworld.v1.OrderInfo
-	0,  // 2: api.helloworld.v1.GetOrderReply.order:type_name -> api.helloworld.v1.OrderInfo
-	0,  // 3: api.helloworld.v1.ListOrderReply.orders:type_name -> api.helloworld.v1.OrderInfo
-	0,  // 4: api.helloworld.v1.ShowOrderReply.order:type_name -> api.helloworld.v1.OrderInfo
-	1,  // 5: api.helloworld.v1.Order.CreateOrder:input_type -> api.helloworld.v1.CreateOrderRequest
-	3,  // 6: api.helloworld.v1.Order.UpdateOrder:input_type -> api.helloworld.v1.UpdateOrderRequest
-	5,  // 7: api.helloworld.v1.Order.DeleteOrder:input_type -> api.helloworld.v1.DeleteOrderRequest
-	7,  // 8: api.helloworld.v1.Order.GetOrder:input_type -> api.helloworld.v1.GetOrderRequest
-	9,  // 9: api.helloworld.v1.Order.ListOrder:input_type -> api.helloworld.v1.ListOrderRequest
-	11, // 10: api.helloworld.v1.Order.ShowOrder:input_type -> api.helloworld.v1.ShowOrderRequest
-	2,  // 11: api.helloworld.v1.Order.CreateOrder:output_type -> api.helloworld.v1.CreateOrderReply
-	4,  // 12: api.helloworld.v1.Order.UpdateOrder:output_type -> api.helloworld.v1.UpdateOrderReply
-	6,  // 13: api.helloworld.v1.Order.DeleteOrder:output_type -> api.helloworld.v1.DeleteOrderReply
-	8,  // 14: api.helloworld.v1.Order.GetOrder:output_type -> api.helloworld.v1.GetOrderReply
-	10, // 15: api.helloworld.v1.Order.ListOrder:output_type -> api.helloworld.v1.ListOrderReply
-	12, // 16: api.helloworld.v1.Order.ShowOrder:output_type -> api.helloworld.v1.ShowOrderReply
-	11, // [11:17] is the sub-list for method output_type
-	5,  // [5:11] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	0,  // 0: api.helloworld.v1.UpdateOrderReply.order:type_name -> api.helloworld.v1.OrderInfo
+	0,  // 1: api.helloworld.v1.GetOrderReply.order:type_name -> api.helloworld.v1.OrderInfo
+	0,  // 2: api.helloworld.v1.ListOrderReply.orders:type_name -> api.helloworld.v1.OrderInfo
+	0,  // 3: api.helloworld.v1.ShowOrderReply.order:type_name -> api.helloworld.v1.OrderInfo
+	1,  // 4: api.helloworld.v1.Order.CreateOrder:input_type -> api.helloworld.v1.CreateOrderRequest
+	3,  // 5: api.helloworld.v1.Order.UpdateOrder:input_type -> api.helloworld.v1.UpdateOrderRequest
+	5,  // 6: api.helloworld.v1.Order.DeleteOrder:input_type -> api.helloworld.v1.DeleteOrderRequest
+	7,  // 7: api.helloworld.v1.Order.GetOrder:input_type -> api.helloworld.v1.GetOrderRequest
+	9,  // 8: api.helloworld.v1.Order.ListOrder:input_type -> api.helloworld.v1.ListOrderRequest
+	11, // 9: api.helloworld.v1.Order.ShowOrder:input_type -> api.helloworld.v1.ShowOrderRequest
+	2,  // 10: api.helloworld.v1.Order.CreateOrder:output_type -> api.helloworld.v1.CreateOrderReply
+	4,  // 11: api.helloworld.v1.Order.UpdateOrder:output_type -> api.helloworld.v1.UpdateOrderReply
+	6,  // 12: api.helloworld.v1.Order.DeleteOrder:output_type -> api.helloworld.v1.DeleteOrderReply
+	8,  // 13: api.helloworld.v1.Order.GetOrder:output_type -> api.helloworld.v1.GetOrderReply
+	10, // 14: api.helloworld.v1.Order.ListOrder:output_type -> api.helloworld.v1.ListOrderReply
+	12, // 15: api.helloworld.v1.Order.ShowOrder:output_type -> api.helloworld.v1.ShowOrderReply
+	10, // [10:16] is the sub-list for method output_type
+	4,  // [4:10] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_api_helloworld_v1_order_proto_init() }

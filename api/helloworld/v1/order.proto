@@ -39,6 +39,7 @@ service Order {
 	rpc ListOrder (ListOrderRequest) returns (ListOrderReply) {
 		option (google.api.http) = {
 			post: "/v1/orders/list"
+			body: "*"
 		};
 	};
 	rpc ShowOrder (ShowOrderRequest) returns (ShowOrderReply) {
@@ -85,8 +86,7 @@ message CreateOrderRequest {
 
 }
 message CreateOrderReply {
-	repeated  OrderInfo order = 1;                             // 创建的订单信息
-	string pay_url = 2;                              // 支付链接
+	string Msg = 2;                              // 支付链接
 }
 // 更新订单请求
 message UpdateOrderRequest {
@@ -110,7 +110,6 @@ message DeleteOrderRequest {
 	int32 id = 2;
 }
 message DeleteOrderReply {
-	int64 id = 2;
 	bool success = 1;
 }
 // 获取订单请求

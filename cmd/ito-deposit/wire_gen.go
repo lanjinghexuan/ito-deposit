@@ -12,6 +12,7 @@ import (
 	"ito-deposit/internal/biz"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/data"
+	"ito-deposit/internal/data/pkg"
 	"ito-deposit/internal/server"
 	"ito-deposit/internal/service"
 )
@@ -34,11 +35,18 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	orderService := service.NewOrderService(dataData)
 	userService := service.NewUserService(dataData)
 	homeService := service.NewHomeService()
-	depositService := service.NewDepositService(dataData, confServer)
-	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, logger)
-	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, logger)
+	sendSms, cleanup2, err := pkg.NewSendSms(confData, logger)
+	if err != nil {
+		cleanup()
+		return nil, nil, err
+	}
+	depositService := service.NewDepositService(dataData, confServer, sendSms)
+	adminService := service.NewAdminService(dataData)
+	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, logger)
+	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, logger)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
+		cleanup2()
 		cleanup()
 	}, nil
 }

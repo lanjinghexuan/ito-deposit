@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/redis/go-redis/v9"
 	"ito-deposit/internal/conf"
+	"ito-deposit/internal/data/pkg"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
@@ -13,7 +14,7 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewGreeterRepo)
+var ProviderSet = wire.NewSet(NewData, NewGreeterRepo, pkg.NewSendSms)
 
 // Data .
 type Data struct {

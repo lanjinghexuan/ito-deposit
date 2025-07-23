@@ -42,15 +42,15 @@ func (s *OrderService) CreateOrder(ctx context.Context, req *pb.CreateOrderReque
 
 	var locker = data.LockerOrders{
 		OrderNumber:         NewString,
-		UserId:              req.UserId,
-		ScheduledDuration:   req.ScheduledDuration,
+		UserId:              uint64(req.UserId),
+		ScheduledDuration:   int32(req.ScheduledDuration),
 		Price:               req.Price,
 		Discount:            req.Discount,
 		AmountPaid:          req.AmountPaid,
 		StorageLocationName: req.StorageLocationName,
-		CabinetId:           req.CabinetId,
-		Status:              req.Status,
-		DepositStatus:       req.DepositStatus,
+		CabinetId:           int32(req.CabinetId),
+		Status:              int8(req.Status),
+		DepositStatus:       int8(req.DepositStatus),
 		Title:               req.Title,
 	}
 	err := s.DB.Create(&locker).Error
@@ -68,7 +68,9 @@ func (s *OrderService) CreateOrder(ctx context.Context, req *pb.CreateOrderReque
 		return nil, fmt.Errorf("create order failed: %v", err)
 	}
 
-	return &pb.CreateOrderReply{}, nil
+	return &pb.CreateOrderReply{
+		Msg: "订单发送,并记录",
+	}, nil
 
 }
 func (s *OrderService) UpdateOrder(ctx context.Context, req *pb.UpdateOrderRequest) (*pb.UpdateOrderReply, error) {
@@ -95,11 +97,11 @@ func (s *OrderService) UpdateOrder(ctx context.Context, req *pb.UpdateOrderReque
 
 	// 4. 更新订单信息
 	updateData := data.LockerOrders{
-		ActualDuration: req.ActualDuration,
+		ActualDuration: int32(req.ActualDuration),
 		AmountPaid:     totalPrice,
-		Status:         req.Status,
+		Status:         int8(req.Status),
 		Price:          req.Price,
-		DepositStatus:  req.DepositStatus,
+		DepositStatus:  int8(req.DepositStatus),
 	}
 
 	if err := s.DB.Model(&lockerOrder).Updates(&updateData).Error; err != nil {
@@ -186,16 +188,16 @@ func (s *OrderService) ListOrder(ctx context.Context, req *pb.ListOrderRequest) 
 		orders = append(orders, &pb.OrderInfo{
 			Id:                  v.Id,
 			OrderNumber:         v.OrderNumber,
-			UserId:              v.UserId,
-			ScheduledDuration:   v.ScheduledDuration,
-			ActualDuration:      v.ActualDuration,
+			UserId:              int64(v.UserId),
+			ScheduledDuration:   int64(v.ScheduledDuration),
+			ActualDuration:      int64(v.ActualDuration),
 			Price:               v.Price,
 			Discount:            v.Discount,
 			AmountPaid:          v.AmountPaid,
 			StorageLocationName: v.StorageLocationName,
-			CabinetId:           v.CabinetId,
-			Status:              v.Status,
-			DepositStatus:       v.DepositStatus,
+			CabinetId:           int64(v.CabinetId),
+			Status:              int64(v.Status),
+			DepositStatus:       int64(v.DepositStatus),
 		})
 	}
 
@@ -238,16 +240,16 @@ func (s *OrderService) ShowOrder(ctx context.Context, req *pb.ShowOrderRequest) 
 	orderInfo := &pb.OrderInfo{
 		Id:                  order.Id,
 		OrderNumber:         order.OrderNumber,
-		UserId:              order.UserId,
-		ScheduledDuration:   order.ScheduledDuration,
-		ActualDuration:      order.ActualDuration,
+		UserId:              int64(order.UserId),
+		ScheduledDuration:   int64(order.ScheduledDuration),
+		ActualDuration:      int64(order.ActualDuration),
 		Price:               order.Price,
 		Discount:            order.Discount,
 		AmountPaid:          order.AmountPaid,
 		StorageLocationName: order.StorageLocationName,
-		CabinetId:           order.CabinetId,
-		Status:              order.Status, // 如果protobuf中是int32类型
-		DepositStatus:       order.DepositStatus,
+		CabinetId:           int64(order.CabinetId),
+		Status:              int64(order.Status), // 如果protobuf中是int32类型
+		DepositStatus:       int64(order.DepositStatus),
 	}
 
 	// 返回订单信息

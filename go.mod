@@ -1,8 +1,8 @@
 module ito-deposit
 
-go 1.22
+go 1.21
 
-toolchain go1.24.4
+toolchain go1.22.6
 
 require (
 	github.com/go-kratos/kratos/v2 v2.8.4
@@ -15,7 +15,7 @@ require (
 	go.uber.org/automaxprocs v1.6.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20240711142825-46eb208f015d
 	google.golang.org/grpc v1.65.0
-	google.golang.org/protobuf v1.36.6
+	google.golang.org/protobuf v1.36.5
 	gorm.io/driver/mysql v1.6.0
 	gorm.io/gorm v1.30.0
 )

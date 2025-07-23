@@ -106,19 +106,12 @@ paths:
             tags:
                 - Order
             operationId: Order_ListOrder
-            parameters:
-                - name: page
-                  in: query
-                  schema:
-                    type: string
-                - name: size
-                  in: query
-                  schema:
-                    type: string
-                - name: storageLocationName
-                  in: query
-                  schema:
-                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ListOrderRequest'
+                required: true
             responses:
                 "200":
                     description: OK
@@ -161,11 +154,7 @@ components:
         CreateOrderReply:
             type: object
             properties:
-                order:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/OrderInfo'
-                payUrl:
+                Msg:
                     type: string
         CreateOrderRequest:
             type: object
@@ -204,8 +193,6 @@ components:
         DeleteOrderReply:
             type: object
             properties:
-                id:
-                    type: string
                 success:
                     type: boolean
         DeleteOrderRequest:
@@ -239,6 +226,16 @@ components:
                         $ref: '#/components/schemas/OrderInfo'
                 total:
                     type: string
+        ListOrderRequest:
+            type: object
+            properties:
+                page:
+                    type: string
+                size:
+                    type: string
+                storageLocationName:
+                    type: string
+            description: 订单列表请求
         OrderInfo:
             type: object
             properties:
