@@ -60,14 +60,14 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 	price += lockerPriceRules.HourlyRate * float64(req.ScheduledDuration)
 	var locker data.Locker
 	err = s.data.DB.Transaction(func(tx *gorm.DB) error {
-		err = s.data.DB.Table("locker").Where("locker_point_id = ?", req.CabinetId).Select("id").Where("status = 1").Limit(1).Find(&locker).Error
+		err = s.data.DB.Table("lockers").Where("locker_point_id = ?", req.CabinetId).Select("id").Where("status = 1").Limit(1).Find(&locker).Error
 		if err != nil {
 			return err
 		}
 		if locker.Id == 0 {
 			return errors.New("寄存柜可用数量不足")
 		}
-		updaateres := s.data.DB.Table("locker").Where("id = ?", locker.Id).Update("status", 2)
+		updaateres := s.data.DB.Table("lockers").Where("id = ?", locker.Id).Update("status", 2)
 		if updaateres.RowsAffected == 0 {
 			return errors.New("更新柜子状态失败")
 		}
@@ -189,8 +189,8 @@ func (s *DepositService) GetDepositLocker(ctx context.Context, req *pb.GetDeposi
 		Num    int32 `gorm:"column:num"`
 	}
 	var list []result
-	err = s.data.DB.Table("locker").Where("locker_point_id = ?", pointID).Where("status = 1").
-		Select("type_id,count(1) as num").Group("type_id").Find(&list).Error
+	err = s.data.DB.Table("lockers").Where("locker_point_id = ?", pointID).Where("status = 1").
+		Select("type_id,count(1) as num").Group("type_id").Debug().Find(&list).Error
 
 	if err != nil {
 		return nil, err
@@ -218,9 +218,10 @@ func (s *DepositService) GetDepositLocker(ctx context.Context, req *pb.GetDeposi
 	}
 	var priceRule []*data.LockerPricingRules
 	err = s.data.DB.Table("locker_pricing_rules").Where("network_id in (?)", ids).Where("status = 1").Find(&priceRule).Error
+
 	priceRuleMap := make(map[int64]*data.LockerPricingRules)
 	for _, v := range priceRule {
-		priceRuleMap[v.Id] = v
+		priceRuleMap[int64(v.LockerType)] = v
 	}
 	for _, t := range types {
 		freeDuration := float64(0)
@@ -229,6 +230,7 @@ func (s *DepositService) GetDepositLocker(ctx context.Context, req *pb.GetDeposi
 			freeDuration = priceRuleMap[int64(t.Id)].FreeDuration
 			hourlyRate = priceRuleMap[int64(t.Id)].HourlyRate
 		}
+
 		res.Locker = append(res.Locker, &pb.Locker{
 			Name:         t.Name,
 			Description:  t.Description,
@@ -250,7 +252,7 @@ func (s *DepositService) UpdateDepositLockerId(ctx context.Context, req *pb.Upda
 		return nil, err
 	}
 	var locker data.Locker
-	err = s.data.DB.Table("locker").Where("id = ?", order.CabinetId).Limit(1).Find(&locker).Error
+	err = s.data.DB.Table("lockers").Where("id = ?", order.CabinetId).Limit(1).Find(&locker).Error
 	if err != nil {
 		return nil, err
 	}
@@ -258,7 +260,7 @@ func (s *DepositService) UpdateDepositLockerId(ctx context.Context, req *pb.Upda
 		return nil, errors.New("订单关联寄存柜不存在")
 	}
 	var newLocker data.Locker
-	err = s.data.DB.Table("locker").Where("locker_point_id = ?", locker.LockerPointId).Where("type_id = ?", locker.TypeId).Where("status = 1").Limit(1).Find(&newLocker).Error
+	err = s.data.DB.Table("lockers").Where("locker_point_id = ?", locker.LockerPointId).Where("type_id = ?", locker.TypeId).Where("status = 1").Limit(1).Find(&newLocker).Error
 	if err != nil {
 		return nil, err
 	}
@@ -266,7 +268,7 @@ func (s *DepositService) UpdateDepositLockerId(ctx context.Context, req *pb.Upda
 		return nil, errors.New("无可用寄存柜")
 	}
 
-	updateLocker := s.data.DB.Table("locker").Where("id = ?", newLocker.Id).Update("status", 2).Debug()
+	updateLocker := s.data.DB.Table("lockers").Where("id = ?", newLocker.Id).Update("status", 2).Debug()
 
 	if updateLocker.Error != nil {
 		return nil, updateLocker.Error
@@ -286,7 +288,7 @@ func (s *DepositService) UpdateDepositLockerId(ctx context.Context, req *pb.Upda
 			updateStatus = 4
 		}
 	}
-	s.data.DB.Table("locker").Where("id = ?", order.CabinetId).Update("status", updateStatus)
+	s.data.DB.Table("lockers").Where("id = ?", order.CabinetId).Update("status", updateStatus)
 	s.data.Redis.Incr(ctx, redisKey)
 	return &pb.UpdateDepositLockerIdRes{
 		Code:     200,

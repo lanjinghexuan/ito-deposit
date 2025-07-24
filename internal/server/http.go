@@ -11,6 +11,7 @@ import (
 	v1 "ito-deposit/api/helloworld/v1"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/service"
+	http2 "net/http"
 )
 
 // NewHTTPServer new an HTTP server.
@@ -18,6 +19,7 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 	home *service.HomeService, deposit *service.DepositService, admin *service.AdminService,
 	logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
+		http.Filter(corsFilter),
 		http.Middleware(
 			recovery.Recovery(),
 		),
@@ -67,4 +69,20 @@ func NewWhiteListMatcher() selector.MatchFunc {
 		}
 		return true
 	}
+}
+
+// corsFilter 手动实现 CORS
+func corsFilter(next http2.Handler) http2.Handler {
+	return http2.HandlerFunc(func(w http2.ResponseWriter, r *http2.Request) {
+		// 允许的域名、方法、头
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type,Authorization")
+		// 预检请求直接返回 204
+		if r.Method == http2.MethodOptions {
+			w.WriteHeader(http2.StatusNoContent)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 
 	"ito-deposit/internal/conf"
@@ -64,7 +65,8 @@ func main() {
 		),
 	)
 	defer c.Close()
-
+	wd, _ := os.Getwd()
+	fmt.Println("cwd:", wd)
 	if err := c.Load(); err != nil {
 		panic(err)
 	}
