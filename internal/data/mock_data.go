@@ -3,3 +3,218 @@
 
 // Package data is a generated GoMock package.
 package data
+
+import (
+	context "context"
+	reflect "reflect"
+	time "time"
+
+	gomock "github.com/golang/mock/gomock"
+	v9 "github.com/redis/go-redis/v9"
+	gorm "gorm.io/gorm"
+)
+
+// MockDBInterface is a mock of DBInterface interface.
+type MockDBInterface struct {
+	ctrl     *gomock.Controller
+	recorder *MockDBInterfaceMockRecorder
+}
+
+// MockDBInterfaceMockRecorder is the mock recorder for MockDBInterface.
+type MockDBInterfaceMockRecorder struct {
+	mock *MockDBInterface
+}
+
+// NewMockDBInterface creates a new mock instance.
+func NewMockDBInterface(ctrl *gomock.Controller) *MockDBInterface {
+	mock := &MockDBInterface{ctrl: ctrl}
+	mock.recorder = &MockDBInterfaceMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockDBInterface) EXPECT() *MockDBInterfaceMockRecorder {
+	return m.recorder
+}
+
+// Create mocks base method.
+func (m *MockDBInterface) Create(value interface{}) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Create", value)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Create indicates an expected call of Create.
+func (mr *MockDBInterfaceMockRecorder) Create(value interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockDBInterface)(nil).Create), value)
+}
+
+// Find mocks base method.
+func (m *MockDBInterface) Find(dest interface{}) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", dest)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockDBInterfaceMockRecorder) Find(dest interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockDBInterface)(nil).Find), dest)
+}
+
+// Limit mocks base method.
+func (m *MockDBInterface) Limit(limit int) DBInterface {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Limit", limit)
+	ret0, _ := ret[0].(DBInterface)
+	return ret0
+}
+
+// Limit indicates an expected call of Limit.
+func (mr *MockDBInterfaceMockRecorder) Limit(limit interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Limit", reflect.TypeOf((*MockDBInterface)(nil).Limit), limit)
+}
+
+// Select mocks base method.
+func (m *MockDBInterface) Select(fields string) DBInterface {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Select", fields)
+	ret0, _ := ret[0].(DBInterface)
+	return ret0
+}
+
+// Select indicates an expected call of Select.
+func (mr *MockDBInterfaceMockRecorder) Select(fields interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Select", reflect.TypeOf((*MockDBInterface)(nil).Select), fields)
+}
+
+// Table mocks base method.
+func (m *MockDBInterface) Table(name string) DBInterface {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Table", name)
+	ret0, _ := ret[0].(DBInterface)
+	return ret0
+}
+
+// Table indicates an expected call of Table.
+func (mr *MockDBInterfaceMockRecorder) Table(name interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Table", reflect.TypeOf((*MockDBInterface)(nil).Table), name)
+}
+
+// Transaction mocks base method.
+func (m *MockDBInterface) Transaction(fc func(DBInterface) error) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Transaction", fc)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Transaction indicates an expected call of Transaction.
+func (mr *MockDBInterfaceMockRecorder) Transaction(fc interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Transaction", reflect.TypeOf((*MockDBInterface)(nil).Transaction), fc)
+}
+
+// Update mocks base method.
+func (m *MockDBInterface) Update(column string, value interface{}) *gorm.DB {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", column, value)
+	ret0, _ := ret[0].(*gorm.DB)
+	return ret0
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockDBInterfaceMockRecorder) Update(column, value interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockDBInterface)(nil).Update), column, value)
+}
+
+// Where mocks base method.
+func (m *MockDBInterface) Where(query interface{}, args ...interface{}) DBInterface {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{query}
+	for _, a := range args {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "Where", varargs...)
+	ret0, _ := ret[0].(DBInterface)
+	return ret0
+}
+
+// Where indicates an expected call of Where.
+func (mr *MockDBInterfaceMockRecorder) Where(query interface{}, args ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{query}, args...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Where", reflect.TypeOf((*MockDBInterface)(nil).Where), varargs...)
+}
+
+// WithContext mocks base method.
+func (m *MockDBInterface) WithContext(ctx context.Context) DBInterface {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WithContext", ctx)
+	ret0, _ := ret[0].(DBInterface)
+	return ret0
+}
+
+// WithContext indicates an expected call of WithContext.
+func (mr *MockDBInterfaceMockRecorder) WithContext(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithContext", reflect.TypeOf((*MockDBInterface)(nil).WithContext), ctx)
+}
+
+// MockRedisInterface is a mock of RedisInterface interface.
+type MockRedisInterface struct {
+	ctrl     *gomock.Controller
+	recorder *MockRedisInterfaceMockRecorder
+}
+
+// MockRedisInterfaceMockRecorder is the mock recorder for MockRedisInterface.
+type MockRedisInterfaceMockRecorder struct {
+	mock *MockRedisInterface
+}
+
+// NewMockRedisInterface creates a new mock instance.
+func NewMockRedisInterface(ctrl *gomock.Controller) *MockRedisInterface {
+	mock := &MockRedisInterface{ctrl: ctrl}
+	mock.recorder = &MockRedisInterfaceMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRedisInterface) EXPECT() *MockRedisInterfaceMockRecorder {
+	return m.recorder
+}
+
+// Get mocks base method.
+func (m *MockRedisInterface) Get(ctx context.Context, key string) *v9.StringCmd {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Get", ctx, key)
+	ret0, _ := ret[0].(*v9.StringCmd)
+	return ret0
+}
+
+// Get indicates an expected call of Get.
+func (mr *MockRedisInterfaceMockRecorder) Get(ctx, key interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockRedisInterface)(nil).Get), ctx, key)
+}
+
+// Set mocks base method.
+func (m *MockRedisInterface) Set(ctx context.Context, key string, value interface{}, expiration time.Duration) *v9.StatusCmd {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Set", ctx, key, value, expiration)
+	ret0, _ := ret[0].(*v9.StatusCmd)
+	return ret0
+}
+
+// Set indicates an expected call of Set.
+func (mr *MockRedisInterfaceMockRecorder) Set(ctx, key, value, expiration interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Set", reflect.TypeOf((*MockRedisInterface)(nil).Set), ctx, key, value, expiration)
+}

@@ -4,18 +4,19 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/redis/go-redis/v9"
-	"gorm.io/gorm"
 	"ito-deposit/internal/data/pkg"
 	"math/rand"
 	"strconv"
 	"time"
 
-	jwt1 "github.com/go-kratos/kratos/v2/middleware/auth/jwt"
-	"github.com/golang-jwt/jwt/v5"
+	"github.com/redis/go-redis/v9"
+
 	pb "ito-deposit/api/helloworld/v1"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/data"
+
+	jwt1 "github.com/go-kratos/kratos/v2/middleware/auth/jwt"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type DepositService struct {
@@ -46,8 +47,17 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 
 	userId := (*mapClaims)["id"].(string)
 	var lockerPriceRules data.LockerPricingRules
-	err := s.data.DB.Table("locker_pricing_rules").Where("network_id = ? ", req.CabinetId).Where("status = 1").
-		Where("locker_type = ?", req.LockerType).Limit(1).Find(&lockerPriceRules).Error
+
+	// 统一获取DB接口，优先用DBI
+	var db data.DBInterface
+	if s.data.DBI != nil {
+		db = s.data.DBI
+	} else {
+		db = data.NewDBAdapter(s.data.DB)
+	}
+
+	err := db.Table("locker_pricing_rules").Where("network_id = ? ", req.CabinetId).Where("status = 1").
+		Where("locker_type = ?", req.LockerType).Limit(1).Find(&lockerPriceRules)
 	if err != nil {
 		return nil, err
 	}
@@ -59,15 +69,15 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 	}
 	price += lockerPriceRules.HourlyRate * float64(req.ScheduledDuration)
 	var locker data.Locker
-	err = s.data.DB.Transaction(func(tx *gorm.DB) error {
-		err = s.data.DB.Table("lockers").Where("locker_point_id = ?", req.CabinetId).Select("id").Where("status = 1").Limit(1).Find(&locker).Error
+	err = db.Transaction(func(tx data.DBInterface) error {
+		err = tx.Table("lockers").Where("locker_point_id = ?", req.CabinetId).Select("id").Where("status = 1").Limit(1).Find(&locker)
 		if err != nil {
 			return err
 		}
 		if locker.Id == 0 {
 			return errors.New("寄存柜可用数量不足")
 		}
-		updaateres := s.data.DB.Table("lockers").Where("id = ?", locker.Id).Update("status", 2)
+		updaateres := tx.Table("lockers").Where("id = ?", locker.Id).Update("status", 2)
 		if updaateres.RowsAffected == 0 {
 			return errors.New("更新柜子状态失败")
 		}
@@ -90,11 +100,7 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 			DepositStatus:     0,
 			ActualDuration:    0,
 		}
-		err = s.data.DB.Table("locker_orders").Create(&addOrder).Error
-		if err != nil {
-			return err
-		}
-		return nil
+		return tx.Table("locker_orders").Create(&addOrder)
 	})
 	if err != nil {
 		return nil, err
