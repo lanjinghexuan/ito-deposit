@@ -488,7 +488,7 @@ type OrderList struct {
 	Discount            float32                `protobuf:"fixed32,6,opt,name=Discount,proto3" json:"Discount,omitempty"`                     // 优惠金额
 	AmountPaid          float32                `protobuf:"fixed32,7,opt,name=AmountPaid,proto3" json:"AmountPaid,omitempty"`                 // 实付金额
 	StorageLocationName string                 `protobuf:"bytes,8,opt,name=StorageLocationName,proto3" json:"StorageLocationName,omitempty"` // 寄存网点名称
-	CabinetId           string                 `protobuf:"bytes,9,opt,name=CabinetId,proto3" json:"CabinetId,omitempty"`                     // 柜子ID
+	CabinetId           int64                  `protobuf:"varint,9,opt,name=CabinetId,proto3" json:"CabinetId,omitempty"`                    // 柜子ID
 	Status              int64                  `protobuf:"varint,10,opt,name=Status,proto3" json:"Status,omitempty"`                         // 订单状态：1-待支付、2-寄存中、3-已完成、4-已取消、5-超时、6-异常
 	DepositStatus       int64                  `protobuf:"varint,11,opt,name=DepositStatus,proto3" json:"DepositStatus,omitempty"`           // 押金状态：1-已支付、2-已退还、3-已扣除
 	unknownFields       protoimpl.UnknownFields
@@ -581,11 +581,11 @@ func (x *OrderList) GetStorageLocationName() string {
 	return ""
 }
 
-func (x *OrderList) GetCabinetId() string {
+func (x *OrderList) GetCabinetId() int64 {
 	if x != nil {
 		return x.CabinetId
 	}
-	return ""
+	return 0
 }
 
 func (x *OrderList) GetStatus() int64 {
@@ -800,7 +800,7 @@ const file_api_helloworld_v1_user_proto_rawDesc = "" +
 	"AmountPaid\x18\a \x01(\x02R\n" +
 	"AmountPaid\x120\n" +
 	"\x13StorageLocationName\x18\b \x01(\tR\x13StorageLocationName\x12\x1c\n" +
-	"\tCabinetId\x18\t \x01(\tR\tCabinetId\x12\x16\n" +
+	"\tCabinetId\x18\t \x01(\x03R\tCabinetId\x12\x16\n" +
 	"\x06Status\x18\n" +
 	" \x01(\x03R\x06Status\x12$\n" +
 	"\rDepositStatus\x18\v \x01(\x03R\rDepositStatus\"Q\n" +

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-http v2.8.4
 // - protoc             v5.26.1
-// source: helloworld/v1/order.proto
+// source: api/helloworld/v1/order.proto
 
 package v1
 
@@ -19,20 +19,123 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationOrderCreateOrder = "/api.helloworld.v1.Order/CreateOrder"
+const OperationOrderDeleteOrder = "/api.helloworld.v1.Order/DeleteOrder"
+const OperationOrderGetOrder = "/api.helloworld.v1.Order/GetOrder"
 const OperationOrderListOrder = "/api.helloworld.v1.Order/ListOrder"
+const OperationOrderShowOrder = "/api.helloworld.v1.Order/ShowOrder"
+const OperationOrderUpdateOrder = "/api.helloworld.v1.Order/UpdateOrder"
 
 type OrderHTTPServer interface {
+	CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderReply, error)
+	DeleteOrder(context.Context, *DeleteOrderRequest) (*DeleteOrderReply, error)
+	GetOrder(context.Context, *GetOrderRequest) (*GetOrderReply, error)
 	ListOrder(context.Context, *ListOrderRequest) (*ListOrderReply, error)
+	ShowOrder(context.Context, *ShowOrderRequest) (*ShowOrderReply, error)
+	UpdateOrder(context.Context, *UpdateOrderRequest) (*UpdateOrderReply, error)
 }
 
 func RegisterOrderHTTPServer(s *http.Server, srv OrderHTTPServer) {
 	r := s.Route("/")
-	r.GET("/order", _Order_ListOrder0_HTTP_Handler(srv))
+	r.POST("/v1/order/create", _Order_CreateOrder0_HTTP_Handler(srv))
+	r.PUT("/v1/order/update", _Order_UpdateOrder0_HTTP_Handler(srv))
+	r.POST("/v1/order/del", _Order_DeleteOrder0_HTTP_Handler(srv))
+	r.GET("/v1/order/get", _Order_GetOrder0_HTTP_Handler(srv))
+	r.POST("/v1/orders/list", _Order_ListOrder0_HTTP_Handler(srv))
+	r.POST("/v1/orders/show", _Order_ShowOrder0_HTTP_Handler(srv))
+}
+
+func _Order_CreateOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateOrderRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationOrderCreateOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateOrder(ctx, req.(*CreateOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CreateOrderReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Order_UpdateOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdateOrderRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationOrderUpdateOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdateOrder(ctx, req.(*UpdateOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*UpdateOrderReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Order_DeleteOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in DeleteOrderRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationOrderDeleteOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteOrder(ctx, req.(*DeleteOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*DeleteOrderReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Order_GetOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetOrderRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationOrderGetOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetOrder(ctx, req.(*GetOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*GetOrderReply)
+		return ctx.Result(200, reply)
+	}
 }
 
 func _Order_ListOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in ListOrderRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -49,8 +152,35 @@ func _Order_ListOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) 
 	}
 }
 
+func _Order_ShowOrder0_HTTP_Handler(srv OrderHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ShowOrderRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationOrderShowOrder)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ShowOrder(ctx, req.(*ShowOrderRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ShowOrderReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type OrderHTTPClient interface {
+	CreateOrder(ctx context.Context, req *CreateOrderRequest, opts ...http.CallOption) (rsp *CreateOrderReply, err error)
+	DeleteOrder(ctx context.Context, req *DeleteOrderRequest, opts ...http.CallOption) (rsp *DeleteOrderReply, err error)
+	GetOrder(ctx context.Context, req *GetOrderRequest, opts ...http.CallOption) (rsp *GetOrderReply, err error)
 	ListOrder(ctx context.Context, req *ListOrderRequest, opts ...http.CallOption) (rsp *ListOrderReply, err error)
+	ShowOrder(ctx context.Context, req *ShowOrderRequest, opts ...http.CallOption) (rsp *ShowOrderReply, err error)
+	UpdateOrder(ctx context.Context, req *UpdateOrderRequest, opts ...http.CallOption) (rsp *UpdateOrderReply, err error)
 }
 
 type OrderHTTPClientImpl struct {
@@ -61,13 +191,78 @@ func NewOrderHTTPClient(client *http.Client) OrderHTTPClient {
 	return &OrderHTTPClientImpl{client}
 }
 
-func (c *OrderHTTPClientImpl) ListOrder(ctx context.Context, in *ListOrderRequest, opts ...http.CallOption) (*ListOrderReply, error) {
-	var out ListOrderReply
-	pattern := "/order"
+func (c *OrderHTTPClientImpl) CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...http.CallOption) (*CreateOrderReply, error) {
+	var out CreateOrderReply
+	pattern := "/v1/order/create"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationOrderCreateOrder))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *OrderHTTPClientImpl) DeleteOrder(ctx context.Context, in *DeleteOrderRequest, opts ...http.CallOption) (*DeleteOrderReply, error) {
+	var out DeleteOrderReply
+	pattern := "/v1/order/del"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationOrderDeleteOrder))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *OrderHTTPClientImpl) GetOrder(ctx context.Context, in *GetOrderRequest, opts ...http.CallOption) (*GetOrderReply, error) {
+	var out GetOrderReply
+	pattern := "/v1/order/get"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationOrderListOrder))
+	opts = append(opts, http.Operation(OperationOrderGetOrder))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *OrderHTTPClientImpl) ListOrder(ctx context.Context, in *ListOrderRequest, opts ...http.CallOption) (*ListOrderReply, error) {
+	var out ListOrderReply
+	pattern := "/v1/orders/list"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationOrderListOrder))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *OrderHTTPClientImpl) ShowOrder(ctx context.Context, in *ShowOrderRequest, opts ...http.CallOption) (*ShowOrderReply, error) {
+	var out ShowOrderReply
+	pattern := "/v1/orders/show"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationOrderShowOrder))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *OrderHTTPClientImpl) UpdateOrder(ctx context.Context, in *UpdateOrderRequest, opts ...http.CallOption) (*UpdateOrderReply, error) {
+	var out UpdateOrderReply
+	pattern := "/v1/order/update"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationOrderUpdateOrder))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

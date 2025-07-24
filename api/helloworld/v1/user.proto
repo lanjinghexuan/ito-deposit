@@ -90,7 +90,7 @@ message OrderList{
 	float Discount = 6; // 优惠金额
 	float AmountPaid = 7; // 实付金额
 	string StorageLocationName = 8; // 寄存网点名称
-	string CabinetId = 9; // 柜子ID
+	int64 CabinetId = 9; // 柜子ID
 	int64 Status = 10; // 订单状态：1-待支付、2-寄存中、3-已完成、4-已取消、5-超时、6-异常
 	int64 DepositStatus = 11; // 押金状态：1-已支付、2-已退还、3-已扣除
 }

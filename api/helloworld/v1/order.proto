@@ -3,34 +3,137 @@ syntax = "proto3";
 package api.helloworld.v1;
 
 import "google/api/annotations.proto";
+//import "google/protobuf/timestamp.proto";
 
 option go_package = "ito-deposit/api/helloworld/v1;v1";
 option java_multiple_files = true;
 option java_package = "api.helloworld.v1";
 
+
+
 service Order {
-	rpc CreateOrder (CreateOrderRequest) returns (CreateOrderReply);
-	rpc UpdateOrder (UpdateOrderRequest) returns (UpdateOrderReply);
-	rpc DeleteOrder (DeleteOrderRequest) returns (DeleteOrderReply);
-	rpc GetOrder (GetOrderRequest) returns (GetOrderReply);
-	rpc ListOrder (ListOrderRequest) returns (ListOrderReply){
+	rpc CreateOrder (CreateOrderRequest) returns (CreateOrderReply) {
 		option (google.api.http) = {
-			get: "/order"
+			post: "/v1/order/create"
+			body: "*"
+		};
+	};
+	rpc UpdateOrder (UpdateOrderRequest) returns (UpdateOrderReply) {
+		option (google.api.http) = {
+			put: "/v1/order/update"
+			body: "*"
+		};
+	};
+	rpc DeleteOrder (DeleteOrderRequest) returns (DeleteOrderReply) {
+		option (google.api.http) = {
+			post: "/v1/order/del"
+			body: "*"
+		};
+	};
+	rpc GetOrder (GetOrderRequest) returns (GetOrderReply) {
+		option (google.api.http) = {
+			get: "/v1/order/get"
+
+		};
+	};
+	rpc ListOrder (ListOrderRequest) returns (ListOrderReply) {
+		option (google.api.http) = {
+			post: "/v1/orders/list"
+			body: "*"
+		};
+	};
+	rpc ShowOrder (ShowOrderRequest) returns (ShowOrderReply) {
+		option (google.api.http) = {
+			post: "/v1/orders/show"
+			body: "*"
 		};
 	};
 }
 
-message CreateOrderRequest {}
-message CreateOrderReply {}
+// 订单信息
+message OrderInfo {
+	int32 id = 1;                                    // 订单ID
+	string order_number = 2;                         // 业务订单号（唯一标识）
+	int64 user_id = 3;                              // 用户ID（关联用户表）
+	int64 scheduled_duration = 6;                    // 计划寄存时长（小时）
+	int64 actual_duration = 7;                       // 实际寄存时长（小时）
+	double price = 8;                                // 基础费用
+	double discount = 9;                             // 优惠金额
+	double amount_paid = 10;                         // 实付金额
+	string storage_location_name = 11;               // 寄存网点名称
+	int64 cabinet_id = 12;                          // 柜子ID
+	int64 status = 13;                               // 订单状态：1-待支付、2-寄存中、3-已完成、4-已取消、5-超时、6-异常
+	int64 deposit_status = 16;                       // 押金状态：1-已支付、2-已退还、3-已扣除
 
-message UpdateOrderRequest {}
-message UpdateOrderReply {}
+}
 
-message DeleteOrderRequest {}
-message DeleteOrderReply {}
+// 创建订单请求
+message CreateOrderRequest {
+	string order_number = 1;                         // 业务订单号（唯一标识）
+	int64 user_id = 2;                              // 用户ID（关联用户表）
+	int64 scheduled_duration = 4;                    // 计划寄存时长（小时）
+	double price = 5;                                // 基础费用
+	double discount = 6;                             // 优惠金额
+	double amount_paid = 7;                          // 实付金额
+	string storage_location_name = 8;                // 寄存网点名称
+	int64 cabinet_id = 9;                           // 柜子ID
+	int64  deposit_status = 10;                       // 押金状态：1-已支付、2-已退还、3-已扣除
+	string title = 12;
+	int64  order_id  = 13;
+	int64  status  = 15;
+	float  hourly_rate = 16;
 
-message GetOrderRequest {}
-message GetOrderReply {}
 
-message ListOrderRequest {}
-message ListOrderReply {}
+}
+message CreateOrderReply {
+	string Msg = 2;                              // 支付链接
+}
+// 更新订单请求
+message UpdateOrderRequest {
+	int64 id = 1;                                    // 订单ID
+	int64 actual_duration = 3;                       // 实际寄存时长（小时）
+	int64 status = 6;                                // 订单状态
+	int64 deposit_status = 7;                        // 押金状态
+	float 	hourly_rate = 8;                         //每小时费用
+	int64  locker_type  = 10;
+	double price = 11;                                // 基础费用
+  string title = 12;
+
+}
+message UpdateOrderReply {
+	OrderInfo order = 1;
+	string pay_url = 2;
+}
+// 删除订单请求
+message DeleteOrderRequest {
+	int64 status = 1;                                    // 订单ID
+	int32 id = 2;
+}
+message DeleteOrderReply {
+	bool success = 1;
+}
+// 获取订单请求
+message GetOrderRequest {
+	int64 id = 1;                                    // 订单ID
+}
+message GetOrderReply {
+	OrderInfo order = 1;
+}
+// 订单列表请求
+message ListOrderRequest {
+	int64 page = 1;                                  // 页码
+	int64 size = 2;                             // 每页数量 	// 状态过滤
+	string storage_location_name = 3;                // 寄存网点名称
+}
+message ListOrderReply {
+	repeated OrderInfo orders = 1;                   // 订单列表 	// 总数量
+	int64    total = 2;
+}
+message ShowOrderRequest {
+	int32 id = 1;                                  // 页码// 每页数量 	// 状态过滤
+}
+message ShowOrderReply {
+	repeated 	OrderInfo order = 1;  // 返回单个订单信息
+	string Msg = 2;
+}
+
