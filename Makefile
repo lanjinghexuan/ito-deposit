@@ -31,7 +31,7 @@ config:
 	protoc --proto_path=./internal \
 	       --proto_path=./third_party \
  	       --go_out=paths=source_relative:./internal \
-	       internal/conf/conf.proto
+	       $(INTERNAL_PROTO_FILES)
 
 .PHONY: api
 # generate api proto

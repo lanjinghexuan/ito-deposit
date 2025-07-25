@@ -148,7 +148,7 @@ func (s *UserService) Admin(ctx context.Context, req *pb.AdminRequest) (*pb.Admi
 	// 1. 查询网点总数
 	var pointCount int64
 	if err := s.DB.Model(&data.LockerPoint{}).
-		Where("admin_id = ?", req.AdminId). // 根据管理员ID过滤
+		Where("admin_id = ?", req.AdminId).    // 根据管理员ID过滤
 		Count(&pointCount).Error; err != nil { // 获取总数
 		return &pb.AdminRes{
 			Code: 500,
@@ -166,8 +166,8 @@ func (s *UserService) Admin(ctx context.Context, req *pb.AdminRequest) (*pb.Admi
 	var todayOrderCount int64
 	if err := s.DB.Model(&data.LockerOrders{}).
 		Where("locker_point_id = ?", req.LockerPointId). // 根据寄存点ID过滤
-		Where("create_time > ?", todayStart). // 创建时间大于今日开始时间
-		Count(&todayOrderCount).Error; err != nil { // 获取订单数量
+		Where("create_time > ?", todayStart).            // 创建时间大于今日开始时间
+		Count(&todayOrderCount).Error; err != nil {      // 获取订单数量
 		return &pb.AdminRes{
 			Code: 500,
 			Msg:  "查询今日订单数失败: " + err.Error(),
@@ -180,10 +180,10 @@ func (s *UserService) Admin(ctx context.Context, req *pb.AdminRequest) (*pb.Admi
 		TotalPaid  float64
 	}
 	if err := s.DB.Debug().Model(&data.LockerOrders{}).
-		Select("COUNT(1) as order_count, SUM(amount_paid) as total_paid"). // 计算订单数和总收益
-		Where("locker_point_id = ?", req.LockerPointId). // 根据寄存点ID过滤
+		Select("COUNT(1) as order_count, SUM(amount_paid) as total_paid").  // 计算订单数和总收益
+		Where("locker_point_id = ?", req.LockerPointId).                    // 根据寄存点ID过滤
 		Where("create_time BETWEEN ? AND ?", yesterdayStart, yesterdayEnd). // 创建时间在昨日范围内
-		Scan(&yesterdayResult).Error; err != nil { // 扫描结果到结构体
+		Scan(&yesterdayResult).Error; err != nil {                          // 扫描结果到结构体
 		return &pb.AdminRes{
 			Code: 500,
 			Msg:  "查询昨日订单信息失败: " + err.Error(),
@@ -197,9 +197,9 @@ func (s *UserService) Admin(ctx context.Context, req *pb.AdminRequest) (*pb.Admi
 	}
 	if err := s.DB.Model(&data.LockerOrders{}).
 		Select("COUNT(1) as order_count, SUM(amount_paid) as total_paid"). // 计算订单数和总收益
-		Where("locker_point_id = ?", req.LockerPointId). // 根据寄存点ID过滤
-		Where("create_time > ?", monthStart). // 创建时间大于本月开始时间
-		Scan(&monthResult).Error; err != nil { // 扫描结果到结构体
+		Where("locker_point_id = ?", req.LockerPointId).                   // 根据寄存点ID过滤
+		Where("create_time > ?", monthStart).                              // 创建时间大于本月开始时间
+		Scan(&monthResult).Error; err != nil {                             // 扫描结果到结构体
 		return &pb.AdminRes{
 			Code: 500,
 			Msg:  "查询本月订单信息失败: " + err.Error(),
@@ -209,7 +209,7 @@ func (s *UserService) Admin(ctx context.Context, req *pb.AdminRequest) (*pb.Admi
 	// 6. 返回结果
 	return &pb.AdminRes{
 		Code:              200,                                // 成功状态码
-		Msg:               "查询成功",                         // 成功消息
+		Msg:               "查询成功",                             // 成功消息
 		PointNum:          pointCount,                         // 网点总数
 		LastOrderNum:      todayOrderCount,                    // 今日订单数
 		YesterdayOrderNum: yesterdayResult.OrderCount,         // 昨日订单数
