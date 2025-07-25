@@ -64,7 +64,6 @@ message OrderInfo {
 	int64 cabinet_id = 12;                          // 柜子ID
 	int64 status = 13;                               // 订单状态：1-待支付、2-寄存中、3-已完成、4-已取消、5-超时、6-异常
 	int64 deposit_status = 16;                       // 押金状态：1-已支付、2-已退还、3-已扣除
-
 }
 
 // 创建订单请求
@@ -82,12 +81,13 @@ message CreateOrderRequest {
 	int64  order_id  = 13;
 	int64  status  = 15;
 	float  hourly_rate = 16;
-
-
+	int64  locker_point_id  = 17;
+	int64  type_id  = 18;
 }
 message CreateOrderReply {
 	string Msg = 2;                              // 支付链接
 }
+
 // 更新订单请求
 message UpdateOrderRequest {
 	int64 id = 1;                                    // 订单ID
@@ -96,9 +96,9 @@ message UpdateOrderRequest {
 	int64 deposit_status = 7;                        // 押金状态
 	float 	hourly_rate = 8;                         //每小时费用
 	int64  locker_type  = 10;
-	double price = 11;                                // 基础费用
   string title = 12;
-
+	int64  locker_point_id  = 17;
+	int64  type_id  = 18;
 }
 message UpdateOrderReply {
 	OrderInfo order = 1;
@@ -124,6 +124,8 @@ message ListOrderRequest {
 	int64 page = 1;                                  // 页码
 	int64 size = 2;                             // 每页数量 	// 状态过滤
 	string storage_location_name = 3;                // 寄存网点名称
+	string status = 4;
+
 }
 message ListOrderReply {
 	repeated OrderInfo orders = 1;                   // 订单列表 	// 总数量

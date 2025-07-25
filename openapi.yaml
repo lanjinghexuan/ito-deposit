@@ -3,19 +3,19 @@
 
 openapi: 3.0.3
 info:
-    title: User API
+    title: Order API
     version: 0.0.1
 paths:
-    /admin:
+    /v1/order/create:
         post:
             tags:
-                - User
-            operationId: User_Admin
+                - Order
+            operationId: Order_CreateOrder
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/AdminRequest'
+                            $ref: '#/components/schemas/CreateOrderRequest'
                 required: true
             responses:
                 "200":
@@ -23,41 +23,70 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/AdminRes'
+                                $ref: '#/components/schemas/CreateOrderReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /list:
+    /v1/order/del:
+        post:
+            tags:
+                - Order
+            operationId: Order_DeleteOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DeleteOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteOrderReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/order/get:
         get:
             tags:
-                - User
-            operationId: User_OrderList
+                - Order
+            operationId: Order_GetOrder
+            parameters:
+                - name: id
+                  in: query
+                  schema:
+                    type: string
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/OrderListRes'
+                                $ref: '#/components/schemas/GetOrderReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /login:
-        post:
+    /v1/order/update:
+        put:
             tags:
-                - User
-            operationId: User_Login
+                - Order
+            operationId: Order_UpdateOrder
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/LoginRequest'
+                            $ref: '#/components/schemas/UpdateOrderRequest'
                 required: true
             responses:
                 "200":
@@ -65,23 +94,23 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/LoginRes'
+                                $ref: '#/components/schemas/UpdateOrderReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /register:
+    /v1/orders/list:
         post:
             tags:
-                - User
-            operationId: User_Register
+                - Order
+            operationId: Order_ListOrder
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/RegisterRequest'
+                            $ref: '#/components/schemas/ListOrderRequest'
                 required: true
             responses:
                 "200":
@@ -89,23 +118,23 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RegisterRes'
+                                $ref: '#/components/schemas/ListOrderReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /sendSms:
+    /v1/orders/show:
         post:
             tags:
-                - User
-            operationId: User_SendSms
+                - Order
+            operationId: Order_ShowOrder
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/SendSmsRequest'
+                            $ref: '#/components/schemas/ShowOrderRequest'
                 required: true
             responses:
                 "200":
@@ -113,7 +142,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SendSmsRes'
+                                $ref: '#/components/schemas/ShowOrderReply'
                 default:
                     description: Default error response
                     content:
@@ -122,34 +151,68 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        AdminRequest:
+        CreateOrderReply:
             type: object
             properties:
-                adminId:
+                Msg:
                     type: string
+        CreateOrderRequest:
+            type: object
+            properties:
+                orderNumber:
+                    type: string
+                userId:
+                    type: string
+                scheduledDuration:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                discount:
+                    type: number
+                    format: double
+                amountPaid:
+                    type: number
+                    format: double
+                storageLocationName:
+                    type: string
+                cabinetId:
+                    type: string
+                depositStatus:
+                    type: string
+                title:
+                    type: string
+                orderId:
+                    type: string
+                status:
+                    type: string
+                hourlyRate:
+                    type: number
+                    format: float
                 lockerPointId:
                     type: string
-        AdminRes:
+                typeId:
+                    type: string
+            description: 创建订单请求
+        DeleteOrderReply:
             type: object
             properties:
-                code:
+                success:
+                    type: boolean
+        DeleteOrderRequest:
+            type: object
+            properties:
+                status:
                     type: string
-                msg:
-                    type: string
-                pointNum:
-                    type: string
-                yesterdayOrderNum:
-                    type: string
-                lastOrderPrice:
-                    type: number
-                    format: float
-                lastOrderNum:
-                    type: string
-                mouthPrice:
-                    type: number
-                    format: float
-                monthNum:
-                    type: string
+                id:
+                    type: integer
+                    format: int32
+            description: 删除订单请求
+        GetOrderReply:
+            type: object
+            properties:
+                order:
+                    $ref: '#/components/schemas/OrderInfo'
         GoogleProtobufAny:
             type: object
             properties:
@@ -158,99 +221,74 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        LoginRequest:
+        ListOrderReply:
             type: object
             properties:
-                mobile:
-                    type: string
-                password:
-                    type: string
-                smsCode:
-                    type: string
-                username:
-                    type: string
-        LoginRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                id:
-                    type: string
-                token:
-                    type: string
-        OrderList:
-            type: object
-            properties:
-                OrderNumber:
-                    type: string
-                UserId:
-                    type: string
-                ScheduledDuration:
-                    type: string
-                ActualDuration:
-                    type: string
-                Price:
-                    type: number
-                    format: float
-                Discount:
-                    type: number
-                    format: float
-                AmountPaid:
-                    type: number
-                    format: float
-                StorageLocationName:
-                    type: string
-                CabinetId:
-                    type: string
-                Status:
-                    type: string
-                DepositStatus:
-                    type: string
-        OrderListRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                list:
+                orders:
                     type: array
                     items:
-                        $ref: '#/components/schemas/OrderList'
-        RegisterRequest:
+                        $ref: '#/components/schemas/OrderInfo'
+                total:
+                    type: string
+        ListOrderRequest:
             type: object
             properties:
-                mobile:
+                page:
                     type: string
-                password:
+                size:
                     type: string
-                smsCode:
+                storageLocationName:
                     type: string
-                username:
+                status:
                     type: string
-        RegisterRes:
+            description: 订单列表请求
+        OrderInfo:
             type: object
             properties:
-                code:
+                id:
+                    type: integer
+                    format: int32
+                orderNumber:
                     type: string
-                msg:
+                userId:
                     type: string
-        SendSmsRequest:
+                scheduledDuration:
+                    type: string
+                actualDuration:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                discount:
+                    type: number
+                    format: double
+                amountPaid:
+                    type: number
+                    format: double
+                storageLocationName:
+                    type: string
+                cabinetId:
+                    type: string
+                status:
+                    type: string
+                depositStatus:
+                    type: string
+            description: 订单信息
+        ShowOrderReply:
             type: object
             properties:
-                mobile:
+                order:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OrderInfo'
+                Msg:
                     type: string
-                source:
-                    type: string
-        SendSmsRes:
+        ShowOrderRequest:
             type: object
             properties:
-                code:
-                    type: string
-                msg:
-                    type: string
+                id:
+                    type: integer
+                    format: int32
         Status:
             type: object
             properties:
@@ -267,5 +305,35 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        UpdateOrderReply:
+            type: object
+            properties:
+                order:
+                    $ref: '#/components/schemas/OrderInfo'
+                payUrl:
+                    type: string
+        UpdateOrderRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                actualDuration:
+                    type: string
+                status:
+                    type: string
+                depositStatus:
+                    type: string
+                hourlyRate:
+                    type: number
+                    format: float
+                lockerType:
+                    type: string
+                title:
+                    type: string
+                lockerPointId:
+                    type: string
+                typeId:
+                    type: string
+            description: 更新订单请求
 tags:
-    - name: User
+    - name: Order
