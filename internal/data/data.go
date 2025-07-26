@@ -1,6 +1,7 @@
 package data
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/apache/rocketmq-client-go/v2"
@@ -10,16 +11,13 @@ import (
 	"syscall"
 	"time"
 
+	"ito-deposit/internal/basic/pkg"
 	"ito-deposit/internal/conf"
-	"ito-deposit/internal/data/pkg"
 
 	"github.com/redis/go-redis/v9"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
-	"github.com/redis/go-redis/v9"
-	"ito-deposit/internal/basic/pkg"
-	"ito-deposit/internal/conf"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
