@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/apache/rocketmq-client-go/v2/primitive"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 	"ito-deposit/internal/basic/pkg"
