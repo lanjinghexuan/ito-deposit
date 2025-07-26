@@ -33,8 +33,6 @@ func NewUserService(datas *data.Data, server *conf.Server) *UserService {
 
 func (s *UserService) SendSms(ctx context.Context, req *pb.SendSmsRequest) (*pb.SendSmsRes, error) {
 	code := rand.Intn(9000) + 1000
-	fmt.Printf("[SendSms] raw req: %+v", req) // 打印整个结构体
-	fmt.Printf("[SendSms] mobile=%q source=%q", req.Mobile, req.Source)
 	s.RedisDb.Set(context.Background(), "sendSms"+req.Mobile+req.Source, code, time.Minute*5)
 	return &pb.SendSmsRes{
 		Code: 200,

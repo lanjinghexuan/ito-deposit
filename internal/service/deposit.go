@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/apache/rocketmq-client-go/v2/primitive"
 	"ito-deposit/internal/data/pkg"
 	"math/rand"
 	"strconv"
@@ -104,6 +105,14 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 	})
 	if err != nil {
 		return nil, err
+	}
+
+	msgBody := fmt.Sprintf(`{"locker":"%s","status":%d}`, locker.Id, 2)
+	mq_message := primitive.NewMessage("deposit_record", []byte(msgBody))
+
+	_, err = s.data.Mq.SendSync(ctx, mq_message)
+	if err != nil {
+		fmt.Println("mq发送失败", err)
 	}
 
 	return &pb.CreateDepositReply{

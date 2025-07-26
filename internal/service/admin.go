@@ -4,6 +4,7 @@ import (
 	"context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"ito-deposit/internal/biz"
 	data2 "ito-deposit/internal/data"
 	"time"
 
@@ -13,48 +14,27 @@ import (
 type AdminService struct {
 	pb.UnimplementedAdminServer
 	data *data2.Data
+	biz  *biz.AdminUsecase
 }
 
-func NewAdminService(data *data2.Data) *AdminService {
+func NewAdminService(data *data2.Data, bizdataa *biz.AdminUsecase) *AdminService {
 	return &AdminService{
 		data: data,
+		biz:  bizdataa,
 	}
 }
 
 func (s *AdminService) SetPriceRule(ctx context.Context, req *pb.SetPriceRuleReq) (*pb.SetPriceRuleRes, error) {
-	// 0. 参数校验
-	if req.NetworkId <= 0 {
-		return nil, status.Error(codes.InvalidArgument, "网点ID必须大于0")
-	}
+
 	if len(req.Rules) == 0 {
 		return nil, status.Error(codes.InvalidArgument, "至少需要一条价格规则")
 	}
 
-	// 1. 开启事务
-	tx := s.data.DB.Begin()
-	defer func() {
-		if r := recover(); r != nil {
-			tx.Rollback()
-		}
-	}()
-
-	// 2. 停用旧规则（软删除）
-	if err := tx.Model(&data2.LockerPricingRules{}).
-		Where("network_id = ? AND status = 1", req.NetworkId).
-		Update("status", 0).Error; err != nil {
-		tx.Rollback()
-		return nil, status.Errorf(codes.Internal, "停用旧规则失败: %v", err)
-	}
-
+	var newRule []*biz.LockerPricingRules
 	// 3. 创建新规则
 	for _, rule := range req.Rules {
-		// 规则校验
-		if err := validatePriceRule(rule); err != nil {
-			tx.Rollback()
-			return nil, err
-		}
 
-		newRule := &data2.LockerPricingRules{
+		newRule = append(newRule, &biz.LockerPricingRules{
 			NetworkId:        req.NetworkId,
 			RuleName:         rule.RuleName,
 			FeeType:          convertToFeeType(rule.FeeType),
@@ -70,21 +50,13 @@ func (s *AdminService) SetPriceRule(ctx context.Context, req *pb.SetPriceRuleReq
 			Status:           1,
 			CreatedAt:        time.Now(),
 			UpdatedAt:        time.Now(),
-		}
-
-		if err := tx.Create(newRule).Error; err != nil {
-			tx.Rollback()
-			return nil, status.Errorf(codes.Internal, "创建规则失败: %v", err)
-		}
+		})
 	}
 
-	// 4. 提交事务
-	if err := tx.Commit().Error; err != nil {
-		return nil, status.Errorf(codes.Internal, "提交事务失败: %v", err)
+	err := s.biz.SetPriceRule(ctx, int32(req.NetworkId), newRule)
+	if err != nil {
+		return nil, err
 	}
-
-	// 5. 清理缓存（如有）
-	//go s.clearPriceRuleCache(req.NetworkId)
 
 	return &pb.SetPriceRuleRes{
 		Code: 200,

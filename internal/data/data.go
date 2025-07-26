@@ -3,6 +3,11 @@ package data
 import (
 	"context"
 	"fmt"
+	"github.com/apache/rocketmq-client-go/v2"
+	"github.com/apache/rocketmq-client-go/v2/producer"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"ito-deposit/internal/conf"
@@ -18,7 +23,7 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewGreeterRepo, pkg.NewSendSms)
+var ProviderSet = wire.NewSet(NewData, NewGreeterRepo, pkg.NewSendSms, NewAdminRepo)
 
 // Data .
 type Data struct {
@@ -27,6 +32,7 @@ type Data struct {
 	// 新增用于测试的接口字段
 	DBI    DBInterface
 	RedisI RedisInterface
+	Mq     rocketmq.Producer
 }
 
 // 添加接口适配层，不影响原有代码
@@ -93,7 +99,8 @@ func (a *dbAdapter) Find(dest interface{}) error {
 	return a.db.Find(dest).Error
 }
 
-func (d *dbAdapter) Transaction(fn func(DBInterface) error) error {
+// 修复Transaction方法定义，确保参数类型正确
+func (d *dbAdapter) Transaction(fn func(tx DBInterface) error) error {
 	return d.db.Transaction(func(tx *gorm.DB) error {
 		txAdapter := &dbAdapter{db: tx}
 		return fn(txAdapter)
@@ -135,9 +142,24 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 		panic("failed to connect database")
 	}
 	redisDB := RedisInit(c)
+
+	mq, err := rocketmq.NewProducer(producer.WithNameServer([]string{"14.103.235.215:9876"}))
+	if err != nil {
+		panic(err)
+	}
+	mq.Start()
+	// 优雅退出时关闭
+	go func() {
+		c := make(chan os.Signal, 1)
+		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
+		<-c
+		mq.Shutdown()
+		os.Exit(0)
+	}()
 	return &Data{
 		DB:    db,
 		Redis: redisDB,
+		Mq:    mq,
 	}, cleanup, nil
 }
 
@@ -147,6 +169,17 @@ func RedisInit(c *conf.Data) *redis.Client {
 		Password: c.Redis.Password,
 		DB:       int(c.Redis.Db),
 	})
+	// 可选：设置连接超时 context
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// 检查是否能连接到 Redis
+	_, err := rdb.Ping(ctx).Result()
+	if err != nil {
+		panic(fmt.Sprintf("无法连接到 Redis: %v", err))
+		// 或者使用日志：log.Fatalf("无法连接到 Redis: %v", err)
+	}
+
 	return rdb
 }
 

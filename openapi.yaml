@@ -3,7 +3,7 @@
 
 openapi: 3.0.3
 info:
-    title: User API
+    title: ""
     version: 0.0.1
 paths:
     /admin:
@@ -15,7 +15,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/AdminRequest'
+                            $ref: '#/components/schemas/api.helloworld.v1.AdminRequest'
                 required: true
             responses:
                 "200":
@@ -23,13 +23,169 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/AdminRes'
-                default:
-                    description: Default error response
+                                $ref: '#/components/schemas/api.helloworld.v1.AdminRes'
+    /admin/getPriceRule:
+        get:
+            tags:
+                - Admin
+            operationId: Admin_GetPriceRule
+            parameters:
+                - name: networkId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/api.helloworld.v1.GetPriceRuleRes'
+    /admin/setPriceRule:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_SetPriceRule
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.SetPriceRuleReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.SetPriceRuleRes'
+    /decodetoken:
+        get:
+            tags:
+                - Deposit
+            operationId: Deposit_DecodeToken
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ReturnTokenRes'
+    /deposit:
+        get:
+            tags:
+                - Deposit
+            operationId: Deposit_ListDeposit
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ListDepositReply'
+    /deposit/createDeposit:
+        post:
+            tags:
+                - Deposit
+            operationId: Deposit_CreateDeposit
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.CreateDepositRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.CreateDepositReply'
+    /deposit/sendCodeByOrder:
+        post:
+            tags:
+                - Deposit
+            operationId: Deposit_SendCodeByOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.SendCodeByOrderReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.SendCodeByOrderRes'
+    /deposit/updateDepositLockerId:
+        post:
+            tags:
+                - Deposit
+            operationId: Deposit_UpdateDepositLockerId
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.UpdateDepositLockerIdReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.UpdateDepositLockerIdRes'
+    /getDepositLocker:
+        get:
+            tags:
+                - Deposit
+            operationId: Deposit_GetDepositLocker
+            parameters:
+                - name: lockerId
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetDepositLockerRes'
+    /helloworld/{name}:
+        get:
+            tags:
+                - Greeter
+            description: Sends a greeting
+            operationId: Greeter_SayHello
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
+    /home:
+        get:
+            tags:
+                - Home
+            operationId: Home_ListHome
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ListHomeReply'
     /list:
         get:
             tags:
@@ -41,13 +197,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/OrderListRes'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/api.helloworld.v1.OrderListRes'
     /login:
         post:
             tags:
@@ -57,7 +207,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/LoginRequest'
+                            $ref: '#/components/schemas/api.helloworld.v1.LoginRequest'
                 required: true
             responses:
                 "200":
@@ -65,13 +215,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/LoginRes'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/api.helloworld.v1.LoginRes'
     /register:
         post:
             tags:
@@ -81,7 +225,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/RegisterRequest'
+                            $ref: '#/components/schemas/api.helloworld.v1.RegisterRequest'
                 required: true
             responses:
                 "200":
@@ -89,13 +233,19 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RegisterRes'
-                default:
-                    description: Default error response
+                                $ref: '#/components/schemas/api.helloworld.v1.RegisterRes'
+    /returntoken:
+        get:
+            tags:
+                - Deposit
+            operationId: Deposit_ReturnToken
+            responses:
+                "200":
+                    description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/api.helloworld.v1.ReturnTokenRes'
     /sendSms:
         post:
             tags:
@@ -105,7 +255,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/SendSmsRequest'
+                            $ref: '#/components/schemas/api.helloworld.v1.SendSmsRequest'
                 required: true
             responses:
                 "200":
@@ -113,23 +263,124 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SendSmsRes'
-                default:
-                    description: Default error response
+                                $ref: '#/components/schemas/api.helloworld.v1.SendSmsRes'
+    /v1/order/create:
+        post:
+            tags:
+                - Order
+            operationId: Order_CreateOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.CreateOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/api.helloworld.v1.CreateOrderReply'
+    /v1/order/del:
+        post:
+            tags:
+                - Order
+            operationId: Order_DeleteOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.DeleteOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.DeleteOrderReply'
+    /v1/order/get:
+        get:
+            tags:
+                - Order
+            operationId: Order_GetOrder
+            parameters:
+                - name: id
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetOrderReply'
+    /v1/order/update:
+        put:
+            tags:
+                - Order
+            operationId: Order_UpdateOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.UpdateOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.UpdateOrderReply'
+    /v1/orders/list:
+        post:
+            tags:
+                - Order
+            operationId: Order_ListOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.ListOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ListOrderReply'
+    /v1/orders/show:
+        post:
+            tags:
+                - Order
+            operationId: Order_ShowOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.ShowOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ShowOrderReply'
 components:
     schemas:
-        AdminRequest:
+        api.helloworld.v1.AdminRequest:
             type: object
             properties:
                 adminId:
                     type: string
                 lockerPointId:
                     type: string
-        AdminRes:
+        api.helloworld.v1.AdminRes:
             type: object
             properties:
                 code:
@@ -150,15 +401,204 @@ components:
                     format: float
                 monthNum:
                     type: string
-        GoogleProtobufAny:
+        api.helloworld.v1.CreateDepositReply:
             type: object
             properties:
-                '@type':
+                code:
+                    type: integer
+                    format: int32
+                msg:
                     type: string
-                    description: The type of the serialized message.
-            additionalProperties: true
-            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        LoginRequest:
+                data:
+                    $ref: '#/components/schemas/api.helloworld.v1.DepositReplyData'
+        api.helloworld.v1.CreateDepositRequest:
+            type: object
+            properties:
+                scheduledDuration:
+                    type: integer
+                    format: int32
+                lockerType:
+                    type: integer
+                    format: int32
+                cabinetId:
+                    type: integer
+                    format: int32
+        api.helloworld.v1.CreateOrderReply:
+            type: object
+            properties:
+                Msg:
+                    type: string
+        api.helloworld.v1.CreateOrderRequest:
+            type: object
+            properties:
+                orderNumber:
+                    type: string
+                userId:
+                    type: string
+                scheduledDuration:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                discount:
+                    type: number
+                    format: double
+                amountPaid:
+                    type: number
+                    format: double
+                storageLocationName:
+                    type: string
+                cabinetId:
+                    type: string
+                depositStatus:
+                    type: string
+                title:
+                    type: string
+                orderId:
+                    type: string
+                status:
+                    type: string
+                hourlyRate:
+                    type: number
+                    format: float
+            description: 创建订单请求
+        api.helloworld.v1.DeleteOrderReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.helloworld.v1.DeleteOrderRequest:
+            type: object
+            properties:
+                status:
+                    type: string
+                id:
+                    type: integer
+                    format: int32
+            description: 删除订单请求
+        api.helloworld.v1.DepositReplyData:
+            type: object
+            properties:
+                orderNo:
+                    type: string
+                lockerId:
+                    type: integer
+                    format: int32
+        api.helloworld.v1.GetDepositLockerRes:
+            type: object
+            properties:
+                address:
+                    type: string
+                name:
+                    type: string
+                longitude:
+                    type: number
+                    format: float
+                latitude:
+                    type: number
+                    format: float
+                locker:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.Locker'
+        api.helloworld.v1.GetOrderReply:
+            type: object
+            properties:
+                order:
+                    $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
+        api.helloworld.v1.GetPriceRuleRes:
+            type: object
+            properties:
+                rules:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.LockerPriceRule'
+        api.helloworld.v1.ListDepositReply:
+            type: object
+            properties: {}
+        api.helloworld.v1.ListHomeReply:
+            type: object
+            properties: {}
+        api.helloworld.v1.ListOrderReply:
+            type: object
+            properties:
+                orders:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
+                total:
+                    type: string
+        api.helloworld.v1.ListOrderRequest:
+            type: object
+            properties:
+                page:
+                    type: string
+                size:
+                    type: string
+                storageLocationName:
+                    type: string
+            description: 订单列表请求
+        api.helloworld.v1.Locker:
+            type: object
+            properties:
+                name:
+                    type: string
+                description:
+                    type: string
+                size:
+                    type: string
+                num:
+                    type: integer
+                    format: int32
+                hourlyRate:
+                    type: number
+                    format: float
+                lockerType:
+                    type: integer
+                    format: int32
+                freeDuration:
+                    type: number
+                    format: float
+        api.helloworld.v1.LockerPriceRule:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 基础标识
+                ruleName:
+                    type: string
+                feeType:
+                    type: integer
+                    description: 核心配置
+                    format: int32
+                lockerType:
+                    type: integer
+                    format: int32
+                freeDuration:
+                    type: number
+                    format: float
+                hourlyRate:
+                    type: number
+                    description: 金额设置
+                    format: float
+                dailyCap:
+                    type: number
+                    format: float
+                dailyRate:
+                    type: number
+                    format: float
+                advanceAmount:
+                    type: number
+                    format: float
+                depositAmount:
+                    type: number
+                    format: float
+                isDepositEnabled:
+                    type: boolean
+                    description: 功能开关
+                isAdvancePay:
+                    type: boolean
+        api.helloworld.v1.LoginRequest:
             type: object
             properties:
                 mobile:
@@ -169,7 +609,7 @@ components:
                     type: string
                 username:
                     type: string
-        LoginRes:
+        api.helloworld.v1.LoginRes:
             type: object
             properties:
                 code:
@@ -180,7 +620,39 @@ components:
                     type: string
                 token:
                     type: string
-        OrderList:
+        api.helloworld.v1.OrderInfo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                orderNumber:
+                    type: string
+                userId:
+                    type: string
+                scheduledDuration:
+                    type: string
+                actualDuration:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                discount:
+                    type: number
+                    format: double
+                amountPaid:
+                    type: number
+                    format: double
+                storageLocationName:
+                    type: string
+                cabinetId:
+                    type: string
+                status:
+                    type: string
+                depositStatus:
+                    type: string
+            description: 订单信息
+        api.helloworld.v1.OrderList:
             type: object
             properties:
                 OrderNumber:
@@ -208,7 +680,7 @@ components:
                     type: string
                 DepositStatus:
                     type: string
-        OrderListRes:
+        api.helloworld.v1.OrderListRes:
             type: object
             properties:
                 code:
@@ -218,8 +690,8 @@ components:
                 list:
                     type: array
                     items:
-                        $ref: '#/components/schemas/OrderList'
-        RegisterRequest:
+                        $ref: '#/components/schemas/api.helloworld.v1.OrderList'
+        api.helloworld.v1.RegisterRequest:
             type: object
             properties:
                 mobile:
@@ -230,42 +702,140 @@ components:
                     type: string
                 username:
                     type: string
-        RegisterRes:
+        api.helloworld.v1.RegisterRes:
             type: object
             properties:
                 code:
                     type: string
                 msg:
                     type: string
-        SendSmsRequest:
+        api.helloworld.v1.ReturnTokenRes:
+            type: object
+            properties:
+                token:
+                    type: string
+                coe:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        api.helloworld.v1.SendCodeByOrderReq:
+            type: object
+            properties:
+                orderNo:
+                    type: string
+        api.helloworld.v1.SendCodeByOrderRes:
+            type: object
+            properties:
+                msg:
+                    type: string
+                code:
+                    type: integer
+                    format: int32
+                data:
+                    type: string
+        api.helloworld.v1.SendSmsRequest:
             type: object
             properties:
                 mobile:
                     type: string
                 source:
                     type: string
-        SendSmsRes:
+        api.helloworld.v1.SendSmsRes:
             type: object
             properties:
                 code:
                     type: string
                 msg:
                     type: string
-        Status:
+        api.helloworld.v1.SetPriceRuleReq:
+            type: object
+            properties:
+                networkId:
+                    type: string
+                rules:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.LockerPriceRule'
+        api.helloworld.v1.SetPriceRuleRes:
             type: object
             properties:
                 code:
                     type: integer
-                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
                     format: int32
-                message:
+                msg:
                     type: string
-                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-                details:
+        api.helloworld.v1.ShowOrderReply:
+            type: object
+            properties:
+                order:
                     type: array
                     items:
-                        $ref: '#/components/schemas/GoogleProtobufAny'
-                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
-            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+                        $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
+                Msg:
+                    type: string
+        api.helloworld.v1.ShowOrderRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.helloworld.v1.UpdateDepositLockerIdReq:
+            type: object
+            properties:
+                orderId:
+                    type: string
+        api.helloworld.v1.UpdateDepositLockerIdRes:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+                lockerId:
+                    type: integer
+                    format: int32
+        api.helloworld.v1.UpdateOrderReply:
+            type: object
+            properties:
+                order:
+                    $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
+                payUrl:
+                    type: string
+        api.helloworld.v1.UpdateOrderRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                actualDuration:
+                    type: string
+                status:
+                    type: string
+                depositStatus:
+                    type: string
+                hourlyRate:
+                    type: number
+                    format: float
+                lockerType:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                title:
+                    type: string
+            description: 更新订单请求
+        helloworld.v1.HelloReply:
+            type: object
+            properties:
+                message:
+                    type: string
+            description: The response message containing the greetings
 tags:
+    - name: Admin
+    - name: Deposit
+    - name: Greeter
+      description: The greeting service definition.
+    - name: Home
+    - name: Order
     - name: User
