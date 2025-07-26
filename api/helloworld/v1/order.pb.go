@@ -171,6 +171,8 @@ type CreateOrderRequest struct {
 	OrderId             int64                  `protobuf:"varint,13,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
 	Status              int64                  `protobuf:"varint,15,opt,name=status,proto3" json:"status,omitempty"`
 	HourlyRate          float32                `protobuf:"fixed32,16,opt,name=hourly_rate,json=hourlyRate,proto3" json:"hourly_rate,omitempty"`
+	LockerPointId       int64                  `protobuf:"varint,17,opt,name=locker_point_id,json=lockerPointId,proto3" json:"locker_point_id,omitempty"`
+	TypeId              int64                  `protobuf:"varint,18,opt,name=type_id,json=typeId,proto3" json:"type_id,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -296,6 +298,20 @@ func (x *CreateOrderRequest) GetHourlyRate() float32 {
 	return 0
 }
 
+func (x *CreateOrderRequest) GetLockerPointId() int64 {
+	if x != nil {
+		return x.LockerPointId
+	}
+	return 0
+}
+
+func (x *CreateOrderRequest) GetTypeId() int64 {
+	if x != nil {
+		return x.TypeId
+	}
+	return 0
+}
+
 type CreateOrderReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Msg           string                 `protobuf:"bytes,2,opt,name=Msg,proto3" json:"Msg,omitempty"` // 支付链接
@@ -349,8 +365,9 @@ type UpdateOrderRequest struct {
 	DepositStatus  int64                  `protobuf:"varint,7,opt,name=deposit_status,json=depositStatus,proto3" json:"deposit_status,omitempty"`    // 押金状态
 	HourlyRate     float32                `protobuf:"fixed32,8,opt,name=hourly_rate,json=hourlyRate,proto3" json:"hourly_rate,omitempty"`            //每小时费用
 	LockerType     int64                  `protobuf:"varint,10,opt,name=locker_type,json=lockerType,proto3" json:"locker_type,omitempty"`
-	Price          float64                `protobuf:"fixed64,11,opt,name=price,proto3" json:"price,omitempty"` // 基础费用
 	Title          string                 `protobuf:"bytes,12,opt,name=title,proto3" json:"title,omitempty"`
+	LockerPointId  int64                  `protobuf:"varint,17,opt,name=locker_point_id,json=lockerPointId,proto3" json:"locker_point_id,omitempty"`
+	TypeId         int64                  `protobuf:"varint,18,opt,name=type_id,json=typeId,proto3" json:"type_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -427,18 +444,25 @@ func (x *UpdateOrderRequest) GetLockerType() int64 {
 	return 0
 }
 
-func (x *UpdateOrderRequest) GetPrice() float64 {
-	if x != nil {
-		return x.Price
-	}
-	return 0
-}
-
 func (x *UpdateOrderRequest) GetTitle() string {
 	if x != nil {
 		return x.Title
 	}
 	return ""
+}
+
+func (x *UpdateOrderRequest) GetLockerPointId() int64 {
+	if x != nil {
+		return x.LockerPointId
+	}
+	return 0
+}
+
+func (x *UpdateOrderRequest) GetTypeId() int64 {
+	if x != nil {
+		return x.TypeId
+	}
+	return 0
 }
 
 type UpdateOrderReply struct {
@@ -685,6 +709,7 @@ type ListOrderRequest struct {
 	Page                int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`                                                           // 页码
 	Size                int64                  `protobuf:"varint,2,opt,name=size,proto3" json:"size,omitempty"`                                                           // 每页数量 	// 状态过滤
 	StorageLocationName string                 `protobuf:"bytes,3,opt,name=storage_location_name,json=storageLocationName,proto3" json:"storage_location_name,omitempty"` // 寄存网点名称
+	Status              string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -736,6 +761,13 @@ func (x *ListOrderRequest) GetSize() int64 {
 func (x *ListOrderRequest) GetStorageLocationName() string {
 	if x != nil {
 		return x.StorageLocationName
+	}
+	return ""
+}
+
+func (x *ListOrderRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
 	}
 	return ""
 }
@@ -908,7 +940,7 @@ const file_helloworld_v1_order_proto_rawDesc = "" +
 	"\n" +
 	"cabinet_id\x18\f \x01(\x03R\tcabinetId\x12\x16\n" +
 	"\x06status\x18\r \x01(\x03R\x06status\x12%\n" +
-	"\x0edeposit_status\x18\x10 \x01(\x03R\rdepositStatus\"\xb6\x03\n" +
+	"\x0edeposit_status\x18\x10 \x01(\x03R\rdepositStatus\"\xf7\x03\n" +
 	"\x12CreateOrderRequest\x12!\n" +
 	"\forder_number\x18\x01 \x01(\tR\vorderNumber\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12-\n" +
@@ -926,9 +958,11 @@ const file_helloworld_v1_order_proto_rawDesc = "" +
 	"\border_id\x18\r \x01(\x03R\aorderId\x12\x16\n" +
 	"\x06status\x18\x0f \x01(\x03R\x06status\x12\x1f\n" +
 	"\vhourly_rate\x18\x10 \x01(\x02R\n" +
-	"hourlyRate\"$\n" +
+	"hourlyRate\x12&\n" +
+	"\x0flocker_point_id\x18\x11 \x01(\x03R\rlockerPointId\x12\x17\n" +
+	"\atype_id\x18\x12 \x01(\x03R\x06typeId\"$\n" +
 	"\x10CreateOrderReply\x12\x10\n" +
-	"\x03Msg\x18\x02 \x01(\tR\x03Msg\"\xfa\x01\n" +
+	"\x03Msg\x18\x02 \x01(\tR\x03Msg\"\xa5\x02\n" +
 	"\x12UpdateOrderRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12'\n" +
 	"\x0factual_duration\x18\x03 \x01(\x03R\x0eactualDuration\x12\x16\n" +
@@ -939,8 +973,9 @@ const file_helloworld_v1_order_proto_rawDesc = "" +
 	"\vlocker_type\x18\n" +
 	" \x01(\x03R\n" +
 	"lockerType\x12\x14\n" +
-	"\x05price\x18\v \x01(\x01R\x05price\x12\x14\n" +
-	"\x05title\x18\f \x01(\tR\x05title\"_\n" +
+	"\x05title\x18\f \x01(\tR\x05title\x12&\n" +
+	"\x0flocker_point_id\x18\x11 \x01(\x03R\rlockerPointId\x12\x17\n" +
+	"\atype_id\x18\x12 \x01(\x03R\x06typeId\"_\n" +
 	"\x10UpdateOrderReply\x122\n" +
 	"\x05order\x18\x01 \x01(\v2\x1c.api.helloworld.v1.OrderInfoR\x05order\x12\x17\n" +
 	"\apay_url\x18\x02 \x01(\tR\x06payUrl\"<\n" +
@@ -952,11 +987,12 @@ const file_helloworld_v1_order_proto_rawDesc = "" +
 	"\x0fGetOrderRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"C\n" +
 	"\rGetOrderReply\x122\n" +
-	"\x05order\x18\x01 \x01(\v2\x1c.api.helloworld.v1.OrderInfoR\x05order\"n\n" +
+	"\x05order\x18\x01 \x01(\v2\x1c.api.helloworld.v1.OrderInfoR\x05order\"\x86\x01\n" +
 	"\x10ListOrderRequest\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x12\n" +
 	"\x04size\x18\x02 \x01(\x03R\x04size\x122\n" +
-	"\x15storage_location_name\x18\x03 \x01(\tR\x13storageLocationName\"\\\n" +
+	"\x15storage_location_name\x18\x03 \x01(\tR\x13storageLocationName\x12\x16\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\"\\\n" +
 	"\x0eListOrderReply\x124\n" +
 	"\x06orders\x18\x01 \x03(\v2\x1c.api.helloworld.v1.OrderInfoR\x06orders\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x03R\x05total\"\"\n" +

@@ -461,6 +461,10 @@ components:
                 hourlyRate:
                     type: number
                     format: float
+                lockerPointId:
+                    type: string
+                typeId:
+                    type: string
             description: 创建订单请求
         api.helloworld.v1.DeleteOrderReply:
             type: object
@@ -536,6 +540,8 @@ components:
                 size:
                     type: string
                 storageLocationName:
+                    type: string
+                status:
                     type: string
             description: 订单列表请求
         api.helloworld.v1.Locker:
@@ -819,10 +825,11 @@ components:
                     format: float
                 lockerType:
                     type: string
-                price:
-                    type: number
-                    format: double
                 title:
+                    type: string
+                lockerPointId:
+                    type: string
+                typeId:
                     type: string
             description: 更新订单请求
         helloworld.v1.HelloReply:

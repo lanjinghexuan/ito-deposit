@@ -9,10 +9,10 @@ package main
 import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
+	"ito-deposit/internal/basic/pkg"
 	"ito-deposit/internal/biz"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/data"
-	"ito-deposit/internal/data/pkg"
 	"ito-deposit/internal/server"
 	"ito-deposit/internal/service"
 )

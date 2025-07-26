@@ -1,8 +1,8 @@
 package data
 
 import (
-	"context"
 	"fmt"
+
 	"github.com/apache/rocketmq-client-go/v2"
 	"github.com/apache/rocketmq-client-go/v2/producer"
 	"os"
@@ -17,6 +17,9 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
+	"github.com/redis/go-redis/v9"
+	"ito-deposit/internal/basic/pkg"
+	"ito-deposit/internal/conf"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -128,6 +131,7 @@ func (a *redisAdapter) Set(ctx context.Context, key string, value interface{}, e
 
 func (a *redisAdapter) Get(ctx context.Context, key string) *redis.StringCmd {
 	return a.client.Get(ctx, key)
+
 }
 
 // NewData .
@@ -181,13 +185,4 @@ func RedisInit(c *conf.Data) *redis.Client {
 	}
 
 	return rdb
-}
-
-// 导出的接口工厂方法
-func GetDBInterface(db DBInterface) DBInterface {
-	return db
-}
-
-func GetRedisInterface(redis RedisInterface) RedisInterface {
-	return redis
 }

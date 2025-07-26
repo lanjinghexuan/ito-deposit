@@ -14,7 +14,6 @@ import (
 	http2 "net/http"
 )
 
-// NewHTTPServer new an HTTP server.
 func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *service.OrderService, user *service.UserService,
 	home *service.HomeService, deposit *service.DepositService, admin *service.AdminService,
 	logger log.Logger) *http.Server {
@@ -54,6 +53,7 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 	v1.RegisterDepositHTTPServer(srv, deposit)
 	v1.RegisterOrderHTTPServer(srv, order)
 	v1.RegisterAdminHTTPServer(srv, admin)
+
 	return srv
 }
 
@@ -66,6 +66,9 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList["/api.helloworld.v1.User/Login"] = struct{}{}
 	whiteList["/api.helloworld.v1.User/List"] = struct{}{}
 	whiteList["/api.helloworld.v1.User/Admin"] = struct{}{}
+	whiteList["/api.helloworld.v1.User/GetUser"] = struct{}{}
+	whiteList["/api.helloworld.v1.Order/ListOrder"] = struct{}{}
+	whiteList["/api.helloworld.v1.Order/ShowOrder"] = struct{}{}
 	return func(ctx context.Context, operation string) bool {
 		if _, ok := whiteList[operation]; ok {
 			return false

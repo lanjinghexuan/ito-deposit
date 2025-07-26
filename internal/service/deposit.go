@@ -5,19 +5,18 @@ import (
 	"errors"
 	"fmt"
 	"github.com/apache/rocketmq-client-go/v2/primitive"
-	"ito-deposit/internal/data/pkg"
+	"github.com/redis/go-redis/v9"
+	"gorm.io/gorm"
+	"ito-deposit/internal/basic/pkg"
 	"math/rand"
 	"strconv"
 	"time"
 
-	"github.com/redis/go-redis/v9"
-
+	jwt1 "github.com/go-kratos/kratos/v2/middleware/auth/jwt"
+	"github.com/golang-jwt/jwt/v5"
 	pb "ito-deposit/api/helloworld/v1"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/data"
-
-	jwt1 "github.com/go-kratos/kratos/v2/middleware/auth/jwt"
-	"github.com/golang-jwt/jwt/v5"
 )
 
 type DepositService struct {
@@ -48,17 +47,8 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 
 	userId := (*mapClaims)["id"].(string)
 	var lockerPriceRules data.LockerPricingRules
-
-	// 统一获取DB接口，优先用DBI
-	var db data.DBInterface
-	if s.data.DBI != nil {
-		db = s.data.DBI
-	} else {
-		db = data.NewDBAdapter(s.data.DB)
-	}
-
-	err := db.Table("locker_pricing_rules").Where("network_id = ? ", req.CabinetId).Where("status = 1").
-		Where("locker_type = ?", req.LockerType).Limit(1).Find(&lockerPriceRules)
+	err := s.data.DB.Table("locker_pricing_rules").Where("network_id = ? ", req.CabinetId).Where("status = 1").
+		Where("locker_type = ?", req.LockerType).Limit(1).Find(&lockerPriceRules).Error
 	if err != nil {
 		return nil, err
 	}
@@ -69,16 +59,16 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 		price += lockerPriceRules.DepositAmount
 	}
 	price += lockerPriceRules.HourlyRate * float64(req.ScheduledDuration)
-	var locker data.Locker
-	err = db.Transaction(func(tx data.DBInterface) error {
-		err = tx.Table("lockers").Where("locker_point_id = ?", req.CabinetId).Select("id").Where("status = 1").Limit(1).Find(&locker)
+	var locker data.Lockers
+	err = s.data.DB.Transaction(func(tx *gorm.DB) error {
+		err = s.data.DB.Table("locker").Where("locker_point_id = ?", req.CabinetId).Select("id").Where("status = 1").Limit(1).Find(&locker).Error
 		if err != nil {
 			return err
 		}
 		if locker.Id == 0 {
 			return errors.New("寄存柜可用数量不足")
 		}
-		updaateres := tx.Table("lockers").Where("id = ?", locker.Id).Update("status", 2)
+		updaateres := s.data.DB.Table("locker").Where("id = ?", locker.Id).Update("status", 2)
 		if updaateres.RowsAffected == 0 {
 			return errors.New("更新柜子状态失败")
 		}
@@ -101,18 +91,14 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 			DepositStatus:     0,
 			ActualDuration:    0,
 		}
-		return tx.Table("locker_orders").Create(&addOrder)
+		err = s.data.DB.Table("locker_orders").Create(&addOrder).Error
+		if err != nil {
+			return err
+		}
+		return nil
 	})
 	if err != nil {
 		return nil, err
-	}
-
-	msgBody := fmt.Sprintf(`{"locker":"%s","status":%d}`, locker.Id, 2)
-	mq_message := primitive.NewMessage("deposit_record", []byte(msgBody))
-
-	_, err = s.data.Mq.SendSync(ctx, mq_message)
-	if err != nil {
-		fmt.Println("mq发送失败", err)
 	}
 
 	return &pb.CreateDepositReply{
@@ -204,8 +190,8 @@ func (s *DepositService) GetDepositLocker(ctx context.Context, req *pb.GetDeposi
 		Num    int32 `gorm:"column:num"`
 	}
 	var list []result
-	err = s.data.DB.Table("lockers").Where("locker_point_id = ?", pointID).Where("status = 1").
-		Select("type_id,count(1) as num").Group("type_id").Debug().Find(&list).Error
+	err = s.data.DB.Table("locker").Where("locker_point_id = ?", pointID).Where("status = 1").
+		Select("type_id,count(1) as num").Group("type_id").Find(&list).Error
 
 	if err != nil {
 		return nil, err
@@ -233,10 +219,9 @@ func (s *DepositService) GetDepositLocker(ctx context.Context, req *pb.GetDeposi
 	}
 	var priceRule []*data.LockerPricingRules
 	err = s.data.DB.Table("locker_pricing_rules").Where("network_id in (?)", ids).Where("status = 1").Find(&priceRule).Error
-
 	priceRuleMap := make(map[int64]*data.LockerPricingRules)
 	for _, v := range priceRule {
-		priceRuleMap[int64(v.LockerType)] = v
+		priceRuleMap[v.Id] = v
 	}
 	for _, t := range types {
 		freeDuration := float64(0)
@@ -245,7 +230,6 @@ func (s *DepositService) GetDepositLocker(ctx context.Context, req *pb.GetDeposi
 			freeDuration = priceRuleMap[int64(t.Id)].FreeDuration
 			hourlyRate = priceRuleMap[int64(t.Id)].HourlyRate
 		}
-
 		res.Locker = append(res.Locker, &pb.Locker{
 			Name:         t.Name,
 			Description:  t.Description,
@@ -266,16 +250,16 @@ func (s *DepositService) UpdateDepositLockerId(ctx context.Context, req *pb.Upda
 	if err != nil {
 		return nil, err
 	}
-	var locker data.Locker
-	err = s.data.DB.Table("lockers").Where("id = ?", order.CabinetId).Limit(1).Find(&locker).Error
+	var locker data.Lockers
+	err = s.data.DB.Table("locker").Where("id = ?", order.CabinetId).Limit(1).Find(&locker).Error
 	if err != nil {
 		return nil, err
 	}
 	if locker.Id == 0 {
 		return nil, errors.New("订单关联寄存柜不存在")
 	}
-	var newLocker data.Locker
-	err = s.data.DB.Table("lockers").Where("locker_point_id = ?", locker.LockerPointId).Where("type_id = ?", locker.TypeId).Where("status = 1").Limit(1).Find(&newLocker).Error
+	var newLocker data.Lockers
+	err = s.data.DB.Table("locker").Where("locker_point_id = ?", locker.LockerPointId).Where("type_id = ?", locker.TypeId).Where("status = 1").Limit(1).Find(&newLocker).Error
 	if err != nil {
 		return nil, err
 	}
@@ -283,7 +267,7 @@ func (s *DepositService) UpdateDepositLockerId(ctx context.Context, req *pb.Upda
 		return nil, errors.New("无可用寄存柜")
 	}
 
-	updateLocker := s.data.DB.Table("lockers").Where("id = ?", newLocker.Id).Update("status", 2).Debug()
+	updateLocker := s.data.DB.Table("locker").Where("id = ?", newLocker.Id).Update("status", 2).Debug()
 
 	if updateLocker.Error != nil {
 		return nil, updateLocker.Error
@@ -303,7 +287,7 @@ func (s *DepositService) UpdateDepositLockerId(ctx context.Context, req *pb.Upda
 			updateStatus = 4
 		}
 	}
-	s.data.DB.Table("lockers").Where("id = ?", order.CabinetId).Update("status", updateStatus)
+	s.data.DB.Table("locker").Where("id = ?", order.CabinetId).Update("status", updateStatus)
 	s.data.Redis.Incr(ctx, redisKey)
 	return &pb.UpdateDepositLockerIdRes{
 		Code:     200,
