@@ -14,7 +14,6 @@ import (
 	http2 "net/http"
 )
 
-// NewHTTPServer new an HTTP server.
 func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *service.OrderService, user *service.UserService,
 	home *service.HomeService, deposit *service.DepositService, admin *service.AdminService,
 	logger log.Logger) *http.Server {
@@ -34,19 +33,18 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 
-	if true {
-		opts = append(opts, http.Middleware(
-			selector.Server(
-				jwt.Server(func(token *jwtv5.Token) (interface{}, error) {
-					return []byte(c.Jwt.Authkey), nil
-				}, jwt.WithSigningMethod(jwtv5.SigningMethodHS256), jwt.WithClaims(func() jwtv5.Claims {
-					return &jwtv5.MapClaims{}
-				})),
-			).
-				Match(NewWhiteListMatcher()).
-				Build(),
-		))
-	}
+	opts = append(opts, http.Middleware(
+		selector.Server(
+			jwt.Server(func(token *jwtv5.Token) (interface{}, error) {
+				return []byte(c.Jwt.Authkey), nil
+			}, jwt.WithSigningMethod(jwtv5.SigningMethodHS256), jwt.WithClaims(func() jwtv5.Claims {
+				return &jwtv5.MapClaims{}
+			})),
+		).
+			Match(NewWhiteListMatcher()).
+			Build(),
+	))
+
 	srv := http.NewServer(opts...)
 	v1.RegisterGreeterHTTPServer(srv, greeter)
 	v1.RegisterUserHTTPServer(srv, user)
@@ -54,6 +52,9 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 	v1.RegisterDepositHTTPServer(srv, deposit)
 	v1.RegisterOrderHTTPServer(srv, order)
 	v1.RegisterAdminHTTPServer(srv, admin)
+
+	srv.Route("/").POST("/upload", admin.DownloadFile)
+
 	return srv
 }
 
@@ -70,6 +71,7 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList["/api.helloworld.v1.Order/ListOrder"] = struct{}{}
 	whiteList["/api.helloworld.v1.Order/ShowOrder"] = struct{}{}
 	whiteList["/api.helloworld.v1.Admin/PointList"] = struct{}{}
+
 	return func(ctx context.Context, operation string) bool {
 		if _, ok := whiteList[operation]; ok {
 			return false

@@ -33,7 +33,7 @@ func (r *lockerPointRepo) CountAvailableByType(ctx context.Context, pointID int6
 	}
 	var list []result
 	err := r.data.DB.WithContext(ctx).
-		Model(&Locker{}).
+		Model(&Lockers{}).
 		Select("type_id AS type_id, COUNT(*) AS num").
 		Where("locker_point_id = ? AND status = 1", pointID).
 		Group("type_id").
@@ -46,11 +46,18 @@ func (r *lockerPointRepo) CountAvailableByType(ctx context.Context, pointID int6
 }
 
 // GetPricingRule 单条索引查询
+// 根据pointID和typeID获取LockerPricingRules
 func (r *lockerPointRepo) GetPricingRule(ctx context.Context, pointID, typeID int32) (*LockerPricingRules, error) {
+	// 定义LockerPricingRules变量
 	var rule LockerPricingRules
+	// 使用WithContext方法设置上下文
 	err := r.data.DB.WithContext(ctx).
+		// 使用Where方法设置查询条件
 		Where("network_id = ? AND locker_type = ? AND status = 1", pointID, typeID).
+		// 使用Order方法设置排序条件
 		Order("effective_time DESC").
+		// 使用First方法查询第一条记录
 		First(&rule).Error
+	// 返回LockerPricingRules和错误信息
 	return &rule, err
 }

@@ -2,11 +2,8 @@ package service
 
 import (
 	"context"
-	"github.com/golang-jwt/jwt/v5"
-	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"ito-deposit/internal/conf"
 	data2 "ito-deposit/internal/data"
 	"time"
 
@@ -15,63 +12,15 @@ import (
 
 type AdminService struct {
 	pb.UnimplementedAdminServer
-	data    *data2.Data
-	RedisDb *redis.Client
-	server  *conf.Server
+	data *data2.Data
 }
 
-func NewAdminService(data *data2.Data, server *conf.Server) *AdminService {
+func NewAdminService(data *data2.Data) *AdminService {
 	return &AdminService{
-		data:    data,
-		RedisDb: data.Redis,
-		server:  server,
+		data: data,
 	}
 }
-func (s *AdminService) AdminLogin(ctx context.Context, req *pb.AdminLoginReq) (*pb.AdminLoginRes, error) {
-	get := s.RedisDb.Get(context.Background(), "sendSms"+req.Mobile+"admin_login")
-	if get.Val() != req.SmsCode {
-		return &pb.AdminLoginRes{
-			Code: 500,
-			Msg:  "验证码错误",
-		}, nil
-	}
-	var admin data2.Admin
-	err := s.data.DB.Debug().Where("mobile = ?", req.Mobile).Find(&admin).Error
-	if err != nil {
-		return &pb.AdminLoginRes{
-			Code: 500,
-			Msg:  "查询失败",
-		}, nil
-	}
-	if admin.Id == 0 {
-		return &pb.AdminLoginRes{
-			Code: 500,
-			Msg:  "管理员不存在",
-		}, nil
-	}
-	if req.Password != admin.Password {
-		return &pb.AdminLoginRes{
-			Code: 500,
-			Msg:  "密码错误",
-		}, nil
-	}
-	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		// 根据您的需求设置 JWT 中的声明
-		"your_custom_claim": "your_custom_value",
-		"id":                "123",
-	})
 
-	signedString, err := claims.SignedString([]byte(s.server.Jwt.Authkey))
-	if err != nil {
-		return nil, err
-	}
-	return &pb.AdminLoginRes{
-		Code:  200,
-		Msg:   "登陆成功",
-		Id:    int64(admin.Id),
-		Token: signedString,
-	}, nil
-}
 func (s *AdminService) SetPriceRule(ctx context.Context, req *pb.SetPriceRuleReq) (*pb.SetPriceRuleRes, error) {
 	// 0. 参数校验
 	if req.NetworkId <= 0 {
@@ -214,30 +163,4 @@ func validatePriceRule(rule *pb.LockerPriceRule) error {
 
 func intToBool(i int) bool {
 	return i != 0
-}
-func (s *AdminService) PointList(ctx context.Context, req *pb.PointListReq) (*pb.PointListRes, error) {
-	var point []data2.LockerPoint
-	err := s.data.DB.Debug().Find(&point).Error
-	if err != nil {
-		return &pb.PointListRes{
-			Code: 500,
-			Msg:  "查询失败",
-		}, nil
-	}
-	var lists []*pb.PointList
-	for _, l := range point {
-		list := pb.PointList{
-			Name:            l.Name,
-			Address:         l.Address,
-			AvailableLarge:  int64(l.AvailableLarge),
-			AvailableMedium: int64(l.AvailableMedium),
-			AvailableSmall:  int64(l.AvailableSmall),
-		}
-		lists = append(lists, &list)
-	}
-	return &pb.PointListRes{
-		Code: 200,
-		Msg:  "查询成功",
-		List: lists,
-	}, nil
 }

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-http v2.8.4
 // - protoc             v5.26.1
-// source: api/helloworld/v1/deposit.proto
+// source: helloworld/v1/deposit.proto
 
 package v1
 

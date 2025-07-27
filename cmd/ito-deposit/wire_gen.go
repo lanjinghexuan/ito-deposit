@@ -9,10 +9,10 @@ package main
 import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
+	"ito-deposit/internal/basic/pkg"
 	"ito-deposit/internal/biz"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/data"
-	"ito-deposit/internal/data/pkg"
 	"ito-deposit/internal/server"
 	"ito-deposit/internal/service"
 )
@@ -41,7 +41,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 		return nil, nil, err
 	}
 	depositService := service.NewDepositService(dataData, confServer, sendSms)
-	adminService := service.NewAdminService(dataData, confServer)
+	adminService := service.NewAdminService(dataData)
 	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, logger)
 	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, logger)
 	app := newApp(logger, grpcServer, httpServer)

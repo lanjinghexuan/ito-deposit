@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-http v2.8.4
 // - protoc             v5.26.1
-// source: api/helloworld/v1/admin.proto
+// source: helloworld/v1/admin.proto
 
 package v1
 
@@ -23,12 +23,14 @@ const OperationAdminAdminLogin = "/api.helloworld.v1.Admin/AdminLogin"
 const OperationAdminGetPriceRule = "/api.helloworld.v1.Admin/GetPriceRule"
 const OperationAdminPointList = "/api.helloworld.v1.Admin/PointList"
 const OperationAdminSetPriceRule = "/api.helloworld.v1.Admin/SetPriceRule"
+const OperationAdminUploadFile = "/api.helloworld.v1.Admin/UploadFile"
 
 type AdminHTTPServer interface {
 	AdminLogin(context.Context, *AdminLoginReq) (*AdminLoginRes, error)
 	GetPriceRule(context.Context, *GetPriceRuleReq) (*GetPriceRuleRes, error)
 	PointList(context.Context, *PointListReq) (*PointListRes, error)
 	SetPriceRule(context.Context, *SetPriceRuleReq) (*SetPriceRuleRes, error)
+	UploadFile(context.Context, *UploadFileReq) (*UploadFileRes, error)
 }
 
 func RegisterAdminHTTPServer(s *http.Server, srv AdminHTTPServer) {
@@ -37,6 +39,7 @@ func RegisterAdminHTTPServer(s *http.Server, srv AdminHTTPServer) {
 	r.POST("/admin/login", _Admin_AdminLogin0_HTTP_Handler(srv))
 	r.POST("/admin/setPriceRule", _Admin_SetPriceRule0_HTTP_Handler(srv))
 	r.GET("/admin/getPriceRule", _Admin_GetPriceRule0_HTTP_Handler(srv))
+	r.GET("/admin/uploadFile", _Admin_UploadFile0_HTTP_Handler(srv))
 }
 
 func _Admin_PointList0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context) error {
@@ -121,11 +124,31 @@ func _Admin_GetPriceRule0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Contex
 	}
 }
 
+func _Admin_UploadFile0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UploadFileReq
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationAdminUploadFile)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UploadFile(ctx, req.(*UploadFileReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*UploadFileRes)
+		return ctx.Result(200, reply)
+	}
+}
+
 type AdminHTTPClient interface {
 	AdminLogin(ctx context.Context, req *AdminLoginReq, opts ...http.CallOption) (rsp *AdminLoginRes, err error)
 	GetPriceRule(ctx context.Context, req *GetPriceRuleReq, opts ...http.CallOption) (rsp *GetPriceRuleRes, err error)
 	PointList(ctx context.Context, req *PointListReq, opts ...http.CallOption) (rsp *PointListRes, err error)
 	SetPriceRule(ctx context.Context, req *SetPriceRuleReq, opts ...http.CallOption) (rsp *SetPriceRuleRes, err error)
+	UploadFile(ctx context.Context, req *UploadFileReq, opts ...http.CallOption) (rsp *UploadFileRes, err error)
 }
 
 type AdminHTTPClientImpl struct {
@@ -182,6 +205,19 @@ func (c *AdminHTTPClientImpl) SetPriceRule(ctx context.Context, in *SetPriceRule
 	opts = append(opts, http.Operation(OperationAdminSetPriceRule))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *AdminHTTPClientImpl) UploadFile(ctx context.Context, in *UploadFileReq, opts ...http.CallOption) (*UploadFileRes, error) {
+	var out UploadFileRes
+	pattern := "/admin/uploadFile"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationAdminUploadFile))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.26.1
-// source: api/helloworld/v1/user.proto
+// source: helloworld/v1/user.proto
 
 package v1
 
@@ -32,7 +32,7 @@ type SendSmsRequest struct {
 
 func (x *SendSmsRequest) Reset() {
 	*x = SendSmsRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[0]
+	mi := &file_helloworld_v1_user_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +44,7 @@ func (x *SendSmsRequest) String() string {
 func (*SendSmsRequest) ProtoMessage() {}
 
 func (x *SendSmsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[0]
+	mi := &file_helloworld_v1_user_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +57,7 @@ func (x *SendSmsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendSmsRequest.ProtoReflect.Descriptor instead.
 func (*SendSmsRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{0}
+	return file_helloworld_v1_user_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *SendSmsRequest) GetMobile() string {
@@ -84,7 +84,7 @@ type SendSmsRes struct {
 
 func (x *SendSmsRes) Reset() {
 	*x = SendSmsRes{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[1]
+	mi := &file_helloworld_v1_user_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -96,7 +96,7 @@ func (x *SendSmsRes) String() string {
 func (*SendSmsRes) ProtoMessage() {}
 
 func (x *SendSmsRes) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[1]
+	mi := &file_helloworld_v1_user_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -109,7 +109,7 @@ func (x *SendSmsRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendSmsRes.ProtoReflect.Descriptor instead.
 func (*SendSmsRes) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{1}
+	return file_helloworld_v1_user_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *SendSmsRes) GetCode() int64 {
@@ -138,7 +138,7 @@ type RegisterRequest struct {
 
 func (x *RegisterRequest) Reset() {
 	*x = RegisterRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[2]
+	mi := &file_helloworld_v1_user_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -150,7 +150,7 @@ func (x *RegisterRequest) String() string {
 func (*RegisterRequest) ProtoMessage() {}
 
 func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[2]
+	mi := &file_helloworld_v1_user_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -163,7 +163,7 @@ func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterRequest.ProtoReflect.Descriptor instead.
 func (*RegisterRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{2}
+	return file_helloworld_v1_user_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *RegisterRequest) GetMobile() string {
@@ -204,7 +204,7 @@ type RegisterRes struct {
 
 func (x *RegisterRes) Reset() {
 	*x = RegisterRes{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[3]
+	mi := &file_helloworld_v1_user_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -216,7 +216,7 @@ func (x *RegisterRes) String() string {
 func (*RegisterRes) ProtoMessage() {}
 
 func (x *RegisterRes) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[3]
+	mi := &file_helloworld_v1_user_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -229,7 +229,7 @@ func (x *RegisterRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterRes.ProtoReflect.Descriptor instead.
 func (*RegisterRes) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{3}
+	return file_helloworld_v1_user_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RegisterRes) GetCode() int64 {
@@ -258,7 +258,7 @@ type LoginRequest struct {
 
 func (x *LoginRequest) Reset() {
 	*x = LoginRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[4]
+	mi := &file_helloworld_v1_user_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -270,7 +270,7 @@ func (x *LoginRequest) String() string {
 func (*LoginRequest) ProtoMessage() {}
 
 func (x *LoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[4]
+	mi := &file_helloworld_v1_user_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -283,7 +283,7 @@ func (x *LoginRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
 func (*LoginRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{4}
+	return file_helloworld_v1_user_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *LoginRequest) GetMobile() string {
@@ -326,7 +326,7 @@ type LoginRes struct {
 
 func (x *LoginRes) Reset() {
 	*x = LoginRes{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[5]
+	mi := &file_helloworld_v1_user_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -338,7 +338,7 @@ func (x *LoginRes) String() string {
 func (*LoginRes) ProtoMessage() {}
 
 func (x *LoginRes) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[5]
+	mi := &file_helloworld_v1_user_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -351,7 +351,7 @@ func (x *LoginRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginRes.ProtoReflect.Descriptor instead.
 func (*LoginRes) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{5}
+	return file_helloworld_v1_user_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *LoginRes) GetCode() int64 {
@@ -390,7 +390,7 @@ type OrderListRequest struct {
 
 func (x *OrderListRequest) Reset() {
 	*x = OrderListRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[6]
+	mi := &file_helloworld_v1_user_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -402,7 +402,7 @@ func (x *OrderListRequest) String() string {
 func (*OrderListRequest) ProtoMessage() {}
 
 func (x *OrderListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[6]
+	mi := &file_helloworld_v1_user_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -415,7 +415,7 @@ func (x *OrderListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OrderListRequest.ProtoReflect.Descriptor instead.
 func (*OrderListRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{6}
+	return file_helloworld_v1_user_proto_rawDescGZIP(), []int{6}
 }
 
 type OrderListRes struct {
@@ -429,7 +429,7 @@ type OrderListRes struct {
 
 func (x *OrderListRes) Reset() {
 	*x = OrderListRes{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[7]
+	mi := &file_helloworld_v1_user_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -441,7 +441,7 @@ func (x *OrderListRes) String() string {
 func (*OrderListRes) ProtoMessage() {}
 
 func (x *OrderListRes) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[7]
+	mi := &file_helloworld_v1_user_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -454,7 +454,7 @@ func (x *OrderListRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OrderListRes.ProtoReflect.Descriptor instead.
 func (*OrderListRes) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{7}
+	return file_helloworld_v1_user_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *OrderListRes) GetCode() int64 {
@@ -497,7 +497,7 @@ type OrderList struct {
 
 func (x *OrderList) Reset() {
 	*x = OrderList{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[8]
+	mi := &file_helloworld_v1_user_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -509,7 +509,7 @@ func (x *OrderList) String() string {
 func (*OrderList) ProtoMessage() {}
 
 func (x *OrderList) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[8]
+	mi := &file_helloworld_v1_user_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -522,7 +522,7 @@ func (x *OrderList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OrderList.ProtoReflect.Descriptor instead.
 func (*OrderList) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{8}
+	return file_helloworld_v1_user_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *OrderList) GetOrderNumber() string {
@@ -612,7 +612,7 @@ type AdminRequest struct {
 
 func (x *AdminRequest) Reset() {
 	*x = AdminRequest{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[9]
+	mi := &file_helloworld_v1_user_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -624,7 +624,7 @@ func (x *AdminRequest) String() string {
 func (*AdminRequest) ProtoMessage() {}
 
 func (x *AdminRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[9]
+	mi := &file_helloworld_v1_user_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -637,7 +637,7 @@ func (x *AdminRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminRequest.ProtoReflect.Descriptor instead.
 func (*AdminRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{9}
+	return file_helloworld_v1_user_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *AdminRequest) GetAdminId() int64 {
@@ -670,7 +670,7 @@ type AdminRes struct {
 
 func (x *AdminRes) Reset() {
 	*x = AdminRes{}
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[10]
+	mi := &file_helloworld_v1_user_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -682,7 +682,7 @@ func (x *AdminRes) String() string {
 func (*AdminRes) ProtoMessage() {}
 
 func (x *AdminRes) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_user_proto_msgTypes[10]
+	mi := &file_helloworld_v1_user_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -695,7 +695,7 @@ func (x *AdminRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminRes.ProtoReflect.Descriptor instead.
 func (*AdminRes) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_user_proto_rawDescGZIP(), []int{10}
+	return file_helloworld_v1_user_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *AdminRes) GetCode() int64 {
@@ -754,11 +754,11 @@ func (x *AdminRes) GetMonthNum() int64 {
 	return 0
 }
 
-var File_api_helloworld_v1_user_proto protoreflect.FileDescriptor
+var File_helloworld_v1_user_proto protoreflect.FileDescriptor
 
-const file_api_helloworld_v1_user_proto_rawDesc = "" +
+const file_helloworld_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x1capi/helloworld/v1/user.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"@\n" +
+	"\x18helloworld/v1/user.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"@\n" +
 	"\x0eSendSmsRequest\x12\x16\n" +
 	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x16\n" +
 	"\x06source\x18\x02 \x01(\tR\x06source\"2\n" +
@@ -826,19 +826,19 @@ const file_api_helloworld_v1_user_proto_rawDesc = "" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
 
 var (
-	file_api_helloworld_v1_user_proto_rawDescOnce sync.Once
-	file_api_helloworld_v1_user_proto_rawDescData []byte
+	file_helloworld_v1_user_proto_rawDescOnce sync.Once
+	file_helloworld_v1_user_proto_rawDescData []byte
 )
 
-func file_api_helloworld_v1_user_proto_rawDescGZIP() []byte {
-	file_api_helloworld_v1_user_proto_rawDescOnce.Do(func() {
-		file_api_helloworld_v1_user_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_user_proto_rawDesc), len(file_api_helloworld_v1_user_proto_rawDesc)))
+func file_helloworld_v1_user_proto_rawDescGZIP() []byte {
+	file_helloworld_v1_user_proto_rawDescOnce.Do(func() {
+		file_helloworld_v1_user_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_helloworld_v1_user_proto_rawDesc), len(file_helloworld_v1_user_proto_rawDesc)))
 	})
-	return file_api_helloworld_v1_user_proto_rawDescData
+	return file_helloworld_v1_user_proto_rawDescData
 }
 
-var file_api_helloworld_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
-var file_api_helloworld_v1_user_proto_goTypes = []any{
+var file_helloworld_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_helloworld_v1_user_proto_goTypes = []any{
 	(*SendSmsRequest)(nil),   // 0: api.helloworld.v1.SendSmsRequest
 	(*SendSmsRes)(nil),       // 1: api.helloworld.v1.SendSmsRes
 	(*RegisterRequest)(nil),  // 2: api.helloworld.v1.RegisterRequest
@@ -851,7 +851,7 @@ var file_api_helloworld_v1_user_proto_goTypes = []any{
 	(*AdminRequest)(nil),     // 9: api.helloworld.v1.AdminRequest
 	(*AdminRes)(nil),         // 10: api.helloworld.v1.AdminRes
 }
-var file_api_helloworld_v1_user_proto_depIdxs = []int32{
+var file_helloworld_v1_user_proto_depIdxs = []int32{
 	8,  // 0: api.helloworld.v1.OrderListRes.list:type_name -> api.helloworld.v1.OrderList
 	9,  // 1: api.helloworld.v1.User.Admin:input_type -> api.helloworld.v1.AdminRequest
 	6,  // 2: api.helloworld.v1.User.OrderList:input_type -> api.helloworld.v1.OrderListRequest
@@ -870,26 +870,26 @@ var file_api_helloworld_v1_user_proto_depIdxs = []int32{
 	0,  // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_api_helloworld_v1_user_proto_init() }
-func file_api_helloworld_v1_user_proto_init() {
-	if File_api_helloworld_v1_user_proto != nil {
+func init() { file_helloworld_v1_user_proto_init() }
+func file_helloworld_v1_user_proto_init() {
+	if File_helloworld_v1_user_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_user_proto_rawDesc), len(file_api_helloworld_v1_user_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_helloworld_v1_user_proto_rawDesc), len(file_helloworld_v1_user_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_helloworld_v1_user_proto_goTypes,
-		DependencyIndexes: file_api_helloworld_v1_user_proto_depIdxs,
-		MessageInfos:      file_api_helloworld_v1_user_proto_msgTypes,
+		GoTypes:           file_helloworld_v1_user_proto_goTypes,
+		DependencyIndexes: file_helloworld_v1_user_proto_depIdxs,
+		MessageInfos:      file_helloworld_v1_user_proto_msgTypes,
 	}.Build()
-	File_api_helloworld_v1_user_proto = out.File
-	file_api_helloworld_v1_user_proto_goTypes = nil
-	file_api_helloworld_v1_user_proto_depIdxs = nil
+	File_helloworld_v1_user_proto = out.File
+	file_helloworld_v1_user_proto_goTypes = nil
+	file_helloworld_v1_user_proto_depIdxs = nil
 }

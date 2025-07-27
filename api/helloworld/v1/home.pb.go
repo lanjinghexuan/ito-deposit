@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.26.1
-// source: api/helloworld/v1/home.proto
+// source: helloworld/v1/home.proto
 
 package v1
 
@@ -30,7 +30,7 @@ type CreateHomeRequest struct {
 
 func (x *CreateHomeRequest) Reset() {
 	*x = CreateHomeRequest{}
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[0]
+	mi := &file_helloworld_v1_home_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -42,7 +42,7 @@ func (x *CreateHomeRequest) String() string {
 func (*CreateHomeRequest) ProtoMessage() {}
 
 func (x *CreateHomeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[0]
+	mi := &file_helloworld_v1_home_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,7 +55,7 @@ func (x *CreateHomeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateHomeRequest.ProtoReflect.Descriptor instead.
 func (*CreateHomeRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_home_proto_rawDescGZIP(), []int{0}
+	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{0}
 }
 
 type CreateHomeReply struct {
@@ -66,7 +66,7 @@ type CreateHomeReply struct {
 
 func (x *CreateHomeReply) Reset() {
 	*x = CreateHomeReply{}
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[1]
+	mi := &file_helloworld_v1_home_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -78,7 +78,7 @@ func (x *CreateHomeReply) String() string {
 func (*CreateHomeReply) ProtoMessage() {}
 
 func (x *CreateHomeReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[1]
+	mi := &file_helloworld_v1_home_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -91,7 +91,7 @@ func (x *CreateHomeReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateHomeReply.ProtoReflect.Descriptor instead.
 func (*CreateHomeReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_home_proto_rawDescGZIP(), []int{1}
+	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{1}
 }
 
 type UpdateHomeRequest struct {
@@ -102,7 +102,7 @@ type UpdateHomeRequest struct {
 
 func (x *UpdateHomeRequest) Reset() {
 	*x = UpdateHomeRequest{}
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[2]
+	mi := &file_helloworld_v1_home_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -114,7 +114,7 @@ func (x *UpdateHomeRequest) String() string {
 func (*UpdateHomeRequest) ProtoMessage() {}
 
 func (x *UpdateHomeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[2]
+	mi := &file_helloworld_v1_home_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -127,7 +127,7 @@ func (x *UpdateHomeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateHomeRequest.ProtoReflect.Descriptor instead.
 func (*UpdateHomeRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_home_proto_rawDescGZIP(), []int{2}
+	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{2}
 }
 
 type UpdateHomeReply struct {
@@ -138,7 +138,7 @@ type UpdateHomeReply struct {
 
 func (x *UpdateHomeReply) Reset() {
 	*x = UpdateHomeReply{}
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[3]
+	mi := &file_helloworld_v1_home_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -150,7 +150,7 @@ func (x *UpdateHomeReply) String() string {
 func (*UpdateHomeReply) ProtoMessage() {}
 
 func (x *UpdateHomeReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[3]
+	mi := &file_helloworld_v1_home_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -163,7 +163,7 @@ func (x *UpdateHomeReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateHomeReply.ProtoReflect.Descriptor instead.
 func (*UpdateHomeReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_home_proto_rawDescGZIP(), []int{3}
+	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{3}
 }
 
 type DeleteHomeRequest struct {
@@ -174,7 +174,7 @@ type DeleteHomeRequest struct {
 
 func (x *DeleteHomeRequest) Reset() {
 	*x = DeleteHomeRequest{}
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[4]
+	mi := &file_helloworld_v1_home_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -186,7 +186,7 @@ func (x *DeleteHomeRequest) String() string {
 func (*DeleteHomeRequest) ProtoMessage() {}
 
 func (x *DeleteHomeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[4]
+	mi := &file_helloworld_v1_home_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -199,7 +199,7 @@ func (x *DeleteHomeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteHomeRequest.ProtoReflect.Descriptor instead.
 func (*DeleteHomeRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_home_proto_rawDescGZIP(), []int{4}
+	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{4}
 }
 
 type DeleteHomeReply struct {
@@ -210,7 +210,7 @@ type DeleteHomeReply struct {
 
 func (x *DeleteHomeReply) Reset() {
 	*x = DeleteHomeReply{}
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[5]
+	mi := &file_helloworld_v1_home_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -222,7 +222,7 @@ func (x *DeleteHomeReply) String() string {
 func (*DeleteHomeReply) ProtoMessage() {}
 
 func (x *DeleteHomeReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[5]
+	mi := &file_helloworld_v1_home_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -235,7 +235,7 @@ func (x *DeleteHomeReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteHomeReply.ProtoReflect.Descriptor instead.
 func (*DeleteHomeReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_home_proto_rawDescGZIP(), []int{5}
+	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{5}
 }
 
 type GetHomeRequest struct {
@@ -246,7 +246,7 @@ type GetHomeRequest struct {
 
 func (x *GetHomeRequest) Reset() {
 	*x = GetHomeRequest{}
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[6]
+	mi := &file_helloworld_v1_home_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -258,7 +258,7 @@ func (x *GetHomeRequest) String() string {
 func (*GetHomeRequest) ProtoMessage() {}
 
 func (x *GetHomeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[6]
+	mi := &file_helloworld_v1_home_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -271,7 +271,7 @@ func (x *GetHomeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetHomeRequest.ProtoReflect.Descriptor instead.
 func (*GetHomeRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_home_proto_rawDescGZIP(), []int{6}
+	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{6}
 }
 
 type GetHomeReply struct {
@@ -282,7 +282,7 @@ type GetHomeReply struct {
 
 func (x *GetHomeReply) Reset() {
 	*x = GetHomeReply{}
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[7]
+	mi := &file_helloworld_v1_home_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -294,7 +294,7 @@ func (x *GetHomeReply) String() string {
 func (*GetHomeReply) ProtoMessage() {}
 
 func (x *GetHomeReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[7]
+	mi := &file_helloworld_v1_home_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -307,7 +307,7 @@ func (x *GetHomeReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetHomeReply.ProtoReflect.Descriptor instead.
 func (*GetHomeReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_home_proto_rawDescGZIP(), []int{7}
+	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{7}
 }
 
 type ListHomeRequest struct {
@@ -318,7 +318,7 @@ type ListHomeRequest struct {
 
 func (x *ListHomeRequest) Reset() {
 	*x = ListHomeRequest{}
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[8]
+	mi := &file_helloworld_v1_home_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -330,7 +330,7 @@ func (x *ListHomeRequest) String() string {
 func (*ListHomeRequest) ProtoMessage() {}
 
 func (x *ListHomeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[8]
+	mi := &file_helloworld_v1_home_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -343,7 +343,7 @@ func (x *ListHomeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListHomeRequest.ProtoReflect.Descriptor instead.
 func (*ListHomeRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_home_proto_rawDescGZIP(), []int{8}
+	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{8}
 }
 
 type ListHomeReply struct {
@@ -354,7 +354,7 @@ type ListHomeReply struct {
 
 func (x *ListHomeReply) Reset() {
 	*x = ListHomeReply{}
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[9]
+	mi := &file_helloworld_v1_home_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -366,7 +366,7 @@ func (x *ListHomeReply) String() string {
 func (*ListHomeReply) ProtoMessage() {}
 
 func (x *ListHomeReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_home_proto_msgTypes[9]
+	mi := &file_helloworld_v1_home_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -379,14 +379,14 @@ func (x *ListHomeReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListHomeReply.ProtoReflect.Descriptor instead.
 func (*ListHomeReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_home_proto_rawDescGZIP(), []int{9}
+	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{9}
 }
 
-var File_api_helloworld_v1_home_proto protoreflect.FileDescriptor
+var File_helloworld_v1_home_proto protoreflect.FileDescriptor
 
-const file_api_helloworld_v1_home_proto_rawDesc = "" +
+const file_helloworld_v1_home_proto_rawDesc = "" +
 	"\n" +
-	"\x1capi/helloworld/v1/home.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"\x13\n" +
+	"\x18helloworld/v1/home.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"\x13\n" +
 	"\x11CreateHomeRequest\"\x11\n" +
 	"\x0fCreateHomeReply\"\x13\n" +
 	"\x11UpdateHomeRequest\"\x11\n" +
@@ -409,19 +409,19 @@ const file_api_helloworld_v1_home_proto_rawDesc = "" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
 
 var (
-	file_api_helloworld_v1_home_proto_rawDescOnce sync.Once
-	file_api_helloworld_v1_home_proto_rawDescData []byte
+	file_helloworld_v1_home_proto_rawDescOnce sync.Once
+	file_helloworld_v1_home_proto_rawDescData []byte
 )
 
-func file_api_helloworld_v1_home_proto_rawDescGZIP() []byte {
-	file_api_helloworld_v1_home_proto_rawDescOnce.Do(func() {
-		file_api_helloworld_v1_home_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_home_proto_rawDesc), len(file_api_helloworld_v1_home_proto_rawDesc)))
+func file_helloworld_v1_home_proto_rawDescGZIP() []byte {
+	file_helloworld_v1_home_proto_rawDescOnce.Do(func() {
+		file_helloworld_v1_home_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_helloworld_v1_home_proto_rawDesc), len(file_helloworld_v1_home_proto_rawDesc)))
 	})
-	return file_api_helloworld_v1_home_proto_rawDescData
+	return file_helloworld_v1_home_proto_rawDescData
 }
 
-var file_api_helloworld_v1_home_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
-var file_api_helloworld_v1_home_proto_goTypes = []any{
+var file_helloworld_v1_home_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_helloworld_v1_home_proto_goTypes = []any{
 	(*CreateHomeRequest)(nil), // 0: api.helloworld.v1.CreateHomeRequest
 	(*CreateHomeReply)(nil),   // 1: api.helloworld.v1.CreateHomeReply
 	(*UpdateHomeRequest)(nil), // 2: api.helloworld.v1.UpdateHomeRequest
@@ -433,7 +433,7 @@ var file_api_helloworld_v1_home_proto_goTypes = []any{
 	(*ListHomeRequest)(nil),   // 8: api.helloworld.v1.ListHomeRequest
 	(*ListHomeReply)(nil),     // 9: api.helloworld.v1.ListHomeReply
 }
-var file_api_helloworld_v1_home_proto_depIdxs = []int32{
+var file_helloworld_v1_home_proto_depIdxs = []int32{
 	0, // 0: api.helloworld.v1.Home.CreateHome:input_type -> api.helloworld.v1.CreateHomeRequest
 	2, // 1: api.helloworld.v1.Home.UpdateHome:input_type -> api.helloworld.v1.UpdateHomeRequest
 	4, // 2: api.helloworld.v1.Home.DeleteHome:input_type -> api.helloworld.v1.DeleteHomeRequest
@@ -451,26 +451,26 @@ var file_api_helloworld_v1_home_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_api_helloworld_v1_home_proto_init() }
-func file_api_helloworld_v1_home_proto_init() {
-	if File_api_helloworld_v1_home_proto != nil {
+func init() { file_helloworld_v1_home_proto_init() }
+func file_helloworld_v1_home_proto_init() {
+	if File_helloworld_v1_home_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_home_proto_rawDesc), len(file_api_helloworld_v1_home_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_helloworld_v1_home_proto_rawDesc), len(file_helloworld_v1_home_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_helloworld_v1_home_proto_goTypes,
-		DependencyIndexes: file_api_helloworld_v1_home_proto_depIdxs,
-		MessageInfos:      file_api_helloworld_v1_home_proto_msgTypes,
+		GoTypes:           file_helloworld_v1_home_proto_goTypes,
+		DependencyIndexes: file_helloworld_v1_home_proto_depIdxs,
+		MessageInfos:      file_helloworld_v1_home_proto_msgTypes,
 	}.Build()
-	File_api_helloworld_v1_home_proto = out.File
-	file_api_helloworld_v1_home_proto_goTypes = nil
-	file_api_helloworld_v1_home_proto_depIdxs = nil
+	File_helloworld_v1_home_proto = out.File
+	file_helloworld_v1_home_proto_goTypes = nil
+	file_helloworld_v1_home_proto_depIdxs = nil
 }

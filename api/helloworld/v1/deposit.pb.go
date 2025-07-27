@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.26.1
-// source: api/helloworld/v1/deposit.proto
+// source: helloworld/v1/deposit.proto
 
 package v1
 
@@ -31,7 +31,7 @@ type SendCodeByOrderReq struct {
 
 func (x *SendCodeByOrderReq) Reset() {
 	*x = SendCodeByOrderReq{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[0]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +43,7 @@ func (x *SendCodeByOrderReq) String() string {
 func (*SendCodeByOrderReq) ProtoMessage() {}
 
 func (x *SendCodeByOrderReq) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[0]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +56,7 @@ func (x *SendCodeByOrderReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendCodeByOrderReq.ProtoReflect.Descriptor instead.
 func (*SendCodeByOrderReq) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{0}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *SendCodeByOrderReq) GetOrderNo() string {
@@ -77,7 +77,7 @@ type SendCodeByOrderRes struct {
 
 func (x *SendCodeByOrderRes) Reset() {
 	*x = SendCodeByOrderRes{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[1]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -89,7 +89,7 @@ func (x *SendCodeByOrderRes) String() string {
 func (*SendCodeByOrderRes) ProtoMessage() {}
 
 func (x *SendCodeByOrderRes) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[1]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -102,7 +102,7 @@ func (x *SendCodeByOrderRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SendCodeByOrderRes.ProtoReflect.Descriptor instead.
 func (*SendCodeByOrderRes) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{1}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *SendCodeByOrderRes) GetMsg() string {
@@ -135,7 +135,7 @@ type UpdateDepositLockerIdReq struct {
 
 func (x *UpdateDepositLockerIdReq) Reset() {
 	*x = UpdateDepositLockerIdReq{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[2]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -147,7 +147,7 @@ func (x *UpdateDepositLockerIdReq) String() string {
 func (*UpdateDepositLockerIdReq) ProtoMessage() {}
 
 func (x *UpdateDepositLockerIdReq) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[2]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -160,7 +160,7 @@ func (x *UpdateDepositLockerIdReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateDepositLockerIdReq.ProtoReflect.Descriptor instead.
 func (*UpdateDepositLockerIdReq) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{2}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UpdateDepositLockerIdReq) GetOrderId() string {
@@ -181,7 +181,7 @@ type UpdateDepositLockerIdRes struct {
 
 func (x *UpdateDepositLockerIdRes) Reset() {
 	*x = UpdateDepositLockerIdRes{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[3]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -193,7 +193,7 @@ func (x *UpdateDepositLockerIdRes) String() string {
 func (*UpdateDepositLockerIdRes) ProtoMessage() {}
 
 func (x *UpdateDepositLockerIdRes) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[3]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -206,7 +206,7 @@ func (x *UpdateDepositLockerIdRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateDepositLockerIdRes.ProtoReflect.Descriptor instead.
 func (*UpdateDepositLockerIdRes) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{3}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UpdateDepositLockerIdRes) GetCode() int32 {
@@ -239,7 +239,7 @@ type GetDepositLockerReq struct {
 
 func (x *GetDepositLockerReq) Reset() {
 	*x = GetDepositLockerReq{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[4]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -251,7 +251,7 @@ func (x *GetDepositLockerReq) String() string {
 func (*GetDepositLockerReq) ProtoMessage() {}
 
 func (x *GetDepositLockerReq) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[4]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -264,7 +264,7 @@ func (x *GetDepositLockerReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDepositLockerReq.ProtoReflect.Descriptor instead.
 func (*GetDepositLockerReq) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{4}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetDepositLockerReq) GetLockerId() int32 {
@@ -287,7 +287,7 @@ type GetDepositLockerRes struct {
 
 func (x *GetDepositLockerRes) Reset() {
 	*x = GetDepositLockerRes{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[5]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -299,7 +299,7 @@ func (x *GetDepositLockerRes) String() string {
 func (*GetDepositLockerRes) ProtoMessage() {}
 
 func (x *GetDepositLockerRes) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[5]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -312,7 +312,7 @@ func (x *GetDepositLockerRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDepositLockerRes.ProtoReflect.Descriptor instead.
 func (*GetDepositLockerRes) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{5}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetDepositLockerRes) GetAddress() string {
@@ -365,7 +365,7 @@ type Locker struct {
 
 func (x *Locker) Reset() {
 	*x = Locker{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[6]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -377,7 +377,7 @@ func (x *Locker) String() string {
 func (*Locker) ProtoMessage() {}
 
 func (x *Locker) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[6]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -390,7 +390,7 @@ func (x *Locker) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Locker.ProtoReflect.Descriptor instead.
 func (*Locker) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{6}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Locker) GetName() string {
@@ -453,7 +453,7 @@ type CreateDepositRequest struct {
 
 func (x *CreateDepositRequest) Reset() {
 	*x = CreateDepositRequest{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[7]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -465,7 +465,7 @@ func (x *CreateDepositRequest) String() string {
 func (*CreateDepositRequest) ProtoMessage() {}
 
 func (x *CreateDepositRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[7]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -478,7 +478,7 @@ func (x *CreateDepositRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateDepositRequest.ProtoReflect.Descriptor instead.
 func (*CreateDepositRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{7}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *CreateDepositRequest) GetScheduledDuration() int32 {
@@ -513,7 +513,7 @@ type CreateDepositReply struct {
 
 func (x *CreateDepositReply) Reset() {
 	*x = CreateDepositReply{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[8]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -525,7 +525,7 @@ func (x *CreateDepositReply) String() string {
 func (*CreateDepositReply) ProtoMessage() {}
 
 func (x *CreateDepositReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[8]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -538,7 +538,7 @@ func (x *CreateDepositReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateDepositReply.ProtoReflect.Descriptor instead.
 func (*CreateDepositReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{8}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *CreateDepositReply) GetCode() int32 {
@@ -572,7 +572,7 @@ type DepositReplyData struct {
 
 func (x *DepositReplyData) Reset() {
 	*x = DepositReplyData{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[9]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -584,7 +584,7 @@ func (x *DepositReplyData) String() string {
 func (*DepositReplyData) ProtoMessage() {}
 
 func (x *DepositReplyData) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[9]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -597,7 +597,7 @@ func (x *DepositReplyData) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DepositReplyData.ProtoReflect.Descriptor instead.
 func (*DepositReplyData) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{9}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DepositReplyData) GetOrderNo() string {
@@ -622,7 +622,7 @@ type UpdateDepositRequest struct {
 
 func (x *UpdateDepositRequest) Reset() {
 	*x = UpdateDepositRequest{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[10]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -634,7 +634,7 @@ func (x *UpdateDepositRequest) String() string {
 func (*UpdateDepositRequest) ProtoMessage() {}
 
 func (x *UpdateDepositRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[10]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -647,7 +647,7 @@ func (x *UpdateDepositRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateDepositRequest.ProtoReflect.Descriptor instead.
 func (*UpdateDepositRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{10}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{10}
 }
 
 type UpdateDepositReply struct {
@@ -658,7 +658,7 @@ type UpdateDepositReply struct {
 
 func (x *UpdateDepositReply) Reset() {
 	*x = UpdateDepositReply{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[11]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -670,7 +670,7 @@ func (x *UpdateDepositReply) String() string {
 func (*UpdateDepositReply) ProtoMessage() {}
 
 func (x *UpdateDepositReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[11]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -683,7 +683,7 @@ func (x *UpdateDepositReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateDepositReply.ProtoReflect.Descriptor instead.
 func (*UpdateDepositReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{11}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{11}
 }
 
 type DeleteDepositRequest struct {
@@ -694,7 +694,7 @@ type DeleteDepositRequest struct {
 
 func (x *DeleteDepositRequest) Reset() {
 	*x = DeleteDepositRequest{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[12]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -706,7 +706,7 @@ func (x *DeleteDepositRequest) String() string {
 func (*DeleteDepositRequest) ProtoMessage() {}
 
 func (x *DeleteDepositRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[12]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -719,7 +719,7 @@ func (x *DeleteDepositRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteDepositRequest.ProtoReflect.Descriptor instead.
 func (*DeleteDepositRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{12}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{12}
 }
 
 type DeleteDepositReply struct {
@@ -730,7 +730,7 @@ type DeleteDepositReply struct {
 
 func (x *DeleteDepositReply) Reset() {
 	*x = DeleteDepositReply{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[13]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -742,7 +742,7 @@ func (x *DeleteDepositReply) String() string {
 func (*DeleteDepositReply) ProtoMessage() {}
 
 func (x *DeleteDepositReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[13]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -755,7 +755,7 @@ func (x *DeleteDepositReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteDepositReply.ProtoReflect.Descriptor instead.
 func (*DeleteDepositReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{13}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{13}
 }
 
 type GetDepositRequest struct {
@@ -766,7 +766,7 @@ type GetDepositRequest struct {
 
 func (x *GetDepositRequest) Reset() {
 	*x = GetDepositRequest{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[14]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -778,7 +778,7 @@ func (x *GetDepositRequest) String() string {
 func (*GetDepositRequest) ProtoMessage() {}
 
 func (x *GetDepositRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[14]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -791,7 +791,7 @@ func (x *GetDepositRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDepositRequest.ProtoReflect.Descriptor instead.
 func (*GetDepositRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{14}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{14}
 }
 
 type GetDepositReply struct {
@@ -802,7 +802,7 @@ type GetDepositReply struct {
 
 func (x *GetDepositReply) Reset() {
 	*x = GetDepositReply{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[15]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -814,7 +814,7 @@ func (x *GetDepositReply) String() string {
 func (*GetDepositReply) ProtoMessage() {}
 
 func (x *GetDepositReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[15]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -827,7 +827,7 @@ func (x *GetDepositReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDepositReply.ProtoReflect.Descriptor instead.
 func (*GetDepositReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{15}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{15}
 }
 
 type ListDepositRequest struct {
@@ -838,7 +838,7 @@ type ListDepositRequest struct {
 
 func (x *ListDepositRequest) Reset() {
 	*x = ListDepositRequest{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[16]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -850,7 +850,7 @@ func (x *ListDepositRequest) String() string {
 func (*ListDepositRequest) ProtoMessage() {}
 
 func (x *ListDepositRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[16]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -863,7 +863,7 @@ func (x *ListDepositRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListDepositRequest.ProtoReflect.Descriptor instead.
 func (*ListDepositRequest) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{16}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{16}
 }
 
 type ListDepositReply struct {
@@ -874,7 +874,7 @@ type ListDepositReply struct {
 
 func (x *ListDepositReply) Reset() {
 	*x = ListDepositReply{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[17]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -886,7 +886,7 @@ func (x *ListDepositReply) String() string {
 func (*ListDepositReply) ProtoMessage() {}
 
 func (x *ListDepositReply) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[17]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -899,7 +899,7 @@ func (x *ListDepositReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListDepositReply.ProtoReflect.Descriptor instead.
 func (*ListDepositReply) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{17}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{17}
 }
 
 type ReturnTokenReq struct {
@@ -910,7 +910,7 @@ type ReturnTokenReq struct {
 
 func (x *ReturnTokenReq) Reset() {
 	*x = ReturnTokenReq{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[18]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -922,7 +922,7 @@ func (x *ReturnTokenReq) String() string {
 func (*ReturnTokenReq) ProtoMessage() {}
 
 func (x *ReturnTokenReq) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[18]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -935,7 +935,7 @@ func (x *ReturnTokenReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReturnTokenReq.ProtoReflect.Descriptor instead.
 func (*ReturnTokenReq) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{18}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{18}
 }
 
 type ReturnTokenRes struct {
@@ -949,7 +949,7 @@ type ReturnTokenRes struct {
 
 func (x *ReturnTokenRes) Reset() {
 	*x = ReturnTokenRes{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[19]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -961,7 +961,7 @@ func (x *ReturnTokenRes) String() string {
 func (*ReturnTokenRes) ProtoMessage() {}
 
 func (x *ReturnTokenRes) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[19]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -974,7 +974,7 @@ func (x *ReturnTokenRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReturnTokenRes.ProtoReflect.Descriptor instead.
 func (*ReturnTokenRes) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{19}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *ReturnTokenRes) GetToken() string {
@@ -1009,7 +1009,7 @@ type DecodeTokenRes struct {
 
 func (x *DecodeTokenRes) Reset() {
 	*x = DecodeTokenRes{}
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[20]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1021,7 +1021,7 @@ func (x *DecodeTokenRes) String() string {
 func (*DecodeTokenRes) ProtoMessage() {}
 
 func (x *DecodeTokenRes) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_deposit_proto_msgTypes[20]
+	mi := &file_helloworld_v1_deposit_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1034,7 +1034,7 @@ func (x *DecodeTokenRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DecodeTokenRes.ProtoReflect.Descriptor instead.
 func (*DecodeTokenRes) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_deposit_proto_rawDescGZIP(), []int{20}
+	return file_helloworld_v1_deposit_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *DecodeTokenRes) GetData() string {
@@ -1058,11 +1058,11 @@ func (x *DecodeTokenRes) GetMsg() string {
 	return ""
 }
 
-var File_api_helloworld_v1_deposit_proto protoreflect.FileDescriptor
+var File_helloworld_v1_deposit_proto protoreflect.FileDescriptor
 
-const file_api_helloworld_v1_deposit_proto_rawDesc = "" +
+const file_helloworld_v1_deposit_proto_rawDesc = "" +
 	"\n" +
-	"\x1fapi/helloworld/v1/deposit.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"/\n" +
+	"\x1bhelloworld/v1/deposit.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"/\n" +
 	"\x12SendCodeByOrderReq\x12\x19\n" +
 	"\border_no\x18\x01 \x01(\tR\aorderNo\"N\n" +
 	"\x12SendCodeByOrderRes\x12\x10\n" +
@@ -1139,19 +1139,19 @@ const file_api_helloworld_v1_deposit_proto_rawDesc = "" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
 
 var (
-	file_api_helloworld_v1_deposit_proto_rawDescOnce sync.Once
-	file_api_helloworld_v1_deposit_proto_rawDescData []byte
+	file_helloworld_v1_deposit_proto_rawDescOnce sync.Once
+	file_helloworld_v1_deposit_proto_rawDescData []byte
 )
 
-func file_api_helloworld_v1_deposit_proto_rawDescGZIP() []byte {
-	file_api_helloworld_v1_deposit_proto_rawDescOnce.Do(func() {
-		file_api_helloworld_v1_deposit_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_deposit_proto_rawDesc), len(file_api_helloworld_v1_deposit_proto_rawDesc)))
+func file_helloworld_v1_deposit_proto_rawDescGZIP() []byte {
+	file_helloworld_v1_deposit_proto_rawDescOnce.Do(func() {
+		file_helloworld_v1_deposit_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_helloworld_v1_deposit_proto_rawDesc), len(file_helloworld_v1_deposit_proto_rawDesc)))
 	})
-	return file_api_helloworld_v1_deposit_proto_rawDescData
+	return file_helloworld_v1_deposit_proto_rawDescData
 }
 
-var file_api_helloworld_v1_deposit_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
-var file_api_helloworld_v1_deposit_proto_goTypes = []any{
+var file_helloworld_v1_deposit_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_helloworld_v1_deposit_proto_goTypes = []any{
 	(*SendCodeByOrderReq)(nil),       // 0: api.helloworld.v1.SendCodeByOrderReq
 	(*SendCodeByOrderRes)(nil),       // 1: api.helloworld.v1.SendCodeByOrderRes
 	(*UpdateDepositLockerIdReq)(nil), // 2: api.helloworld.v1.UpdateDepositLockerIdReq
@@ -1174,7 +1174,7 @@ var file_api_helloworld_v1_deposit_proto_goTypes = []any{
 	(*ReturnTokenRes)(nil),           // 19: api.helloworld.v1.ReturnTokenRes
 	(*DecodeTokenRes)(nil),           // 20: api.helloworld.v1.decodeTokenRes
 }
-var file_api_helloworld_v1_deposit_proto_depIdxs = []int32{
+var file_helloworld_v1_deposit_proto_depIdxs = []int32{
 	6,  // 0: api.helloworld.v1.GetDepositLockerRes.locker:type_name -> api.helloworld.v1.Locker
 	9,  // 1: api.helloworld.v1.CreateDepositReply.data:type_name -> api.helloworld.v1.DepositReplyData
 	7,  // 2: api.helloworld.v1.Deposit.CreateDeposit:input_type -> api.helloworld.v1.CreateDepositRequest
@@ -1204,26 +1204,26 @@ var file_api_helloworld_v1_deposit_proto_depIdxs = []int32{
 	0,  // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_api_helloworld_v1_deposit_proto_init() }
-func file_api_helloworld_v1_deposit_proto_init() {
-	if File_api_helloworld_v1_deposit_proto != nil {
+func init() { file_helloworld_v1_deposit_proto_init() }
+func file_helloworld_v1_deposit_proto_init() {
+	if File_helloworld_v1_deposit_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_deposit_proto_rawDesc), len(file_api_helloworld_v1_deposit_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_helloworld_v1_deposit_proto_rawDesc), len(file_helloworld_v1_deposit_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_helloworld_v1_deposit_proto_goTypes,
-		DependencyIndexes: file_api_helloworld_v1_deposit_proto_depIdxs,
-		MessageInfos:      file_api_helloworld_v1_deposit_proto_msgTypes,
+		GoTypes:           file_helloworld_v1_deposit_proto_goTypes,
+		DependencyIndexes: file_helloworld_v1_deposit_proto_depIdxs,
+		MessageInfos:      file_helloworld_v1_deposit_proto_msgTypes,
 	}.Build()
-	File_api_helloworld_v1_deposit_proto = out.File
-	file_api_helloworld_v1_deposit_proto_goTypes = nil
-	file_api_helloworld_v1_deposit_proto_depIdxs = nil
+	File_helloworld_v1_deposit_proto = out.File
+	file_helloworld_v1_deposit_proto_goTypes = nil
+	file_helloworld_v1_deposit_proto_depIdxs = nil
 }

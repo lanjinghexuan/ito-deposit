@@ -34,7 +34,7 @@ func (s *OrderService) CreateOrder(ctx context.Context, req *pb.CreateOrderReque
 	s.DB.Where("cabinet_id  = ?", req.CabinetId).First(&order)
 
 	if order.CabinetId == req.CabinetId {
-		return nil, errors.New("point_id already exists")
+		return nil, errors.New("CabinetId already exists")
 	}
 
 	//随机生成订单编号
@@ -68,6 +68,17 @@ func (s *OrderService) CreateOrder(ctx context.Context, req *pb.CreateOrderReque
 		return nil, fmt.Errorf("create order failed: %v", err)
 	}
 
+	//创建柜子的状态处理
+
+	Locker := data.Lockers{
+		LockerPointId: int32(req.LockerPointId),
+		TypeId:        int32(req.TypeId),
+		Status:        int8(req.Status),
+	}
+	err = s.DB.Create(&Locker).Error
+	if err != nil {
+		return nil, fmt.Errorf("create order failed: %v", err)
+	}
 	return &pb.CreateOrderReply{
 		Msg: "订单发送,并记录",
 	}, nil
@@ -93,14 +104,13 @@ func (s *OrderService) UpdateOrder(ctx context.Context, req *pb.UpdateOrderReque
 	}
 
 	// 3. 计算总价格（使用实际时长）
-	totalPrice := pricingRule.HourlyRate * float64(lockerOrder.ActualDuration)
+	totalPrice := pricingRule.HourlyRate * float64(req.ActualDuration)
 
 	// 4. 更新订单信息
 	updateData := data.LockerOrders{
 		ActualDuration: int32(req.ActualDuration),
 		AmountPaid:     totalPrice,
 		Status:         int8(req.Status),
-		Price:          req.Price,
 		DepositStatus:  int8(req.DepositStatus),
 	}
 
@@ -108,16 +118,25 @@ func (s *OrderService) UpdateOrder(ctx context.Context, req *pb.UpdateOrderReque
 		return nil, status.Errorf(codes.Internal, "更新订单失败: %v", err)
 	}
 
+	lockerType := data.Lockers{
+		LockerPointId: int32(req.LockerPointId),
+		TypeId:        int32(req.TypeId),
+		Status:        int8(req.Status),
+	}
+	if err := s.DB.Model(&lockerOrder).Updates(&lockerType).Error; err != nil {
+		return nil, status.Errorf(codes.Internal, "更新订单失败: %v", err)
+	}
 	// 5. 生成支付链接（使用计算后的金额）
 	totalAmountStr := strconv.FormatFloat(totalPrice, 'f', 2, 64)
 
-	payUrl := pkg.Pay(lockerOrder.Title, lockerOrder.OrderNumber, totalAmountStr)
+	payUrl := pkg.Pay(req.Title, lockerOrder.OrderNumber, totalAmountStr)
 
 	// 6. 返回响应
 	return &pb.UpdateOrderReply{
 		PayUrl: payUrl,
 	}, nil
 }
+
 func (s *OrderService) DeleteOrder(ctx context.Context, req *pb.DeleteOrderRequest) (*pb.DeleteOrderReply, error) {
 	var lockerOrder data.LockerOrders
 
@@ -166,8 +185,15 @@ func (s *OrderService) ListOrder(ctx context.Context, req *pb.ListOrderRequest) 
 	// 构建查询条件
 	db := s.DB.Model(&data.LockerOrders{})
 
+	// 根据存储位置名称过滤
 	if req.StorageLocationName != "" {
 		db = db.Where("storage_location_name LIKE ?", "%"+req.StorageLocationName+"%")
+	}
+
+	// 根据订单状态过滤
+	if len(req.Status) > 0 {
+		// 如果传入了状态列表，则按状态过滤
+		db = db.Where("status IN (?)", req.Status)
 	}
 
 	// 添加排序
@@ -177,7 +203,7 @@ func (s *OrderService) ListOrder(ctx context.Context, req *pb.ListOrderRequest) 
 	var total int64
 	db.Count(&total)
 
-	// ✅ 正确使用 Limit & Offset
+	// 执行查询
 	if err := db.Limit(int(pageSize)).Offset(int(offset)).Find(&list).Error; err != nil {
 		return nil, status.Errorf(codes.Internal, "数据库查询失败: %v", err)
 	}
@@ -207,7 +233,6 @@ func (s *OrderService) ListOrder(ctx context.Context, req *pb.ListOrderRequest) 
 		Total:  total,
 	}, nil
 }
-
 func (s *OrderService) ShowOrder(ctx context.Context, req *pb.ShowOrderRequest) (*pb.ShowOrderReply, error) {
 	var order data.LockerOrders
 

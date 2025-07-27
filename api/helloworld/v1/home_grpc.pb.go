@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.26.1
-// source: api/helloworld/v1/home.proto
+// source: helloworld/v1/home.proto
 
 package v1
 
@@ -269,5 +269,5 @@ var Home_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/helloworld/v1/home.proto",
+	Metadata: "helloworld/v1/home.proto",
 }

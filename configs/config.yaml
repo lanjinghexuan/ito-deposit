@@ -16,3 +16,11 @@ data:
     password: 686c75a503764f121f81cc01c8dc04a7
     db: 0
   smscode: 373c436ad05c4eeba2fe9a646e9e2c61
+  minio:
+    endpoint: 14.103.235.215:9000
+    access_key_id: wxy
+    access_key_secret: wxy200621
+    bucket_name: test
+    use_ssl: false
+    base_path: ""
+    bucket-url: http://14.103.235.215:9000/test
