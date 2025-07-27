@@ -22,6 +22,134 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type AdminLoginReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Mobile        string                 `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	SmsCode       string                 `protobuf:"bytes,3,opt,name=smsCode,proto3" json:"smsCode,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AdminLoginReq) Reset() {
+	*x = AdminLoginReq{}
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AdminLoginReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdminLoginReq) ProtoMessage() {}
+
+func (x *AdminLoginReq) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdminLoginReq.ProtoReflect.Descriptor instead.
+func (*AdminLoginReq) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *AdminLoginReq) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+func (x *AdminLoginReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *AdminLoginReq) GetSmsCode() string {
+	if x != nil {
+		return x.SmsCode
+	}
+	return ""
+}
+
+type AdminLoginRes struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	Id            int64                  `protobuf:"varint,3,opt,name=id,proto3" json:"id,omitempty"`
+	Token         string                 `protobuf:"bytes,4,opt,name=token,proto3" json:"token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AdminLoginRes) Reset() {
+	*x = AdminLoginRes{}
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AdminLoginRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AdminLoginRes) ProtoMessage() {}
+
+func (x *AdminLoginRes) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AdminLoginRes.ProtoReflect.Descriptor instead.
+func (*AdminLoginRes) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *AdminLoginRes) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *AdminLoginRes) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *AdminLoginRes) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *AdminLoginRes) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
 type SetPriceRuleReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	NetworkId     int64                  `protobuf:"varint,1,opt,name=network_id,json=networkId,proto3" json:"network_id,omitempty"`
@@ -32,7 +160,7 @@ type SetPriceRuleReq struct {
 
 func (x *SetPriceRuleReq) Reset() {
 	*x = SetPriceRuleReq{}
-	mi := &file_api_helloworld_v1_admin_proto_msgTypes[0]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +172,7 @@ func (x *SetPriceRuleReq) String() string {
 func (*SetPriceRuleReq) ProtoMessage() {}
 
 func (x *SetPriceRuleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_admin_proto_msgTypes[0]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +185,7 @@ func (x *SetPriceRuleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetPriceRuleReq.ProtoReflect.Descriptor instead.
 func (*SetPriceRuleReq) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{0}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *SetPriceRuleReq) GetNetworkId() int64 {
@@ -84,7 +212,7 @@ type SetPriceRuleRes struct {
 
 func (x *SetPriceRuleRes) Reset() {
 	*x = SetPriceRuleRes{}
-	mi := &file_api_helloworld_v1_admin_proto_msgTypes[1]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -96,7 +224,7 @@ func (x *SetPriceRuleRes) String() string {
 func (*SetPriceRuleRes) ProtoMessage() {}
 
 func (x *SetPriceRuleRes) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_admin_proto_msgTypes[1]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -109,7 +237,7 @@ func (x *SetPriceRuleRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetPriceRuleRes.ProtoReflect.Descriptor instead.
 func (*SetPriceRuleRes) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{1}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *SetPriceRuleRes) GetCode() int32 {
@@ -135,7 +263,7 @@ type GetPriceRuleReq struct {
 
 func (x *GetPriceRuleReq) Reset() {
 	*x = GetPriceRuleReq{}
-	mi := &file_api_helloworld_v1_admin_proto_msgTypes[2]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -147,7 +275,7 @@ func (x *GetPriceRuleReq) String() string {
 func (*GetPriceRuleReq) ProtoMessage() {}
 
 func (x *GetPriceRuleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_admin_proto_msgTypes[2]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -160,7 +288,7 @@ func (x *GetPriceRuleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPriceRuleReq.ProtoReflect.Descriptor instead.
 func (*GetPriceRuleReq) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{2}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetPriceRuleReq) GetNetworkId() int64 {
@@ -179,7 +307,7 @@ type GetPriceRuleRes struct {
 
 func (x *GetPriceRuleRes) Reset() {
 	*x = GetPriceRuleRes{}
-	mi := &file_api_helloworld_v1_admin_proto_msgTypes[3]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -191,7 +319,7 @@ func (x *GetPriceRuleRes) String() string {
 func (*GetPriceRuleRes) ProtoMessage() {}
 
 func (x *GetPriceRuleRes) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_admin_proto_msgTypes[3]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -204,7 +332,7 @@ func (x *GetPriceRuleRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPriceRuleRes.ProtoReflect.Descriptor instead.
 func (*GetPriceRuleRes) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{3}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetPriceRuleRes) GetRules() []*LockerPriceRule {
@@ -238,7 +366,7 @@ type LockerPriceRule struct {
 
 func (x *LockerPriceRule) Reset() {
 	*x = LockerPriceRule{}
-	mi := &file_api_helloworld_v1_admin_proto_msgTypes[4]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -250,7 +378,7 @@ func (x *LockerPriceRule) String() string {
 func (*LockerPriceRule) ProtoMessage() {}
 
 func (x *LockerPriceRule) ProtoReflect() protoreflect.Message {
-	mi := &file_api_helloworld_v1_admin_proto_msgTypes[4]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -263,7 +391,7 @@ func (x *LockerPriceRule) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LockerPriceRule.ProtoReflect.Descriptor instead.
 func (*LockerPriceRule) Descriptor() ([]byte, []int) {
-	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{4}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *LockerPriceRule) GetId() int64 {
@@ -350,11 +478,192 @@ func (x *LockerPriceRule) GetIsAdvancePay() bool {
 	return false
 }
 
+type PointListReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PointListReq) Reset() {
+	*x = PointListReq{}
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PointListReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PointListReq) ProtoMessage() {}
+
+func (x *PointListReq) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PointListReq.ProtoReflect.Descriptor instead.
+func (*PointListReq) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{7}
+}
+
+type PointListRes struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	List          []*PointList           `protobuf:"bytes,3,rep,name=list,proto3" json:"list,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PointListRes) Reset() {
+	*x = PointListRes{}
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PointListRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PointListRes) ProtoMessage() {}
+
+func (x *PointListRes) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PointListRes.ProtoReflect.Descriptor instead.
+func (*PointListRes) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *PointListRes) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *PointListRes) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *PointListRes) GetList() []*PointList {
+	if x != nil {
+		return x.List
+	}
+	return nil
+}
+
+type PointList struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Name            string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Address         string                 `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	AvailableLarge  int64                  `protobuf:"varint,3,opt,name=available_large,json=availableLarge,proto3" json:"available_large,omitempty"`
+	AvailableMedium int64                  `protobuf:"varint,4,opt,name=available_medium,json=availableMedium,proto3" json:"available_medium,omitempty"`
+	AvailableSmall  int64                  `protobuf:"varint,5,opt,name=available_small,json=availableSmall,proto3" json:"available_small,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *PointList) Reset() {
+	*x = PointList{}
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PointList) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PointList) ProtoMessage() {}
+
+func (x *PointList) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PointList.ProtoReflect.Descriptor instead.
+func (*PointList) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *PointList) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *PointList) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
+func (x *PointList) GetAvailableLarge() int64 {
+	if x != nil {
+		return x.AvailableLarge
+	}
+	return 0
+}
+
+func (x *PointList) GetAvailableMedium() int64 {
+	if x != nil {
+		return x.AvailableMedium
+	}
+	return 0
+}
+
+func (x *PointList) GetAvailableSmall() int64 {
+	if x != nil {
+		return x.AvailableSmall
+	}
+	return 0
+}
+
 var File_api_helloworld_v1_admin_proto protoreflect.FileDescriptor
 
 const file_api_helloworld_v1_admin_proto_rawDesc = "" +
 	"\n" +
-	"\x1dapi/helloworld/v1/admin.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"j\n" +
+	"\x1dapi/helloworld/v1/admin.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"]\n" +
+	"\rAdminLoginReq\x12\x16\n" +
+	"\x06mobile\x18\x01 \x01(\tR\x06mobile\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x18\n" +
+	"\asmsCode\x18\x03 \x01(\tR\asmsCode\"[\n" +
+	"\rAdminLoginRes\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x12\x0e\n" +
+	"\x02id\x18\x03 \x01(\x03R\x02id\x12\x14\n" +
+	"\x05token\x18\x04 \x01(\tR\x05token\"j\n" +
 	"\x0fSetPriceRuleReq\x12\x1d\n" +
 	"\n" +
 	"network_id\x18\x01 \x01(\x03R\tnetworkId\x128\n" +
@@ -383,8 +692,22 @@ const file_api_helloworld_v1_admin_proto_rawDesc = "" +
 	"\x0edeposit_amount\x18\n" +
 	" \x01(\x02R\rdepositAmount\x12,\n" +
 	"\x12is_deposit_enabled\x18\v \x01(\bR\x10isDepositEnabled\x12$\n" +
-	"\x0eis_advance_pay\x18\f \x01(\bR\fisAdvancePay2\xf4\x01\n" +
-	"\x05Admin\x12v\n" +
+	"\x0eis_advance_pay\x18\f \x01(\bR\fisAdvancePay\"\x0e\n" +
+	"\fPointListReq\"f\n" +
+	"\fPointListRes\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x120\n" +
+	"\x04list\x18\x03 \x03(\v2\x1c.api.helloworld.v1.PointListR\x04list\"\xb6\x01\n" +
+	"\tPointList\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
+	"\aaddress\x18\x02 \x01(\tR\aaddress\x12'\n" +
+	"\x0favailable_large\x18\x03 \x01(\x03R\x0eavailableLarge\x12)\n" +
+	"\x10available_medium\x18\x04 \x01(\x03R\x0favailableMedium\x12'\n" +
+	"\x0favailable_small\x18\x05 \x01(\x03R\x0eavailableSmall2\xc3\x03\n" +
+	"\x05Admin\x12b\n" +
+	"\tPointList\x12\x1f.api.helloworld.v1.PointListReq\x1a\x1f.api.helloworld.v1.PointListRes\"\x13\x82\xd3\xe4\x93\x02\r\x12\v/point_list\x12i\n" +
+	"\n" +
+	"AdminLogin\x12 .api.helloworld.v1.AdminLoginReq\x1a .api.helloworld.v1.AdminLoginRes\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/admin/login\x12v\n" +
 	"\fSetPriceRule\x12\".api.helloworld.v1.SetPriceRuleReq\x1a\".api.helloworld.v1.SetPriceRuleRes\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/admin/setPriceRule\x12s\n" +
 	"\fGetPriceRule\x12\".api.helloworld.v1.GetPriceRuleReq\x1a\".api.helloworld.v1.GetPriceRuleRes\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/admin/getPriceRuleB7\n" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
@@ -401,26 +724,36 @@ func file_api_helloworld_v1_admin_proto_rawDescGZIP() []byte {
 	return file_api_helloworld_v1_admin_proto_rawDescData
 }
 
-var file_api_helloworld_v1_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_api_helloworld_v1_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_api_helloworld_v1_admin_proto_goTypes = []any{
-	(*SetPriceRuleReq)(nil), // 0: api.helloworld.v1.SetPriceRuleReq
-	(*SetPriceRuleRes)(nil), // 1: api.helloworld.v1.SetPriceRuleRes
-	(*GetPriceRuleReq)(nil), // 2: api.helloworld.v1.GetPriceRuleReq
-	(*GetPriceRuleRes)(nil), // 3: api.helloworld.v1.GetPriceRuleRes
-	(*LockerPriceRule)(nil), // 4: api.helloworld.v1.LockerPriceRule
+	(*AdminLoginReq)(nil),   // 0: api.helloworld.v1.AdminLoginReq
+	(*AdminLoginRes)(nil),   // 1: api.helloworld.v1.AdminLoginRes
+	(*SetPriceRuleReq)(nil), // 2: api.helloworld.v1.SetPriceRuleReq
+	(*SetPriceRuleRes)(nil), // 3: api.helloworld.v1.SetPriceRuleRes
+	(*GetPriceRuleReq)(nil), // 4: api.helloworld.v1.GetPriceRuleReq
+	(*GetPriceRuleRes)(nil), // 5: api.helloworld.v1.GetPriceRuleRes
+	(*LockerPriceRule)(nil), // 6: api.helloworld.v1.LockerPriceRule
+	(*PointListReq)(nil),    // 7: api.helloworld.v1.PointListReq
+	(*PointListRes)(nil),    // 8: api.helloworld.v1.PointListRes
+	(*PointList)(nil),       // 9: api.helloworld.v1.PointList
 }
 var file_api_helloworld_v1_admin_proto_depIdxs = []int32{
-	4, // 0: api.helloworld.v1.SetPriceRuleReq.rules:type_name -> api.helloworld.v1.LockerPriceRule
-	4, // 1: api.helloworld.v1.GetPriceRuleRes.rules:type_name -> api.helloworld.v1.LockerPriceRule
-	0, // 2: api.helloworld.v1.Admin.SetPriceRule:input_type -> api.helloworld.v1.SetPriceRuleReq
-	2, // 3: api.helloworld.v1.Admin.GetPriceRule:input_type -> api.helloworld.v1.GetPriceRuleReq
-	1, // 4: api.helloworld.v1.Admin.SetPriceRule:output_type -> api.helloworld.v1.SetPriceRuleRes
-	3, // 5: api.helloworld.v1.Admin.GetPriceRule:output_type -> api.helloworld.v1.GetPriceRuleRes
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	6, // 0: api.helloworld.v1.SetPriceRuleReq.rules:type_name -> api.helloworld.v1.LockerPriceRule
+	6, // 1: api.helloworld.v1.GetPriceRuleRes.rules:type_name -> api.helloworld.v1.LockerPriceRule
+	9, // 2: api.helloworld.v1.PointListRes.list:type_name -> api.helloworld.v1.PointList
+	7, // 3: api.helloworld.v1.Admin.PointList:input_type -> api.helloworld.v1.PointListReq
+	0, // 4: api.helloworld.v1.Admin.AdminLogin:input_type -> api.helloworld.v1.AdminLoginReq
+	2, // 5: api.helloworld.v1.Admin.SetPriceRule:input_type -> api.helloworld.v1.SetPriceRuleReq
+	4, // 6: api.helloworld.v1.Admin.GetPriceRule:input_type -> api.helloworld.v1.GetPriceRuleReq
+	8, // 7: api.helloworld.v1.Admin.PointList:output_type -> api.helloworld.v1.PointListRes
+	1, // 8: api.helloworld.v1.Admin.AdminLogin:output_type -> api.helloworld.v1.AdminLoginRes
+	3, // 9: api.helloworld.v1.Admin.SetPriceRule:output_type -> api.helloworld.v1.SetPriceRuleRes
+	5, // 10: api.helloworld.v1.Admin.GetPriceRule:output_type -> api.helloworld.v1.GetPriceRuleRes
+	7, // [7:11] is the sub-list for method output_type
+	3, // [3:7] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_api_helloworld_v1_admin_proto_init() }
@@ -434,7 +767,7 @@ func file_api_helloworld_v1_admin_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_admin_proto_rawDesc), len(file_api_helloworld_v1_admin_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

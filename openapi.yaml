@@ -3,61 +3,42 @@
 
 openapi: 3.0.3
 info:
-    title: User API
+    title: Admin API
     version: 0.0.1
 paths:
-    /admin:
-        post:
-            tags:
-                - User
-            operationId: User_Admin
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/AdminRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/AdminRes'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /list:
+    /admin/getPriceRule:
         get:
             tags:
-                - User
-            operationId: User_OrderList
+                - Admin
+            operationId: Admin_GetPriceRule
+            parameters:
+                - name: networkId
+                  in: query
+                  schema:
+                    type: string
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/OrderListRes'
+                                $ref: '#/components/schemas/GetPriceRuleRes'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /login:
+    /admin/login:
         post:
             tags:
-                - User
-            operationId: User_Login
+                - Admin
+            operationId: Admin_AdminLogin
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/LoginRequest'
+                            $ref: '#/components/schemas/AdminLoginReq'
                 required: true
             responses:
                 "200":
@@ -65,23 +46,23 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/LoginRes'
+                                $ref: '#/components/schemas/AdminLoginRes'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /register:
+    /admin/setPriceRule:
         post:
             tags:
-                - User
-            operationId: User_Register
+                - Admin
+            operationId: Admin_SetPriceRule
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/RegisterRequest'
+                            $ref: '#/components/schemas/SetPriceRuleReq'
                 required: true
             responses:
                 "200":
@@ -89,31 +70,25 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/RegisterRes'
+                                $ref: '#/components/schemas/SetPriceRuleRes'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /sendSms:
-        post:
+    /point_list:
+        get:
             tags:
-                - User
-            operationId: User_SendSms
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/SendSmsRequest'
-                required: true
+                - Admin
+            operationId: Admin_PointList
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SendSmsRes'
+                                $ref: '#/components/schemas/PointListRes'
                 default:
                     description: Default error response
                     content:
@@ -122,43 +97,7 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        AdminRequest:
-            type: object
-            properties:
-                adminId:
-                    type: string
-                lockerPointId:
-                    type: string
-        AdminRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                pointNum:
-                    type: string
-                yesterdayOrderNum:
-                    type: string
-                lastOrderPrice:
-                    type: number
-                    format: float
-                lastOrderNum:
-                    type: string
-                mouthPrice:
-                    type: number
-                    format: float
-                monthNum:
-                    type: string
-        GoogleProtobufAny:
-            type: object
-            properties:
-                '@type':
-                    type: string
-                    description: The type of the serialized message.
-            additionalProperties: true
-            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        LoginRequest:
+        AdminLoginReq:
             type: object
             properties:
                 mobile:
@@ -167,9 +106,7 @@ components:
                     type: string
                 smsCode:
                     type: string
-                username:
-                    type: string
-        LoginRes:
+        AdminLoginRes:
             type: object
             properties:
                 code:
@@ -180,35 +117,74 @@ components:
                     type: string
                 token:
                     type: string
-        OrderList:
+        GetPriceRuleRes:
             type: object
             properties:
-                OrderNumber:
+                rules:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/LockerPriceRule'
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
                     type: string
-                UserId:
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        LockerPriceRule:
+            type: object
+            properties:
+                id:
                     type: string
-                ScheduledDuration:
+                    description: 基础标识
+                ruleName:
                     type: string
-                ActualDuration:
-                    type: string
-                Price:
+                feeType:
+                    type: integer
+                    description: 核心配置
+                    format: int32
+                lockerType:
+                    type: integer
+                    format: int32
+                freeDuration:
                     type: number
                     format: float
-                Discount:
+                hourlyRate:
+                    type: number
+                    description: 金额设置
+                    format: float
+                dailyCap:
                     type: number
                     format: float
-                AmountPaid:
+                dailyRate:
                     type: number
                     format: float
-                StorageLocationName:
+                advanceAmount:
+                    type: number
+                    format: float
+                depositAmount:
+                    type: number
+                    format: float
+                isDepositEnabled:
+                    type: boolean
+                    description: 功能开关
+                isAdvancePay:
+                    type: boolean
+        PointList:
+            type: object
+            properties:
+                name:
                     type: string
-                CabinetId:
+                address:
                     type: string
-                Status:
+                availableLarge:
                     type: string
-                DepositStatus:
+                availableMedium:
                     type: string
-        OrderListRes:
+                availableSmall:
+                    type: string
+        PointListRes:
             type: object
             properties:
                 code:
@@ -218,37 +194,22 @@ components:
                 list:
                     type: array
                     items:
-                        $ref: '#/components/schemas/OrderList'
-        RegisterRequest:
+                        $ref: '#/components/schemas/PointList'
+        SetPriceRuleReq:
             type: object
             properties:
-                mobile:
+                networkId:
                     type: string
-                password:
-                    type: string
-                smsCode:
-                    type: string
-                username:
-                    type: string
-        RegisterRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-        SendSmsRequest:
-            type: object
-            properties:
-                mobile:
-                    type: string
-                source:
-                    type: string
-        SendSmsRes:
+                rules:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/LockerPriceRule'
+        SetPriceRuleRes:
             type: object
             properties:
                 code:
-                    type: string
+                    type: integer
+                    format: int32
                 msg:
                     type: string
         Status:
@@ -268,4 +229,4 @@ components:
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
 tags:
-    - name: User
+    - name: Admin

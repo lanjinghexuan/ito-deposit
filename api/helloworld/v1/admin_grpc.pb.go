@@ -19,6 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	Admin_PointList_FullMethodName    = "/api.helloworld.v1.Admin/PointList"
+	Admin_AdminLogin_FullMethodName   = "/api.helloworld.v1.Admin/AdminLogin"
 	Admin_SetPriceRule_FullMethodName = "/api.helloworld.v1.Admin/SetPriceRule"
 	Admin_GetPriceRule_FullMethodName = "/api.helloworld.v1.Admin/GetPriceRule"
 )
@@ -27,6 +29,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AdminClient interface {
+	PointList(ctx context.Context, in *PointListReq, opts ...grpc.CallOption) (*PointListRes, error)
+	AdminLogin(ctx context.Context, in *AdminLoginReq, opts ...grpc.CallOption) (*AdminLoginRes, error)
 	SetPriceRule(ctx context.Context, in *SetPriceRuleReq, opts ...grpc.CallOption) (*SetPriceRuleRes, error)
 	GetPriceRule(ctx context.Context, in *GetPriceRuleReq, opts ...grpc.CallOption) (*GetPriceRuleRes, error)
 }
@@ -37,6 +41,26 @@ type adminClient struct {
 
 func NewAdminClient(cc grpc.ClientConnInterface) AdminClient {
 	return &adminClient{cc}
+}
+
+func (c *adminClient) PointList(ctx context.Context, in *PointListReq, opts ...grpc.CallOption) (*PointListRes, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PointListRes)
+	err := c.cc.Invoke(ctx, Admin_PointList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminClient) AdminLogin(ctx context.Context, in *AdminLoginReq, opts ...grpc.CallOption) (*AdminLoginRes, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AdminLoginRes)
+	err := c.cc.Invoke(ctx, Admin_AdminLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *adminClient) SetPriceRule(ctx context.Context, in *SetPriceRuleReq, opts ...grpc.CallOption) (*SetPriceRuleRes, error) {
@@ -63,6 +87,8 @@ func (c *adminClient) GetPriceRule(ctx context.Context, in *GetPriceRuleReq, opt
 // All implementations must embed UnimplementedAdminServer
 // for forward compatibility.
 type AdminServer interface {
+	PointList(context.Context, *PointListReq) (*PointListRes, error)
+	AdminLogin(context.Context, *AdminLoginReq) (*AdminLoginRes, error)
 	SetPriceRule(context.Context, *SetPriceRuleReq) (*SetPriceRuleRes, error)
 	GetPriceRule(context.Context, *GetPriceRuleReq) (*GetPriceRuleRes, error)
 	mustEmbedUnimplementedAdminServer()
@@ -75,6 +101,12 @@ type AdminServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAdminServer struct{}
 
+func (UnimplementedAdminServer) PointList(context.Context, *PointListReq) (*PointListRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PointList not implemented")
+}
+func (UnimplementedAdminServer) AdminLogin(context.Context, *AdminLoginReq) (*AdminLoginRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminLogin not implemented")
+}
 func (UnimplementedAdminServer) SetPriceRule(context.Context, *SetPriceRuleReq) (*SetPriceRuleRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetPriceRule not implemented")
 }
@@ -100,6 +132,42 @@ func RegisterAdminServer(s grpc.ServiceRegistrar, srv AdminServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&Admin_ServiceDesc, srv)
+}
+
+func _Admin_PointList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PointListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).PointList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Admin_PointList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).PointList(ctx, req.(*PointListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Admin_AdminLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminLoginReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).AdminLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Admin_AdminLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).AdminLogin(ctx, req.(*AdminLoginReq))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Admin_SetPriceRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -145,6 +213,14 @@ var Admin_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "api.helloworld.v1.Admin",
 	HandlerType: (*AdminServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "PointList",
+			Handler:    _Admin_PointList_Handler,
+		},
+		{
+			MethodName: "AdminLogin",
+			Handler:    _Admin_AdminLogin_Handler,
+		},
 		{
 			MethodName: "SetPriceRule",
 			Handler:    _Admin_SetPriceRule_Handler,
