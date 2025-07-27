@@ -43,7 +43,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	depositService := service.NewDepositService(dataData, confServer, sendSms)
 	adminRepo := data.NewAdminRepo(dataData, logger)
 	adminUsecase := biz.NewAdminUsecase(adminRepo, logger)
-	adminService := service.NewAdminService(dataData, adminUsecase)
+	adminService := service.NewAdminService(dataData, adminUsecase, confData)
 	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, logger)
 	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, logger)
 	app := newApp(logger, grpcServer, httpServer)

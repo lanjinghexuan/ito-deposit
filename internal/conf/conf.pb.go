@@ -7,13 +7,12 @@
 package conf
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -140,6 +139,7 @@ type Data struct {
 	Database      *Data_Database         `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
 	Redis         *Data_Redis            `protobuf:"bytes,2,opt,name=redis,proto3" json:"redis,omitempty"`
 	Smscode       string                 `protobuf:"bytes,3,opt,name=smscode,proto3" json:"smscode,omitempty"`
+	Minio         *Data_Minio            `protobuf:"bytes,4,opt,name=minio,proto3" json:"minio,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -193,6 +193,13 @@ func (x *Data) GetSmscode() string {
 		return x.Smscode
 	}
 	return ""
+}
+
+func (x *Data) GetMinio() *Data_Minio {
+	if x != nil {
+		return x.Minio
+	}
+	return nil
 }
 
 type Server_HTTP struct {
@@ -479,6 +486,90 @@ func (x *Data_Redis) GetDb() int64 {
 	return 0
 }
 
+type Data_Minio struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Endpoint        string                 `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	AccessKeyId     string                 `protobuf:"bytes,2,opt,name=access_key_id,json=accessKeyId,proto3" json:"access_key_id,omitempty"`
+	AccessKeySecret string                 `protobuf:"bytes,3,opt,name=access_key_secret,json=accessKeySecret,proto3" json:"access_key_secret,omitempty"`
+	BucketName      string                 `protobuf:"bytes,4,opt,name=bucket_name,json=bucketName,proto3" json:"bucket_name,omitempty"`
+	UseSsl          bool                   `protobuf:"varint,5,opt,name=use_ssl,json=useSsl,proto3" json:"use_ssl,omitempty"`
+	BucketUrl       string                 `protobuf:"bytes,6,opt,name=bucket_url,json=bucketUrl,proto3" json:"bucket_url,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *Data_Minio) Reset() {
+	*x = Data_Minio{}
+	mi := &file_conf_conf_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Data_Minio) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Data_Minio) ProtoMessage() {}
+
+func (x *Data_Minio) ProtoReflect() protoreflect.Message {
+	mi := &file_conf_conf_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Data_Minio.ProtoReflect.Descriptor instead.
+func (*Data_Minio) Descriptor() ([]byte, []int) {
+	return file_conf_conf_proto_rawDescGZIP(), []int{2, 2}
+}
+
+func (x *Data_Minio) GetEndpoint() string {
+	if x != nil {
+		return x.Endpoint
+	}
+	return ""
+}
+
+func (x *Data_Minio) GetAccessKeyId() string {
+	if x != nil {
+		return x.AccessKeyId
+	}
+	return ""
+}
+
+func (x *Data_Minio) GetAccessKeySecret() string {
+	if x != nil {
+		return x.AccessKeySecret
+	}
+	return ""
+}
+
+func (x *Data_Minio) GetBucketName() string {
+	if x != nil {
+		return x.BucketName
+	}
+	return ""
+}
+
+func (x *Data_Minio) GetUseSsl() bool {
+	if x != nil {
+		return x.UseSsl
+	}
+	return false
+}
+
+func (x *Data_Minio) GetBucketUrl() string {
+	if x != nil {
+		return x.BucketUrl
+	}
+	return ""
+}
+
 var File_conf_conf_proto protoreflect.FileDescriptor
 
 const file_conf_conf_proto_rawDesc = "" +
@@ -501,11 +592,12 @@ const file_conf_conf_proto_rawDesc = "" +
 	"\x04addr\x18\x02 \x01(\tR\x04addr\x123\n" +
 	"\atimeout\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\atimeout\x1a\x1f\n" +
 	"\x03Jwt\x12\x18\n" +
-	"\aauthkey\x18\x01 \x01(\tR\aauthkey\"\xa4\x02\n" +
+	"\aauthkey\x18\x01 \x01(\tR\aauthkey\"\xa1\x04\n" +
 	"\x04Data\x125\n" +
 	"\bdatabase\x18\x01 \x01(\v2\x19.kratos.api.Data.DatabaseR\bdatabase\x12,\n" +
 	"\x05redis\x18\x02 \x01(\v2\x16.kratos.api.Data.RedisR\x05redis\x12\x18\n" +
-	"\asmscode\x18\x03 \x01(\tR\asmscode\x1a:\n" +
+	"\asmscode\x18\x03 \x01(\tR\asmscode\x12,\n" +
+	"\x05minio\x18\x04 \x01(\v2\x16.kratos.api.Data.MinioR\x05minio\x1a:\n" +
 	"\bDatabase\x12\x16\n" +
 	"\x06driver\x18\x01 \x01(\tR\x06driver\x12\x16\n" +
 	"\x06source\x18\x02 \x01(\tR\x06source\x1aa\n" +
@@ -513,7 +605,16 @@ const file_conf_conf_proto_rawDesc = "" +
 	"\anetwork\x18\x01 \x01(\tR\anetwork\x12\x12\n" +
 	"\x04addr\x18\x02 \x01(\tR\x04addr\x12\x1a\n" +
 	"\bpassword\x18\x03 \x01(\tR\bpassword\x12\x0e\n" +
-	"\x02db\x18\x04 \x01(\x03R\x02dbB Z\x1eito-deposit/internal/conf;confb\x06proto3"
+	"\x02db\x18\x04 \x01(\x03R\x02db\x1a\xcc\x01\n" +
+	"\x05Minio\x12\x1a\n" +
+	"\bendpoint\x18\x01 \x01(\tR\bendpoint\x12\"\n" +
+	"\raccess_key_id\x18\x02 \x01(\tR\vaccessKeyId\x12*\n" +
+	"\x11access_key_secret\x18\x03 \x01(\tR\x0faccessKeySecret\x12\x1f\n" +
+	"\vbucket_name\x18\x04 \x01(\tR\n" +
+	"bucketName\x12\x17\n" +
+	"\ause_ssl\x18\x05 \x01(\bR\x06useSsl\x12\x1d\n" +
+	"\n" +
+	"bucket_url\x18\x06 \x01(\tR\tbucketUrlB Z\x1eito-deposit/internal/conf;confb\x06proto3"
 
 var (
 	file_conf_conf_proto_rawDescOnce sync.Once
@@ -527,7 +628,7 @@ func file_conf_conf_proto_rawDescGZIP() []byte {
 	return file_conf_conf_proto_rawDescData
 }
 
-var file_conf_conf_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_conf_conf_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_conf_conf_proto_goTypes = []any{
 	(*Bootstrap)(nil),           // 0: kratos.api.Bootstrap
 	(*Server)(nil),              // 1: kratos.api.Server
@@ -537,23 +638,25 @@ var file_conf_conf_proto_goTypes = []any{
 	(*Server_Jwt)(nil),          // 5: kratos.api.Server.Jwt
 	(*Data_Database)(nil),       // 6: kratos.api.Data.Database
 	(*Data_Redis)(nil),          // 7: kratos.api.Data.Redis
-	(*durationpb.Duration)(nil), // 8: google.protobuf.Duration
+	(*Data_Minio)(nil),          // 8: kratos.api.Data.Minio
+	(*durationpb.Duration)(nil), // 9: google.protobuf.Duration
 }
 var file_conf_conf_proto_depIdxs = []int32{
-	1, // 0: kratos.api.Bootstrap.server:type_name -> kratos.api.Server
-	2, // 1: kratos.api.Bootstrap.data:type_name -> kratos.api.Data
-	3, // 2: kratos.api.Server.http:type_name -> kratos.api.Server.HTTP
-	4, // 3: kratos.api.Server.grpc:type_name -> kratos.api.Server.GRPC
-	5, // 4: kratos.api.Server.jwt:type_name -> kratos.api.Server.Jwt
-	6, // 5: kratos.api.Data.database:type_name -> kratos.api.Data.Database
-	7, // 6: kratos.api.Data.redis:type_name -> kratos.api.Data.Redis
-	8, // 7: kratos.api.Server.HTTP.timeout:type_name -> google.protobuf.Duration
-	8, // 8: kratos.api.Server.GRPC.timeout:type_name -> google.protobuf.Duration
-	9, // [9:9] is the sub-list for method output_type
-	9, // [9:9] is the sub-list for method input_type
-	9, // [9:9] is the sub-list for extension type_name
-	9, // [9:9] is the sub-list for extension extendee
-	0, // [0:9] is the sub-list for field type_name
+	1,  // 0: kratos.api.Bootstrap.server:type_name -> kratos.api.Server
+	2,  // 1: kratos.api.Bootstrap.data:type_name -> kratos.api.Data
+	3,  // 2: kratos.api.Server.http:type_name -> kratos.api.Server.HTTP
+	4,  // 3: kratos.api.Server.grpc:type_name -> kratos.api.Server.GRPC
+	5,  // 4: kratos.api.Server.jwt:type_name -> kratos.api.Server.Jwt
+	6,  // 5: kratos.api.Data.database:type_name -> kratos.api.Data.Database
+	7,  // 6: kratos.api.Data.redis:type_name -> kratos.api.Data.Redis
+	8,  // 7: kratos.api.Data.minio:type_name -> kratos.api.Data.Minio
+	9,  // 8: kratos.api.Server.HTTP.timeout:type_name -> google.protobuf.Duration
+	9,  // 9: kratos.api.Server.GRPC.timeout:type_name -> google.protobuf.Duration
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_conf_conf_proto_init() }
@@ -567,7 +670,7 @@ func file_conf_conf_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_conf_conf_proto_rawDesc), len(file_conf_conf_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.26.1
-// source: helloworld/v1/admin.proto
+// source: api/helloworld/v1/admin.proto
 
 package v1
 
@@ -22,6 +22,110 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type UploadFileReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	File          []byte                 `protobuf:"bytes,1,opt,name=file,proto3" json:"file,omitempty"`
+	FileName      string                 `protobuf:"bytes,2,opt,name=fileName,proto3" json:"fileName,omitempty"`
+	FileSize      int64                  `protobuf:"varint,3,opt,name=fileSize,proto3" json:"fileSize,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadFileReq) Reset() {
+	*x = UploadFileReq{}
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadFileReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadFileReq) ProtoMessage() {}
+
+func (x *UploadFileReq) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadFileReq.ProtoReflect.Descriptor instead.
+func (*UploadFileReq) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *UploadFileReq) GetFile() []byte {
+	if x != nil {
+		return x.File
+	}
+	return nil
+}
+
+func (x *UploadFileReq) GetFileName() string {
+	if x != nil {
+		return x.FileName
+	}
+	return ""
+}
+
+func (x *UploadFileReq) GetFileSize() int64 {
+	if x != nil {
+		return x.FileSize
+	}
+	return 0
+}
+
+type UploadFileRes struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Url           string                 `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadFileRes) Reset() {
+	*x = UploadFileRes{}
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadFileRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadFileRes) ProtoMessage() {}
+
+func (x *UploadFileRes) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadFileRes.ProtoReflect.Descriptor instead.
+func (*UploadFileRes) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *UploadFileRes) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
 type SetPriceRuleReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	NetworkId     int64                  `protobuf:"varint,1,opt,name=network_id,json=networkId,proto3" json:"network_id,omitempty"`
@@ -32,7 +136,7 @@ type SetPriceRuleReq struct {
 
 func (x *SetPriceRuleReq) Reset() {
 	*x = SetPriceRuleReq{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[0]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +148,7 @@ func (x *SetPriceRuleReq) String() string {
 func (*SetPriceRuleReq) ProtoMessage() {}
 
 func (x *SetPriceRuleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[0]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +161,7 @@ func (x *SetPriceRuleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetPriceRuleReq.ProtoReflect.Descriptor instead.
 func (*SetPriceRuleReq) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{0}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *SetPriceRuleReq) GetNetworkId() int64 {
@@ -84,7 +188,7 @@ type SetPriceRuleRes struct {
 
 func (x *SetPriceRuleRes) Reset() {
 	*x = SetPriceRuleRes{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[1]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -96,7 +200,7 @@ func (x *SetPriceRuleRes) String() string {
 func (*SetPriceRuleRes) ProtoMessage() {}
 
 func (x *SetPriceRuleRes) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[1]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -109,7 +213,7 @@ func (x *SetPriceRuleRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetPriceRuleRes.ProtoReflect.Descriptor instead.
 func (*SetPriceRuleRes) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{1}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *SetPriceRuleRes) GetCode() int32 {
@@ -135,7 +239,7 @@ type GetPriceRuleReq struct {
 
 func (x *GetPriceRuleReq) Reset() {
 	*x = GetPriceRuleReq{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[2]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -147,7 +251,7 @@ func (x *GetPriceRuleReq) String() string {
 func (*GetPriceRuleReq) ProtoMessage() {}
 
 func (x *GetPriceRuleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[2]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -160,7 +264,7 @@ func (x *GetPriceRuleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPriceRuleReq.ProtoReflect.Descriptor instead.
 func (*GetPriceRuleReq) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{2}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetPriceRuleReq) GetNetworkId() int64 {
@@ -179,7 +283,7 @@ type GetPriceRuleRes struct {
 
 func (x *GetPriceRuleRes) Reset() {
 	*x = GetPriceRuleRes{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[3]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -191,7 +295,7 @@ func (x *GetPriceRuleRes) String() string {
 func (*GetPriceRuleRes) ProtoMessage() {}
 
 func (x *GetPriceRuleRes) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[3]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -204,7 +308,7 @@ func (x *GetPriceRuleRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPriceRuleRes.ProtoReflect.Descriptor instead.
 func (*GetPriceRuleRes) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{3}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetPriceRuleRes) GetRules() []*LockerPriceRule {
@@ -238,7 +342,7 @@ type LockerPriceRule struct {
 
 func (x *LockerPriceRule) Reset() {
 	*x = LockerPriceRule{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[4]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -250,7 +354,7 @@ func (x *LockerPriceRule) String() string {
 func (*LockerPriceRule) ProtoMessage() {}
 
 func (x *LockerPriceRule) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[4]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -263,7 +367,7 @@ func (x *LockerPriceRule) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LockerPriceRule.ProtoReflect.Descriptor instead.
 func (*LockerPriceRule) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{4}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *LockerPriceRule) GetId() int64 {
@@ -350,11 +454,17 @@ func (x *LockerPriceRule) GetIsAdvancePay() bool {
 	return false
 }
 
-var File_helloworld_v1_admin_proto protoreflect.FileDescriptor
+var File_api_helloworld_v1_admin_proto protoreflect.FileDescriptor
 
-const file_helloworld_v1_admin_proto_rawDesc = "" +
+const file_api_helloworld_v1_admin_proto_rawDesc = "" +
 	"\n" +
-	"\x19helloworld/v1/admin.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"j\n" +
+	"\x1dapi/helloworld/v1/admin.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"[\n" +
+	"\rUploadFileReq\x12\x12\n" +
+	"\x04file\x18\x01 \x01(\fR\x04file\x12\x1a\n" +
+	"\bfileName\x18\x02 \x01(\tR\bfileName\x12\x1a\n" +
+	"\bfileSize\x18\x03 \x01(\x03R\bfileSize\"!\n" +
+	"\rUploadFileRes\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\"j\n" +
 	"\x0fSetPriceRuleReq\x12\x1d\n" +
 	"\n" +
 	"network_id\x18\x01 \x01(\x03R\tnetworkId\x128\n" +
@@ -383,66 +493,72 @@ const file_helloworld_v1_admin_proto_rawDesc = "" +
 	"\x0edeposit_amount\x18\n" +
 	" \x01(\x02R\rdepositAmount\x12,\n" +
 	"\x12is_deposit_enabled\x18\v \x01(\bR\x10isDepositEnabled\x12$\n" +
-	"\x0eis_advance_pay\x18\f \x01(\bR\fisAdvancePay2\xf4\x01\n" +
+	"\x0eis_advance_pay\x18\f \x01(\bR\fisAdvancePay2\xe1\x02\n" +
 	"\x05Admin\x12v\n" +
 	"\fSetPriceRule\x12\".api.helloworld.v1.SetPriceRuleReq\x1a\".api.helloworld.v1.SetPriceRuleRes\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/admin/setPriceRule\x12s\n" +
-	"\fGetPriceRule\x12\".api.helloworld.v1.GetPriceRuleReq\x1a\".api.helloworld.v1.GetPriceRuleRes\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/admin/getPriceRuleB7\n" +
+	"\fGetPriceRule\x12\".api.helloworld.v1.GetPriceRuleReq\x1a\".api.helloworld.v1.GetPriceRuleRes\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/admin/getPriceRule\x12k\n" +
+	"\n" +
+	"UploadFile\x12 .api.helloworld.v1.UploadFileReq\x1a .api.helloworld.v1.UploadFileRes\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/admin/uploadFileB7\n" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
 
 var (
-	file_helloworld_v1_admin_proto_rawDescOnce sync.Once
-	file_helloworld_v1_admin_proto_rawDescData []byte
+	file_api_helloworld_v1_admin_proto_rawDescOnce sync.Once
+	file_api_helloworld_v1_admin_proto_rawDescData []byte
 )
 
-func file_helloworld_v1_admin_proto_rawDescGZIP() []byte {
-	file_helloworld_v1_admin_proto_rawDescOnce.Do(func() {
-		file_helloworld_v1_admin_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_helloworld_v1_admin_proto_rawDesc), len(file_helloworld_v1_admin_proto_rawDesc)))
+func file_api_helloworld_v1_admin_proto_rawDescGZIP() []byte {
+	file_api_helloworld_v1_admin_proto_rawDescOnce.Do(func() {
+		file_api_helloworld_v1_admin_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_admin_proto_rawDesc), len(file_api_helloworld_v1_admin_proto_rawDesc)))
 	})
-	return file_helloworld_v1_admin_proto_rawDescData
+	return file_api_helloworld_v1_admin_proto_rawDescData
 }
 
-var file_helloworld_v1_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
-var file_helloworld_v1_admin_proto_goTypes = []any{
-	(*SetPriceRuleReq)(nil), // 0: api.helloworld.v1.SetPriceRuleReq
-	(*SetPriceRuleRes)(nil), // 1: api.helloworld.v1.SetPriceRuleRes
-	(*GetPriceRuleReq)(nil), // 2: api.helloworld.v1.GetPriceRuleReq
-	(*GetPriceRuleRes)(nil), // 3: api.helloworld.v1.GetPriceRuleRes
-	(*LockerPriceRule)(nil), // 4: api.helloworld.v1.LockerPriceRule
+var file_api_helloworld_v1_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_api_helloworld_v1_admin_proto_goTypes = []any{
+	(*UploadFileReq)(nil),   // 0: api.helloworld.v1.UploadFileReq
+	(*UploadFileRes)(nil),   // 1: api.helloworld.v1.UploadFileRes
+	(*SetPriceRuleReq)(nil), // 2: api.helloworld.v1.SetPriceRuleReq
+	(*SetPriceRuleRes)(nil), // 3: api.helloworld.v1.SetPriceRuleRes
+	(*GetPriceRuleReq)(nil), // 4: api.helloworld.v1.GetPriceRuleReq
+	(*GetPriceRuleRes)(nil), // 5: api.helloworld.v1.GetPriceRuleRes
+	(*LockerPriceRule)(nil), // 6: api.helloworld.v1.LockerPriceRule
 }
-var file_helloworld_v1_admin_proto_depIdxs = []int32{
-	4, // 0: api.helloworld.v1.SetPriceRuleReq.rules:type_name -> api.helloworld.v1.LockerPriceRule
-	4, // 1: api.helloworld.v1.GetPriceRuleRes.rules:type_name -> api.helloworld.v1.LockerPriceRule
-	0, // 2: api.helloworld.v1.Admin.SetPriceRule:input_type -> api.helloworld.v1.SetPriceRuleReq
-	2, // 3: api.helloworld.v1.Admin.GetPriceRule:input_type -> api.helloworld.v1.GetPriceRuleReq
-	1, // 4: api.helloworld.v1.Admin.SetPriceRule:output_type -> api.helloworld.v1.SetPriceRuleRes
-	3, // 5: api.helloworld.v1.Admin.GetPriceRule:output_type -> api.helloworld.v1.GetPriceRuleRes
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
+var file_api_helloworld_v1_admin_proto_depIdxs = []int32{
+	6, // 0: api.helloworld.v1.SetPriceRuleReq.rules:type_name -> api.helloworld.v1.LockerPriceRule
+	6, // 1: api.helloworld.v1.GetPriceRuleRes.rules:type_name -> api.helloworld.v1.LockerPriceRule
+	2, // 2: api.helloworld.v1.Admin.SetPriceRule:input_type -> api.helloworld.v1.SetPriceRuleReq
+	4, // 3: api.helloworld.v1.Admin.GetPriceRule:input_type -> api.helloworld.v1.GetPriceRuleReq
+	0, // 4: api.helloworld.v1.Admin.UploadFile:input_type -> api.helloworld.v1.UploadFileReq
+	3, // 5: api.helloworld.v1.Admin.SetPriceRule:output_type -> api.helloworld.v1.SetPriceRuleRes
+	5, // 6: api.helloworld.v1.Admin.GetPriceRule:output_type -> api.helloworld.v1.GetPriceRuleRes
+	1, // 7: api.helloworld.v1.Admin.UploadFile:output_type -> api.helloworld.v1.UploadFileRes
+	5, // [5:8] is the sub-list for method output_type
+	2, // [2:5] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
 	2, // [2:2] is the sub-list for extension extendee
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_helloworld_v1_admin_proto_init() }
-func file_helloworld_v1_admin_proto_init() {
-	if File_helloworld_v1_admin_proto != nil {
+func init() { file_api_helloworld_v1_admin_proto_init() }
+func file_api_helloworld_v1_admin_proto_init() {
+	if File_api_helloworld_v1_admin_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_helloworld_v1_admin_proto_rawDesc), len(file_helloworld_v1_admin_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_admin_proto_rawDesc), len(file_api_helloworld_v1_admin_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_helloworld_v1_admin_proto_goTypes,
-		DependencyIndexes: file_helloworld_v1_admin_proto_depIdxs,
-		MessageInfos:      file_helloworld_v1_admin_proto_msgTypes,
+		GoTypes:           file_api_helloworld_v1_admin_proto_goTypes,
+		DependencyIndexes: file_api_helloworld_v1_admin_proto_depIdxs,
+		MessageInfos:      file_api_helloworld_v1_admin_proto_msgTypes,
 	}.Build()
-	File_helloworld_v1_admin_proto = out.File
-	file_helloworld_v1_admin_proto_goTypes = nil
-	file_helloworld_v1_admin_proto_depIdxs = nil
+	File_api_helloworld_v1_admin_proto = out.File
+	file_api_helloworld_v1_admin_proto_goTypes = nil
+	file_api_helloworld_v1_admin_proto_depIdxs = nil
 }

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.26.1
-// source: helloworld/v1/admin.proto
+// source: api/helloworld/v1/admin.proto
 
 package v1
 
@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	Admin_SetPriceRule_FullMethodName = "/api.helloworld.v1.Admin/SetPriceRule"
 	Admin_GetPriceRule_FullMethodName = "/api.helloworld.v1.Admin/GetPriceRule"
+	Admin_UploadFile_FullMethodName   = "/api.helloworld.v1.Admin/UploadFile"
 )
 
 // AdminClient is the client API for Admin service.
@@ -29,6 +30,7 @@ const (
 type AdminClient interface {
 	SetPriceRule(ctx context.Context, in *SetPriceRuleReq, opts ...grpc.CallOption) (*SetPriceRuleRes, error)
 	GetPriceRule(ctx context.Context, in *GetPriceRuleReq, opts ...grpc.CallOption) (*GetPriceRuleRes, error)
+	UploadFile(ctx context.Context, in *UploadFileReq, opts ...grpc.CallOption) (*UploadFileRes, error)
 }
 
 type adminClient struct {
@@ -59,12 +61,23 @@ func (c *adminClient) GetPriceRule(ctx context.Context, in *GetPriceRuleReq, opt
 	return out, nil
 }
 
+func (c *adminClient) UploadFile(ctx context.Context, in *UploadFileReq, opts ...grpc.CallOption) (*UploadFileRes, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UploadFileRes)
+	err := c.cc.Invoke(ctx, Admin_UploadFile_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServer is the server API for Admin service.
 // All implementations must embed UnimplementedAdminServer
 // for forward compatibility.
 type AdminServer interface {
 	SetPriceRule(context.Context, *SetPriceRuleReq) (*SetPriceRuleRes, error)
 	GetPriceRule(context.Context, *GetPriceRuleReq) (*GetPriceRuleRes, error)
+	UploadFile(context.Context, *UploadFileReq) (*UploadFileRes, error)
 	mustEmbedUnimplementedAdminServer()
 }
 
@@ -80,6 +93,9 @@ func (UnimplementedAdminServer) SetPriceRule(context.Context, *SetPriceRuleReq) 
 }
 func (UnimplementedAdminServer) GetPriceRule(context.Context, *GetPriceRuleReq) (*GetPriceRuleRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPriceRule not implemented")
+}
+func (UnimplementedAdminServer) UploadFile(context.Context, *UploadFileReq) (*UploadFileRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadFile not implemented")
 }
 func (UnimplementedAdminServer) mustEmbedUnimplementedAdminServer() {}
 func (UnimplementedAdminServer) testEmbeddedByValue()               {}
@@ -138,6 +154,24 @@ func _Admin_GetPriceRule_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Admin_UploadFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadFileReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).UploadFile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Admin_UploadFile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).UploadFile(ctx, req.(*UploadFileReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Admin_ServiceDesc is the grpc.ServiceDesc for Admin service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -153,7 +187,11 @@ var Admin_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetPriceRule",
 			Handler:    _Admin_GetPriceRule_Handler,
 		},
+		{
+			MethodName: "UploadFile",
+			Handler:    _Admin_UploadFile_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "helloworld/v1/admin.proto",
+	Metadata: "api/helloworld/v1/admin.proto",
 }

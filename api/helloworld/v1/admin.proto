@@ -21,6 +21,22 @@ service Admin {
 			get: "/admin/getPriceRule"
 		};
 	};
+
+	rpc UploadFile(UploadFileReq) returns (UploadFileRes) {
+		option (google.api.http) = {
+			get: "/admin/uploadFile"
+		};
+	};
+}
+
+message UploadFileReq{
+	bytes file = 1;
+	string fileName = 2;
+	int64 fileSize = 3;
+}
+
+message UploadFileRes{
+	string url = 1;
 }
 
 message SetPriceRuleReq {

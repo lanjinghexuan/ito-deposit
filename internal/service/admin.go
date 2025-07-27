@@ -2,10 +2,16 @@ package service
 
 import (
 	"context"
+	"fmt"
+	kratosHttp "github.com/go-kratos/kratos/v2/transport/http"
+	minio1 "github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"ito-deposit/internal/biz"
+	"ito-deposit/internal/conf"
 	data2 "ito-deposit/internal/data"
+	"mime/multipart"
 	"time"
 
 	pb "ito-deposit/api/helloworld/v1"
@@ -15,12 +21,14 @@ type AdminService struct {
 	pb.UnimplementedAdminServer
 	data *data2.Data
 	biz  *biz.AdminUsecase
+	conf *conf.Data
 }
 
-func NewAdminService(data *data2.Data, bizdataa *biz.AdminUsecase) *AdminService {
+func NewAdminService(data *data2.Data, bizdataa *biz.AdminUsecase, conf *conf.Data) *AdminService {
 	return &AdminService{
 		data: data,
 		biz:  bizdataa,
+		conf: conf,
 	}
 }
 
@@ -92,6 +100,60 @@ func (s *AdminService) GetPriceRule(ctx context.Context, req *pb.GetPriceRuleReq
 	}
 
 	return &pb.GetPriceRuleRes{Rules: pbRules}, nil
+}
+
+func (s *AdminService) DownloadFile(ctx kratosHttp.Context) error {
+	req := ctx.Request()
+
+	// 获取上传文件
+	_, file, err := req.FormFile("file")
+	if err != nil {
+		return err
+	}
+
+	url, err := UploadFile(file.Filename, file, s.conf)
+	if err != nil {
+		return err
+	}
+
+	return ctx.Result(200, map[string]string{"url": url})
+}
+
+func UploadFile(objectName string, fileHeader *multipart.FileHeader, c *conf.Data) (string, error) {
+	// 初始化 MinIO 客户端
+	minioClient, err := minio1.New(c.Minio.Endpoint, &minio1.Options{
+		Creds:  credentials.NewStaticV4(c.Minio.AccessKeyId, c.Minio.AccessKeySecret, ""),
+		Secure: c.Minio.UseSsl,
+	})
+	if err != nil {
+		return "", fmt.Errorf("failed to initialize MinIO client: %v", err)
+	}
+
+	// ✅ 只打开一次
+	src, err := fileHeader.Open()
+	if err != nil {
+		return "", fmt.Errorf("failed to open uploaded file: %v", err)
+	}
+	defer src.Close()
+
+	// ✅ 构造最终对象名
+	objectName = fmt.Sprintf("%s/%s", time.Now().Format("2006-01-02"), objectName)
+
+	// ✅ 上传
+	_, err = minioClient.PutObject(
+		context.Background(),
+		c.Minio.BucketName,
+		objectName,
+		src,
+		fileHeader.Size,
+		minio1.PutObjectOptions{ContentType: fileHeader.Header.Get("Content-Type")},
+	)
+	if err != nil {
+		return "", fmt.Errorf("failed to upload file to MinIO: %v", err)
+	}
+
+	// ✅ 返回可访问地址
+	return fmt.Sprintf("%s/%s/%s", c.Minio.Endpoint, c.Minio.BucketName, objectName), nil
 }
 
 // 辅助函数
