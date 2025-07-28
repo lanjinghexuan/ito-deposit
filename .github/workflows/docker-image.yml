@@ -41,6 +41,6 @@ jobs:
             docker rm ito-deposit || true
             docker run -d --restart=always \
               -p 8000:8000 -p 9005:9000 \
-              -v /opt/ito-deposit/configs:/data/conf \
+              -v /home/ito-deposit/configs:/data/conf \
               --name ito-deposit \
               ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
