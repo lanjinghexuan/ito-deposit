@@ -12,6 +12,7 @@ import (
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/service"
 	http2 "net/http"
+	_ "net/http/pprof"
 )
 
 func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *service.OrderService, user *service.UserService,
@@ -52,6 +53,8 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 	v1.RegisterDepositHTTPServer(srv, deposit)
 	v1.RegisterOrderHTTPServer(srv, order)
 	v1.RegisterAdminHTTPServer(srv, admin)
+
+	http2.ListenAndServe(":6001", nil)
 
 	srv.Route("/").POST("/upload", admin.DownloadFile)
 
