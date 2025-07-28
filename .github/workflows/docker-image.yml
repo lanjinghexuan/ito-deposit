@@ -4,7 +4,7 @@ on:
     branches: [main]
 
 env:
-  REGISTRY: crpi-795sv9dwfov3lrnj.cn-shanghai.personal.cr.aliyuncs.com
+  REGISTRY: crpi-795sv9dwfov3lrnj.cn-shanghai.personal.cr.aliyuncs.com/
   IMAGE_NAME: lanjinghexuan/ito-deposit
 
 jobs:
