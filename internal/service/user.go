@@ -111,3 +111,17 @@ func (s *UserService) Login(ctx context.Context, req *pb.LoginRequest) (*pb.Logi
 		Id:   user.Id,
 	}, nil
 }
+
+func (s *UserService) Admin(ctx context.Context, req *pb.AdminRequest) (*pb.AdminRes, error) {
+	return &pb.AdminRes{
+		Code: 200,
+		Msg:  "Admin功能待实现",
+	}, nil
+}
+
+func (s *UserService) OrderList(ctx context.Context, req *pb.OrderListRequest) (*pb.OrderListRes, error) {
+	return &pb.OrderListRes{
+		Code: 200,
+		Msg:  "订单列表功能待实现",
+	}, nil
+}

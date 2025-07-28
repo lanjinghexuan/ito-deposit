@@ -2,7 +2,9 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
+	"path/filepath"
 
 	"ito-deposit/internal/conf"
 
@@ -30,7 +32,33 @@ var (
 )
 
 func init() {
-	flag.StringVar(&flagconf, "conf", "../../configs", "config path, eg: -conf config.yaml")
+	// 智能检测配置文件路径
+	defaultConf := findConfigPath()
+	flag.StringVar(&flagconf, "conf", defaultConf, "config path, eg: -conf config.yaml")
+}
+
+// findConfigPath 智能查找配置文件路径
+func findConfigPath() string {
+	// 可能的配置路径
+	paths := []string{
+		"./configs",           // 从项目根目录运行
+		"../../configs",       // 从cmd/ito-deposit目录运行
+		"../../../configs",    // 其他可能的路径
+	}
+	
+	for _, path := range paths {
+		if _, err := os.Stat(path); err == nil {
+			return path
+		}
+		// 也检查config.yaml文件
+		configFile := filepath.Join(path, "config.yaml")
+		if _, err := os.Stat(configFile); err == nil {
+			return path
+		}
+	}
+	
+	// 如果都找不到，返回默认路径
+	return "./configs"
 }
 
 func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
@@ -64,7 +92,19 @@ func main() {
 		),
 	)
 	defer c.Close()
-
+	wd, _ := os.Getwd()
+	fmt.Println("cwd:", wd)
+	fmt.Println("config path:", flagconf)
+	
+	// 检查配置路径是否存在
+	if _, err := os.Stat(flagconf); os.IsNotExist(err) {
+		fmt.Printf("Config path does not exist: %s\n", flagconf)
+		// 尝试查找配置文件
+		if _, err := os.Stat(filepath.Join(flagconf, "config.yaml")); os.IsNotExist(err) {
+			fmt.Printf("Config file does not exist: %s/config.yaml\n", flagconf)
+		}
+	}
+	
 	if err := c.Load(); err != nil {
 		panic(err)
 	}

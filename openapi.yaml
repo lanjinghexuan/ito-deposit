@@ -3,81 +3,21 @@
 
 openapi: 3.0.3
 info:
-    title: Deposit API
+    title: Order API
     version: 0.0.1
 paths:
-    /decodetoken:
+    /order:
         get:
             tags:
-                - Deposit
-            operationId: Deposit_DecodeToken
+                - Order
+            operationId: Order_ListOrder
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ReturnTokenRes'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /deposit:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_ListDeposit
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ListDepositReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /getDepositLocker:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_GetDepositLocker
-            parameters:
-                - name: lockerId
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/GetDepositLockerRes'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /returntoken:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_ReturnToken
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ReturnTokenRes'
+                                $ref: '#/components/schemas/ListOrderReply'
                 default:
                     description: Default error response
                     content:
@@ -86,26 +26,6 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        GetDepositLockerRes:
-            type: object
-            properties:
-                address:
-                    type: string
-                name:
-                    type: string
-                longitude:
-                    type: number
-                    format: float
-                latitude:
-                    type: number
-                    format: float
-                locker:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/Locker'
-                freeDuration:
-                    type: number
-                    format: float
         GoogleProtobufAny:
             type: object
             properties:
@@ -114,40 +34,9 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        ListDepositReply:
+        ListOrderReply:
             type: object
             properties: {}
-        Locker:
-            type: object
-            properties:
-                name:
-                    type: string
-                description:
-                    type: string
-                size:
-                    type: string
-                num:
-                    type: integer
-                    format: int32
-                hourlyRate:
-                    type: number
-                    format: float
-                lockerType:
-                    type: integer
-                    format: int32
-                freeDuration:
-                    type: number
-                    format: float
-        ReturnTokenRes:
-            type: object
-            properties:
-                token:
-                    type: string
-                coe:
-                    type: integer
-                    format: int32
-                msg:
-                    type: string
         Status:
             type: object
             properties:
@@ -165,4 +54,4 @@ components:
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
 tags:
-    - name: Deposit
+    - name: Order

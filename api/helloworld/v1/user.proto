@@ -27,6 +27,17 @@ service User {
 			body: "*"
 		};
 	};
+	rpc Admin (AdminRequest) returns (AdminRes){
+		option (google.api.http) = {
+			post: "/admin"
+			body: "*"
+		};
+	};
+	rpc OrderList (OrderListRequest) returns (OrderListRes){
+		option (google.api.http) = {
+			get: "/list"
+		};
+	};
 	rpc CreateUser (CreateUserRequest) returns (CreateUserReply);
 	rpc UpdateUser (UpdateUserRequest) returns (UpdateUserReply);
 	rpc DeleteUser (DeleteUserRequest) returns (DeleteUserReply);
@@ -82,4 +93,18 @@ message LoginReply {
 	int64 code = 1;
 	string msg = 2;
 	int64 id = 3;
+}
+
+message AdminRequest {
+	int64 admin_id = 1;
+}
+message AdminRes {
+	int64 code = 1;
+	string msg = 2;
+}
+
+message OrderListRequest {}
+message OrderListRes {
+	int64 code = 1;
+	string msg = 2;
 }

@@ -15,3 +15,4 @@ data:
     addr: 14.103.235.215:6379
     password: 686c75a503764f121f81cc01c8dc04a7
     db: 0
+  smscode: 373c436ad05c4eeba2fe9a646e9e2c61
