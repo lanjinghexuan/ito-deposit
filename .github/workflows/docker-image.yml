@@ -19,7 +19,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            docker login ${{ env.REGISTRY }} -u ${{ secrets.ACR_USERNAME }} -p ${{ secrets.ACR_PASSWORD }}
             docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
             docker stop ito-deposit || true
             docker rm ito-deposit || true
@@ -27,4 +26,4 @@ jobs:
               -p 8000:8000 -p 9005:9000 \
               -v /opt/ito-deposit/configs:/data/conf \
               --name ito-deposit \
-              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
