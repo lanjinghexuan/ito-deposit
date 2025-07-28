@@ -108,3 +108,37 @@ message AdminRes {
 	float mouth_price = 7;
 	int64 month_num = 8;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,6 +9,12 @@ option java_multiple_files = true;
 option java_package = "api.helloworld.v1";
 
 service Admin {
+	rpc PointInfo(PointInfoReq) returns (PointInfoRes) {
+		option (google.api.http) = {
+			post: "/point_info"
+			body: "*"
+		};
+	};
 	rpc PointList(PointListReq) returns (PointListRes) {
 		option (google.api.http) = {
 			get: "/point_list"
@@ -114,4 +120,20 @@ message PointList{
 	int64 available_large = 3;
 	int64 available_medium = 4;
 	int64 available_small = 5;
+}
+message PointInfoReq {
+	int64 id = 1;
+}
+message PointInfoRes {
+	int64 code = 1;
+	string msg = 2;
+	string name = 3;
+	string address = 4;
+	string point_type = 5;
+	int64 available_large = 6;
+	int64 available_medium = 7;
+	int64 available_small = 8;
+	string open_time = 9;
+	string staus = 10;
+	string point_image = 11;
 }

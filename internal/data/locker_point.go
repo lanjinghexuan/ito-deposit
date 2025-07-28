@@ -13,6 +13,9 @@ type LockerPoint struct {
 	OpenTime        string  `gorm:"column:open_time;type:varchar(30);comment:营业时间;default:NULL;" json:"open_time"`      // 营业时间
 	Mobile          string  `gorm:"column:mobile;type:varchar(20);comment:联系电话;default:NULL;" json:"mobile"`            // 联系电话
 	AdminId         int32   `gorm:"column:admin_id;type:int;comment:管理员id;default:NULL;" json:"admin_id"`               // 管理员id
+	PointImage      string  `gorm:"column:point_image;type:varchar(200);comment:网点图片;default:NULL;" json:"point_image"` // 网点图片
+	Status          string  `gorm:"column:status;type:varchar(30);comment:状态;default:NULL;" json:"status"`              // 状态
+	PointType       string  `gorm:"column:point_type;type:varchar(20);comment:网点类型;default:NULL;" json:"point_type"`    // 网点类型
 }
 
 func (lp *LockerPoint) TableName() string {

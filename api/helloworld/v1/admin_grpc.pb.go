@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.26.1
-// source: helloworld/v1/admin.proto
+// source: api/helloworld/v1/admin.proto
 
 package v1
 
@@ -19,6 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	Admin_PointInfo_FullMethodName    = "/api.helloworld.v1.Admin/PointInfo"
 	Admin_PointList_FullMethodName    = "/api.helloworld.v1.Admin/PointList"
 	Admin_AdminLogin_FullMethodName   = "/api.helloworld.v1.Admin/AdminLogin"
 	Admin_SetPriceRule_FullMethodName = "/api.helloworld.v1.Admin/SetPriceRule"
@@ -30,6 +31,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AdminClient interface {
+	PointInfo(ctx context.Context, in *PointInfoReq, opts ...grpc.CallOption) (*PointInfoRes, error)
 	PointList(ctx context.Context, in *PointListReq, opts ...grpc.CallOption) (*PointListRes, error)
 	AdminLogin(ctx context.Context, in *AdminLoginReq, opts ...grpc.CallOption) (*AdminLoginRes, error)
 	SetPriceRule(ctx context.Context, in *SetPriceRuleReq, opts ...grpc.CallOption) (*SetPriceRuleRes, error)
@@ -43,6 +45,16 @@ type adminClient struct {
 
 func NewAdminClient(cc grpc.ClientConnInterface) AdminClient {
 	return &adminClient{cc}
+}
+
+func (c *adminClient) PointInfo(ctx context.Context, in *PointInfoReq, opts ...grpc.CallOption) (*PointInfoRes, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PointInfoRes)
+	err := c.cc.Invoke(ctx, Admin_PointInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *adminClient) PointList(ctx context.Context, in *PointListReq, opts ...grpc.CallOption) (*PointListRes, error) {
@@ -99,6 +111,7 @@ func (c *adminClient) UploadFile(ctx context.Context, in *UploadFileReq, opts ..
 // All implementations must embed UnimplementedAdminServer
 // for forward compatibility.
 type AdminServer interface {
+	PointInfo(context.Context, *PointInfoReq) (*PointInfoRes, error)
 	PointList(context.Context, *PointListReq) (*PointListRes, error)
 	AdminLogin(context.Context, *AdminLoginReq) (*AdminLoginRes, error)
 	SetPriceRule(context.Context, *SetPriceRuleReq) (*SetPriceRuleRes, error)
@@ -114,6 +127,9 @@ type AdminServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAdminServer struct{}
 
+func (UnimplementedAdminServer) PointInfo(context.Context, *PointInfoReq) (*PointInfoRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PointInfo not implemented")
+}
 func (UnimplementedAdminServer) PointList(context.Context, *PointListReq) (*PointListRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PointList not implemented")
 }
@@ -148,6 +164,24 @@ func RegisterAdminServer(s grpc.ServiceRegistrar, srv AdminServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&Admin_ServiceDesc, srv)
+}
+
+func _Admin_PointInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PointInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).PointInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Admin_PointInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).PointInfo(ctx, req.(*PointInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Admin_PointList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -248,6 +282,10 @@ var Admin_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AdminServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "PointInfo",
+			Handler:    _Admin_PointInfo_Handler,
+		},
+		{
 			MethodName: "PointList",
 			Handler:    _Admin_PointList_Handler,
 		},
@@ -269,5 +307,5 @@ var Admin_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "helloworld/v1/admin.proto",
+	Metadata: "api/helloworld/v1/admin.proto",
 }

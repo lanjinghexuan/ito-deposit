@@ -2,25 +2,80 @@ package service
 
 import (
 	"context"
+	"fmt"
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"ito-deposit/internal/conf"
 	data2 "ito-deposit/internal/data"
+	"mime/multipart"
 	"time"
 
+	kratosHttp "github.com/go-kratos/kratos/v2/transport/http"
+	minio1 "github.com/minio/minio-go/v7"
 	pb "ito-deposit/api/helloworld/v1"
 )
 
 type AdminService struct {
 	pb.UnimplementedAdminServer
-	data *data2.Data
+	data   *data2.Data
+	conf   *conf.Data
+	server *conf.Server
 }
 
-func NewAdminService(data *data2.Data) *AdminService {
+func NewAdminService(data *data2.Data, conf *conf.Data, server *conf.Server) *AdminService {
 	return &AdminService{
-		data: data,
+		data:   data,
+		conf:   conf,
+		server: server,
 	}
 }
+func (s *AdminService) AdminLogin(ctx context.Context, req *pb.AdminLoginReq) (*pb.AdminLoginRes, error) {
+	get := s.data.Redis.Get(context.Background(), "sendSms"+req.Mobile+"admin")
+	if get.Val() != req.SmsCode {
+		return &pb.AdminLoginRes{
+			Code: 500,
+			Msg:  "验证码错误",
+		}, nil
+	}
+	var admin data2.Admin
+	err := s.data.DB.Debug().Where("mobile = ?", req.Mobile).Find(&admin).Error
+	if err != nil {
+		return &pb.AdminLoginRes{
+			Code: 500,
+			Msg:  "查询失败",
+		}, nil
+	}
+	if admin.Id == 0 {
+		return &pb.AdminLoginRes{
+			Code: 500,
+			Msg:  "用户不存在",
+		}, nil
+	}
+	if req.Password != admin.Password {
+		return &pb.AdminLoginRes{
+			Code: 500,
+			Msg:  "密码错误",
+		}, nil
+	}
+	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		// 根据您的需求设置 JWT 中的声明
+		"your_custom_claim": "your_custom_value",
+		"id":                "123",
+	})
 
+	signedString, err := claims.SignedString([]byte(s.server.Jwt.Authkey))
+	if err != nil {
+		return nil, err
+	}
+	return &pb.AdminLoginRes{
+		Code:  200,
+		Msg:   "登陆成功",
+		Id:    int64(admin.Id),
+		Token: signedString,
+	}, nil
+}
 func (s *AdminService) SetPriceRule(ctx context.Context, req *pb.SetPriceRuleReq) (*pb.SetPriceRuleRes, error) {
 	// 0. 参数校验
 	if req.NetworkId <= 0 {
@@ -163,4 +218,80 @@ func validatePriceRule(rule *pb.LockerPriceRule) error {
 
 func intToBool(i int) bool {
 	return i != 0
+}
+func (s *AdminService) DownloadFile(ctx kratosHttp.Context) error {
+	req := ctx.Request()
+
+	// 获取上传文件
+	_, file, err := req.FormFile("file")
+	if err != nil {
+		return err
+	}
+
+	url, err := UploadFile(file.Filename, file, s.conf)
+	if err != nil {
+		return err
+	}
+
+	return ctx.Result(200, map[string]string{"url": url})
+}
+
+func UploadFile(objectName string, fileHeader *multipart.FileHeader, c *conf.Data) (string, error) {
+	// 初始化 MinIO 客户端
+	minioClient, err := minio1.New(c.Minio.Endpoint, &minio1.Options{
+		Creds:  credentials.NewStaticV4(c.Minio.AccessKeyId, c.Minio.AccessKeySecret, ""),
+		Secure: c.Minio.UseSsl,
+	})
+	if err != nil {
+		return "", fmt.Errorf("failed to initialize MinIO client: %v", err)
+	}
+
+	// ✅ 只打开一次
+	src, err := fileHeader.Open()
+	if err != nil {
+		return "", fmt.Errorf("failed to open uploaded file: %v", err)
+	}
+	defer src.Close()
+
+	// ✅ 构造最终对象名
+	objectName = fmt.Sprintf("%s/%s", time.Now().Format("2006-01-02"), objectName)
+
+	// ✅ 上传
+	_, err = minioClient.PutObject(
+		context.Background(),
+		c.Minio.BucketName,
+		objectName,
+		src,
+		fileHeader.Size,
+		minio1.PutObjectOptions{ContentType: fileHeader.Header.Get("Content-Type")},
+	)
+	if err != nil {
+		return "", fmt.Errorf("failed to upload file to MinIO: %v", err)
+	}
+
+	// ✅ 返回可访问地址
+	return fmt.Sprintf("%s/%s/%s", c.Minio.Endpoint, c.Minio.BucketName, objectName), nil
+}
+func (s *AdminService) PointInfo(ctx context.Context, req *pb.PointInfoReq) (*pb.PointInfoRes, error) {
+	var point data2.LockerPoint
+	err := s.data.DB.Debug().Where("id = ?", req.Id).Find(&point).Error
+	if err != nil {
+		return &pb.PointInfoRes{
+			Code: 500,
+			Msg:  "查询失败",
+		}, nil
+	}
+	return &pb.PointInfoRes{
+		Code:            200,
+		Msg:             "查询成功",
+		Name:            point.Name,
+		Address:         point.Address,
+		PointType:       point.PointType,
+		AvailableLarge:  int64(point.AvailableLarge),
+		AvailableMedium: int64(point.AvailableMedium),
+		AvailableSmall:  int64(point.AvailableSmall),
+		OpenTime:        point.OpenTime,
+		Staus:           point.Status,
+		PointImage:      point.PointImage,
+	}, nil
 }

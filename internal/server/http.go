@@ -71,7 +71,7 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList["/api.helloworld.v1.Order/ListOrder"] = struct{}{}
 	whiteList["/api.helloworld.v1.Order/ShowOrder"] = struct{}{}
 	whiteList["/api.helloworld.v1.Admin/PointList"] = struct{}{}
-
+	whiteList["/api.helloworld.v1.Admin/PointInfo"] = struct{}{}
 	return func(ctx context.Context, operation string) bool {
 		if _, ok := whiteList[operation]; ok {
 			return false
