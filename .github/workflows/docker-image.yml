@@ -55,10 +55,11 @@ jobs:
             done
     
             echo "❌ 端口未就绪，开始回滚"
+            LAST_SHA=$(git rev-parse HEAD~1)
             docker stop ito-deposit && docker rm ito-deposit
             docker run -d --restart=always \
             -p 8000:8000 -p 9005:9000 \
             -v /home/ito-deposit/configs:/data/conf \
             --name ito-deposit \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest-backup
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${LAST_SHA}
             exit 1
