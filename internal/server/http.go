@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/auth/jwt"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
@@ -56,7 +57,11 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 	v1.RegisterNearbyHTTPServer(srv, nearby)
 	v1.RegisterAdminHTTPServer(srv, admin)
 
-	http2.ListenAndServe(":6001", nil)
+	if c.Pprof.Switch {
+		go func() {
+			fmt.Println(http2.ListenAndServe(fmt.Sprintf(":%d", c.Pprof.Port), nil))
+		}()
+	}
 
 	srv.Route("/").POST("/upload", admin.DownloadFile)
 
@@ -72,9 +77,11 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList["/api.helloworld.v1.User/Login"] = struct{}{}
 	whiteList["/api.helloworld.v1.User/List"] = struct{}{}
 	whiteList["/api.helloworld.v1.User/Admin"] = struct{}{}
-	whiteList["/api.helloworld.v1.User/GetUser"] = struct{}{}
+	whiteList["/api.helloworld.v1.Admin/AdminLogin"] = struct{}{}
 	whiteList["/api.helloworld.v1.Order/ListOrder"] = struct{}{}
 	whiteList["/api.helloworld.v1.Order/ShowOrder"] = struct{}{}
+	whiteList["/api.helloworld.v1.Admin/PointList"] = struct{}{}
+	whiteList["/api.helloworld.v1.Admin/PointInfo"] = struct{}{}
 	// 创建需要JWT验证的接口列表（黑名单）
 	// 只有管理员相关的API需要JWT验证
 	jwtRequiredList := make(map[string]struct{})

@@ -42,9 +42,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 		return nil, nil, err
 	}
 	depositService := service.NewDepositService(dataData, confServer, sendSms)
-	adminRepo := data.NewAdminRepo(dataData, logger)
-	adminUsecase := biz.NewAdminUsecase(adminRepo, logger)
-	adminService := service.NewAdminService(dataData, adminUsecase, confData)
+	adminService := service.NewAdminService(dataData, confData, confServer)
 	cityRepo := data.NewCityRepo(dataData, logger)
 	cityUsecase := biz.NewCityUsecase(cityRepo, logger)
 	cityService := service.NewCityService(cityUsecase, logger)

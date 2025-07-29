@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"os"
+	"path/filepath"
 
 	"ito-deposit/internal/conf"
 
@@ -30,7 +31,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&flagconf, "conf", "configs/config.yaml", "config path, eg: -conf config.yaml")
+	flag.StringVar(&flagconf, "conf", "configs", "config path, eg: -conf config.yaml")
 }
 
 func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
@@ -58,6 +59,12 @@ func main() {
 		"trace.id", tracing.TraceID(),
 		"span.id", tracing.SpanID(),
 	)
+
+	// 确保配置文件路径正确
+	configFile := filepath.Join(flagconf, "config.yaml")
+	if _, err := os.Stat(configFile); os.IsNotExist(err) {
+		panic("Config file not found: " + configFile)
+	}
 
 	c := config.New(
 		config.WithSource(

@@ -27,6 +27,11 @@ message Server {
     string authkey = 1;
   }
   Jwt jwt = 3;
+  message Pprof{
+    int32  port = 1;
+    bool switch = 2;
+  }
+  Pprof pprof = 4;
 }
 
 message Data {
