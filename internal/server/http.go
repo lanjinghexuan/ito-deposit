@@ -56,10 +56,9 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 	v1.RegisterAdminHTTPServer(srv, admin)
 
 	if c.Pprof.Switch {
-		err := http2.ListenAndServe(fmt.Sprintf(":%d", c.Pprof.Prot), nil)
-		if err != nil {
-			panic(err)
-		}
+		go func() {
+			fmt.Println(http2.ListenAndServe(fmt.Sprintf(":%d", c.Pprof.Port), nil))
+		}()
 	}
 
 	srv.Route("/").POST("/upload", admin.DownloadFile)
