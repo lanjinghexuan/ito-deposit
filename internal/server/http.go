@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/auth/jwt"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
@@ -54,7 +55,9 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 	v1.RegisterOrderHTTPServer(srv, order)
 	v1.RegisterAdminHTTPServer(srv, admin)
 
-	http2.ListenAndServe(":6001", nil)
+	if c.Pprof.Switch {
+		http2.ListenAndServe(fmt.Sprintf(":%d", c.Pprof.Prot), nil)
+	}
 
 	srv.Route("/").POST("/upload", admin.DownloadFile)
 

@@ -7,6 +7,9 @@ server:
     timeout: 1s
   jwt:
     authkey: a9999
+  pprof:
+    port: 6601
+    switch: true
 data:
   database:
     driver: mysql
