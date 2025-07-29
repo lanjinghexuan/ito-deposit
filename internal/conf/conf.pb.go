@@ -376,7 +376,7 @@ func (x *Server_Jwt) GetAuthkey() string {
 
 type Server_Pprof struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Prot          int32                  `protobuf:"varint,1,opt,name=prot,proto3" json:"prot,omitempty"`
+	Port          int32                  `protobuf:"varint,1,opt,name=port,proto3" json:"port,omitempty"`
 	Switch        bool                   `protobuf:"varint,2,opt,name=switch,proto3" json:"switch,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -412,9 +412,9 @@ func (*Server_Pprof) Descriptor() ([]byte, []int) {
 	return file_conf_conf_proto_rawDescGZIP(), []int{1, 3}
 }
 
-func (x *Server_Pprof) GetProt() int32 {
+func (x *Server_Pprof) GetPort() int32 {
 	if x != nil {
-		return x.Prot
+		return x.Port
 	}
 	return 0
 }
@@ -655,7 +655,7 @@ const file_conf_conf_proto_rawDesc = "" +
 	"\x03Jwt\x12\x18\n" +
 	"\aauthkey\x18\x01 \x01(\tR\aauthkey\x1a3\n" +
 	"\x05Pprof\x12\x12\n" +
-	"\x04prot\x18\x01 \x01(\x05R\x04prot\x12\x16\n" +
+	"\x04port\x18\x01 \x01(\x05R\x04port\x12\x16\n" +
 	"\x06switch\x18\x02 \x01(\bR\x06switch\"\xa1\x04\n" +
 	"\x04Data\x125\n" +
 	"\bdatabase\x18\x01 \x01(\v2\x19.kratos.api.Data.DatabaseR\bdatabase\x12,\n" +
