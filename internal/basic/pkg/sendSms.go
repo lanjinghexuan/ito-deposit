@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-kratos/kratos/v2/log"
-	"io"
+	"io/ioutil"
 	"ito-deposit/internal/conf"
 	"net/http"
 	"net/url"
@@ -41,7 +41,7 @@ func (s *SendSms) SendSms(phone string, code int) bool {
 		return false
 	}
 	defer resp.Body.Close()
-	body, _ := io.ReadAll(resp.Body)
+	body, _ := ioutil.ReadAll(resp.Body)
 	var resultCode int
 	err = json.Unmarshal(body, &resultCode)
 	if err != nil {

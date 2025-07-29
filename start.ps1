@@ -19,6 +19,14 @@ if (Test-Path "./configs") {
     Write-Host "Config directory NOT found: ./configs" -ForegroundColor Red
 }
 
+# Build the application
+Write-Host "Building application..." -ForegroundColor Green
+go build -o bin/ito-deposit.exe ./cmd/ito-deposit
+
 # Start the service
-Write-Host "Starting kratos run..." -ForegroundColor Green
-kratos run
+Write-Host "Starting service..." -ForegroundColor Green
+if (Test-Path "./bin/ito-deposit.exe") {
+    & "./bin/ito-deposit.exe"
+} else {
+    Write-Host "Build failed. Binary not found." -ForegroundColor Red
+}

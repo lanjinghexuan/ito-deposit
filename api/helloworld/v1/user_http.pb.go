@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-http v2.8.4
 // - protoc             v3.19.4
-// source: api/helloworld/v1/user.proto
+// source: helloworld/v1/user.proto
 
 package v1
 
@@ -20,7 +20,6 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationUserAdmin = "/api.helloworld.v1.User/Admin"
-const OperationUserListUser = "/api.helloworld.v1.User/ListUser"
 const OperationUserLogin = "/api.helloworld.v1.User/Login"
 const OperationUserOrderList = "/api.helloworld.v1.User/OrderList"
 const OperationUserRegister = "/api.helloworld.v1.User/Register"
@@ -28,87 +27,19 @@ const OperationUserSendSms = "/api.helloworld.v1.User/SendSms"
 
 type UserHTTPServer interface {
 	Admin(context.Context, *AdminRequest) (*AdminRes, error)
-	ListUser(context.Context, *ListUserRequest) (*ListUserReply, error)
-	Login(context.Context, *LoginRequest) (*LoginReply, error)
+	Login(context.Context, *LoginRequest) (*LoginRes, error)
 	OrderList(context.Context, *OrderListRequest) (*OrderListRes, error)
-	Register(context.Context, *RegisterRequest) (*RegisterReply, error)
-	SendSms(context.Context, *SendSmsRequest) (*SendSmsReply, error)
+	Register(context.Context, *RegisterRequest) (*RegisterRes, error)
+	SendSms(context.Context, *SendSmsRequest) (*SendSmsRes, error)
 }
 
 func RegisterUserHTTPServer(s *http.Server, srv UserHTTPServer) {
 	r := s.Route("/")
+	r.POST("/admin", _User_Admin0_HTTP_Handler(srv))
+	r.GET("/list", _User_OrderList0_HTTP_Handler(srv))
 	r.POST("/login", _User_Login0_HTTP_Handler(srv))
 	r.POST("/register", _User_Register0_HTTP_Handler(srv))
 	r.POST("/sendSms", _User_SendSms0_HTTP_Handler(srv))
-	r.POST("/admin", _User_Admin0_HTTP_Handler(srv))
-	r.GET("/list", _User_OrderList0_HTTP_Handler(srv))
-	r.POST("/user", _User_ListUser0_HTTP_Handler(srv))
-}
-
-func _User_Login0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in LoginRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationUserLogin)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.Login(ctx, req.(*LoginRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*LoginReply)
-		return ctx.Result(200, reply)
-	}
-}
-
-func _User_Register0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in RegisterRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationUserRegister)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.Register(ctx, req.(*RegisterRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*RegisterReply)
-		return ctx.Result(200, reply)
-	}
-}
-
-func _User_SendSms0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in SendSmsRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationUserSendSms)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.SendSms(ctx, req.(*SendSmsRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*SendSmsReply)
-		return ctx.Result(200, reply)
-	}
 }
 
 func _User_Admin0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
@@ -152,35 +83,78 @@ func _User_OrderList0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) er
 	}
 }
 
-func _User_ListUser0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+func _User_Login0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in ListUserRequest
+		var in LoginRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationUserListUser)
+		http.SetOperation(ctx, OperationUserLogin)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListUser(ctx, req.(*ListUserRequest))
+			return srv.Login(ctx, req.(*LoginRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*ListUserReply)
+		reply := out.(*LoginRes)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _User_Register0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in RegisterRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserRegister)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.Register(ctx, req.(*RegisterRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*RegisterRes)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _User_SendSms0_HTTP_Handler(srv UserHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in SendSmsRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserSendSms)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.SendSms(ctx, req.(*SendSmsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*SendSmsRes)
 		return ctx.Result(200, reply)
 	}
 }
 
 type UserHTTPClient interface {
 	Admin(ctx context.Context, req *AdminRequest, opts ...http.CallOption) (rsp *AdminRes, err error)
-	ListUser(ctx context.Context, req *ListUserRequest, opts ...http.CallOption) (rsp *ListUserReply, err error)
-	Login(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
+	Login(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginRes, err error)
 	OrderList(ctx context.Context, req *OrderListRequest, opts ...http.CallOption) (rsp *OrderListRes, err error)
-	Register(ctx context.Context, req *RegisterRequest, opts ...http.CallOption) (rsp *RegisterReply, err error)
-	SendSms(ctx context.Context, req *SendSmsRequest, opts ...http.CallOption) (rsp *SendSmsReply, err error)
+	Register(ctx context.Context, req *RegisterRequest, opts ...http.CallOption) (rsp *RegisterRes, err error)
+	SendSms(ctx context.Context, req *SendSmsRequest, opts ...http.CallOption) (rsp *SendSmsRes, err error)
 }
 
 type UserHTTPClientImpl struct {
@@ -204,21 +178,8 @@ func (c *UserHTTPClientImpl) Admin(ctx context.Context, in *AdminRequest, opts .
 	return &out, nil
 }
 
-func (c *UserHTTPClientImpl) ListUser(ctx context.Context, in *ListUserRequest, opts ...http.CallOption) (*ListUserReply, error) {
-	var out ListUserReply
-	pattern := "/user"
-	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationUserListUser))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, nil
-}
-
-func (c *UserHTTPClientImpl) Login(ctx context.Context, in *LoginRequest, opts ...http.CallOption) (*LoginReply, error) {
-	var out LoginReply
+func (c *UserHTTPClientImpl) Login(ctx context.Context, in *LoginRequest, opts ...http.CallOption) (*LoginRes, error) {
+	var out LoginRes
 	pattern := "/login"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationUserLogin))
@@ -243,8 +204,8 @@ func (c *UserHTTPClientImpl) OrderList(ctx context.Context, in *OrderListRequest
 	return &out, nil
 }
 
-func (c *UserHTTPClientImpl) Register(ctx context.Context, in *RegisterRequest, opts ...http.CallOption) (*RegisterReply, error) {
-	var out RegisterReply
+func (c *UserHTTPClientImpl) Register(ctx context.Context, in *RegisterRequest, opts ...http.CallOption) (*RegisterRes, error) {
+	var out RegisterRes
 	pattern := "/register"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationUserRegister))
@@ -256,8 +217,8 @@ func (c *UserHTTPClientImpl) Register(ctx context.Context, in *RegisterRequest, 
 	return &out, nil
 }
 
-func (c *UserHTTPClientImpl) SendSms(ctx context.Context, in *SendSmsRequest, opts ...http.CallOption) (*SendSmsReply, error) {
-	var out SendSmsReply
+func (c *UserHTTPClientImpl) SendSms(ctx context.Context, in *SendSmsRequest, opts ...http.CallOption) (*SendSmsRes, error) {
+	var out SendSmsRes
 	pattern := "/sendSms"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationUserSendSms))

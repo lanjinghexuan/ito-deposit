@@ -1,6 +1,8 @@
 GOHOSTOS:=$(shell go env GOHOSTOS)
 GOPATH:=$(shell go env GOPATH)
 VERSION=$(shell git describe --tags --always)
+COMMIT    := $(shell git rev-parse --short HEAD)
+APP_NAME  ?= ito-deposit
 
 ifeq ($(GOHOSTOS), windows)
 	#the `find.exe` is different from `find` in bash/shell.
@@ -61,6 +63,14 @@ all:
 	make api;
 	make config;
 	make generate;
+
+.PHONY: deploy
+# deploy
+deploy:
+	docker build -t $(APP_NAME):$(COMMIT) .
+	docker stop $(APP_NAME)
+	docker run -d  --rm -p 8000:8000  -v "$(pwd)/configs:/data/conf" $(APP_NAME)
+	ghcr.io/${{ github.repository }}:${{ github.sha }}
 
 # show help
 help:

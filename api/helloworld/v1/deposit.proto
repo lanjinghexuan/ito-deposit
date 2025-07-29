@@ -9,7 +9,12 @@ option java_multiple_files = true;
 option java_package = "api.helloworld.v1";
 
 service Deposit {
-	rpc CreateDeposit (CreateDepositRequest) returns (CreateDepositReply);
+	rpc CreateDeposit (CreateDepositRequest) returns (CreateDepositReply){
+		option (google.api.http) = {
+			post: "/deposit/createDeposit"
+			body:"*"
+		};
+	};
 	rpc UpdateDeposit (UpdateDepositRequest) returns (UpdateDepositReply);
 	rpc DeleteDeposit (DeleteDepositRequest) returns (DeleteDepositReply);
 	rpc GetDeposit (GetDepositRequest) returns (GetDepositReply);
@@ -36,6 +41,42 @@ service Deposit {
 			get: "/getDepositLocker"
 		};
 	};
+
+	rpc UpdateDepositLockerId(UpdateDepositLockerIdReq) returns(UpdateDepositLockerIdRes){
+		option (google.api.http) = {
+			post: "/deposit/updateDepositLockerId"
+			body:"*"
+		};
+	}
+
+	rpc SendCodeByOrder(SendCodeByOrderReq) returns(SendCodeByOrderRes){
+		option (google.api.http) = {
+			post: "/deposit/sendCodeByOrder"
+			body:"*"
+		};
+	}
+}
+
+message SendCodeByOrderReq{
+	string order_no = 1;
+}
+
+message SendCodeByOrderRes{
+	string msg = 1;
+	int32 code = 2;
+	string data = 3;
+}
+
+
+
+message UpdateDepositLockerIdReq{
+	string order_id = 1;
+}
+
+message UpdateDepositLockerIdRes{
+	int32 code  = 2;
+	string msg = 3;
+	int32 locker_id = 1;
 }
 
 message GetDepositLockerReq{
@@ -48,7 +89,6 @@ message GetDepositLockerRes{
 	float longitude = 3;
 	float latitude = 4;
 	repeated Locker locker = 5;
-	float free_duration = 6;
 }
 
 message Locker{
@@ -63,9 +103,20 @@ message Locker{
 
 
 message CreateDepositRequest {
-
+	int32 scheduled_duration = 1; //预计存储时间
+	int32 locker_type = 2; //柜子类型
+	int32 cabinet_id =3 ;//网点id
 }
-message CreateDepositReply {}
+message CreateDepositReply {
+	int32 code = 1;
+	string msg  =  2;
+	 DepositReplyData data  = 3;
+}
+
+message DepositReplyData{
+	string order_no = 1;
+	int32 locker_id = 2;
+}
 
 message UpdateDepositRequest {}
 message UpdateDepositReply {}
@@ -94,3 +145,4 @@ message decodeTokenRes{
 	int32 coe =2 ;
 	string msg = 3;
 }
+

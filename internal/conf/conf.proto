@@ -43,4 +43,15 @@ message Data {
   Database database = 1;
   Redis redis = 2;
   string smscode = 3;
+  message Minio{
+    string endpoint = 1;
+    string  access_key_id = 2;
+    string access_key_secret = 3;
+    string bucket_name = 4;
+    bool use_ssl = 5;
+    string bucket_url = 6;
+  }
+  Minio minio = 4;
 }
+
+

@@ -9,10 +9,10 @@ package main
 import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
+	"ito-deposit/internal/basic/pkg"
 	"ito-deposit/internal/biz"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/data"
-	"ito-deposit/internal/data/pkg"
 	"ito-deposit/internal/pkg/geo"
 	"ito-deposit/internal/server"
 	"ito-deposit/internal/service"
@@ -22,50 +22,39 @@ import (
 	_ "go.uber.org/automaxprocs"
 )
 
+// Injectors from wire.go:
+
 // wireApp init kratos application.
 func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
-	// 初始化数据层
 	dataData, cleanup, err := data.NewData(confData, logger)
 	if err != nil {
 		return nil, nil, err
 	}
-
-	// 初始化SMS服务
-	_, cleanup2, err := pkg.NewSendSms(confData, logger)
+	greeterRepo := data.NewGreeterRepo(dataData, logger)
+	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
+	greeterService := service.NewGreeterService(greeterUsecase)
+	orderService := service.NewOrderService(dataData)
+	userService := service.NewUserService(dataData, confServer)
+	homeService := service.NewHomeService()
+	sendSms, cleanup2, err := pkg.NewSendSms(confData, logger)
 	if err != nil {
 		cleanup()
 		return nil, nil, err
 	}
-
-	// 初始化仓库层
-	greeterRepo := data.NewGreeterRepo(dataData, logger)
+	depositService := service.NewDepositService(dataData, confServer, sendSms)
+	adminRepo := data.NewAdminRepo(dataData, logger)
+	adminUsecase := biz.NewAdminUsecase(adminRepo, logger)
+	adminService := service.NewAdminService(dataData, adminUsecase, confData)
 	cityRepo := data.NewCityRepo(dataData, logger)
-	nearbyRepo := data.NewNearbyRepo(dataData, logger)
-
-	// 初始化业务逻辑层
-	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
 	cityUsecase := biz.NewCityUsecase(cityRepo, logger)
-	
-	// 初始化地理服务
-	geoService := geo.NewGeoService(dataData.Redis)
-	nearbyUsecase := biz.NewNearbyUsecase(nearbyRepo, geoService, cityUsecase, logger)
-
-	// 初始化服务层
-	greeterService := service.NewGreeterService(greeterUsecase)
-	userService := service.NewUserService(dataData)
-	orderService := service.NewOrderService()
-	homeService := service.NewHomeService()
-	depositService := service.NewDepositService(dataData, confServer)
 	cityService := service.NewCityService(cityUsecase, logger)
+	nearbyRepo := data.NewNearbyRepo(dataData, logger)
+	geoService := geo.NewGeoService(confData)
+	nearbyUsecase := biz.NewNearbyUsecase(nearbyRepo, geoService, cityUsecase, logger)
 	nearbyService := service.NewNearbyService(nearbyUsecase, logger)
-
-	// 初始化服务器
-	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, cityService, nearbyService, logger)
-	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, cityService, nearbyService, logger)
-
-	// 创建应用
+	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, logger)
+	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, logger)
 	app := newApp(logger, grpcServer, httpServer)
-	
 	return app, func() {
 		cleanup2()
 		cleanup()
