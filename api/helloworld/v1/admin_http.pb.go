@@ -19,21 +19,93 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationAdminAdminLogin = "/api.helloworld.v1.Admin/AdminLogin"
 const OperationAdminGetPriceRule = "/api.helloworld.v1.Admin/GetPriceRule"
+const OperationAdminPointInfo = "/api.helloworld.v1.Admin/PointInfo"
+const OperationAdminPointList = "/api.helloworld.v1.Admin/PointList"
 const OperationAdminSetPriceRule = "/api.helloworld.v1.Admin/SetPriceRule"
 const OperationAdminUploadFile = "/api.helloworld.v1.Admin/UploadFile"
 
 type AdminHTTPServer interface {
+	AdminLogin(context.Context, *AdminLoginReq) (*AdminLoginRes, error)
 	GetPriceRule(context.Context, *GetPriceRuleReq) (*GetPriceRuleRes, error)
+	PointInfo(context.Context, *PointInfoReq) (*PointInfoRes, error)
+	PointList(context.Context, *PointListReq) (*PointListRes, error)
 	SetPriceRule(context.Context, *SetPriceRuleReq) (*SetPriceRuleRes, error)
 	UploadFile(context.Context, *UploadFileReq) (*UploadFileRes, error)
 }
 
 func RegisterAdminHTTPServer(s *http.Server, srv AdminHTTPServer) {
 	r := s.Route("/")
+	r.POST("/point_info", _Admin_PointInfo0_HTTP_Handler(srv))
+	r.GET("/point_list", _Admin_PointList0_HTTP_Handler(srv))
+	r.POST("/admin/login", _Admin_AdminLogin0_HTTP_Handler(srv))
 	r.POST("/admin/setPriceRule", _Admin_SetPriceRule0_HTTP_Handler(srv))
 	r.GET("/admin/getPriceRule", _Admin_GetPriceRule0_HTTP_Handler(srv))
 	r.GET("/admin/uploadFile", _Admin_UploadFile0_HTTP_Handler(srv))
+}
+
+func _Admin_PointInfo0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in PointInfoReq
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationAdminPointInfo)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.PointInfo(ctx, req.(*PointInfoReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*PointInfoRes)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Admin_PointList0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in PointListReq
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationAdminPointList)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.PointList(ctx, req.(*PointListReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*PointListRes)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _Admin_AdminLogin0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in AdminLoginReq
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationAdminAdminLogin)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.AdminLogin(ctx, req.(*AdminLoginReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*AdminLoginRes)
+		return ctx.Result(200, reply)
+	}
 }
 
 func _Admin_SetPriceRule0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context) error {
@@ -97,7 +169,10 @@ func _Admin_UploadFile0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context)
 }
 
 type AdminHTTPClient interface {
+	AdminLogin(ctx context.Context, req *AdminLoginReq, opts ...http.CallOption) (rsp *AdminLoginRes, err error)
 	GetPriceRule(ctx context.Context, req *GetPriceRuleReq, opts ...http.CallOption) (rsp *GetPriceRuleRes, err error)
+	PointInfo(ctx context.Context, req *PointInfoReq, opts ...http.CallOption) (rsp *PointInfoRes, err error)
+	PointList(ctx context.Context, req *PointListReq, opts ...http.CallOption) (rsp *PointListRes, err error)
 	SetPriceRule(ctx context.Context, req *SetPriceRuleReq, opts ...http.CallOption) (rsp *SetPriceRuleRes, err error)
 	UploadFile(ctx context.Context, req *UploadFileReq, opts ...http.CallOption) (rsp *UploadFileRes, err error)
 }
@@ -110,11 +185,50 @@ func NewAdminHTTPClient(client *http.Client) AdminHTTPClient {
 	return &AdminHTTPClientImpl{client}
 }
 
+func (c *AdminHTTPClientImpl) AdminLogin(ctx context.Context, in *AdminLoginReq, opts ...http.CallOption) (*AdminLoginRes, error) {
+	var out AdminLoginRes
+	pattern := "/admin/login"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationAdminAdminLogin))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
 func (c *AdminHTTPClientImpl) GetPriceRule(ctx context.Context, in *GetPriceRuleReq, opts ...http.CallOption) (*GetPriceRuleRes, error) {
 	var out GetPriceRuleRes
 	pattern := "/admin/getPriceRule"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationAdminGetPriceRule))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *AdminHTTPClientImpl) PointInfo(ctx context.Context, in *PointInfoReq, opts ...http.CallOption) (*PointInfoRes, error) {
+	var out PointInfoRes
+	pattern := "/point_info"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationAdminPointInfo))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *AdminHTTPClientImpl) PointList(ctx context.Context, in *PointListReq, opts ...http.CallOption) (*PointListRes, error) {
+	var out PointListRes
+	pattern := "/point_list"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationAdminPointList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {

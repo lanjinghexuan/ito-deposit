@@ -58,4 +58,5 @@ func (s *AdminRepo) SetPriceRule(ctx context.Context, networkId int32, data []*b
 	}
 
 	return nil
+
 }

@@ -9,6 +9,24 @@ option java_multiple_files = true;
 option java_package = "api.helloworld.v1";
 
 service Admin {
+	rpc PointInfo(PointInfoReq) returns (PointInfoRes) {
+		option (google.api.http) = {
+			post: "/point_info"
+			body: "*"
+		};
+	};
+	rpc PointList(PointListReq) returns (PointListRes) {
+		option (google.api.http) = {
+			get: "/point_list"
+		};
+	};
+	rpc AdminLogin(AdminLoginReq) returns (AdminLoginRes) {
+		option (google.api.http) = {
+			post: "/admin/login"
+			body: "*"
+		};
+	};
+
 	rpc SetPriceRule(SetPriceRuleReq) returns (SetPriceRuleRes) {
 		option (google.api.http) = {
 			post: "/admin/setPriceRule"
@@ -38,7 +56,17 @@ message UploadFileReq{
 message UploadFileRes{
 	string url = 1;
 }
-
+message AdminLoginReq {
+	string mobile = 1;
+	string password = 2;
+	string smsCode = 3;
+}
+message AdminLoginRes {
+	int64 code = 1;
+	string msg = 2;
+	int64 id = 3;
+	string token = 4;
+}
 message SetPriceRuleReq {
 	int64 network_id = 1;
 	repeated LockerPriceRule rules = 2;
@@ -77,4 +105,35 @@ message LockerPriceRule {
 	// 功能开关
 	bool is_deposit_enabled = 11;
 	bool is_advance_pay = 12;
+}
+message PointListReq {
+
+}
+message PointListRes {
+	int64 code = 1;
+	string msg = 2;
+	repeated PointList list = 3;
+}
+message PointList{
+	string name = 1;
+	string address = 2;
+	int64 available_large = 3;
+	int64 available_medium = 4;
+	int64 available_small = 5;
+}
+message PointInfoReq {
+	int64 id = 1;
+}
+message PointInfoRes {
+	int64 code = 1;
+	string msg = 2;
+	string name = 3;
+	string address = 4;
+	string point_type = 5;
+	int64 available_large = 6;
+	int64 available_medium = 7;
+	int64 available_small = 8;
+	string open_time = 9;
+	string staus = 10;
+	string point_image = 11;
 }

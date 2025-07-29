@@ -29,6 +29,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /admin/login:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_AdminLogin
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AdminLoginReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AdminLoginRes'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /admin/setPriceRule:
         post:
             tags:
@@ -85,8 +109,70 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
+    /point_info:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_PointInfo
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PointInfoReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PointInfoRes'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /point_list:
+        get:
+            tags:
+                - Admin
+            operationId: Admin_PointList
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PointListRes'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
 components:
     schemas:
+        AdminLoginReq:
+            type: object
+            properties:
+                mobile:
+                    type: string
+                password:
+                    type: string
+                smsCode:
+                    type: string
+        AdminLoginRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                id:
+                    type: string
+                token:
+                    type: string
         GetPriceRuleRes:
             type: object
             properties:
@@ -141,6 +227,60 @@ components:
                     description: 功能开关
                 isAdvancePay:
                     type: boolean
+        PointInfoReq:
+            type: object
+            properties:
+                id:
+                    type: string
+        PointInfoRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                name:
+                    type: string
+                address:
+                    type: string
+                pointType:
+                    type: string
+                availableLarge:
+                    type: string
+                availableMedium:
+                    type: string
+                availableSmall:
+                    type: string
+                openTime:
+                    type: string
+                staus:
+                    type: string
+                pointImage:
+                    type: string
+        PointList:
+            type: object
+            properties:
+                name:
+                    type: string
+                address:
+                    type: string
+                availableLarge:
+                    type: string
+                availableMedium:
+                    type: string
+                availableSmall:
+                    type: string
+        PointListRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/PointList'
         SetPriceRuleReq:
             type: object
             properties:

@@ -56,7 +56,10 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 	v1.RegisterAdminHTTPServer(srv, admin)
 
 	if c.Pprof.Switch {
-		http2.ListenAndServe(fmt.Sprintf(":%d", c.Pprof.Prot), nil)
+		err := http2.ListenAndServe(fmt.Sprintf(":%d", c.Pprof.Prot), nil)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	srv.Route("/").POST("/upload", admin.DownloadFile)
@@ -73,9 +76,11 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList["/api.helloworld.v1.User/Login"] = struct{}{}
 	whiteList["/api.helloworld.v1.User/List"] = struct{}{}
 	whiteList["/api.helloworld.v1.User/Admin"] = struct{}{}
-	whiteList["/api.helloworld.v1.User/GetUser"] = struct{}{}
+	whiteList["/api.helloworld.v1.Admin/AdminLogin"] = struct{}{}
 	whiteList["/api.helloworld.v1.Order/ListOrder"] = struct{}{}
 	whiteList["/api.helloworld.v1.Order/ShowOrder"] = struct{}{}
+	whiteList["/api.helloworld.v1.Admin/PointList"] = struct{}{}
+	whiteList["/api.helloworld.v1.Admin/PointInfo"] = struct{}{}
 	return func(ctx context.Context, operation string) bool {
 		if _, ok := whiteList[operation]; ok {
 			return false

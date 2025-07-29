@@ -9,7 +9,7 @@ server:
     authkey: a9999
   pprof:
     port: 6601
-    switch: true
+    switch: false
 data:
   database:
     driver: mysql
