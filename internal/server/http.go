@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"fmt"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/auth/jwt"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
@@ -13,7 +12,6 @@ import (
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/service"
 	http2 "net/http"
-	_ "net/http/pprof"
 )
 
 func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *service.OrderService, user *service.UserService,
@@ -35,18 +33,19 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 
-	opts = append(opts, http.Middleware(
-		selector.Server(
-			jwt.Server(func(token *jwtv5.Token) (interface{}, error) {
-				return []byte(c.Jwt.Authkey), nil
-			}, jwt.WithSigningMethod(jwtv5.SigningMethodHS256), jwt.WithClaims(func() jwtv5.Claims {
-				return &jwtv5.MapClaims{}
-			})),
-		).
-			Match(NewWhiteListMatcher()).
-			Build(),
-	))
-
+	if true {
+		opts = append(opts, http.Middleware(
+			selector.Server(
+				jwt.Server(func(token *jwtv5.Token) (interface{}, error) {
+					return []byte(c.Jwt.Authkey), nil
+				}, jwt.WithSigningMethod(jwtv5.SigningMethodHS256), jwt.WithClaims(func() jwtv5.Claims {
+					return &jwtv5.MapClaims{}
+				})),
+			).
+				Match(NewWhiteListMatcher()).
+				Build(),
+		))
+	}
 	srv := http.NewServer(opts...)
 	v1.RegisterGreeterHTTPServer(srv, greeter)
 	v1.RegisterUserHTTPServer(srv, user)
@@ -54,14 +53,6 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 	v1.RegisterDepositHTTPServer(srv, deposit)
 	v1.RegisterOrderHTTPServer(srv, order)
 	v1.RegisterAdminHTTPServer(srv, admin)
-
-	if c.Pprof.Switch {
-		go func() {
-			fmt.Println(http2.ListenAndServe(fmt.Sprintf(":%d", c.Pprof.Port), nil))
-		}()
-	}
-
-	srv.Route("/").POST("/upload", admin.DownloadFile)
 
 	return srv
 }
@@ -75,13 +66,14 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList["/api.helloworld.v1.User/Login"] = struct{}{}
 	whiteList["/api.helloworld.v1.User/List"] = struct{}{}
 	whiteList["/api.helloworld.v1.User/Admin"] = struct{}{}
-	whiteList["/api.helloworld.v1.Admin/AdminLogin"] = struct{}{}
+	whiteList["/api.helloworld.v1.User/GetUser"] = struct{}{}
 	whiteList["/api.helloworld.v1.Order/ListOrder"] = struct{}{}
 	whiteList["/api.helloworld.v1.Order/ShowOrder"] = struct{}{}
 	whiteList["/api.helloworld.v1.Admin/PointList"] = struct{}{}
 	whiteList["/api.helloworld.v1.Admin/PointInfo"] = struct{}{}
 	whiteList["/api.helloworld.v1.Admin/SetPriceRule"] = struct{}{}
 	whiteList["/api.helloworld.v1.Admin/GetPriceRule"] = struct{}{}
+	whiteList["/api.helloworld.v1.Order/UpdateOrder"] = struct{}{}
 	return func(ctx context.Context, operation string) bool {
 		if _, ok := whiteList[operation]; ok {
 			return false

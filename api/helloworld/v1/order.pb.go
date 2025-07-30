@@ -368,6 +368,7 @@ type UpdateOrderRequest struct {
 	Title          string                 `protobuf:"bytes,12,opt,name=title,proto3" json:"title,omitempty"`
 	LockerPointId  int64                  `protobuf:"varint,17,opt,name=locker_point_id,json=lockerPointId,proto3" json:"locker_point_id,omitempty"`
 	TypeId         int64                  `protobuf:"varint,18,opt,name=type_id,json=typeId,proto3" json:"type_id,omitempty"`
+	CabinetId      int64                  `protobuf:"varint,19,opt,name=cabinet_id,json=cabinetId,proto3" json:"cabinet_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -461,6 +462,13 @@ func (x *UpdateOrderRequest) GetLockerPointId() int64 {
 func (x *UpdateOrderRequest) GetTypeId() int64 {
 	if x != nil {
 		return x.TypeId
+	}
+	return 0
+}
+
+func (x *UpdateOrderRequest) GetCabinetId() int64 {
+	if x != nil {
+		return x.CabinetId
 	}
 	return 0
 }
@@ -962,7 +970,7 @@ const file_helloworld_v1_order_proto_rawDesc = "" +
 	"\x0flocker_point_id\x18\x11 \x01(\x03R\rlockerPointId\x12\x17\n" +
 	"\atype_id\x18\x12 \x01(\x03R\x06typeId\"$\n" +
 	"\x10CreateOrderReply\x12\x10\n" +
-	"\x03Msg\x18\x02 \x01(\tR\x03Msg\"\xa5\x02\n" +
+	"\x03Msg\x18\x02 \x01(\tR\x03Msg\"\xc4\x02\n" +
 	"\x12UpdateOrderRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12'\n" +
 	"\x0factual_duration\x18\x03 \x01(\x03R\x0eactualDuration\x12\x16\n" +
@@ -975,7 +983,9 @@ const file_helloworld_v1_order_proto_rawDesc = "" +
 	"lockerType\x12\x14\n" +
 	"\x05title\x18\f \x01(\tR\x05title\x12&\n" +
 	"\x0flocker_point_id\x18\x11 \x01(\x03R\rlockerPointId\x12\x17\n" +
-	"\atype_id\x18\x12 \x01(\x03R\x06typeId\"_\n" +
+	"\atype_id\x18\x12 \x01(\x03R\x06typeId\x12\x1d\n" +
+	"\n" +
+	"cabinet_id\x18\x13 \x01(\x03R\tcabinetId\"_\n" +
 	"\x10UpdateOrderReply\x122\n" +
 	"\x05order\x18\x01 \x01(\v2\x1c.api.helloworld.v1.OrderInfoR\x05order\x12\x17\n" +
 	"\apay_url\x18\x02 \x01(\tR\x06payUrl\"<\n" +
