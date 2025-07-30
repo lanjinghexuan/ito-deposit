@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-
 	pb "ito-deposit/api/helloworld/v1"
 )
 
@@ -28,4 +27,10 @@ func (s *HomeService) GetHome(ctx context.Context, req *pb.GetHomeRequest) (*pb.
 }
 func (s *HomeService) ListHome(ctx context.Context, req *pb.ListHomeRequest) (*pb.ListHomeReply, error) {
 	return &pb.ListHomeReply{}, nil
+}
+
+func (s *HomeService) CreateLocal(context.Context, *pb.CreateLocalRequest) (*pb.CreateLocalReply, error) {
+
+	return &pb.CreateLocalReply{}, nil
+
 }

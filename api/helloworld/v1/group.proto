@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package api.helloworld.v1;
+
+option go_package = "ito-deposit/api/helloworld/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.helloworld.v1";
+
+service Group {
+	rpc CreateGroup (CreateGroupRequest) returns (CreateGroupReply);
+	rpc UpdateGroup (UpdateGroupRequest) returns (UpdateGroupReply);
+	rpc DeleteGroup (DeleteGroupRequest) returns (DeleteGroupReply);
+	rpc GetGroup (GetGroupRequest) returns (GetGroupReply);
+	rpc ListGroup (ListGroupRequest) returns (ListGroupReply);
+}
+
+message CreateGroupRequest {}
+message CreateGroupReply {}
+
+message UpdateGroupRequest {}
+message UpdateGroupReply {}
+
+message DeleteGroupRequest {}
+message DeleteGroupReply {}
+
+message GetGroupRequest {}
+message GetGroupReply {}
+
+message ListGroupRequest {}
+message ListGroupReply {}
