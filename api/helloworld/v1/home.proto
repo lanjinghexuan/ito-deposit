@@ -9,15 +9,30 @@ option java_multiple_files = true;
 option java_package = "api.helloworld.v1";
 
 service Home {
-	rpc CreateHome (CreateHomeRequest) returns (CreateHomeReply);
+	rpc CreateHome (CreateHomeRequest) returns (CreateHomeReply){};
+
 	rpc UpdateHome (UpdateHomeRequest) returns (UpdateHomeReply);
+
 	rpc DeleteHome (DeleteHomeRequest) returns (DeleteHomeReply);
+
 	rpc GetHome (GetHomeRequest) returns (GetHomeReply);
+
+
+
 	rpc ListHome (ListHomeRequest) returns (ListHomeReply){
 		option (google.api.http) = {
 			get: "/home"
 		};
 	};
+
+
+	rpc CreateLocal (CreateLocalRequest) returns (CreateLocalReply){
+		option (google.api.http) = {
+			get: "/home/local"
+		};
+	};
+
+
 }
 
 message CreateHomeRequest {}
@@ -34,3 +49,16 @@ message GetHomeReply {}
 
 message ListHomeRequest {}
 message ListHomeReply {}
+
+
+
+
+message CreateLocalRequest {
+
+}
+message CreateLocalReply {
+
+}
+
+
+

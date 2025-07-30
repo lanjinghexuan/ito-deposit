@@ -76,9 +76,9 @@ func TestDepositService_CreateDeposit(t *testing.T) {
 		resp, err := service.CreateDeposit(createEmptyContext(), req)
 
 		// 验证结果：应该没有系统错误，但业务返回401
-		assert.NoError(t, err)                    // 没有系统级错误
-		assert.NotNil(t, resp)                    // 响应不为空
-		assert.Equal(t, int32(401), resp.Code)    // 业务错误码为401
+		assert.NoError(t, err)                           // 没有系统级错误
+		assert.NotNil(t, resp)                           // 响应不为空
+		assert.Equal(t, int32(401), resp.Code)           // 业务错误码为401
 		assert.Equal(t, "token不正确或者未传", resp.Msg) // 错误消息正确
 	})
 
@@ -87,11 +87,11 @@ func TestDepositService_CreateDeposit(t *testing.T) {
 	t.Run("价格规则查询失败", func(t *testing.T) {
 		// 设置mock期望：模拟数据库查询链式调用
 		// 这些调用对应业务代码中查询价格规则的SQL操作
-		mockDB.EXPECT().Table("locker_pricing_rules").Return(mockDB)     // 选择表
-		mockDB.EXPECT().Where(gomock.Any(), gomock.Any()).Return(mockDB) // WHERE network_id = ?
-		mockDB.EXPECT().Where("status = 1").Return(mockDB)               // WHERE status = 1
-		mockDB.EXPECT().Where(gomock.Any(), gomock.Any()).Return(mockDB) // WHERE locker_type = ?
-		mockDB.EXPECT().Limit(1).Return(mockDB)                          // LIMIT 1
+		mockDB.EXPECT().Table("locker_pricing_rules").Return(mockDB)            // 选择表
+		mockDB.EXPECT().Where(gomock.Any(), gomock.Any()).Return(mockDB)        // WHERE network_id = ?
+		mockDB.EXPECT().Where("status = 1").Return(mockDB)                      // WHERE status = 1
+		mockDB.EXPECT().Where(gomock.Any(), gomock.Any()).Return(mockDB)        // WHERE locker_type = ?
+		mockDB.EXPECT().Limit(1).Return(mockDB)                                 // LIMIT 1
 		mockDB.EXPECT().Find(gomock.Any()).Return(errors.New("数据库查询失败")) // 模拟查询失败
 
 		// 构造请求参数
@@ -105,7 +105,7 @@ func TestDepositService_CreateDeposit(t *testing.T) {
 		_, err := service.CreateDeposit(createTestContext("123"), req)
 
 		// 验证结果：应该返回系统错误
-		assert.Error(t, err)                       // 有系统级错误
+		assert.Error(t, err)                              // 有系统级错误
 		assert.Contains(t, err.Error(), "数据库查询失败") // 错误消息包含预期内容
 	})
 
@@ -176,7 +176,7 @@ func TestDepositService_CreateDeposit(t *testing.T) {
 		assert.NoError(t, err)                          // 没有系统错误
 		assert.NotNil(t, resp)                          // 响应不为空
 		assert.Equal(t, int32(200), resp.Code)          // 成功状态码
-		assert.Equal(t, "添加寄存订单成功", resp.Msg)           // 成功消息
+		assert.Equal(t, "添加寄存订单成功", resp.Msg)   // 成功消息
 		assert.NotNil(t, resp.Data)                     // 返回数据不为空
 		assert.NotEmpty(t, resp.Data.OrderNo)           // 订单号不为空
 		assert.Greater(t, resp.Data.LockerId, int32(0)) // 柜子ID大于0
@@ -233,7 +233,7 @@ func TestDepositService_CreateDeposit(t *testing.T) {
 		_, err := service.CreateDeposit(createTestContext("123"), req)
 
 		// 验证结果：应该返回"寄存柜可用数量不足"的错误
-		assert.Error(t, err)                         // 有系统级错误
+		assert.Error(t, err)                                  // 有系统级错误
 		assert.Contains(t, err.Error(), "寄存柜可用数量不足") // 错误消息包含预期内容
 	})
 }
@@ -257,11 +257,11 @@ func TestDepositService_ReturnToken(t *testing.T) {
 		resp, err := service.ReturnToken(context.Background(), &pb.ReturnTokenReq{})
 
 		// 验证结果
-		assert.NoError(t, err)                 // 没有系统错误
-		assert.NotNil(t, resp)                 // 响应不为空
-		assert.Equal(t, int32(200), resp.Coe)  // 成功状态码
+		assert.NoError(t, err)                     // 没有系统错误
+		assert.NotNil(t, resp)                     // 响应不为空
+		assert.Equal(t, int32(200), resp.Coe)      // 成功状态码
 		assert.Equal(t, "生成token成功", resp.Msg) // 成功消息
-		assert.NotEmpty(t, resp.Token)         // token不为空
+		assert.NotEmpty(t, resp.Token)             // token不为空
 
 		// 验证JWT token格式（标准JWT由三部分组成：header.payload.signature）
 		parts := len(strings.Split(resp.Token, "."))
@@ -284,11 +284,11 @@ func TestDepositService_DecodeToken(t *testing.T) {
 		resp, err := service.DecodeToken(ctx, &pb.ReturnTokenReq{})
 
 		// 验证结果：应该成功解析出用户ID
-		assert.NoError(t, err)                // 没有系统错误
-		assert.NotNil(t, resp)                // 响应不为空
-		assert.Equal(t, int32(200), resp.Coe) // 成功状态码
+		assert.NoError(t, err)                  // 没有系统错误
+		assert.NotNil(t, resp)                  // 响应不为空
+		assert.Equal(t, int32(200), resp.Coe)   // 成功状态码
 		assert.Equal(t, "token内容 ", resp.Msg) // 成功消息
-		assert.Equal(t, "123", resp.Token)    // 返回的用户ID正确
+		assert.Equal(t, "123", resp.Token)      // 返回的用户ID正确
 	})
 
 	// 测试场景2：解析无效token（空context）
@@ -300,9 +300,9 @@ func TestDepositService_DecodeToken(t *testing.T) {
 		resp, err := service.DecodeToken(ctx, &pb.ReturnTokenReq{})
 
 		// 验证结果：应该返回401错误
-		assert.NoError(t, err)                                         // 没有系统级错误
-		assert.NotNil(t, resp)                                         // 响应不为空
-		assert.Equal(t, int32(401), resp.Coe)                          // 错误状态码401
+		assert.NoError(t, err)                                                       // 没有系统级错误
+		assert.NotNil(t, resp)                                                       // 响应不为空
+		assert.Equal(t, int32(401), resp.Coe)                                        // 错误状态码401
 		assert.Equal(t, "未找到有效的 JWT Token（可能未登录或 Token 无效）", resp.Msg) // 错误消息正确
 	})
 }
@@ -500,8 +500,8 @@ func createMockLockerOrder() *data.LockerOrders {
 
 // createMockLocker 创建模拟的柜子数据
 // 用于测试中需要柜子信息的场景，返回一个可用的柜子结构体
-func createMockLocker() *data.Locker {
-	return &data.Locker{
+func createMockLocker() *data.Lockers {
+	return &data.Lockers{
 		Id:            1001, // 柜子ID
 		LockerPointId: 1,    // 所属寄存点ID
 		TypeId:        1,    // 柜子类型ID（1=小柜）
@@ -513,16 +513,16 @@ func createMockLocker() *data.Locker {
 // 用于测试中需要价格配置的场景，返回一个标准的价格规则结构体
 func createMockPricingRules() *data.LockerPricingRules {
 	return &data.LockerPricingRules{
-		Id:               1,      // 规则ID
-		NetworkId:        1,      // 网点ID
+		Id:               1,          // 规则ID
+		NetworkId:        1,          // 网点ID
 		RuleName:         "默认规则", // 规则名称
-		FeeType:          1,      // 收费类型（1=计时收费）
-		LockerType:       1,      // 柜子类型（1=小柜）
-		FreeDuration:     0.5,    // 免费时长（0.5小时）
-		IsDepositEnabled: 1,      // 是否启用押金（1=启用）
-		HourlyRate:       5.0,    // 每小时费用（5元）
-		DepositAmount:    100.0,  // 押金金额（100元）
-		Status:           1,      // 规则状态（1=生效）
+		FeeType:          1,          // 收费类型（1=计时收费）
+		LockerType:       1,          // 柜子类型（1=小柜）
+		FreeDuration:     0.5,        // 免费时长（0.5小时）
+		IsDepositEnabled: 1,          // 是否启用押金（1=启用）
+		HourlyRate:       5.0,        // 每小时费用（5元）
+		DepositAmount:    100.0,      // 押金金额（100元）
+		Status:           1,          // 规则状态（1=生效）
 	}
 }
 
