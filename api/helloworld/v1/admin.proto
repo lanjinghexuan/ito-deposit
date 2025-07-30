@@ -137,3 +137,16 @@ message PointInfoRes {
 	string staus = 10;
 	string point_image = 11;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

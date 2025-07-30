@@ -301,6 +301,7 @@ func (s *AdminService) PointList(ctx context.Context, req *pb.PointListReq) (*pb
 
 func (s *AdminService) PointInfo(ctx context.Context, req *pb.PointInfoReq) (*pb.PointInfoRes, error) {
 	var point data2.LockerPoint
+	fmt.Println(req.Id)
 	err := s.data.DB.Debug().Where("id = ?", req.Id).Find(&point).Error
 	if err != nil {
 		return &pb.PointInfoRes{
