@@ -48,8 +48,21 @@ service Order {
 			body: "*"
 		};
 	};
-}
 
+	rpc ManageOrderSearch (ManageOrderSearchRequest) returns (ManageOrderSearchReply) {
+		option (google.api.http) = {
+			post: "/manage/orders/search"
+			body: "*"
+		};
+	};
+
+
+}
+message ManageOrderSearchRequest {
+
+}
+message ManageOrderSearchReply {
+}
 // 订单信息
 message OrderInfo {
 	int32 id = 1;                                    // 订单ID

@@ -101,7 +101,9 @@ func (s *OrderService) UpdateOrder(ctx context.Context, req *pb.UpdateOrderReque
 
 		// 如果订单已经支付或关闭，则不允许再次支付
 		if lockerOrder.Status != 1 { // 1-待支付
+			pkg.LogError("订单状态异常，无法支付")
 			return status.Errorf(codes.FailedPrecondition, "订单状态异常，无法支付")
+
 		}
 
 		// 3. 查询柜子信息，获取柜子类型ID
