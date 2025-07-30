@@ -124,7 +124,7 @@ func (s *CityService) ListCities(ctx context.Context, req *v1.ListCitiesRequest)
 
 	pageSize := req.PageSize
 	if pageSize <= 0 {
-		pageSize = 10
+		pageSize = 50
 	}
 
 	// 始终查询所有状态的城市
@@ -172,7 +172,7 @@ func (s *CityService) ListCities(ctx context.Context, req *v1.ListCitiesRequest)
 		Items: items,
 	}
 	s.log.Infof("返回响应: total=%d, items.length=%d", reply.Total, len(reply.Items))
-	
+
 	return reply, nil
 }
 
@@ -250,7 +250,7 @@ func (s *CityService) ListUserCities(ctx context.Context, req *v1.ListUserCities
 		Total: total,
 		Items: items,
 	}
-	
+
 	return reply, nil
 }
 
@@ -305,7 +305,7 @@ func (s *CityService) SearchCities(ctx context.Context, req *v1.SearchCitiesRequ
 		Total: total,
 		Items: items,
 	}
-	
+
 	return reply, nil
 }
 
@@ -400,6 +400,6 @@ func (s *CityService) GetHotCities(ctx context.Context, req *v1.GetHotCitiesRequ
 		Total: total,
 		Items: items,
 	}
-	
+
 	return reply, nil
 }

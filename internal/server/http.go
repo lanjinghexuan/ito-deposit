@@ -82,6 +82,23 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList["/api.helloworld.v1.Order/ShowOrder"] = struct{}{}
 	whiteList["/api.helloworld.v1.Admin/PointList"] = struct{}{}
 	whiteList["/api.helloworld.v1.Admin/PointInfo"] = struct{}{}
+	// 寄存点相关API - 用户端不需要认证
+	whiteList["/api.helloworld.v1.Deposit/GetDepositLocker"] = struct{}{}
+	whiteList["/api.helloworld.v1.Deposit/CreateDeposit"] = struct{}{}
+	whiteList["/api.helloworld.v1.Deposit/ListDeposit"] = struct{}{}
+	// 城市相关API - 用户端不需要认证
+	whiteList["/api.helloworld.v1.City/ListUserCities"] = struct{}{}
+	whiteList["/api.helloworld.v1.City/SearchCities"] = struct{}{}
+	whiteList["/api.helloworld.v1.City/GetUserCity"] = struct{}{}
+	whiteList["/api.helloworld.v1.City/GetCityByCode"] = struct{}{}
+	whiteList["/api.helloworld.v1.City/GetHotCities"] = struct{}{}
+	// 附近寄存点相关API - 用户端不需要认证
+	whiteList["/api.helloworld.v1.Nearby/FindNearbyLockerPoints"] = struct{}{}
+	whiteList["/api.helloworld.v1.Nearby/FindNearbyLockerPointsInCity"] = struct{}{}
+	whiteList["/api.helloworld.v1.Nearby/FindMyNearbyLockerPoints"] = struct{}{}
+	whiteList["/api.helloworld.v1.Nearby/SearchLockerPointsInCity"] = struct{}{}
+	whiteList["/api.helloworld.v1.Nearby/GetCityLockerPointsMap"] = struct{}{}
+	whiteList["/api.helloworld.v1.Nearby/GetMyNearbyInfo"] = struct{}{}
 	// 创建需要JWT验证的接口列表（黑名单）
 	// 只有管理员相关的API需要JWT验证
 	jwtRequiredList := make(map[string]struct{})

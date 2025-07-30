@@ -239,7 +239,7 @@ func (r *cityRepo) SearchCities(ctx context.Context, keyword string, page, pageS
 
 	// 构建查询条件
 	query := db.Model(&City{}).Where("status = ?", 1) // 只查询启用状态的城市
-	
+
 	// 如果有关键词，添加模糊查询条件
 	if keyword != "" {
 		query = query.Where("name LIKE ? OR code LIKE ?", "%"+keyword+"%", "%"+keyword+"%")
@@ -299,7 +299,7 @@ func (r *cityRepo) GetHotCities(ctx context.Context, limit int32) ([]*biz.City, 
 
 	// 设置默认限制
 	if limit <= 0 {
-		limit = 10
+		limit = 20
 	}
 
 	// 查询热门城市（这里简单地按ID排序，实际应用中可能需要根据访问量或其他指标排序）

@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"os"
-	"path/filepath"
 
 	"ito-deposit/internal/conf"
 
@@ -59,12 +58,6 @@ func main() {
 		"trace.id", tracing.TraceID(),
 		"span.id", tracing.SpanID(),
 	)
-
-	// 确保配置文件路径正确
-	configFile := filepath.Join(flagconf, "config.yaml")
-	if _, err := os.Stat(configFile); os.IsNotExist(err) {
-		panic("Config file not found: " + configFile)
-	}
 
 	c := config.New(
 		config.WithSource(
