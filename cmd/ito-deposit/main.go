@@ -4,6 +4,7 @@ import (
 	"flag"
 	"os"
 
+	"ito-deposit/internal/basic/pkg"
 	"ito-deposit/internal/conf"
 
 	"github.com/go-kratos/kratos/v2"
@@ -13,6 +14,7 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	"github.com/go-kratos/kratos/v2/transport/http"
+	"go.uber.org/zap"
 
 	_ "go.uber.org/automaxprocs"
 )
@@ -49,6 +51,20 @@ func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
 
 func main() {
 	flag.Parse()
+
+	// 初始化自定义zap日志
+	if err := pkg.InitLogger(); err != nil {
+		panic(err)
+	}
+	defer pkg.Sync()
+
+	// 记录应用启动日志
+	pkg.LogInfo("Application starting",
+		zap.String("service.id", id),
+		zap.String("service.name", Name),
+		zap.String("service.version", Version),
+	)
+
 	logger := log.With(log.NewStdLogger(os.Stdout),
 		"ts", log.DefaultTimestamp,
 		"caller", log.DefaultCaller,
@@ -67,22 +83,28 @@ func main() {
 	defer c.Close()
 
 	if err := c.Load(); err != nil {
+		pkg.LogError("Failed to load config", zap.Error(err))
 		panic(err)
 	}
 
 	var bc conf.Bootstrap
 	if err := c.Scan(&bc); err != nil {
+		pkg.LogError("Failed to scan config", zap.Error(err))
 		panic(err)
 	}
 
 	app, cleanup, err := wireApp(bc.Server, bc.Data, logger)
 	if err != nil {
+		pkg.LogError("Failed to initialize app", zap.Error(err))
 		panic(err)
 	}
 	defer cleanup()
 
 	// start and wait for stop signal
+	pkg.LogInfo("Application server started successfully")
 	if err := app.Run(); err != nil {
+		pkg.LogError("Application run failed", zap.Error(err))
 		panic(err)
 	}
+	pkg.LogInfo("Application stopped gracefully")
 }

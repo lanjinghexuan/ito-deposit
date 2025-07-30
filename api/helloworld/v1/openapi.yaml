@@ -3,39 +3,170 @@
 
 openapi: 3.0.3
 info:
-    title: Home API
+    title: Order API
     version: 0.0.1
 paths:
-    /home:
-        get:
+    /manage/orders/search:
+        post:
             tags:
-                - Home
-            operationId: Home_ListHome
+                - Order
+            operationId: Order_ManageOrderSearch
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ManageOrderSearchRequest'
+                required: true
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListHomeReply'
+                                $ref: '#/components/schemas/ManageOrderSearchReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /home/local:
-        get:
+    /v1/order/create:
+        post:
             tags:
-                - Home
-            operationId: Home_CreateLocal
+                - Order
+            operationId: Order_CreateOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateOrderRequest'
+                required: true
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CreateLocalReply'
+                                $ref: '#/components/schemas/CreateOrderReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/order/del:
+        post:
+            tags:
+                - Order
+            operationId: Order_DeleteOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DeleteOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteOrderReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/order/get:
+        get:
+            tags:
+                - Order
+            operationId: Order_GetOrder
+            parameters:
+                - name: id
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetOrderReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/order/update:
+        put:
+            tags:
+                - Order
+            operationId: Order_UpdateOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateOrderReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/orders/list:
+        post:
+            tags:
+                - Order
+            operationId: Order_ListOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ListOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListOrderReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/orders/show:
+        post:
+            tags:
+                - Order
+            operationId: Order_ShowOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ShowOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ShowOrderReply'
                 default:
                     description: Default error response
                     content:
@@ -44,9 +175,68 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        CreateLocalReply:
+        CreateOrderReply:
             type: object
-            properties: {}
+            properties:
+                Msg:
+                    type: string
+        CreateOrderRequest:
+            type: object
+            properties:
+                orderNumber:
+                    type: string
+                userId:
+                    type: string
+                scheduledDuration:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                discount:
+                    type: number
+                    format: double
+                amountPaid:
+                    type: number
+                    format: double
+                storageLocationName:
+                    type: string
+                cabinetId:
+                    type: string
+                depositStatus:
+                    type: string
+                title:
+                    type: string
+                orderId:
+                    type: string
+                status:
+                    type: string
+                hourlyRate:
+                    type: number
+                    format: float
+                lockerPointId:
+                    type: string
+                typeId:
+                    type: string
+            description: 创建订单请求
+        DeleteOrderReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        DeleteOrderRequest:
+            type: object
+            properties:
+                status:
+                    type: string
+                id:
+                    type: integer
+                    format: int32
+            description: 删除订单请求
+        GetOrderReply:
+            type: object
+            properties:
+                order:
+                    $ref: '#/components/schemas/OrderInfo'
         GoogleProtobufAny:
             type: object
             properties:
@@ -55,9 +245,80 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        ListHomeReply:
+        ListOrderReply:
+            type: object
+            properties:
+                orders:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OrderInfo'
+                total:
+                    type: string
+        ListOrderRequest:
+            type: object
+            properties:
+                page:
+                    type: string
+                size:
+                    type: string
+                storageLocationName:
+                    type: string
+                status:
+                    type: string
+            description: 订单列表请求
+        ManageOrderSearchReply:
             type: object
             properties: {}
+        ManageOrderSearchRequest:
+            type: object
+            properties: {}
+        OrderInfo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                orderNumber:
+                    type: string
+                userId:
+                    type: string
+                scheduledDuration:
+                    type: string
+                actualDuration:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                discount:
+                    type: number
+                    format: double
+                amountPaid:
+                    type: number
+                    format: double
+                storageLocationName:
+                    type: string
+                cabinetId:
+                    type: string
+                status:
+                    type: string
+                depositStatus:
+                    type: string
+            description: 订单信息
+        ShowOrderReply:
+            type: object
+            properties:
+                order:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OrderInfo'
+                Msg:
+                    type: string
+        ShowOrderRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
         Status:
             type: object
             properties:
@@ -74,5 +335,37 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        UpdateOrderReply:
+            type: object
+            properties:
+                order:
+                    $ref: '#/components/schemas/OrderInfo'
+                payUrl:
+                    type: string
+        UpdateOrderRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                actualDuration:
+                    type: string
+                status:
+                    type: string
+                depositStatus:
+                    type: string
+                hourlyRate:
+                    type: number
+                    format: float
+                lockerType:
+                    type: string
+                title:
+                    type: string
+                lockerPointId:
+                    type: string
+                typeId:
+                    type: string
+                cabinetId:
+                    type: string
+            description: 更新订单请求
 tags:
-    - name: Home
+    - name: Order
