@@ -167,7 +167,7 @@ func (s *DepositService) GetDepositLocker(ctx context.Context, req *pb.GetDeposi
 	pointID := req.LockerId
 
 	// 1. 网点信息（主键查）
-	var point data.LockerPoint
+	var point data.Location
 	err := s.data.DB.Where("id = ? ", pointID).Limit(1).Find(&point).Error
 	if err != nil {
 		return nil, err

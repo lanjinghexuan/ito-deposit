@@ -7,7 +7,7 @@ import (
 )
 
 // ProviderSet is biz providers.
-var ProviderSet = wire.NewSet(NewGreeterUsecase, NewAdminUsecase)
+var ProviderSet = wire.NewSet(NewGreeterUsecase, NewAdminUsecase, NewCityUsecase, NewNearbyUsecase)
 
 type Locker struct {
 	Id            int32 `gorm:"column:id;type:int;comment:寄存柜ID;primaryKey;not null;" json:"id"`                    // 寄存柜ID

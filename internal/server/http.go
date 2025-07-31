@@ -13,11 +13,10 @@ import (
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/service"
 	http2 "net/http"
-	_ "net/http/pprof"
 )
 
 func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *service.OrderService, user *service.UserService,
-	home *service.HomeService, deposit *service.DepositService, admin *service.AdminService,
+	home *service.HomeService, deposit *service.DepositService, admin *service.AdminService, city *service.CityService, nearby *service.NearbyService,
 	logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Filter(corsFilter),
@@ -35,24 +34,27 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 
-	opts = append(opts, http.Middleware(
-		selector.Server(
-			jwt.Server(func(token *jwtv5.Token) (interface{}, error) {
-				return []byte(c.Jwt.Authkey), nil
-			}, jwt.WithSigningMethod(jwtv5.SigningMethodHS256), jwt.WithClaims(func() jwtv5.Claims {
-				return &jwtv5.MapClaims{}
-			})),
-		).
-			Match(NewWhiteListMatcher()).
-			Build(),
-	))
-
+	if true {
+		opts = append(opts, http.Middleware(
+			selector.Server(
+				jwt.Server(func(token *jwtv5.Token) (interface{}, error) {
+					return []byte(c.Jwt.Authkey), nil
+				}, jwt.WithSigningMethod(jwtv5.SigningMethodHS256), jwt.WithClaims(func() jwtv5.Claims {
+					return &jwtv5.MapClaims{}
+				})),
+			).
+				Match(NewWhiteListMatcher()).
+				Build(),
+		))
+	}
 	srv := http.NewServer(opts...)
 	v1.RegisterGreeterHTTPServer(srv, greeter)
 	v1.RegisterUserHTTPServer(srv, user)
 	v1.RegisterHomeHTTPServer(srv, home)
 	v1.RegisterDepositHTTPServer(srv, deposit)
 	v1.RegisterOrderHTTPServer(srv, order)
+	v1.RegisterCityHTTPServer(srv, city)
+	v1.RegisterNearbyHTTPServer(srv, nearby)
 	v1.RegisterAdminHTTPServer(srv, admin)
 
 	if c.Pprof.Switch {
@@ -75,11 +77,58 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList["/api.helloworld.v1.User/Login"] = struct{}{}
 	whiteList["/api.helloworld.v1.User/List"] = struct{}{}
 	whiteList["/api.helloworld.v1.User/Admin"] = struct{}{}
-	whiteList["/api.helloworld.v1.Admin/AdminLogin"] = struct{}{}
+	whiteList["/api.helloworld.v1.User/GetUser"] = struct{}{}
 	whiteList["/api.helloworld.v1.Order/ListOrder"] = struct{}{}
 	whiteList["/api.helloworld.v1.Order/ShowOrder"] = struct{}{}
 	whiteList["/api.helloworld.v1.Admin/PointList"] = struct{}{}
 	whiteList["/api.helloworld.v1.Admin/PointInfo"] = struct{}{}
+	whiteList["/api.helloworld.v1.Admin/SetPriceRule"] = struct{}{}
+	whiteList["/api.helloworld.v1.Admin/GetPriceRule"] = struct{}{}
+	whiteList["/api.helloworld.v1.Order/UpdateOrder"] = struct{}{}
+	// 寄存点相关API - 用户端不需要认证
+	whiteList["/api.helloworld.v1.Deposit/GetDepositLocker"] = struct{}{}
+	whiteList["/api.helloworld.v1.Deposit/CreateDeposit"] = struct{}{}
+	whiteList["/api.helloworld.v1.Deposit/ListDeposit"] = struct{}{}
+	// 城市相关API - 用户端不需要认证
+	whiteList["/api.helloworld.v1.City/ListUserCities"] = struct{}{}
+	whiteList["/api.helloworld.v1.City/SearchCities"] = struct{}{}
+	whiteList["/api.helloworld.v1.City/GetUserCity"] = struct{}{}
+	whiteList["/api.helloworld.v1.City/GetCityByCode"] = struct{}{}
+	whiteList["/api.helloworld.v1.City/GetHotCities"] = struct{}{}
+	// 附近寄存点相关API - 用户端不需要认证
+	whiteList["/api.helloworld.v1.Nearby/FindNearbyLockerPoints"] = struct{}{}
+	whiteList["/api.helloworld.v1.Nearby/FindNearbyLockerPointsInCity"] = struct{}{}
+	whiteList["/api.helloworld.v1.Nearby/FindMyNearbyLockerPoints"] = struct{}{}
+	whiteList["/api.helloworld.v1.Nearby/SearchLockerPointsInCity"] = struct{}{}
+	whiteList["/api.helloworld.v1.Nearby/GetCityLockerPointsMap"] = struct{}{}
+	whiteList["/api.helloworld.v1.Nearby/GetMyNearbyInfo"] = struct{}{}
+	// 创建需要JWT验证的接口列表（黑名单）
+	// 只有管理员相关的API需要JWT验证
+	jwtRequiredList := make(map[string]struct{})
+
+	// 管理员API需要JWT验证
+	jwtRequiredList["/api.helloworld.v1.Admin/GetAdminInfo"] = struct{}{}
+	jwtRequiredList["/api.helloworld.v1.Admin/UpdateAdmin"] = struct{}{}
+	jwtRequiredList["/api.helloworld.v1.Admin/DeleteAdmin"] = struct{}{}
+	jwtRequiredList["/api.helloworld.v1.Admin/ListAdmins"] = struct{}{}
+
+	// 附近寄存点管理API需要JWT验证
+	jwtRequiredList["/api.helloworld.v1.Nearby/InitLockerPointsGeo"] = struct{}{}
+
+	// 其他需要JWT验证的管理API
+	// ...
+
+	// 特殊情况：管理员登录和创建管理员不需要JWT验证
+	loginWhiteList := make(map[string]struct{})
+	loginWhiteList["/api.helloworld.v1.Admin/Login"] = struct{}{}
+	loginWhiteList["/api.helloworld.v1.Admin/CreateAdmin"] = struct{}{}
+	loginWhiteList["/api.helloworld.v1.Deposit/ReturnToken"] = struct{}{}
+	loginWhiteList["/api.helloworld.v1.User/SendSms"] = struct{}{}
+	loginWhiteList["/api.helloworld.v1.User/Register"] = struct{}{}
+	loginWhiteList["/api.helloworld.v1.User/Login"] = struct{}{}
+	loginWhiteList["/api.helloworld.v1.User/List"] = struct{}{}
+	loginWhiteList["/api.helloworld.v1.User/Admin"] = struct{}{}
+
 	return func(ctx context.Context, operation string) bool {
 		if _, ok := whiteList[operation]; ok {
 			return false

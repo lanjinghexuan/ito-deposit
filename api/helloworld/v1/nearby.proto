@@ -1,0 +1,234 @@
+syntax = "proto3";
+
+package api.helloworld.v1;
+
+import "google/api/annotations.proto";
+import "errors/errors.proto";
+
+option go_package = "ito-deposit/api/helloworld/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.helloworld.v1";
+
+// 附近服务定义
+service Nearby {
+  // 初始化寄存点地理位置数据
+  rpc InitLockerPointsGeo (InitLockerPointsGeoRequest) returns (InitLockerPointsGeoReply) {
+    option (google.api.http) = {
+      post: "/api/admin/nearby/init"
+      body: "*"
+    };
+  }
+  
+  // 查找附近的寄存点
+  rpc FindNearbyLockerPoints (FindNearbyLockerPointsRequest) returns (FindNearbyLockerPointsReply) {
+    option (google.api.http) = {
+      get: "/api/nearby/locker-points"
+    };
+  }
+  
+  // 查找用户在指定城市内附近的寄存点
+  rpc FindNearbyLockerPointsInCity (FindNearbyLockerPointsInCityRequest) returns (FindNearbyLockerPointsReply) {
+    option (google.api.http) = {
+      get: "/api/nearby/city/locker-points"
+    };
+  }
+  
+  // 使用实时定位查找我的附近寄存点
+  rpc FindMyNearbyLockerPoints (FindMyNearbyLockerPointsRequest) returns (FindNearbyLockerPointsReply) {
+    option (google.api.http) = {
+      get: "/api/nearby/my-location/locker-points"
+    };
+  }
+  
+  // 搜索指定城市内的寄存点
+  rpc SearchLockerPointsInCity (SearchLockerPointsInCityRequest) returns (SearchLockerPointsInCityReply) {
+    option (google.api.http) = {
+      get: "/api/nearby/city/search"
+    };
+  }
+  
+  // 获取城市寄存点分布图数据
+  rpc GetCityLockerPointsMap (GetCityLockerPointsMapRequest) returns (GetCityLockerPointsMapReply) {
+    option (google.api.http) = {
+      get: "/api/nearby/city/map"
+    };
+  }
+  
+  // 获取我的附近信息（实时位置和附近寄存点）
+  rpc GetMyNearbyInfo (GetMyNearbyInfoRequest) returns (GetMyNearbyInfoReply) {
+    option (google.api.http) = {
+      get: "/api/nearby/my-nearby"
+    };
+  }
+}
+
+// 初始化寄存点地理位置数据请求
+message InitLockerPointsGeoRequest {
+  // 空请求
+}
+
+// 初始化寄存点地理位置数据响应
+message InitLockerPointsGeoReply {
+  bool success = 1;  // 是否成功
+}
+
+// 查找附近的寄存点请求
+message FindNearbyLockerPointsRequest {
+  // 位置信息（三选一）
+  string city_name = 1;  // 城市名称
+  string ip = 2;         // IP地址
+  double longitude = 3;  // 经度
+  double latitude = 4;   // 纬度
+  
+  // 查询参数
+  double radius = 5;     // 半径（公里），默认5公里
+  int64 limit = 6;       // 返回数量限制，默认10个
+}
+
+// 附近寄存点信息
+message NearbyLockerPointInfo {
+  int32 id = 1;          // 寄存点ID
+  string name = 2;       // 寄存点名称
+  string address = 3;    // 地址
+  float distance = 4;    // 距离（公里）
+  float longitude = 5;   // 经度
+  float latitude = 6;    // 纬度
+}
+
+// 查找附近的寄存点响应
+message FindNearbyLockerPointsReply {
+  repeated NearbyLockerPointInfo items = 1;  // 附近寄存点列表
+}
+
+// 查找用户在指定城市内附近的寄存点请求
+message FindNearbyLockerPointsInCityRequest {
+  string city_name = 1;    // 城市名称（必填）
+  double longitude = 2;    // 用户经度（可选，如果不提供则使用城市中心点）
+  double latitude = 3;     // 用户纬度（可选，如果不提供则使用城市中心点）
+  double radius = 4;       // 半径（公里），默认5公里
+  int64 limit = 5;         // 返回数量限制，默认10个
+  string ip = 6;           // 用户IP地址（可选，用于实时定位）
+  bool use_realtime = 7;   // 是否使用实时定位（默认false）
+}
+
+// 使用实时定位查找我的附近寄存点请求
+message FindMyNearbyLockerPointsRequest {
+  string city_name = 1;    // 城市名称（必填）
+  string ip = 2;           // 用户IP地址（可选，用于实时定位）
+  double radius = 3;       // 半径（公里），默认5公里
+  int64 limit = 4;         // 返回数量限制，默认10个
+}
+
+// 搜索指定城市内寄存点请求
+message SearchLockerPointsInCityRequest {
+  string city_name = 1;    // 城市名称（必填）
+  string keyword = 2;      // 搜索关键词（可选，如果提供则按名称或地址搜索）
+  int64 page = 3;          // 页码，从1开始
+  int64 page_size = 4;     // 每页大小，默认10
+}
+
+// 寄存点详细信息
+message LockerPointDetail {
+  int32 id = 1;                // 寄存点ID
+  string name = 2;             // 寄存点名称
+  string address = 3;          // 地址
+  float longitude = 4;         // 经度
+  float latitude = 5;          // 纬度
+  int32 available_large = 6;   // 可用大柜数量
+  int32 available_medium = 7;  // 可用中柜数量
+  int32 available_small = 8;   // 可用小柜数量
+  string open_time = 9;        // 营业时间
+  string mobile = 10;          // 联系电话
+}
+
+// 搜索指定城市内寄存点响应
+message SearchLockerPointsInCityReply {
+  repeated LockerPointDetail items = 1;  // 寄存点列表
+  int64 total = 2;                       // 总记录数
+  int64 page = 3;                        // 当前页码
+  int64 page_size = 4;                   // 每页大小
+}
+
+// 获取城市寄存点分布图请求
+message GetCityLockerPointsMapRequest {
+  string city_name = 1;      // 城市名称（必填）
+  double north_lat = 2;      // 北纬度（地图边界）
+  double south_lat = 3;      // 南纬度（地图边界）
+  double east_lng = 4;       // 东经度（地图边界）
+  double west_lng = 5;       // 西经度（地图边界）
+  int32 zoom_level = 6;      // 地图缩放级别（1-20）
+  bool enable_cluster = 7;   // 是否启用聚合（默认true）
+}
+
+// 地图点位信息（详细点位）
+message MapPointInfo {
+  int32 id = 1;              // 寄存点ID
+  string name = 2;           // 寄存点名称
+  string address = 3;        // 地址
+  double longitude = 4;      // 经度
+  double latitude = 5;       // 纬度
+  int32 total_available = 6; // 总可用柜数量
+  string status = 7;         // 状态（available/busy/full）
+}
+
+// 聚合点信息
+message ClusterInfo {
+  double longitude = 1;      // 聚合点经度
+  double latitude = 2;       // 聚合点纬度
+  int32 count = 3;           // 聚合点数量
+  int32 total_available = 4; // 聚合点总可用柜数量
+  repeated int32 point_ids = 5; // 聚合的寄存点ID列表
+}
+
+// 获取城市寄存点分布图响应
+message GetCityLockerPointsMapReply {
+  repeated MapPointInfo points = 1;    // 详细点位列表
+  repeated ClusterInfo clusters = 2;   // 聚合点列表
+  int32 total_count = 3;              // 总寄存点数量
+  int32 zoom_level = 4;               // 当前缩放级别
+  bool is_clustered = 5;              // 是否返回聚合数据
+}
+
+// 获取我的附近信息请求
+message GetMyNearbyInfoRequest {
+  string ip = 1;           // 用户IP地址（可选，用于定位）
+  double longitude = 2;    // 用户经度（可选，如果提供则优先使用）
+  double latitude = 3;     // 用户纬度（可选，如果提供则优先使用）
+  double radius = 4;       // 搜索半径（公里），默认5公里
+  int64 limit = 5;         // 返回寄存点数量限制，默认20个
+}
+
+// 用户位置信息
+message UserLocationInfo {
+  double longitude = 1;    // 用户经度
+  double latitude = 2;     // 用户纬度
+  string address = 3;      // 详细地址
+  string city = 4;         // 城市名称
+  string district = 5;     // 区县
+  string province = 6;     // 省份
+  string location_type = 7; // 定位类型（ip/gps/city_center）
+}
+
+// 获取我的附近信息响应
+message GetMyNearbyInfoReply {
+  UserLocationInfo user_location = 1;           // 用户位置信息
+  repeated NearbyLockerPointInfo nearby_points = 2; // 附近寄存点列表
+  int32 total_count = 3;                        // 附近寄存点总数
+  double search_radius = 4;                     // 实际搜索半径
+  string baidu_map_ak = 5;                      // 百度地图AK（前端使用）
+}
+
+// 错误定义
+enum NearbyErrorReason {
+  // 设置默认错误码
+  option (errors.default_code) = 500;
+  
+  // 未知错误
+  NEARBY_UNKNOWN_ERROR = 0 [(errors.code) = 500];
+  // 请求参数错误
+  NEARBY_BAD_REQUEST = 1 [(errors.code) = 400];
+  // 内部服务错误
+  NEARBY_INTERNAL_ERROR = 2 [(errors.code) = 500];
+  // 资源不存在
+  NEARBY_NOT_FOUND = 3 [(errors.code) = 404];
+}

@@ -84,59 +84,78 @@ func (s *OrderService) CreateOrder(ctx context.Context, req *pb.CreateOrderReque
 	}, nil
 
 }
+
 func (s *OrderService) UpdateOrder(ctx context.Context, req *pb.UpdateOrderRequest) (*pb.UpdateOrderReply, error) {
-	// 1. 查询订单是否存在
-	var lockerOrder data.LockerOrders
-	if err := s.DB.Where("id = ?", req.Id).First(&lockerOrder).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, status.Errorf(codes.NotFound, "订单不存在")
+	var payUrl string
+
+	// 1. 启动数据库事务
+	err := s.DB.Transaction(func(tx *gorm.DB) error {
+		// 2. 在事务中查询订单是否存在
+		var lockerOrder data.LockerOrders
+		if err := tx.Where("id = ?", req.Id).First(&lockerOrder).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return status.Errorf(codes.NotFound, "订单不存在")
+			}
+			return status.Errorf(codes.Internal, "数据库错误: %v", err)
 		}
-		return nil, status.Errorf(codes.Internal, "数据库错误: %v", err)
-	}
 
-	// 2. 查询规则表获取小时费率
-	var pricingRule data.LockerPricingRules
-	if err := s.DB.Where("hourly_rate = ?", req.HourlyRate).First(&pricingRule).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, status.Errorf(codes.NotFound, "费率规则不存在")
+		// 如果订单已经支付或关闭，则不允许再次支付
+		if lockerOrder.Status != 1 { // 1-待支付
+			pkg.LogError("订单状态异常，无法支付")
+			return status.Errorf(codes.FailedPrecondition, "订单状态异常，无法支付")
+
 		}
-		return nil, status.Errorf(codes.Internal, "数据库错误: %v", err)
+
+		// 3. 查询柜子信息，获取柜子类型ID
+		var locker data.Lockers
+		if err := tx.Where("type_id = ?", req.TypeId).Find(&locker).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return status.Errorf(codes.NotFound, "柜子信息不存在")
+			}
+			return status.Errorf(codes.Internal, "数据库错误: %v", err)
+		}
+
+		// 4. 根据网点ID和柜子类型查询计费规则
+		var pricingRule data.LockerPricingRules
+		if err := tx.Where("locker_type = ?", req.LockerType).First(&pricingRule).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return status.Errorf(codes.NotFound, "该类型的储物柜没有找到有效的计费规则")
+			}
+			return status.Errorf(codes.Internal, "数据库错误: %v", err)
+		}
+
+		totalPrice := pricingRule.HourlyRate * float64(lockerOrder.ScheduledDuration)
+
+		// 6. 更新订单信息（只更新必要的字段）
+		updateData := map[string]interface{}{
+			"actual_duration": req.ActualDuration,
+			"price":           totalPrice,
+			"amount_paid":     totalPrice,
+			"status":          req.Status,
+			"deposit_status":  req.DepositStatus,
+		}
+
+		if err := tx.Model(&lockerOrder).Updates(updateData).Error; err != nil {
+			return status.Errorf(codes.Internal, "更新订单失败: %v", err)
+		}
+
+		// 7. 生成支付链接（使用计算后的金额）
+		totalAmountStr := strconv.FormatFloat(totalPrice, 'f', 2, 64)
+		payUrl = pkg.Pay(lockerOrder.Title, lockerOrder.OrderNumber, totalAmountStr)
+
+		// 事务会自动提交
+		return nil
+	})
+
+	if err != nil {
+		return nil, err // 如果事务过程中有任何错误，则直接返回错误
 	}
 
-	// 3. 计算总价格（使用实际时长）
-	totalPrice := pricingRule.HourlyRate * float64(req.ActualDuration)
-
-	// 4. 更新订单信息
-	updateData := data.LockerOrders{
-		ActualDuration: int32(req.ActualDuration),
-		AmountPaid:     totalPrice,
-		Status:         int8(req.Status),
-		DepositStatus:  int8(req.DepositStatus),
-	}
-
-	if err := s.DB.Model(&lockerOrder).Updates(&updateData).Error; err != nil {
-		return nil, status.Errorf(codes.Internal, "更新订单失败: %v", err)
-	}
-
-	lockerType := data.Lockers{
-		LockerPointId: int32(req.LockerPointId),
-		TypeId:        int32(req.TypeId),
-		Status:        int8(req.Status),
-	}
-	if err := s.DB.Model(&lockerOrder).Updates(&lockerType).Error; err != nil {
-		return nil, status.Errorf(codes.Internal, "更新订单失败: %v", err)
-	}
-	// 5. 生成支付链接（使用计算后的金额）
-	totalAmountStr := strconv.FormatFloat(totalPrice, 'f', 2, 64)
-
-	payUrl := pkg.Pay(req.Title, lockerOrder.OrderNumber, totalAmountStr)
-
-	// 6. 返回响应
+	// 8. 返回响应
 	return &pb.UpdateOrderReply{
 		PayUrl: payUrl,
 	}, nil
 }
-
 func (s *OrderService) DeleteOrder(ctx context.Context, req *pb.DeleteOrderRequest) (*pb.DeleteOrderReply, error) {
 	var lockerOrder data.LockerOrders
 

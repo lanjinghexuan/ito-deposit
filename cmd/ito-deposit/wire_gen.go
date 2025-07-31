@@ -13,6 +13,7 @@ import (
 	"ito-deposit/internal/biz"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/data"
+	"ito-deposit/internal/pkg/geo"
 	"ito-deposit/internal/server"
 	"ito-deposit/internal/service"
 )
@@ -44,8 +45,15 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	adminRepo := data.NewAdminRepo(dataData, logger)
 	adminUsecase := biz.NewAdminUsecase(adminRepo, logger)
 	adminService := service.NewAdminService(dataData, confData, confServer, adminUsecase)
-	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, logger)
-	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, logger)
+	cityRepo := data.NewCityRepo(dataData, logger)
+	cityUsecase := biz.NewCityUsecase(cityRepo, logger)
+	cityService := service.NewCityService(cityUsecase, logger)
+	nearbyRepo := data.NewNearbyRepo(dataData, logger)
+	geoService := geo.NewGeoService(confData)
+	nearbyUsecase := biz.NewNearbyUsecase(nearbyRepo, geoService, cityUsecase, logger)
+	nearbyService := service.NewNearbyService(nearbyUsecase, logger)
+	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, logger)
+	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, logger)
 	client, err := NewEtcdClient(confServer)
 	if err != nil {
 		cleanup2()

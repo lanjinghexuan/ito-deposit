@@ -36,7 +36,7 @@ func NewAdminService(data *data2.Data, conf *conf.Data, server *conf.Server, rep
 	}
 }
 func (s *AdminService) AdminLogin(ctx context.Context, req *pb.AdminLoginReq) (*pb.AdminLoginRes, error) {
-	get := s.data.Redis.Get(context.Background(), "sendSms"+req.Mobile+"admin")
+	get := s.data.Redis.Get(context.Background(), "sendSms"+req.Mobile+"admin_login")
 	if get.Val() != req.SmsCode {
 		return &pb.AdminLoginRes{
 			Code: 500,
@@ -276,8 +276,36 @@ func UploadFile(objectName string, fileHeader *multipart.FileHeader, c *conf.Dat
 	// ✅ 返回可访问地址
 	return fmt.Sprintf("%s/%s/%s", c.Minio.Endpoint, c.Minio.BucketName, objectName), nil
 }
+func (s *AdminService) PointList(ctx context.Context, req *pb.PointListReq) (*pb.PointListRes, error) {
+	var point []data2.LockerPoint
+	err := s.data.DB.Debug().Find(&point).Error
+	if err != nil {
+		return &pb.PointListRes{
+			Code: 500,
+			Msg:  "查询失败",
+		}, nil
+	}
+	var lists []*pb.PointList
+	for _, l := range point {
+		list := pb.PointList{
+			Name:            l.Name,
+			Address:         l.Address,
+			AvailableLarge:  int64(l.AvailableLarge),
+			AvailableMedium: int64(l.AvailableMedium),
+			AvailableSmall:  int64(l.AvailableSmall),
+		}
+		lists = append(lists, &list)
+	}
+	return &pb.PointListRes{
+		Code: 200,
+		Msg:  "查询成功",
+		List: lists,
+	}, nil
+}
+
 func (s *AdminService) PointInfo(ctx context.Context, req *pb.PointInfoReq) (*pb.PointInfoRes, error) {
 	var point data2.LockerPoint
+	fmt.Println(req.Id)
 	err := s.data.DB.Debug().Where("id = ?", req.Id).Find(&point).Error
 	if err != nil {
 		return &pb.PointInfoRes{

@@ -382,6 +382,78 @@ func (*ListHomeReply) Descriptor() ([]byte, []int) {
 	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{9}
 }
 
+type CreateLocalRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateLocalRequest) Reset() {
+	*x = CreateLocalRequest{}
+	mi := &file_helloworld_v1_home_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateLocalRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateLocalRequest) ProtoMessage() {}
+
+func (x *CreateLocalRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_helloworld_v1_home_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateLocalRequest.ProtoReflect.Descriptor instead.
+func (*CreateLocalRequest) Descriptor() ([]byte, []int) {
+	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{10}
+}
+
+type CreateLocalReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateLocalReply) Reset() {
+	*x = CreateLocalReply{}
+	mi := &file_helloworld_v1_home_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateLocalReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateLocalReply) ProtoMessage() {}
+
+func (x *CreateLocalReply) ProtoReflect() protoreflect.Message {
+	mi := &file_helloworld_v1_home_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateLocalReply.ProtoReflect.Descriptor instead.
+func (*CreateLocalReply) Descriptor() ([]byte, []int) {
+	return file_helloworld_v1_home_proto_rawDescGZIP(), []int{11}
+}
+
 var File_helloworld_v1_home_proto protoreflect.FileDescriptor
 
 const file_helloworld_v1_home_proto_rawDesc = "" +
@@ -396,16 +468,19 @@ const file_helloworld_v1_home_proto_rawDesc = "" +
 	"\x0eGetHomeRequest\"\x0e\n" +
 	"\fGetHomeReply\"\x11\n" +
 	"\x0fListHomeRequest\"\x0f\n" +
-	"\rListHomeReply2\xbe\x03\n" +
-	"\x04Home\x12V\n" +
+	"\rListHomeReply\"\x14\n" +
+	"\x12CreateLocalRequest\"\x12\n" +
+	"\x10CreateLocalReply2\xb0\x04\n" +
+	"\x04Home\x12X\n" +
 	"\n" +
-	"CreateHome\x12$.api.helloworld.v1.CreateHomeRequest\x1a\".api.helloworld.v1.CreateHomeReply\x12V\n" +
+	"CreateHome\x12$.api.helloworld.v1.CreateHomeRequest\x1a\".api.helloworld.v1.CreateHomeReply\"\x00\x12V\n" +
 	"\n" +
 	"UpdateHome\x12$.api.helloworld.v1.UpdateHomeRequest\x1a\".api.helloworld.v1.UpdateHomeReply\x12V\n" +
 	"\n" +
 	"DeleteHome\x12$.api.helloworld.v1.DeleteHomeRequest\x1a\".api.helloworld.v1.DeleteHomeReply\x12M\n" +
 	"\aGetHome\x12!.api.helloworld.v1.GetHomeRequest\x1a\x1f.api.helloworld.v1.GetHomeReply\x12_\n" +
-	"\bListHome\x12\".api.helloworld.v1.ListHomeRequest\x1a .api.helloworld.v1.ListHomeReply\"\r\x82\xd3\xe4\x93\x02\a\x12\x05/homeB7\n" +
+	"\bListHome\x12\".api.helloworld.v1.ListHomeRequest\x1a .api.helloworld.v1.ListHomeReply\"\r\x82\xd3\xe4\x93\x02\a\x12\x05/home\x12n\n" +
+	"\vCreateLocal\x12%.api.helloworld.v1.CreateLocalRequest\x1a#.api.helloworld.v1.CreateLocalReply\"\x13\x82\xd3\xe4\x93\x02\r\x12\v/home/localB7\n" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
 
 var (
@@ -420,35 +495,39 @@ func file_helloworld_v1_home_proto_rawDescGZIP() []byte {
 	return file_helloworld_v1_home_proto_rawDescData
 }
 
-var file_helloworld_v1_home_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_helloworld_v1_home_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_helloworld_v1_home_proto_goTypes = []any{
-	(*CreateHomeRequest)(nil), // 0: api.helloworld.v1.CreateHomeRequest
-	(*CreateHomeReply)(nil),   // 1: api.helloworld.v1.CreateHomeReply
-	(*UpdateHomeRequest)(nil), // 2: api.helloworld.v1.UpdateHomeRequest
-	(*UpdateHomeReply)(nil),   // 3: api.helloworld.v1.UpdateHomeReply
-	(*DeleteHomeRequest)(nil), // 4: api.helloworld.v1.DeleteHomeRequest
-	(*DeleteHomeReply)(nil),   // 5: api.helloworld.v1.DeleteHomeReply
-	(*GetHomeRequest)(nil),    // 6: api.helloworld.v1.GetHomeRequest
-	(*GetHomeReply)(nil),      // 7: api.helloworld.v1.GetHomeReply
-	(*ListHomeRequest)(nil),   // 8: api.helloworld.v1.ListHomeRequest
-	(*ListHomeReply)(nil),     // 9: api.helloworld.v1.ListHomeReply
+	(*CreateHomeRequest)(nil),  // 0: api.helloworld.v1.CreateHomeRequest
+	(*CreateHomeReply)(nil),    // 1: api.helloworld.v1.CreateHomeReply
+	(*UpdateHomeRequest)(nil),  // 2: api.helloworld.v1.UpdateHomeRequest
+	(*UpdateHomeReply)(nil),    // 3: api.helloworld.v1.UpdateHomeReply
+	(*DeleteHomeRequest)(nil),  // 4: api.helloworld.v1.DeleteHomeRequest
+	(*DeleteHomeReply)(nil),    // 5: api.helloworld.v1.DeleteHomeReply
+	(*GetHomeRequest)(nil),     // 6: api.helloworld.v1.GetHomeRequest
+	(*GetHomeReply)(nil),       // 7: api.helloworld.v1.GetHomeReply
+	(*ListHomeRequest)(nil),    // 8: api.helloworld.v1.ListHomeRequest
+	(*ListHomeReply)(nil),      // 9: api.helloworld.v1.ListHomeReply
+	(*CreateLocalRequest)(nil), // 10: api.helloworld.v1.CreateLocalRequest
+	(*CreateLocalReply)(nil),   // 11: api.helloworld.v1.CreateLocalReply
 }
 var file_helloworld_v1_home_proto_depIdxs = []int32{
-	0, // 0: api.helloworld.v1.Home.CreateHome:input_type -> api.helloworld.v1.CreateHomeRequest
-	2, // 1: api.helloworld.v1.Home.UpdateHome:input_type -> api.helloworld.v1.UpdateHomeRequest
-	4, // 2: api.helloworld.v1.Home.DeleteHome:input_type -> api.helloworld.v1.DeleteHomeRequest
-	6, // 3: api.helloworld.v1.Home.GetHome:input_type -> api.helloworld.v1.GetHomeRequest
-	8, // 4: api.helloworld.v1.Home.ListHome:input_type -> api.helloworld.v1.ListHomeRequest
-	1, // 5: api.helloworld.v1.Home.CreateHome:output_type -> api.helloworld.v1.CreateHomeReply
-	3, // 6: api.helloworld.v1.Home.UpdateHome:output_type -> api.helloworld.v1.UpdateHomeReply
-	5, // 7: api.helloworld.v1.Home.DeleteHome:output_type -> api.helloworld.v1.DeleteHomeReply
-	7, // 8: api.helloworld.v1.Home.GetHome:output_type -> api.helloworld.v1.GetHomeReply
-	9, // 9: api.helloworld.v1.Home.ListHome:output_type -> api.helloworld.v1.ListHomeReply
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: api.helloworld.v1.Home.CreateHome:input_type -> api.helloworld.v1.CreateHomeRequest
+	2,  // 1: api.helloworld.v1.Home.UpdateHome:input_type -> api.helloworld.v1.UpdateHomeRequest
+	4,  // 2: api.helloworld.v1.Home.DeleteHome:input_type -> api.helloworld.v1.DeleteHomeRequest
+	6,  // 3: api.helloworld.v1.Home.GetHome:input_type -> api.helloworld.v1.GetHomeRequest
+	8,  // 4: api.helloworld.v1.Home.ListHome:input_type -> api.helloworld.v1.ListHomeRequest
+	10, // 5: api.helloworld.v1.Home.CreateLocal:input_type -> api.helloworld.v1.CreateLocalRequest
+	1,  // 6: api.helloworld.v1.Home.CreateHome:output_type -> api.helloworld.v1.CreateHomeReply
+	3,  // 7: api.helloworld.v1.Home.UpdateHome:output_type -> api.helloworld.v1.UpdateHomeReply
+	5,  // 8: api.helloworld.v1.Home.DeleteHome:output_type -> api.helloworld.v1.DeleteHomeReply
+	7,  // 9: api.helloworld.v1.Home.GetHome:output_type -> api.helloworld.v1.GetHomeReply
+	9,  // 10: api.helloworld.v1.Home.ListHome:output_type -> api.helloworld.v1.ListHomeReply
+	11, // 11: api.helloworld.v1.Home.CreateLocal:output_type -> api.helloworld.v1.CreateLocalReply
+	6,  // [6:12] is the sub-list for method output_type
+	0,  // [0:6] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_helloworld_v1_home_proto_init() }
@@ -462,7 +541,7 @@ func file_helloworld_v1_home_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_helloworld_v1_home_proto_rawDesc), len(file_helloworld_v1_home_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

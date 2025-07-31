@@ -48,8 +48,21 @@ service Order {
 			body: "*"
 		};
 	};
-}
 
+	rpc ManageOrderSearch (ManageOrderSearchRequest) returns (ManageOrderSearchReply) {
+		option (google.api.http) = {
+			post: "/manage/orders/search"
+			body: "*"
+		};
+	};
+
+
+}
+message ManageOrderSearchRequest {
+
+}
+message ManageOrderSearchReply {
+}
 // 订单信息
 message OrderInfo {
 	int32 id = 1;                                    // 订单ID
@@ -99,6 +112,8 @@ message UpdateOrderRequest {
   string title = 12;
 	int64  locker_point_id  = 17;
 	int64  type_id  = 18;
+	int64  cabinet_id = 19;
+
 }
 message UpdateOrderReply {
 	OrderInfo order = 1;
