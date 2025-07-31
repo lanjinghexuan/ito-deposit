@@ -10,6 +10,7 @@ import (
 	"ito-deposit/internal/conf"
 	data2 "ito-deposit/internal/data"
 	"mime/multipart"
+	"path/filepath"
 	"time"
 
 	kratosHttp "github.com/go-kratos/kratos/v2/transport/http"
@@ -227,7 +228,24 @@ func (s *AdminService) DownloadFile(ctx kratosHttp.Context) error {
 	if err != nil {
 		return err
 	}
+	// 文件格式验证
+	ext := filepath.Ext(file.Filename)
+	if ext != ".png" && ext != ".jpg" {
+		return ctx.Result(500, map[string]interface{}{
+			"code":    500,
+			"message": "格式只能是png或者jpg",
+			"data":    nil,
+		})
+	}
 
+	// 文件大小验证（200KB限制）
+	if file.Size >= 200*1024 {
+		return ctx.Result(500, map[string]interface{}{
+			"code":    500,
+			"message": "大小不能超过200KB",
+			"data":    nil,
+		})
+	}
 	url, err := UploadFile(file.Filename, file, s.conf)
 	if err != nil {
 		return err
