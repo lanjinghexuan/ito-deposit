@@ -34,7 +34,7 @@ var (
 
 // 初始化命令行参数，允许通过 -conf 参数指定配置路径
 func init() {
-	flag.StringVar(&flagconf, "conf", "./configs", "config path, eg: -conf config.yaml")
+	flag.StringVar(&flagconf, "conf", "./configs/config.yaml", "config path, eg: -conf config.yaml")
 }
 
 // 构造 kratos 应用实例
