@@ -72,3 +72,24 @@ func (s *AdminRepo) AddPointAddPoint(ctx context.Context, point *biz.LockerPoint
 		Msg:  "添加成功",
 	}, nil
 }
+
+func (s *AdminRepo) UpdatePoint(ctx context.Context, point *biz.LockerPoint, userId int32) (*pb.UpdatePointRes, error) {
+
+	err := s.data.DB.Where("id = ?", point.Id).Where("admin_id = ?", userId).Updates(&point).Error
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "修改失败: %v", err)
+	}
+	return &pb.UpdatePointRes{
+		Code: 200,
+		Msg:  "修改成功",
+	}, nil
+}
+
+func (s *AdminRepo) FindPoint(ctx context.Context, id int32, userId int32) (*biz.LockerPoint, error) {
+	var lockerpoint *biz.LockerPoint
+	err := s.data.DB.Where("id = ?", id).Where("admin_id = ?", userId).Find(&lockerpoint).Error
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "查询不到网点信息: %v", err)
+	}
+	return lockerpoint, nil
+}

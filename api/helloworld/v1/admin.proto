@@ -53,7 +53,39 @@ service Admin {
 		};
 	};
 
+	rpc UpdatePoint(UpdatePointReq) returns (UpdatePointRes){
+		option (google.api.http) = {
+			post: "/admin/updatePoint"
+			body: "*"
+		};
+	};
+}
 
+message UpdatePointRes{
+	int32 code = 1;
+	string msg = 2;
+}
+
+
+message UpdatePointReq{
+		Point point = 2;
+}
+
+message Point{
+	int32 location_id = 1;
+	string name = 2;
+	string address = 3;
+	int32 available_large = 4;
+	int32 available_medium = 5;
+	int32 available_small = 6;
+	string open_time = 7;
+	string mobile = 8;
+	string point_image = 9;
+	string point_type = 10;
+	float  latitude = 11;
+	float longitude = 12;
+	int32 id = 13;
+	string status = 14;
 }
 
 message AddPointReq{

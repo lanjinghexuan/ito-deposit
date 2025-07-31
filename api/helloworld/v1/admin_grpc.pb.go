@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.26.1
-// source: helloworld/v1/admin.proto
+// source: api/helloworld/v1/admin.proto
 
 package v1
 
@@ -26,6 +26,7 @@ const (
 	Admin_GetPriceRule_FullMethodName = "/api.helloworld.v1.Admin/GetPriceRule"
 	Admin_UploadFile_FullMethodName   = "/api.helloworld.v1.Admin/UploadFile"
 	Admin_AddPoint_FullMethodName     = "/api.helloworld.v1.Admin/AddPoint"
+	Admin_UpdatePoint_FullMethodName  = "/api.helloworld.v1.Admin/UpdatePoint"
 )
 
 // AdminClient is the client API for Admin service.
@@ -39,6 +40,7 @@ type AdminClient interface {
 	GetPriceRule(ctx context.Context, in *GetPriceRuleReq, opts ...grpc.CallOption) (*GetPriceRuleRes, error)
 	UploadFile(ctx context.Context, in *UploadFileReq, opts ...grpc.CallOption) (*UploadFileRes, error)
 	AddPoint(ctx context.Context, in *AddPointReq, opts ...grpc.CallOption) (*AddPointRes, error)
+	UpdatePoint(ctx context.Context, in *UpdatePointReq, opts ...grpc.CallOption) (*UpdatePointRes, error)
 }
 
 type adminClient struct {
@@ -119,6 +121,16 @@ func (c *adminClient) AddPoint(ctx context.Context, in *AddPointReq, opts ...grp
 	return out, nil
 }
 
+func (c *adminClient) UpdatePoint(ctx context.Context, in *UpdatePointReq, opts ...grpc.CallOption) (*UpdatePointRes, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdatePointRes)
+	err := c.cc.Invoke(ctx, Admin_UpdatePoint_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServer is the server API for Admin service.
 // All implementations must embed UnimplementedAdminServer
 // for forward compatibility.
@@ -130,6 +142,7 @@ type AdminServer interface {
 	GetPriceRule(context.Context, *GetPriceRuleReq) (*GetPriceRuleRes, error)
 	UploadFile(context.Context, *UploadFileReq) (*UploadFileRes, error)
 	AddPoint(context.Context, *AddPointReq) (*AddPointRes, error)
+	UpdatePoint(context.Context, *UpdatePointReq) (*UpdatePointRes, error)
 	mustEmbedUnimplementedAdminServer()
 }
 
@@ -160,6 +173,9 @@ func (UnimplementedAdminServer) UploadFile(context.Context, *UploadFileReq) (*Up
 }
 func (UnimplementedAdminServer) AddPoint(context.Context, *AddPointReq) (*AddPointRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddPoint not implemented")
+}
+func (UnimplementedAdminServer) UpdatePoint(context.Context, *UpdatePointReq) (*UpdatePointRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePoint not implemented")
 }
 func (UnimplementedAdminServer) mustEmbedUnimplementedAdminServer() {}
 func (UnimplementedAdminServer) testEmbeddedByValue()               {}
@@ -308,6 +324,24 @@ func _Admin_AddPoint_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Admin_UpdatePoint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePointReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).UpdatePoint(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Admin_UpdatePoint_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).UpdatePoint(ctx, req.(*UpdatePointReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Admin_ServiceDesc is the grpc.ServiceDesc for Admin service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -343,7 +377,11 @@ var Admin_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "AddPoint",
 			Handler:    _Admin_AddPoint_Handler,
 		},
+		{
+			MethodName: "UpdatePoint",
+			Handler:    _Admin_UpdatePoint_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "helloworld/v1/admin.proto",
+	Metadata: "api/helloworld/v1/admin.proto",
 }

@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.26.1
-// source: helloworld/v1/admin.proto
+// source: api/helloworld/v1/admin.proto
 
 package v1
 
@@ -21,6 +21,250 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
+
+type UpdatePointRes struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdatePointRes) Reset() {
+	*x = UpdatePointRes{}
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdatePointRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdatePointRes) ProtoMessage() {}
+
+func (x *UpdatePointRes) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdatePointRes.ProtoReflect.Descriptor instead.
+func (*UpdatePointRes) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *UpdatePointRes) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *UpdatePointRes) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+type UpdatePointReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Point         *Point                 `protobuf:"bytes,2,opt,name=point,proto3" json:"point,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdatePointReq) Reset() {
+	*x = UpdatePointReq{}
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdatePointReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdatePointReq) ProtoMessage() {}
+
+func (x *UpdatePointReq) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdatePointReq.ProtoReflect.Descriptor instead.
+func (*UpdatePointReq) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *UpdatePointReq) GetPoint() *Point {
+	if x != nil {
+		return x.Point
+	}
+	return nil
+}
+
+type Point struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	LocationId      int32                  `protobuf:"varint,1,opt,name=location_id,json=locationId,proto3" json:"location_id,omitempty"`
+	Name            string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Address         string                 `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty"`
+	AvailableLarge  int32                  `protobuf:"varint,4,opt,name=available_large,json=availableLarge,proto3" json:"available_large,omitempty"`
+	AvailableMedium int32                  `protobuf:"varint,5,opt,name=available_medium,json=availableMedium,proto3" json:"available_medium,omitempty"`
+	AvailableSmall  int32                  `protobuf:"varint,6,opt,name=available_small,json=availableSmall,proto3" json:"available_small,omitempty"`
+	OpenTime        string                 `protobuf:"bytes,7,opt,name=open_time,json=openTime,proto3" json:"open_time,omitempty"`
+	Mobile          string                 `protobuf:"bytes,8,opt,name=mobile,proto3" json:"mobile,omitempty"`
+	PointImage      string                 `protobuf:"bytes,9,opt,name=point_image,json=pointImage,proto3" json:"point_image,omitempty"`
+	PointType       string                 `protobuf:"bytes,10,opt,name=point_type,json=pointType,proto3" json:"point_type,omitempty"`
+	Latitude        float32                `protobuf:"fixed32,11,opt,name=latitude,proto3" json:"latitude,omitempty"`
+	Longitude       float32                `protobuf:"fixed32,12,opt,name=longitude,proto3" json:"longitude,omitempty"`
+	Id              int32                  `protobuf:"varint,13,opt,name=id,proto3" json:"id,omitempty"`
+	Status          string                 `protobuf:"bytes,14,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *Point) Reset() {
+	*x = Point{}
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Point) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Point) ProtoMessage() {}
+
+func (x *Point) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Point.ProtoReflect.Descriptor instead.
+func (*Point) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Point) GetLocationId() int32 {
+	if x != nil {
+		return x.LocationId
+	}
+	return 0
+}
+
+func (x *Point) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Point) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
+func (x *Point) GetAvailableLarge() int32 {
+	if x != nil {
+		return x.AvailableLarge
+	}
+	return 0
+}
+
+func (x *Point) GetAvailableMedium() int32 {
+	if x != nil {
+		return x.AvailableMedium
+	}
+	return 0
+}
+
+func (x *Point) GetAvailableSmall() int32 {
+	if x != nil {
+		return x.AvailableSmall
+	}
+	return 0
+}
+
+func (x *Point) GetOpenTime() string {
+	if x != nil {
+		return x.OpenTime
+	}
+	return ""
+}
+
+func (x *Point) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+func (x *Point) GetPointImage() string {
+	if x != nil {
+		return x.PointImage
+	}
+	return ""
+}
+
+func (x *Point) GetPointType() string {
+	if x != nil {
+		return x.PointType
+	}
+	return ""
+}
+
+func (x *Point) GetLatitude() float32 {
+	if x != nil {
+		return x.Latitude
+	}
+	return 0
+}
+
+func (x *Point) GetLongitude() float32 {
+	if x != nil {
+		return x.Longitude
+	}
+	return 0
+}
+
+func (x *Point) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Point) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
 
 type AddPointReq struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
@@ -42,7 +286,7 @@ type AddPointReq struct {
 
 func (x *AddPointReq) Reset() {
 	*x = AddPointReq{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[0]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -54,7 +298,7 @@ func (x *AddPointReq) String() string {
 func (*AddPointReq) ProtoMessage() {}
 
 func (x *AddPointReq) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[0]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -67,7 +311,7 @@ func (x *AddPointReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddPointReq.ProtoReflect.Descriptor instead.
 func (*AddPointReq) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{0}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *AddPointReq) GetLocationId() int32 {
@@ -164,7 +408,7 @@ type AddPointRes struct {
 
 func (x *AddPointRes) Reset() {
 	*x = AddPointRes{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[1]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -176,7 +420,7 @@ func (x *AddPointRes) String() string {
 func (*AddPointRes) ProtoMessage() {}
 
 func (x *AddPointRes) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[1]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -189,7 +433,7 @@ func (x *AddPointRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddPointRes.ProtoReflect.Descriptor instead.
 func (*AddPointRes) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{1}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *AddPointRes) GetCode() int32 {
@@ -217,7 +461,7 @@ type UploadFileReq struct {
 
 func (x *UploadFileReq) Reset() {
 	*x = UploadFileReq{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[2]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -229,7 +473,7 @@ func (x *UploadFileReq) String() string {
 func (*UploadFileReq) ProtoMessage() {}
 
 func (x *UploadFileReq) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[2]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -242,7 +486,7 @@ func (x *UploadFileReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadFileReq.ProtoReflect.Descriptor instead.
 func (*UploadFileReq) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{2}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UploadFileReq) GetFile() []byte {
@@ -275,7 +519,7 @@ type UploadFileRes struct {
 
 func (x *UploadFileRes) Reset() {
 	*x = UploadFileRes{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[3]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -287,7 +531,7 @@ func (x *UploadFileRes) String() string {
 func (*UploadFileRes) ProtoMessage() {}
 
 func (x *UploadFileRes) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[3]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -300,7 +544,7 @@ func (x *UploadFileRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadFileRes.ProtoReflect.Descriptor instead.
 func (*UploadFileRes) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{3}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *UploadFileRes) GetUrl() string {
@@ -321,7 +565,7 @@ type AdminLoginReq struct {
 
 func (x *AdminLoginReq) Reset() {
 	*x = AdminLoginReq{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[4]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -333,7 +577,7 @@ func (x *AdminLoginReq) String() string {
 func (*AdminLoginReq) ProtoMessage() {}
 
 func (x *AdminLoginReq) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[4]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -346,7 +590,7 @@ func (x *AdminLoginReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminLoginReq.ProtoReflect.Descriptor instead.
 func (*AdminLoginReq) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{4}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *AdminLoginReq) GetMobile() string {
@@ -382,7 +626,7 @@ type AdminLoginRes struct {
 
 func (x *AdminLoginRes) Reset() {
 	*x = AdminLoginRes{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[5]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -394,7 +638,7 @@ func (x *AdminLoginRes) String() string {
 func (*AdminLoginRes) ProtoMessage() {}
 
 func (x *AdminLoginRes) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[5]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -407,7 +651,7 @@ func (x *AdminLoginRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminLoginRes.ProtoReflect.Descriptor instead.
 func (*AdminLoginRes) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{5}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *AdminLoginRes) GetCode() int64 {
@@ -448,7 +692,7 @@ type SetPriceRuleReq struct {
 
 func (x *SetPriceRuleReq) Reset() {
 	*x = SetPriceRuleReq{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[6]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -460,7 +704,7 @@ func (x *SetPriceRuleReq) String() string {
 func (*SetPriceRuleReq) ProtoMessage() {}
 
 func (x *SetPriceRuleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[6]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -473,7 +717,7 @@ func (x *SetPriceRuleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetPriceRuleReq.ProtoReflect.Descriptor instead.
 func (*SetPriceRuleReq) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{6}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *SetPriceRuleReq) GetNetworkId() int64 {
@@ -500,7 +744,7 @@ type SetPriceRuleRes struct {
 
 func (x *SetPriceRuleRes) Reset() {
 	*x = SetPriceRuleRes{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[7]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -512,7 +756,7 @@ func (x *SetPriceRuleRes) String() string {
 func (*SetPriceRuleRes) ProtoMessage() {}
 
 func (x *SetPriceRuleRes) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[7]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -525,7 +769,7 @@ func (x *SetPriceRuleRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetPriceRuleRes.ProtoReflect.Descriptor instead.
 func (*SetPriceRuleRes) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{7}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *SetPriceRuleRes) GetCode() int32 {
@@ -551,7 +795,7 @@ type GetPriceRuleReq struct {
 
 func (x *GetPriceRuleReq) Reset() {
 	*x = GetPriceRuleReq{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[8]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -563,7 +807,7 @@ func (x *GetPriceRuleReq) String() string {
 func (*GetPriceRuleReq) ProtoMessage() {}
 
 func (x *GetPriceRuleReq) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[8]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -576,7 +820,7 @@ func (x *GetPriceRuleReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPriceRuleReq.ProtoReflect.Descriptor instead.
 func (*GetPriceRuleReq) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{8}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *GetPriceRuleReq) GetNetworkId() int64 {
@@ -595,7 +839,7 @@ type GetPriceRuleRes struct {
 
 func (x *GetPriceRuleRes) Reset() {
 	*x = GetPriceRuleRes{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[9]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -607,7 +851,7 @@ func (x *GetPriceRuleRes) String() string {
 func (*GetPriceRuleRes) ProtoMessage() {}
 
 func (x *GetPriceRuleRes) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[9]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -620,7 +864,7 @@ func (x *GetPriceRuleRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPriceRuleRes.ProtoReflect.Descriptor instead.
 func (*GetPriceRuleRes) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{9}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *GetPriceRuleRes) GetRules() []*LockerPriceRule {
@@ -654,7 +898,7 @@ type LockerPriceRule struct {
 
 func (x *LockerPriceRule) Reset() {
 	*x = LockerPriceRule{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[10]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -666,7 +910,7 @@ func (x *LockerPriceRule) String() string {
 func (*LockerPriceRule) ProtoMessage() {}
 
 func (x *LockerPriceRule) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[10]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -679,7 +923,7 @@ func (x *LockerPriceRule) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LockerPriceRule.ProtoReflect.Descriptor instead.
 func (*LockerPriceRule) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{10}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *LockerPriceRule) GetId() int64 {
@@ -774,7 +1018,7 @@ type PointListReq struct {
 
 func (x *PointListReq) Reset() {
 	*x = PointListReq{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[11]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -786,7 +1030,7 @@ func (x *PointListReq) String() string {
 func (*PointListReq) ProtoMessage() {}
 
 func (x *PointListReq) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[11]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -799,7 +1043,7 @@ func (x *PointListReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PointListReq.ProtoReflect.Descriptor instead.
 func (*PointListReq) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{11}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{14}
 }
 
 type PointListRes struct {
@@ -813,7 +1057,7 @@ type PointListRes struct {
 
 func (x *PointListRes) Reset() {
 	*x = PointListRes{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[12]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -825,7 +1069,7 @@ func (x *PointListRes) String() string {
 func (*PointListRes) ProtoMessage() {}
 
 func (x *PointListRes) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[12]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -838,7 +1082,7 @@ func (x *PointListRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PointListRes.ProtoReflect.Descriptor instead.
 func (*PointListRes) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{12}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *PointListRes) GetCode() int64 {
@@ -875,7 +1119,7 @@ type PointList struct {
 
 func (x *PointList) Reset() {
 	*x = PointList{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[13]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -887,7 +1131,7 @@ func (x *PointList) String() string {
 func (*PointList) ProtoMessage() {}
 
 func (x *PointList) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[13]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -900,7 +1144,7 @@ func (x *PointList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PointList.ProtoReflect.Descriptor instead.
 func (*PointList) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{13}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *PointList) GetName() string {
@@ -947,7 +1191,7 @@ type PointInfoReq struct {
 
 func (x *PointInfoReq) Reset() {
 	*x = PointInfoReq{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[14]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -959,7 +1203,7 @@ func (x *PointInfoReq) String() string {
 func (*PointInfoReq) ProtoMessage() {}
 
 func (x *PointInfoReq) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[14]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -972,7 +1216,7 @@ func (x *PointInfoReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PointInfoReq.ProtoReflect.Descriptor instead.
 func (*PointInfoReq) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{14}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *PointInfoReq) GetId() int64 {
@@ -1001,7 +1245,7 @@ type PointInfoRes struct {
 
 func (x *PointInfoRes) Reset() {
 	*x = PointInfoRes{}
-	mi := &file_helloworld_v1_admin_proto_msgTypes[15]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1013,7 +1257,7 @@ func (x *PointInfoRes) String() string {
 func (*PointInfoRes) ProtoMessage() {}
 
 func (x *PointInfoRes) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_admin_proto_msgTypes[15]
+	mi := &file_api_helloworld_v1_admin_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1026,7 +1270,7 @@ func (x *PointInfoRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PointInfoRes.ProtoReflect.Descriptor instead.
 func (*PointInfoRes) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_admin_proto_rawDescGZIP(), []int{15}
+	return file_api_helloworld_v1_admin_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *PointInfoRes) GetCode() int64 {
@@ -1106,11 +1350,35 @@ func (x *PointInfoRes) GetPointImage() string {
 	return ""
 }
 
-var File_helloworld_v1_admin_proto protoreflect.FileDescriptor
+var File_api_helloworld_v1_admin_proto protoreflect.FileDescriptor
 
-const file_helloworld_v1_admin_proto_rawDesc = "" +
+const file_api_helloworld_v1_admin_proto_rawDesc = "" +
 	"\n" +
-	"\x19helloworld/v1/admin.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"\x88\x03\n" +
+	"\x1dapi/helloworld/v1/admin.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\"6\n" +
+	"\x0eUpdatePointRes\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\"@\n" +
+	"\x0eUpdatePointReq\x12.\n" +
+	"\x05point\x18\x02 \x01(\v2\x18.api.helloworld.v1.PointR\x05point\"\xaa\x03\n" +
+	"\x05Point\x12\x1f\n" +
+	"\vlocation_id\x18\x01 \x01(\x05R\n" +
+	"locationId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
+	"\aaddress\x18\x03 \x01(\tR\aaddress\x12'\n" +
+	"\x0favailable_large\x18\x04 \x01(\x05R\x0eavailableLarge\x12)\n" +
+	"\x10available_medium\x18\x05 \x01(\x05R\x0favailableMedium\x12'\n" +
+	"\x0favailable_small\x18\x06 \x01(\x05R\x0eavailableSmall\x12\x1b\n" +
+	"\topen_time\x18\a \x01(\tR\bopenTime\x12\x16\n" +
+	"\x06mobile\x18\b \x01(\tR\x06mobile\x12\x1f\n" +
+	"\vpoint_image\x18\t \x01(\tR\n" +
+	"pointImage\x12\x1d\n" +
+	"\n" +
+	"point_type\x18\n" +
+	" \x01(\tR\tpointType\x12\x1a\n" +
+	"\blatitude\x18\v \x01(\x02R\blatitude\x12\x1c\n" +
+	"\tlongitude\x18\f \x01(\x02R\tlongitude\x12\x0e\n" +
+	"\x02id\x18\r \x01(\x05R\x02id\x12\x16\n" +
+	"\x06status\x18\x0e \x01(\tR\x06status\"\x88\x03\n" +
 	"\vAddPointReq\x12\x1f\n" +
 	"\vlocation_id\x18\x01 \x01(\x05R\n" +
 	"locationId\x12\x12\n" +
@@ -1202,7 +1470,7 @@ const file_helloworld_v1_admin_proto_rawDesc = "" +
 	"\x05staus\x18\n" +
 	" \x01(\tR\x05staus\x12\x1f\n" +
 	"\vpoint_image\x18\v \x01(\tR\n" +
-	"pointImage2\xff\x05\n" +
+	"pointImage2\xf3\x06\n" +
 	"\x05Admin\x12e\n" +
 	"\tPointInfo\x12\x1f.api.helloworld.v1.PointInfoReq\x1a\x1f.api.helloworld.v1.PointInfoRes\"\x16\x82\xd3\xe4\x93\x02\x10:\x01*\"\v/point_info\x12b\n" +
 	"\tPointList\x12\x1f.api.helloworld.v1.PointListReq\x1a\x1f.api.helloworld.v1.PointListRes\"\x13\x82\xd3\xe4\x93\x02\r\x12\v/point_list\x12i\n" +
@@ -1212,85 +1480,92 @@ const file_helloworld_v1_admin_proto_rawDesc = "" +
 	"\fGetPriceRule\x12\".api.helloworld.v1.GetPriceRuleReq\x1a\".api.helloworld.v1.GetPriceRuleRes\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/admin/getPriceRule\x12k\n" +
 	"\n" +
 	"UploadFile\x12 .api.helloworld.v1.UploadFileReq\x1a .api.helloworld.v1.UploadFileRes\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/admin/uploadFile\x12f\n" +
-	"\bAddPoint\x12\x1e.api.helloworld.v1.AddPointReq\x1a\x1e.api.helloworld.v1.AddPointRes\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/addPointB7\n" +
+	"\bAddPoint\x12\x1e.api.helloworld.v1.AddPointReq\x1a\x1e.api.helloworld.v1.AddPointRes\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/addPoint\x12r\n" +
+	"\vUpdatePoint\x12!.api.helloworld.v1.UpdatePointReq\x1a!.api.helloworld.v1.UpdatePointRes\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/admin/updatePointB7\n" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
 
 var (
-	file_helloworld_v1_admin_proto_rawDescOnce sync.Once
-	file_helloworld_v1_admin_proto_rawDescData []byte
+	file_api_helloworld_v1_admin_proto_rawDescOnce sync.Once
+	file_api_helloworld_v1_admin_proto_rawDescData []byte
 )
 
-func file_helloworld_v1_admin_proto_rawDescGZIP() []byte {
-	file_helloworld_v1_admin_proto_rawDescOnce.Do(func() {
-		file_helloworld_v1_admin_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_helloworld_v1_admin_proto_rawDesc), len(file_helloworld_v1_admin_proto_rawDesc)))
+func file_api_helloworld_v1_admin_proto_rawDescGZIP() []byte {
+	file_api_helloworld_v1_admin_proto_rawDescOnce.Do(func() {
+		file_api_helloworld_v1_admin_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_admin_proto_rawDesc), len(file_api_helloworld_v1_admin_proto_rawDesc)))
 	})
-	return file_helloworld_v1_admin_proto_rawDescData
+	return file_api_helloworld_v1_admin_proto_rawDescData
 }
 
-var file_helloworld_v1_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
-var file_helloworld_v1_admin_proto_goTypes = []any{
-	(*AddPointReq)(nil),     // 0: api.helloworld.v1.AddPointReq
-	(*AddPointRes)(nil),     // 1: api.helloworld.v1.AddPointRes
-	(*UploadFileReq)(nil),   // 2: api.helloworld.v1.UploadFileReq
-	(*UploadFileRes)(nil),   // 3: api.helloworld.v1.UploadFileRes
-	(*AdminLoginReq)(nil),   // 4: api.helloworld.v1.AdminLoginReq
-	(*AdminLoginRes)(nil),   // 5: api.helloworld.v1.AdminLoginRes
-	(*SetPriceRuleReq)(nil), // 6: api.helloworld.v1.SetPriceRuleReq
-	(*SetPriceRuleRes)(nil), // 7: api.helloworld.v1.SetPriceRuleRes
-	(*GetPriceRuleReq)(nil), // 8: api.helloworld.v1.GetPriceRuleReq
-	(*GetPriceRuleRes)(nil), // 9: api.helloworld.v1.GetPriceRuleRes
-	(*LockerPriceRule)(nil), // 10: api.helloworld.v1.LockerPriceRule
-	(*PointListReq)(nil),    // 11: api.helloworld.v1.PointListReq
-	(*PointListRes)(nil),    // 12: api.helloworld.v1.PointListRes
-	(*PointList)(nil),       // 13: api.helloworld.v1.PointList
-	(*PointInfoReq)(nil),    // 14: api.helloworld.v1.PointInfoReq
-	(*PointInfoRes)(nil),    // 15: api.helloworld.v1.PointInfoRes
+var file_api_helloworld_v1_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_api_helloworld_v1_admin_proto_goTypes = []any{
+	(*UpdatePointRes)(nil),  // 0: api.helloworld.v1.UpdatePointRes
+	(*UpdatePointReq)(nil),  // 1: api.helloworld.v1.UpdatePointReq
+	(*Point)(nil),           // 2: api.helloworld.v1.Point
+	(*AddPointReq)(nil),     // 3: api.helloworld.v1.AddPointReq
+	(*AddPointRes)(nil),     // 4: api.helloworld.v1.AddPointRes
+	(*UploadFileReq)(nil),   // 5: api.helloworld.v1.UploadFileReq
+	(*UploadFileRes)(nil),   // 6: api.helloworld.v1.UploadFileRes
+	(*AdminLoginReq)(nil),   // 7: api.helloworld.v1.AdminLoginReq
+	(*AdminLoginRes)(nil),   // 8: api.helloworld.v1.AdminLoginRes
+	(*SetPriceRuleReq)(nil), // 9: api.helloworld.v1.SetPriceRuleReq
+	(*SetPriceRuleRes)(nil), // 10: api.helloworld.v1.SetPriceRuleRes
+	(*GetPriceRuleReq)(nil), // 11: api.helloworld.v1.GetPriceRuleReq
+	(*GetPriceRuleRes)(nil), // 12: api.helloworld.v1.GetPriceRuleRes
+	(*LockerPriceRule)(nil), // 13: api.helloworld.v1.LockerPriceRule
+	(*PointListReq)(nil),    // 14: api.helloworld.v1.PointListReq
+	(*PointListRes)(nil),    // 15: api.helloworld.v1.PointListRes
+	(*PointList)(nil),       // 16: api.helloworld.v1.PointList
+	(*PointInfoReq)(nil),    // 17: api.helloworld.v1.PointInfoReq
+	(*PointInfoRes)(nil),    // 18: api.helloworld.v1.PointInfoRes
 }
-var file_helloworld_v1_admin_proto_depIdxs = []int32{
-	10, // 0: api.helloworld.v1.SetPriceRuleReq.rules:type_name -> api.helloworld.v1.LockerPriceRule
-	10, // 1: api.helloworld.v1.GetPriceRuleRes.rules:type_name -> api.helloworld.v1.LockerPriceRule
-	13, // 2: api.helloworld.v1.PointListRes.list:type_name -> api.helloworld.v1.PointList
-	14, // 3: api.helloworld.v1.Admin.PointInfo:input_type -> api.helloworld.v1.PointInfoReq
-	11, // 4: api.helloworld.v1.Admin.PointList:input_type -> api.helloworld.v1.PointListReq
-	4,  // 5: api.helloworld.v1.Admin.AdminLogin:input_type -> api.helloworld.v1.AdminLoginReq
-	6,  // 6: api.helloworld.v1.Admin.SetPriceRule:input_type -> api.helloworld.v1.SetPriceRuleReq
-	8,  // 7: api.helloworld.v1.Admin.GetPriceRule:input_type -> api.helloworld.v1.GetPriceRuleReq
-	2,  // 8: api.helloworld.v1.Admin.UploadFile:input_type -> api.helloworld.v1.UploadFileReq
-	0,  // 9: api.helloworld.v1.Admin.AddPoint:input_type -> api.helloworld.v1.AddPointReq
-	15, // 10: api.helloworld.v1.Admin.PointInfo:output_type -> api.helloworld.v1.PointInfoRes
-	12, // 11: api.helloworld.v1.Admin.PointList:output_type -> api.helloworld.v1.PointListRes
-	5,  // 12: api.helloworld.v1.Admin.AdminLogin:output_type -> api.helloworld.v1.AdminLoginRes
-	7,  // 13: api.helloworld.v1.Admin.SetPriceRule:output_type -> api.helloworld.v1.SetPriceRuleRes
-	9,  // 14: api.helloworld.v1.Admin.GetPriceRule:output_type -> api.helloworld.v1.GetPriceRuleRes
-	3,  // 15: api.helloworld.v1.Admin.UploadFile:output_type -> api.helloworld.v1.UploadFileRes
-	1,  // 16: api.helloworld.v1.Admin.AddPoint:output_type -> api.helloworld.v1.AddPointRes
-	10, // [10:17] is the sub-list for method output_type
-	3,  // [3:10] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+var file_api_helloworld_v1_admin_proto_depIdxs = []int32{
+	2,  // 0: api.helloworld.v1.UpdatePointReq.point:type_name -> api.helloworld.v1.Point
+	13, // 1: api.helloworld.v1.SetPriceRuleReq.rules:type_name -> api.helloworld.v1.LockerPriceRule
+	13, // 2: api.helloworld.v1.GetPriceRuleRes.rules:type_name -> api.helloworld.v1.LockerPriceRule
+	16, // 3: api.helloworld.v1.PointListRes.list:type_name -> api.helloworld.v1.PointList
+	17, // 4: api.helloworld.v1.Admin.PointInfo:input_type -> api.helloworld.v1.PointInfoReq
+	14, // 5: api.helloworld.v1.Admin.PointList:input_type -> api.helloworld.v1.PointListReq
+	7,  // 6: api.helloworld.v1.Admin.AdminLogin:input_type -> api.helloworld.v1.AdminLoginReq
+	9,  // 7: api.helloworld.v1.Admin.SetPriceRule:input_type -> api.helloworld.v1.SetPriceRuleReq
+	11, // 8: api.helloworld.v1.Admin.GetPriceRule:input_type -> api.helloworld.v1.GetPriceRuleReq
+	5,  // 9: api.helloworld.v1.Admin.UploadFile:input_type -> api.helloworld.v1.UploadFileReq
+	3,  // 10: api.helloworld.v1.Admin.AddPoint:input_type -> api.helloworld.v1.AddPointReq
+	1,  // 11: api.helloworld.v1.Admin.UpdatePoint:input_type -> api.helloworld.v1.UpdatePointReq
+	18, // 12: api.helloworld.v1.Admin.PointInfo:output_type -> api.helloworld.v1.PointInfoRes
+	15, // 13: api.helloworld.v1.Admin.PointList:output_type -> api.helloworld.v1.PointListRes
+	8,  // 14: api.helloworld.v1.Admin.AdminLogin:output_type -> api.helloworld.v1.AdminLoginRes
+	10, // 15: api.helloworld.v1.Admin.SetPriceRule:output_type -> api.helloworld.v1.SetPriceRuleRes
+	12, // 16: api.helloworld.v1.Admin.GetPriceRule:output_type -> api.helloworld.v1.GetPriceRuleRes
+	6,  // 17: api.helloworld.v1.Admin.UploadFile:output_type -> api.helloworld.v1.UploadFileRes
+	4,  // 18: api.helloworld.v1.Admin.AddPoint:output_type -> api.helloworld.v1.AddPointRes
+	0,  // 19: api.helloworld.v1.Admin.UpdatePoint:output_type -> api.helloworld.v1.UpdatePointRes
+	12, // [12:20] is the sub-list for method output_type
+	4,  // [4:12] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
-func init() { file_helloworld_v1_admin_proto_init() }
-func file_helloworld_v1_admin_proto_init() {
-	if File_helloworld_v1_admin_proto != nil {
+func init() { file_api_helloworld_v1_admin_proto_init() }
+func file_api_helloworld_v1_admin_proto_init() {
+	if File_api_helloworld_v1_admin_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_helloworld_v1_admin_proto_rawDesc), len(file_helloworld_v1_admin_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_admin_proto_rawDesc), len(file_api_helloworld_v1_admin_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_helloworld_v1_admin_proto_goTypes,
-		DependencyIndexes: file_helloworld_v1_admin_proto_depIdxs,
-		MessageInfos:      file_helloworld_v1_admin_proto_msgTypes,
+		GoTypes:           file_api_helloworld_v1_admin_proto_goTypes,
+		DependencyIndexes: file_api_helloworld_v1_admin_proto_depIdxs,
+		MessageInfos:      file_api_helloworld_v1_admin_proto_msgTypes,
 	}.Build()
-	File_helloworld_v1_admin_proto = out.File
-	file_helloworld_v1_admin_proto_goTypes = nil
-	file_helloworld_v1_admin_proto_depIdxs = nil
+	File_api_helloworld_v1_admin_proto = out.File
+	file_api_helloworld_v1_admin_proto_goTypes = nil
+	file_api_helloworld_v1_admin_proto_depIdxs = nil
 }
