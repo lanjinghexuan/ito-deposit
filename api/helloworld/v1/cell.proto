@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package api.helloworld.v1;
+
+option go_package = "ito-deposit/api/helloworld/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.helloworld.v1";
+
+service Cell {
+	rpc CreateCell (CreateCellRequest) returns (CreateCellReply);
+	rpc UpdateCell (UpdateCellRequest) returns (UpdateCellReply);
+	rpc DeleteCell (DeleteCellRequest) returns (DeleteCellReply);
+	rpc GetCell (GetCellRequest) returns (GetCellReply);
+	rpc ListCell (ListCellRequest) returns (ListCellReply);
+}
+
+message CreateCellRequest {}
+message CreateCellReply {}
+
+message UpdateCellRequest {}
+message UpdateCellReply {}
+
+message DeleteCellRequest {}
+message DeleteCellReply {}
+
+message GetCellRequest {}
+message GetCellReply {}
+
+message ListCellRequest {}
+message ListCellReply {}

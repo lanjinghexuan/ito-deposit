@@ -1,0 +1,14 @@
+server:
+  http:
+    addr: 0.0.0.0:7000
+    timeout: 1s
+  jwt:
+    authkey: a9999
+  pprof:
+    port: 6601
+    switch: true
+  etcd:
+    endpoints:
+      - "127.0.0.1:2379"   # 单节点示例
+    dial_timeout: 3s
+    name: "ito-deposit"

@@ -7,7 +7,7 @@ import (
 )
 
 // ProviderSet is biz providers.
-var ProviderSet = wire.NewSet(NewGreeterUsecase, NewAdminUsecase)
+var ProviderSet = wire.NewSet(NewGreeterUsecase, NewAdminUsecase, NewCityUsecase, NewNearbyUsecase)
 
 type Locker struct {
 	Id            int32 `gorm:"column:id;type:int;comment:寄存柜ID;primaryKey;not null;" json:"id"`                    // 寄存柜ID
@@ -50,6 +50,10 @@ type LockerPoint struct {
 	OpenTime        string  `gorm:"column:open_time;type:varchar(30);comment:营业时间;default:NULL;" json:"open_time"`      // 营业时间
 	Mobile          string  `gorm:"column:mobile;type:varchar(20);comment:联系电话;default:NULL;" json:"mobile"`            // 联系电话
 	AdminId         int32   `gorm:"column:admin_id;type:int;comment:管理员id;default:NULL;" json:"admin_id"`               // 管理员id
+}
+
+func (l LockerPoint) TableName() string {
+	return "locker_point"
 }
 
 type LockerPricingRules struct {

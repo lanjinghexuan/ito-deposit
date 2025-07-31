@@ -32,6 +32,12 @@ message Server {
     bool switch = 2;
   }
   Pprof pprof = 4;
+  message Etcd{
+    repeated string endpoints = 1;
+    google.protobuf.Duration dial_timeout= 2;
+    string name= 3;
+  }
+  Etcd etcd = 5;
 }
 
 message Data {

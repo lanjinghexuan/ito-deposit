@@ -24,7 +24,7 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewGreeterRepo, pkg.NewSendSms, NewAdminRepo)
+var ProviderSet = wire.NewSet(NewData, NewGreeterRepo, NewCityRepo, NewNearbyRepo, pkg.NewSendSms, NewAdminRepo)
 
 // Data .
 type Data struct {
@@ -100,8 +100,7 @@ func (a *dbAdapter) Find(dest interface{}) error {
 	return a.db.Find(dest).Error
 }
 
-// 修复Transaction方法定义，确保参数类型正确
-func (d *dbAdapter) Transaction(fn func(tx DBInterface) error) error {
+func (d *dbAdapter) Transaction(fn func(DBInterface) error) error {
 	return d.db.Transaction(func(tx *gorm.DB) error {
 		txAdapter := &dbAdapter{db: tx}
 		return fn(txAdapter)
@@ -129,13 +128,14 @@ func (a *redisAdapter) Set(ctx context.Context, key string, value interface{}, e
 
 func (a *redisAdapter) Get(ctx context.Context, key string) *redis.StringCmd {
 	return a.client.Get(ctx, key)
-
 }
 
 // NewData .
 func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
+	helper := log.NewHelper(logger)
+
 	cleanup := func() {
-		log.NewHelper(logger).Info("closing the data resources")
+		helper.Info("closing the data resources")
 	}
 
 	db, err := gorm.Open(mysql.Open(c.Database.Source), &gorm.Config{})
@@ -143,6 +143,14 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 		fmt.Println("err:", err)
 		panic("failed to connect database")
 	}
+
+	// 自动迁移数据库表结构
+	if err := db.AutoMigrate(&City{}, &LockerPoint{}); err != nil {
+		helper.Errorf("自动迁移数据库表结构失败: %v", err)
+	} else {
+		helper.Info("自动迁移数据库表结构成功")
+	}
+
 	redisDB := RedisInit(c)
 
 	mq, err := rocketmq.NewProducer(producer.WithNameServer([]string{"14.103.235.215:9876"}))
@@ -183,4 +191,13 @@ func RedisInit(c *conf.Data) *redis.Client {
 	}
 
 	return rdb
+}
+
+// 导出的接口工厂方法
+func GetDBInterface(db DBInterface) DBInterface {
+	return db
+}
+
+func GetRedisInterface(redis RedisInterface) RedisInterface {
+	return redis
 }

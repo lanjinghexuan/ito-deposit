@@ -1,0 +1,251 @@
+syntax = "proto3";
+
+package api.helloworld.v1;
+
+import "google/api/annotations.proto";
+import "errors/errors.proto";
+
+option go_package = "ito-deposit/api/helloworld/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.helloworld.v1";
+
+// 城市服务定义
+service City {
+  // 创建城市 (管理端)
+  rpc CreateCity (CreateCityRequest) returns (CreateCityReply) {
+    option (google.api.http) = {
+      post: "/api/admin/cities"
+      body: "*"
+    };
+  }
+  
+  // 更新城市 (管理端)
+  rpc UpdateCity (UpdateCityRequest) returns (UpdateCityReply) {
+    option (google.api.http) = {
+      put: "/api/admin/cities/{id}"
+      body: "*"
+    };
+  }
+  
+  // 获取城市详情 (管理端)
+  rpc GetCity (GetCityRequest) returns (GetCityReply) {
+    option (google.api.http) = {
+      get: "/api/admin/cities/{id}"
+    };
+  }
+  
+  // 获取城市列表 (管理端)
+  rpc ListCities (ListCitiesRequest) returns (ListCitiesReply) {
+    option (google.api.http) = {
+      get: "/api/admin/cities"
+    };
+  }
+  
+  // 更新城市状态 (管理端)
+  rpc UpdateCityStatus (UpdateCityStatusRequest) returns (UpdateCityStatusReply) {
+    option (google.api.http) = {
+      patch: "/api/admin/cities/{id}/status"
+      body: "*"
+    };
+  }
+  
+  // 用户端接口 (无需认证)
+  
+  // 获取城市列表 (用户端)
+  rpc ListUserCities (ListUserCitiesRequest) returns (ListUserCitiesReply) {
+    option (google.api.http) = {
+      get: "/api/cities"
+    };
+  }
+  
+  // 搜索城市 (用户端)
+  rpc SearchCities (SearchCitiesRequest) returns (SearchCitiesReply) {
+    option (google.api.http) = {
+      get: "/api/cities/search"
+    };
+  }
+  
+  // 获取城市详情 (用户端)
+  rpc GetUserCity (GetUserCityRequest) returns (GetUserCityReply) {
+    option (google.api.http) = {
+      get: "/api/cities/{id}"
+    };
+  }
+  
+  // 根据城市编码获取城市 (用户端)
+  rpc GetCityByCode (GetCityByCodeRequest) returns (GetUserCityReply) {
+    option (google.api.http) = {
+      get: "/api/cities/code/{code}"
+    };
+  }
+  
+  // 获取热门城市 (用户端)
+  rpc GetHotCities (GetHotCitiesRequest) returns (ListUserCitiesReply) {
+    option (google.api.http) = {
+      get: "/api/cities/hot"
+    };
+  }
+}
+
+// 创建城市请求
+message CreateCityRequest {
+  string name = 1;   // 城市名称
+  int32 status = 2;  // 状态(1:启用,0:禁用)
+}
+
+// 创建城市响应
+message CreateCityReply {
+  int32 id = 1;          // 城市ID
+  string name = 2;       // 城市名称
+  string code = 3;       // 城市编码
+  double latitude = 4;   // 纬度
+  double longitude = 5;  // 经度
+  int32 status = 6;      // 状态(1:启用,0:禁用)
+}
+
+// 更新城市请求
+message UpdateCityRequest {
+  int32 id = 1;      // 城市ID
+  string name = 2;   // 城市名称
+  int32 status = 3;  // 状态(1:启用,0:禁用)
+}
+
+// 更新城市响应
+message UpdateCityReply {
+  int32 id = 1;          // 城市ID
+  string name = 2;       // 城市名称
+  string code = 3;       // 城市编码
+  double latitude = 4;   // 纬度
+  double longitude = 5;  // 经度
+  int32 status = 6;      // 状态(1:启用,0:禁用)
+}
+
+// 获取城市详情请求
+message GetCityRequest {
+  int32 id = 1;  // 城市ID
+}
+
+// 获取城市详情响应
+message GetCityReply {
+  int32 id = 1;          // 城市ID
+  string name = 2;       // 城市名称
+  string code = 3;       // 城市编码
+  double latitude = 4;   // 纬度
+  double longitude = 5;  // 经度
+  int32 status = 6;      // 状态(1:启用,0:禁用)
+}
+
+// 城市信息
+message CityInfo {
+  int32 id = 1;          // 城市ID
+  string name = 2;       // 城市名称
+  string code = 3;       // 城市编码
+  double latitude = 4;   // 纬度
+  double longitude = 5;  // 经度
+  int32 status = 6;      // 状态(1:启用,0:禁用)
+}
+
+// 获取城市列表请求
+message ListCitiesRequest {
+  int32 page = 1;       // 页码
+  int32 page_size = 2;  // 每页数量
+  int32 status = 3;     // 状态(1:启用,0:禁用,-1:全部)
+}
+
+// 获取城市列表响应
+message ListCitiesReply {
+  int64 total = 1;              // 总数
+  repeated CityInfo items = 2;  // 城市列表
+}
+
+// 更新城市状态请求
+message UpdateCityStatusRequest {
+  int32 id = 1;      // 城市ID
+  int32 status = 2;  // 状态(1:启用,0:禁用)
+}
+
+// 更新城市状态响应
+message UpdateCityStatusReply {
+  bool success = 1;  // 是否成功
+}
+
+// 用户端城市信息
+message UserCityInfo {
+  int32 id = 1;          // 城市ID
+  string name = 2;       // 城市名称
+  string code = 3;       // 城市编码
+  double latitude = 4;   // 纬度
+  double longitude = 5;  // 经度
+}
+
+// 获取用户端城市列表请求
+message ListUserCitiesRequest {
+  int32 page = 1;       // 页码
+  int32 page_size = 2;  // 每页数量
+}
+
+// 获取用户端城市列表响应
+message ListUserCitiesReply {
+  int64 total = 1;                  // 总数
+  repeated UserCityInfo items = 2;  // 城市列表
+}
+
+// 搜索城市请求
+message SearchCitiesRequest {
+  string keyword = 1;    // 搜索关键词
+  int32 page = 2;        // 页码
+  int32 page_size = 3;   // 每页数量
+}
+
+// 搜索城市响应
+message SearchCitiesReply {
+  int64 total = 1;                  // 总数
+  repeated UserCityInfo items = 2;  // 城市列表
+}
+
+// 获取用户端城市详情请求
+message GetUserCityRequest {
+  int32 id = 1;  // 城市ID
+}
+
+// 获取用户端城市详情响应
+message GetUserCityReply {
+  int32 id = 1;          // 城市ID
+  string name = 2;       // 城市名称
+  string code = 3;       // 城市编码
+  double latitude = 4;   // 纬度
+  double longitude = 5;  // 经度
+}
+
+// 根据城市编码获取城市请求
+message GetCityByCodeRequest {
+  string code = 1;  // 城市编码
+}
+
+// 获取热门城市请求
+message GetHotCitiesRequest {
+  int32 limit = 1;  // 返回数量限制，默认为10
+}
+
+// 错误响应
+message ErrorReply {
+  int32 code = 1;     // 错误码
+  string message = 2; // 错误信息
+}
+
+// 错误定义
+enum ErrorReason {
+  // 设置默认错误码
+  option (errors.default_code) = 500;
+  
+  // 未知错误
+  UNKNOWN_ERROR = 0 [(errors.code) = 500];
+  // 请求参数错误
+  BAD_REQUEST = 1 [(errors.code) = 400];
+  // 内部服务错误
+  INTERNAL_ERROR = 2 [(errors.code) = 500];
+  // 资源不存在
+  NOT_FOUND = 3 [(errors.code) = 404];
+  // 资源已存在
+  ALREADY_EXISTS = 4 [(errors.code) = 409];
+}

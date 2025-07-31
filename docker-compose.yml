@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # MySQL数据库
+  mysql:
+    image: mysql:8.0
+    container_name: ito-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Hao@10086
+      MYSQL_DATABASE: ito
+      MYSQL_USER: ito
+      MYSQL_PASSWORD: Hao@10086
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./test_init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - ito-network
+
+  # Redis缓存
+  redis:
+    image: redis:7-alpine
+    container_name: ito-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - ito-network
+
+  # 应用服务
+  app:
+    build: .
+    container_name: ito-app
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+    volumes:
+      - ./configs:/data/conf
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    networks:
+      - ito-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  ito-network:
+    driver: bridge

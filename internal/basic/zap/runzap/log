@@ -1,0 +1,5 @@
+{"level":"info","timestamp":"2025-07-30T16:55:50.729+0800","caller":"pkg/zap.go:98","msg":"Application starting","service.id":"ZYH","service.name":"","service.version":""}
+{"level":"info","timestamp":"2025-07-30T16:55:50.731+0800","caller":"pkg/zap.go:98","msg":"Config loaded successfully"}
+{"level":"info","timestamp":"2025-07-30T16:55:50.731+0800","caller":"pkg/zap.go:98","msg":"Config scanned successfully"}
+{"level":"info","timestamp":"2025-07-30T16:55:51.194+0800","caller":"pkg/zap.go:98","msg":"App initialized successfully"}
+{"level":"info","timestamp":"2025-07-30T16:55:51.194+0800","caller":"pkg/zap.go:98","msg":"Starting application server"}
