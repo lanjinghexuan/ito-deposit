@@ -342,3 +342,18 @@ func (s *AdminService) AddPoint(ctx context.Context, req *pb.AddPointReq) (*pb.A
 	userId := (*mapClaims)["id"].(string)
 	return s.repo.AddPointAddPoint(ctx, req, userId)
 }
+
+func (s *AdminService) UpdatePoint(ctx context.Context, req *pb.UpdatePointReq) (*pb.UpdatePointRes, error) {
+	kratosToken, ok := jwt1.FromContext(ctx)
+	if !ok {
+		return &pb.UpdatePointRes{
+			Code: 401,
+			Msg:  "token不正确或者未传",
+		}, nil
+	}
+
+	mapClaims, ok := kratosToken.(*jwt.MapClaims)
+
+	userId := (*mapClaims)["id"].(string)
+	return s.repo.UpdatePoint(ctx, req, userId)
+}

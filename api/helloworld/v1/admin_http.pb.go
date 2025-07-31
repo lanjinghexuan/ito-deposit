@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-http v2.8.4
 // - protoc             v5.26.1
-// source: helloworld/v1/admin.proto
+// source: api/helloworld/v1/admin.proto
 
 package v1
 
@@ -25,6 +25,7 @@ const OperationAdminGetPriceRule = "/api.helloworld.v1.Admin/GetPriceRule"
 const OperationAdminPointInfo = "/api.helloworld.v1.Admin/PointInfo"
 const OperationAdminPointList = "/api.helloworld.v1.Admin/PointList"
 const OperationAdminSetPriceRule = "/api.helloworld.v1.Admin/SetPriceRule"
+const OperationAdminUpdatePoint = "/api.helloworld.v1.Admin/UpdatePoint"
 const OperationAdminUploadFile = "/api.helloworld.v1.Admin/UploadFile"
 
 type AdminHTTPServer interface {
@@ -34,6 +35,7 @@ type AdminHTTPServer interface {
 	PointInfo(context.Context, *PointInfoReq) (*PointInfoRes, error)
 	PointList(context.Context, *PointListReq) (*PointListRes, error)
 	SetPriceRule(context.Context, *SetPriceRuleReq) (*SetPriceRuleRes, error)
+	UpdatePoint(context.Context, *UpdatePointReq) (*UpdatePointRes, error)
 	UploadFile(context.Context, *UploadFileReq) (*UploadFileRes, error)
 }
 
@@ -46,6 +48,7 @@ func RegisterAdminHTTPServer(s *http.Server, srv AdminHTTPServer) {
 	r.GET("/admin/getPriceRule", _Admin_GetPriceRule0_HTTP_Handler(srv))
 	r.GET("/admin/uploadFile", _Admin_UploadFile0_HTTP_Handler(srv))
 	r.POST("/admin/addPoint", _Admin_AddPoint0_HTTP_Handler(srv))
+	r.POST("/admin/updatePoint", _Admin_UpdatePoint0_HTTP_Handler(srv))
 }
 
 func _Admin_PointInfo0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context) error {
@@ -193,6 +196,28 @@ func _Admin_AddPoint0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context) e
 	}
 }
 
+func _Admin_UpdatePoint0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in UpdatePointReq
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationAdminUpdatePoint)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UpdatePoint(ctx, req.(*UpdatePointReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*UpdatePointRes)
+		return ctx.Result(200, reply)
+	}
+}
+
 type AdminHTTPClient interface {
 	AddPoint(ctx context.Context, req *AddPointReq, opts ...http.CallOption) (rsp *AddPointRes, err error)
 	AdminLogin(ctx context.Context, req *AdminLoginReq, opts ...http.CallOption) (rsp *AdminLoginRes, err error)
@@ -200,6 +225,7 @@ type AdminHTTPClient interface {
 	PointInfo(ctx context.Context, req *PointInfoReq, opts ...http.CallOption) (rsp *PointInfoRes, err error)
 	PointList(ctx context.Context, req *PointListReq, opts ...http.CallOption) (rsp *PointListRes, err error)
 	SetPriceRule(ctx context.Context, req *SetPriceRuleReq, opts ...http.CallOption) (rsp *SetPriceRuleRes, err error)
+	UpdatePoint(ctx context.Context, req *UpdatePointReq, opts ...http.CallOption) (rsp *UpdatePointRes, err error)
 	UploadFile(ctx context.Context, req *UploadFileReq, opts ...http.CallOption) (rsp *UploadFileRes, err error)
 }
 
@@ -281,6 +307,19 @@ func (c *AdminHTTPClientImpl) SetPriceRule(ctx context.Context, in *SetPriceRule
 	pattern := "/admin/setPriceRule"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationAdminSetPriceRule))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *AdminHTTPClientImpl) UpdatePoint(ctx context.Context, in *UpdatePointReq, opts ...http.CallOption) (*UpdatePointRes, error) {
+	var out UpdatePointRes
+	pattern := "/admin/updatePoint"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationAdminUpdatePoint))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
