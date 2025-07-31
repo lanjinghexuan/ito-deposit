@@ -3,10 +3,12 @@ package service
 import (
 	"context"
 	"fmt"
+	jwt1 "github.com/go-kratos/kratos/v2/middleware/auth/jwt"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"ito-deposit/internal/biz"
 	"ito-deposit/internal/conf"
 	data2 "ito-deposit/internal/data"
 	"mime/multipart"
@@ -22,13 +24,15 @@ type AdminService struct {
 	data   *data2.Data
 	conf   *conf.Data
 	server *conf.Server
+	repo   *biz.AdminUsecase
 }
 
-func NewAdminService(data *data2.Data, conf *conf.Data, server *conf.Server) *AdminService {
+func NewAdminService(data *data2.Data, conf *conf.Data, server *conf.Server, repo *biz.AdminUsecase) *AdminService {
 	return &AdminService{
 		data:   data,
 		conf:   conf,
 		server: server,
+		repo:   repo,
 	}
 }
 func (s *AdminService) AdminLogin(ctx context.Context, req *pb.AdminLoginReq) (*pb.AdminLoginRes, error) {
@@ -149,7 +153,7 @@ func (s *AdminService) SetPriceRule(ctx context.Context, req *pb.SetPriceRuleReq
 
 func (s *AdminService) GetPriceRule(ctx context.Context, req *pb.GetPriceRuleReq) (*pb.GetPriceRuleRes, error) {
 	var rules []*data2.LockerPricingRules
-
+	fmt.Println(1)
 	// 只查询生效状态的规则
 	err := s.data.DB.Where("network_id = ? AND status = 1", req.NetworkId).Find(&rules).Error
 	if err != nil {
@@ -294,4 +298,19 @@ func (s *AdminService) PointInfo(ctx context.Context, req *pb.PointInfoReq) (*pb
 		Staus:           point.Status,
 		PointImage:      point.PointImage,
 	}, nil
+}
+
+func (s *AdminService) AddPoint(ctx context.Context, req *pb.AddPointReq) (*pb.AddPointRes, error) {
+	kratosToken, ok := jwt1.FromContext(ctx)
+	if !ok {
+		return &pb.AddPointRes{
+			Code: 401,
+			Msg:  "token不正确或者未传",
+		}, nil
+	}
+
+	mapClaims, ok := kratosToken.(*jwt.MapClaims)
+
+	userId := (*mapClaims)["id"].(string)
+	return s.repo.AddPointAddPoint(ctx, req, userId)
 }

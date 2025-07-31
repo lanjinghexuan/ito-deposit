@@ -1,14 +1,14 @@
 server:
   http:
-    addr: 0.0.0.0:8000
+    addr: 0.0.0.0:8001
     timeout: 1s
   grpc:
-    addr: 0.0.0.0:9000
+    addr: 0.0.0.0:9001
     timeout: 1s
   jwt:
     authkey: a9999
   pprof:
-    port: 6601
+    port: 6602
     switch: true
   etcd:
     endpoints:

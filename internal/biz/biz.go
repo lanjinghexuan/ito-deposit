@@ -52,6 +52,10 @@ type LockerPoint struct {
 	AdminId         int32   `gorm:"column:admin_id;type:int;comment:管理员id;default:NULL;" json:"admin_id"`               // 管理员id
 }
 
+func (l LockerPoint) TableName() string {
+	return "locker_point"
+}
+
 type LockerPricingRules struct {
 	Id               int64     `gorm:"column:id;type:bigint;primaryKey;not null;" json:"id"`
 	NetworkId        int64     `gorm:"column:network_id;type:bigint;comment:网点ID;not null;" json:"network_id"`                              // 网点ID

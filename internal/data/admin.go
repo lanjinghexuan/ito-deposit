@@ -4,6 +4,7 @@ import (
 	"context"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	pb "ito-deposit/api/helloworld/v1"
 
 	"ito-deposit/internal/biz"
 
@@ -59,4 +60,15 @@ func (s *AdminRepo) SetPriceRule(ctx context.Context, networkId int32, data []*b
 
 	return nil
 
+}
+
+func (s *AdminRepo) AddPointAddPoint(ctx context.Context, point *biz.LockerPoint) (*pb.AddPointRes, error) {
+	err := s.data.DB.Create(&point).Error
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "添加失败: %v", err)
+	}
+	return &pb.AddPointRes{
+		Code: 200,
+		Msg:  "添加成功",
+	}, nil
 }

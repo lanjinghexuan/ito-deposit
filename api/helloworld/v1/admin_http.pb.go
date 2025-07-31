@@ -19,6 +19,7 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationAdminAddPoint = "/api.helloworld.v1.Admin/AddPoint"
 const OperationAdminAdminLogin = "/api.helloworld.v1.Admin/AdminLogin"
 const OperationAdminGetPriceRule = "/api.helloworld.v1.Admin/GetPriceRule"
 const OperationAdminPointInfo = "/api.helloworld.v1.Admin/PointInfo"
@@ -27,6 +28,7 @@ const OperationAdminSetPriceRule = "/api.helloworld.v1.Admin/SetPriceRule"
 const OperationAdminUploadFile = "/api.helloworld.v1.Admin/UploadFile"
 
 type AdminHTTPServer interface {
+	AddPoint(context.Context, *AddPointReq) (*AddPointRes, error)
 	AdminLogin(context.Context, *AdminLoginReq) (*AdminLoginRes, error)
 	GetPriceRule(context.Context, *GetPriceRuleReq) (*GetPriceRuleRes, error)
 	PointInfo(context.Context, *PointInfoReq) (*PointInfoRes, error)
@@ -43,6 +45,7 @@ func RegisterAdminHTTPServer(s *http.Server, srv AdminHTTPServer) {
 	r.POST("/admin/setPriceRule", _Admin_SetPriceRule0_HTTP_Handler(srv))
 	r.GET("/admin/getPriceRule", _Admin_GetPriceRule0_HTTP_Handler(srv))
 	r.GET("/admin/uploadFile", _Admin_UploadFile0_HTTP_Handler(srv))
+	r.POST("/admin/addPoint", _Admin_AddPoint0_HTTP_Handler(srv))
 }
 
 func _Admin_PointInfo0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context) error {
@@ -168,7 +171,30 @@ func _Admin_UploadFile0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context)
 	}
 }
 
+func _Admin_AddPoint0_HTTP_Handler(srv AdminHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in AddPointReq
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationAdminAddPoint)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.AddPoint(ctx, req.(*AddPointReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*AddPointRes)
+		return ctx.Result(200, reply)
+	}
+}
+
 type AdminHTTPClient interface {
+	AddPoint(ctx context.Context, req *AddPointReq, opts ...http.CallOption) (rsp *AddPointRes, err error)
 	AdminLogin(ctx context.Context, req *AdminLoginReq, opts ...http.CallOption) (rsp *AdminLoginRes, err error)
 	GetPriceRule(ctx context.Context, req *GetPriceRuleReq, opts ...http.CallOption) (rsp *GetPriceRuleRes, err error)
 	PointInfo(ctx context.Context, req *PointInfoReq, opts ...http.CallOption) (rsp *PointInfoRes, err error)
@@ -183,6 +209,19 @@ type AdminHTTPClientImpl struct {
 
 func NewAdminHTTPClient(client *http.Client) AdminHTTPClient {
 	return &AdminHTTPClientImpl{client}
+}
+
+func (c *AdminHTTPClientImpl) AddPoint(ctx context.Context, in *AddPointReq, opts ...http.CallOption) (*AddPointRes, error) {
+	var out AddPointRes
+	pattern := "/admin/addPoint"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationAdminAddPoint))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
 }
 
 func (c *AdminHTTPClientImpl) AdminLogin(ctx context.Context, in *AdminLoginReq, opts ...http.CallOption) (*AdminLoginRes, error) {

@@ -41,10 +41,19 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 		return nil, nil, err
 	}
 	depositService := service.NewDepositService(dataData, confServer, sendSms)
-	adminService := service.NewAdminService(dataData, confData, confServer)
+	adminRepo := data.NewAdminRepo(dataData, logger)
+	adminUsecase := biz.NewAdminUsecase(adminRepo, logger)
+	adminService := service.NewAdminService(dataData, confData, confServer, adminUsecase)
 	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, logger)
 	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, logger)
-	app := newApp(logger, grpcServer, httpServer)
+	client, err := NewEtcdClient(confServer)
+	if err != nil {
+		cleanup2()
+		cleanup()
+		return nil, nil, err
+	}
+	registrar := NewRegistrar(client)
+	app := newApp(logger, grpcServer, httpServer, registrar, confServer)
 	return app, func() {
 		cleanup2()
 		cleanup()
