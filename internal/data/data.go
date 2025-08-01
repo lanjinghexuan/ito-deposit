@@ -6,9 +6,6 @@ import (
 
 	"github.com/apache/rocketmq-client-go/v2"
 	"github.com/apache/rocketmq-client-go/v2/producer"
-	"os"
-	"os/signal"
-	"syscall"
 	"time"
 
 	"ito-deposit/internal/basic/pkg"
@@ -132,9 +129,7 @@ func (a *redisAdapter) Get(ctx context.Context, key string) *redis.StringCmd {
 
 // NewData .
 func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
-	cleanup := func() {
-		// 清理资源
-	}
+	helper := log.NewHelper(logger)
 
 	db, err := gorm.Open(mysql.Open(c.Database.Source), &gorm.Config{})
 	if err != nil {
@@ -142,25 +137,32 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 		panic("failed to connect database")
 	}
 
-	// 静默迁移柜组表和柜口表
-	db.AutoMigrate(&CabinetGroup{})
-	db.AutoMigrate(&CabinetCell{})
+	if err := db.AutoMigrate(&City{}, &LockerPoint{}); err != nil {
+		helper.Errorf("自动迁移数据库表结构失败: %v", err)
+	} else {
+		helper.Info("自动迁移数据库表结构成功")
+	}
 
 	redisDB := RedisInit(c)
 
-	mq, err := rocketmq.NewProducer(producer.WithNameServer([]string{"14.103.235.215:9876"}))
+	mq, err := rocketmq.NewProducer(
+		producer.WithGroupName("deposit_group"),
+		producer.WithNameServer([]string{"14.103.235.215:9876"}),
+	)
 	if err != nil {
 		panic(err)
 	}
-	mq.Start()
-	// 优雅退出时关闭
-	go func() {
-		c := make(chan os.Signal, 1)
-		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
-		<-c
-		mq.Shutdown()
-		os.Exit(0)
-	}()
+	if err := mq.Start(); err != nil {
+		panic(err)
+	}
+
+	cleanup := func() {
+		helper.Info("closing the data resources")
+		if err := mq.Shutdown(); err != nil {
+			helper.Errorf("failed to shutdown mq: %v", err)
+		}
+	}
+
 	return &Data{
 		DB:    db,
 		Redis: redisDB,
