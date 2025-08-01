@@ -60,6 +60,13 @@ service Nearby {
       get: "/api/nearby/my-nearby"
     };
   }
+  
+  // 获取所有寄存点（不依赖城市）
+  rpc GetAllLockerPoints (GetAllLockerPointsRequest) returns (SearchLockerPointsInCityReply) {
+    option (google.api.http) = {
+      get: "/api/locker-points/all"
+    };
+  }
 }
 
 // 初始化寄存点地理位置数据请求
@@ -196,6 +203,13 @@ message GetMyNearbyInfoRequest {
   double latitude = 3;     // 用户纬度（可选，如果提供则优先使用）
   double radius = 4;       // 搜索半径（公里），默认5公里
   int64 limit = 5;         // 返回寄存点数量限制，默认20个
+}
+
+// 获取所有寄存点请求
+message GetAllLockerPointsRequest {
+  string keyword = 1;      // 搜索关键词（可选，如果提供则按名称或地址搜索）
+  int64 page = 2;          // 页码，从1开始
+  int64 page_size = 3;     // 每页大小，默认10
 }
 
 // 用户位置信息

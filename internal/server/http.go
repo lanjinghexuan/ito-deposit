@@ -17,7 +17,7 @@ import (
 
 func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *service.OrderService, user *service.UserService,
 	home *service.HomeService, deposit *service.DepositService, admin *service.AdminService, city *service.CityService, nearby *service.NearbyService,
-	logger log.Logger) *http.Server {
+	group *service.GroupService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Filter(corsFilter),
 		http.Middleware(
@@ -56,6 +56,7 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, order *servi
 	v1.RegisterCityHTTPServer(srv, city)
 	v1.RegisterNearbyHTTPServer(srv, nearby)
 	v1.RegisterAdminHTTPServer(srv, admin)
+	v1.RegisterGroupHTTPServer(srv, group)
 
 	if c.Pprof.Switch {
 		go func() {
@@ -103,6 +104,15 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList["/api.helloworld.v1.Nearby/SearchLockerPointsInCity"] = struct{}{}
 	whiteList["/api.helloworld.v1.Nearby/GetCityLockerPointsMap"] = struct{}{}
 	whiteList["/api.helloworld.v1.Nearby/GetMyNearbyInfo"] = struct{}{}
+	whiteList["/api.helloworld.v1.Nearby/GetAllLockerPoints"] = struct{}{}
+	// 柜组相关API - 管理员功能，需要JWT验证，这里先添加到白名单用于测试
+	whiteList["/api.helloworld.v1.Group/CreateGroup"] = struct{}{}
+	whiteList["/api.helloworld.v1.Group/UpdateGroup"] = struct{}{}
+	whiteList["/api.helloworld.v1.Group/DeleteGroup"] = struct{}{}
+	whiteList["/api.helloworld.v1.Group/GetGroup"] = struct{}{}
+	whiteList["/api.helloworld.v1.Group/ListGroup"] = struct{}{}
+	whiteList["/api.helloworld.v1.Group/SearchGroup"] = struct{}{}
+
 	// 创建需要JWT验证的接口列表（黑名单）
 	// 只有管理员相关的API需要JWT验证
 	jwtRequiredList := make(map[string]struct{})

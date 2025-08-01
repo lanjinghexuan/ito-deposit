@@ -177,8 +177,16 @@ func (s *NearbyService) SearchLockerPointsInCity(ctx context.Context, req *v1.Se
 	// 调用业务逻辑搜索寄存点
 	lockerPoints, total, err := s.uc.SearchLockerPointsInCity(ctx, req.CityName, req.Keyword, page, pageSize)
 	if err != nil {
-		s.log.Errorf("搜索寄存点失败: %v", err)
-		return nil, v1.ErrorInternalError("搜索寄存点失败: %v", err)
+		s.log.Warnf("按城市搜索寄存点失败: %v，尝试获取所有寄存点", err)
+
+		// 如果城市搜索失败，降级到获取所有寄存点
+		lockerPoints, total, err = s.uc.GetAllLockerPoints(ctx, req.Keyword, page, pageSize)
+		if err != nil {
+			s.log.Errorf("获取所有寄存点失败: %v", err)
+			return nil, v1.ErrorInternalError("获取寄存点失败: %v", err)
+		}
+
+		s.log.Infof("降级成功，获取到 %d 个寄存点", len(lockerPoints))
 	}
 
 	// 构建响应
@@ -326,4 +334,76 @@ func (s *NearbyService) GetMyNearbyInfo(ctx context.Context, req *v1.GetMyNearby
 	}
 
 	return reply, nil
+}
+
+// Get AllLockerPoints 获取所有寄存点（不依赖城市）
+func (s *NearbyService) GetAllLockerPoints(ctx context.Context, req *v1.GetAllLockerPointsRequest) (*v1.SearchLockerPointsInCityReply, error) {
+	// 设置默认值
+	page := req.Page
+	if page <= 0 {
+		page = 1
+	}
+
+	pageSize := req.PageSize
+	if pageSize <= 100 {
+		pageSize = 100
+	}
+
+	s.log.Infof("获取所有寄存点，关键词: %s, 页码: %d, 页大小: %d", req.Keyword, page, pageSize)
+
+	// 调用业务逻辑获取所有寄存点
+	lockerPoints, total, err := s.uc.GetAllLockerPoints(ctx, req.Keyword, page, pageSize)
+	if err != nil {
+		s.log.Errorf("获取所有寄存点失败: %v", err)
+		return nil, v1.ErrorInternalError("获取寄存点失败: %v", err)
+	}
+
+	s.log.Infof("成功获取 %d 个寄存点，总数: %d", len(lockerPoints), total)
+
+	// 构建响应
+	items := make([]*v1.LockerPointDetail, 0, len(lockerPoints))
+	for _, point := range lockerPoints {
+		items = append(items, &v1.LockerPointDetail{
+			Id:              point.Id,
+			Name:            point.Name,
+			Address:         point.Address,
+			Longitude:       float32(point.Longitude),
+			Latitude:        float32(point.Latitude),
+			AvailableLarge:  point.AvailableLarge,
+			AvailableMedium: point.AvailableMedium,
+			AvailableSmall:  point.AvailableSmall,
+			OpenTime:        point.OpenTime,
+			Mobile:          point.Mobile,
+		})
+	}
+
+	return &v1.SearchLockerPointsInCityReply{
+		Items:    items,
+		Total:    total,
+		Page:     page,
+		PageSize: pageSize,
+	}, nil
+}
+
+// TestDatabaseConnection 测试数据库连接和查询（临时调试用）
+func (s *NearbyService) TestDatabaseConnection(ctx context.Context) error {
+	s.log.Info("=== 开始测试数据库连接 ===")
+
+	// 直接调用业务逻辑层
+	lockerPoints, total, err := s.uc.GetAllLockerPoints(ctx, "", 1, 10)
+	if err != nil {
+		s.log.Errorf("测试查询失败: %v", err)
+		return err
+	}
+
+	s.log.Infof("测试结果: 总数=%d, 返回数量=%d", total, len(lockerPoints))
+
+	for i, point := range lockerPoints {
+		if i < 5 { // 只显示前5个
+			s.log.Infof("寄存点 %d: ID=%d, Name=%s, Address=%s", i+1, point.Id, point.Name, point.Address)
+		}
+	}
+
+	s.log.Info("=== 数据库连接测试完成 ===")
+	return nil
 }

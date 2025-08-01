@@ -56,6 +56,8 @@ type NearbyRepo interface {
 	GetLockerPointByID(ctx context.Context, id int32) (*LockerPoint, error)
 	// SearchLockerPointsInCity 搜索指定城市内的寄存点
 	SearchLockerPointsInCity(ctx context.Context, cityName string, keyword string, page, pageSize int64) ([]*LockerPoint, int64, error)
+	// GetAllLockerPoints 获取所有寄存点（不依赖城市表）
+	GetAllLockerPoints(ctx context.Context, keyword string, page, pageSize int64) ([]*LockerPoint, int64, error)
 	// GetLockerPointsInBounds 获取指定边界内的寄存点
 	GetLockerPointsInBounds(ctx context.Context, cityName string, northLat, southLat, eastLng, westLng float64) ([]*LockerPoint, error)
 }
@@ -378,6 +380,22 @@ func (uc *NearbyUsecase) SearchLockerPointsInCity(ctx context.Context, cityName 
 
 	// 调用数据仓库搜索寄存点
 	return uc.repo.SearchLockerPointsInCity(ctx, cityName, keyword, page, pageSize)
+}
+
+// GetAllLockerPoints 获取所有寄存点（不依赖城市表）
+func (uc *NearbyUsecase) GetAllLockerPoints(ctx context.Context, keyword string, page, pageSize int64) ([]*LockerPoint, int64, error) {
+	// 设置默认值
+	if page <= 0 {
+		page = 1
+	}
+	if pageSize <= 0 {
+		pageSize = 10
+	}
+	
+	uc.log.Infof("获取所有寄存点，关键词: %s, 页码: %d, 页大小: %d", keyword, page, pageSize)
+	
+	// 调用数据仓库获取所有寄存点
+	return uc.repo.GetAllLockerPoints(ctx, keyword, page, pageSize)
 }
 
 // GetCityLockerPointsMap 获取城市寄存点分布图数据

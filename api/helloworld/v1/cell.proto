@@ -2,29 +2,235 @@ syntax = "proto3";
 
 package api.helloworld.v1;
 
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
 option go_package = "ito-deposit/api/helloworld/v1;v1";
 option java_multiple_files = true;
 option java_package = "api.helloworld.v1";
 
-service Cell {
-	rpc CreateCell (CreateCellRequest) returns (CreateCellReply);
-	rpc UpdateCell (UpdateCellRequest) returns (UpdateCellReply);
-	rpc DeleteCell (DeleteCellRequest) returns (DeleteCellReply);
-	rpc GetCell (GetCellRequest) returns (GetCellReply);
-	rpc ListCell (ListCellRequest) returns (ListCellReply);
+// 柜口管理服务
+service CabinetCell {
+	// 创建柜口
+	rpc CreateCabinetCell (CreateCabinetCellRequest) returns (CreateCabinetCellReply) {
+		option (google.api.http) = {
+			post: "/v1/cabinet-cell/create"
+			body: "*"
+		};
+	};
+	// 更新柜口
+	rpc UpdateCabinetCell (UpdateCabinetCellRequest) returns (UpdateCabinetCellReply) {
+		option (google.api.http) = {
+			put: "/v1/cabinet-cell/update"
+			body: "*"
+		};
+	};
+	// 删除柜口
+	rpc DeleteCabinetCell (DeleteCabinetCellRequest) returns (DeleteCabinetCellReply) {
+		option (google.api.http) = {
+			post: "/v1/cabinet-cell/delete"
+			body: "*"
+		};
+	};
+	// 获取单个柜口
+	rpc GetCabinetCell (GetCabinetCellRequest) returns (GetCabinetCellReply) {
+		option (google.api.http) = {
+			get: "/v1/cabinet-cell/get"
+		};
+	};
+	// 获取柜口列表
+	rpc ListCabinetCells (ListCabinetCellsRequest) returns (ListCabinetCellsReply) {
+		option (google.api.http) = {
+			post: "/v1/cabinet-cell/list"
+			body: "*"
+		};
+	};
+	// 搜索柜口
+	rpc SearchCabinetCells (SearchCabinetCellsRequest) returns (SearchCabinetCellsReply) {
+		option (google.api.http) = {
+			post: "/v1/cabinet-cell/search"
+			body: "*"
+		};
+	};
+	// 根据柜组获取所有柜口
+	rpc GetCabinetCellsByGroup (GetCabinetCellsByGroupRequest) returns (GetCabinetCellsByGroupReply) {
+		option (google.api.http) = {
+			get: "/v1/cabinet-cell/by-group"
+		};
+	};
+	// 批量创建柜口
+	rpc BatchCreateCabinetCells (BatchCreateCabinetCellsRequest) returns (BatchCreateCabinetCellsReply) {
+		option (google.api.http) = {
+			post: "/v1/cabinet-cell/batch-create"
+			body: "*"
+		};
+	};
+	// 开启柜口
+	rpc OpenCabinetCell (OpenCabinetCellRequest) returns (OpenCabinetCellReply) {
+		option (google.api.http) = {
+			post: "/v1/cabinet-cell/open"
+			body: "*"
+		};
+	};
+	// 关闭柜口
+	rpc CloseCabinetCell (CloseCabinetCellRequest) returns (CloseCabinetCellReply) {
+		option (google.api.http) = {
+			post: "/v1/cabinet-cell/close"
+			body: "*"
+		};
+	};
 }
 
-message CreateCellRequest {}
-message CreateCellReply {}
+// 柜口信息
+message CabinetCellInfo {
+	int32 id = 1;                                          // 格口ID
+	int32 group_id = 2;                                    // 所属柜组ID
+	int32 cell_no = 3;                                     // 格口编号
+	string cell_size = 4;                                  // 格口大小：small-小、medium-中、large-大
+	string status = 5;                                     // 格口状态：normal-正常、inUse-使用中、abnormal-异常、disabled-禁用、damaged-损坏
+	google.protobuf.Timestamp last_open_time = 6;         // 最后开启时间
+	google.protobuf.Timestamp create_time = 7;            // 创建时间
+	google.protobuf.Timestamp update_time = 8;            // 更新时间
+}
 
-message UpdateCellRequest {}
-message UpdateCellReply {}
+// 创建柜口请求
+message CreateCabinetCellRequest {
+	int32 group_id = 1;                                    // 所属柜组ID
+	int32 cell_no = 2;                                     // 格口编号
+	string cell_size = 3;                                  // 格口大小
+	string status = 4;                                     // 格口状态
+}
 
-message DeleteCellRequest {}
-message DeleteCellReply {}
+// 创建柜口响应
+message CreateCabinetCellReply {
+	int64 code = 1;                                        // 状态码
+	string msg = 2;                                        // 响应消息
+	int32 cell_id = 3;                                     // 创建的柜口ID
+	CabinetCellInfo cell_info = 4;                        // 柜口信息
+}
 
-message GetCellRequest {}
-message GetCellReply {}
+// 更新柜口请求
+message UpdateCabinetCellRequest {
+	int32 id = 1;                                          // 柜口ID
+	int32 group_id = 2;                                    // 所属柜组ID
+	int32 cell_no = 3;                                     // 格口编号
+	string cell_size = 4;                                  // 格口大小
+	string status = 5;                                     // 格口状态
+	google.protobuf.Timestamp last_open_time = 6;         // 最后开启时间
+}
 
-message ListCellRequest {}
-message ListCellReply {}
+// 更新柜口响应
+message UpdateCabinetCellReply {
+	int64 code = 1;                                        // 状态码
+	string msg = 2;                                        // 响应消息
+	CabinetCellInfo cell_info = 3;                        // 更新后的柜口信息
+}
+
+// 删除柜口请求
+message DeleteCabinetCellRequest {
+	int32 id = 1;                                          // 柜口ID
+}
+
+// 删除柜口响应
+message DeleteCabinetCellReply {
+	int64 code = 1;                                        // 状态码
+	string msg = 2;                                        // 响应消息
+	bool success = 3;                                      // 删除是否成功
+}
+
+// 获取柜口请求
+message GetCabinetCellRequest {
+	int32 id = 1;                                          // 柜口ID
+}
+
+// 获取柜口响应
+message GetCabinetCellReply {
+	int64 code = 1;                                        // 状态码
+	string msg = 2;                                        // 响应消息
+	CabinetCellInfo cell_info = 3;                        // 柜口信息
+}
+
+// 柜口列表请求
+message ListCabinetCellsRequest {
+	int64 page = 1;                                        // 页码
+	int64 size = 2;                                        // 每页数量
+	int32 group_id = 3;                                    // 柜组ID过滤
+	string status = 4;                                     // 状态过滤
+}
+
+// 柜口列表响应
+message ListCabinetCellsReply {
+	int64 code = 1;                                        // 状态码
+	string msg = 2;                                        // 响应消息
+	repeated CabinetCellInfo cells = 3;                   // 柜口列表
+	int64 total = 4;                                       // 总数量
+}
+
+// 搜索柜口请求
+message SearchCabinetCellsRequest {
+	string keyword = 1;                                    // 搜索关键词（格口编号、状态、大小）
+	int32 group_id = 2;                                    // 柜组ID过滤
+	int64 page = 3;                                        // 页码
+	int64 size = 4;                                        // 每页数量
+}
+
+// 搜索柜口响应
+message SearchCabinetCellsReply {
+	int64 code = 1;                                        // 状态码
+	string msg = 2;                                        // 响应消息
+	repeated CabinetCellInfo cells = 3;                   // 搜索结果
+	int64 total = 4;                                       // 总数量
+}
+
+// 根据柜组获取所有柜口请求
+message GetCabinetCellsByGroupRequest {
+	int32 group_id = 1;                                    // 柜组ID
+}
+
+// 根据柜组获取所有柜口响应
+message GetCabinetCellsByGroupReply {
+	int64 code = 1;                                        // 状态码
+	string msg = 2;                                        // 响应消息
+	repeated CabinetCellInfo cells = 3;                   // 柜口列表
+	int64 total = 4;                                       // 总数量
+}
+
+// 批量创建柜口请求
+message BatchCreateCabinetCellsRequest {
+	int32 group_id = 1;                                    // 柜组ID
+	int32 start_no = 2;                                    // 起始编号
+	int32 end_no = 3;                                      // 结束编号
+	string cell_size = 4;                                  // 格口大小
+}
+
+// 批量创建柜口响应
+message BatchCreateCabinetCellsReply {
+	int64 code = 1;                                        // 状态码
+	string msg = 2;                                        // 响应消息
+	int32 count = 3;                                       // 创建数量
+	bool success = 4;                                      // 是否成功
+}
+
+// 开启柜口请求
+message OpenCabinetCellRequest {
+	int32 id = 1;                                          // 柜口ID
+}
+
+// 开启柜口响应
+message OpenCabinetCellReply {
+	int64 code = 1;                                        // 状态码
+	string msg = 2;                                        // 响应消息
+	bool success = 3;                                      // 是否成功
+}
+
+// 关闭柜口请求
+message CloseCabinetCellRequest {
+	int32 id = 1;                                          // 柜口ID
+}
+
+// 关闭柜口响应
+message CloseCabinetCellReply {
+	int64 code = 1;                                        // 状态码
+	string msg = 2;                                        // 响应消息
+	bool success = 3;                                      // 是否成功
+}

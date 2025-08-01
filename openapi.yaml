@@ -3,19 +3,21 @@
 
 openapi: 3.0.3
 info:
-    title: Admin API
+    title: CabinetCell API
+    description: 柜口管理服务
     version: 0.0.1
 paths:
-    /admin/addPoint:
+    /v1/cabinet-cell/batch-create:
         post:
             tags:
-                - Admin
-            operationId: Admin_AddPoint
+                - CabinetCell
+            description: 批量创建柜口
+            operationId: CabinetCell_BatchCreateCabinetCells
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/AddPointReq'
+                            $ref: '#/components/schemas/BatchCreateCabinetCellsRequest'
                 required: true
             responses:
                 "200":
@@ -23,46 +25,49 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/AddPointRes'
+                                $ref: '#/components/schemas/BatchCreateCabinetCellsReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /admin/getPriceRule:
+    /v1/cabinet-cell/by-group:
         get:
             tags:
-                - Admin
-            operationId: Admin_GetPriceRule
+                - CabinetCell
+            description: 根据柜组获取所有柜口
+            operationId: CabinetCell_GetCabinetCellsByGroup
             parameters:
-                - name: networkId
+                - name: groupId
                   in: query
                   schema:
-                    type: string
+                    type: integer
+                    format: int32
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GetPriceRuleRes'
+                                $ref: '#/components/schemas/GetCabinetCellsByGroupReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /admin/login:
+    /v1/cabinet-cell/close:
         post:
             tags:
-                - Admin
-            operationId: Admin_AdminLogin
+                - CabinetCell
+            description: 关闭柜口
+            operationId: CabinetCell_CloseCabinetCell
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/AdminLoginReq'
+                            $ref: '#/components/schemas/CloseCabinetCellRequest'
                 required: true
             responses:
                 "200":
@@ -70,23 +75,24 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/AdminLoginRes'
+                                $ref: '#/components/schemas/CloseCabinetCellReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /admin/setPriceRule:
+    /v1/cabinet-cell/create:
         post:
             tags:
-                - Admin
-            operationId: Admin_SetPriceRule
+                - CabinetCell
+            description: 创建柜口
+            operationId: CabinetCell_CreateCabinetCell
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/SetPriceRuleReq'
+                            $ref: '#/components/schemas/CreateCabinetCellRequest'
                 required: true
             responses:
                 "200":
@@ -94,23 +100,24 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/SetPriceRuleRes'
+                                $ref: '#/components/schemas/CreateCabinetCellReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /admin/updatePoint:
+    /v1/cabinet-cell/delete:
         post:
             tags:
-                - Admin
-            operationId: Admin_UpdatePoint
+                - CabinetCell
+            description: 删除柜口
+            operationId: CabinetCell_DeleteCabinetCell
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdatePointReq'
+                            $ref: '#/components/schemas/DeleteCabinetCellRequest'
                 required: true
             responses:
                 "200":
@@ -118,55 +125,49 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UpdatePointRes'
+                                $ref: '#/components/schemas/DeleteCabinetCellReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /admin/uploadFile:
+    /v1/cabinet-cell/get:
         get:
             tags:
-                - Admin
-            operationId: Admin_UploadFile
+                - CabinetCell
+            description: 获取单个柜口
+            operationId: CabinetCell_GetCabinetCell
             parameters:
-                - name: file
+                - name: id
                   in: query
                   schema:
-                    type: string
-                    format: bytes
-                - name: fileName
-                  in: query
-                  schema:
-                    type: string
-                - name: fileSize
-                  in: query
-                  schema:
-                    type: string
+                    type: integer
+                    format: int32
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UploadFileRes'
+                                $ref: '#/components/schemas/GetCabinetCellReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /point_info:
+    /v1/cabinet-cell/list:
         post:
             tags:
-                - Admin
-            operationId: Admin_PointInfo
+                - CabinetCell
+            description: 获取柜口列表
+            operationId: CabinetCell_ListCabinetCells
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/PointInfoReq'
+                            $ref: '#/components/schemas/ListCabinetCellsRequest'
                 required: true
             responses:
                 "200":
@@ -174,25 +175,82 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PointInfoRes'
+                                $ref: '#/components/schemas/ListCabinetCellsReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /point_list:
-        get:
+    /v1/cabinet-cell/open:
+        post:
             tags:
-                - Admin
-            operationId: Admin_PointList
+                - CabinetCell
+            description: 开启柜口
+            operationId: CabinetCell_OpenCabinetCell
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/OpenCabinetCellRequest'
+                required: true
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/PointListRes'
+                                $ref: '#/components/schemas/OpenCabinetCellReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/cabinet-cell/search:
+        post:
+            tags:
+                - CabinetCell
+            description: 搜索柜口
+            operationId: CabinetCell_SearchCabinetCells
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SearchCabinetCellsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SearchCabinetCellsReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/cabinet-cell/update:
+        put:
+            tags:
+                - CabinetCell
+            description: 更新柜口
+            operationId: CabinetCell_UpdateCabinetCell
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateCabinetCellRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateCabinetCellReply'
                 default:
                     description: Default error response
                     content:
@@ -201,74 +259,145 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        AddPointReq:
-            type: object
-            properties:
-                locationId:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                address:
-                    type: string
-                availableLarge:
-                    type: integer
-                    format: int32
-                availableMedium:
-                    type: integer
-                    format: int32
-                availableSmall:
-                    type: integer
-                    format: int32
-                openTime:
-                    type: string
-                mobile:
-                    type: string
-                pointImage:
-                    type: string
-                pointType:
-                    type: string
-                latitude:
-                    type: number
-                    format: float
-                longitude:
-                    type: number
-                    format: float
-        AddPointRes:
-            type: object
-            properties:
-                code:
-                    type: integer
-                    format: int32
-                msg:
-                    type: string
-        AdminLoginReq:
-            type: object
-            properties:
-                mobile:
-                    type: string
-                password:
-                    type: string
-                smsCode:
-                    type: string
-        AdminLoginRes:
+        BatchCreateCabinetCellsReply:
             type: object
             properties:
                 code:
                     type: string
                 msg:
                     type: string
+                count:
+                    type: integer
+                    format: int32
+                success:
+                    type: boolean
+            description: 批量创建柜口响应
+        BatchCreateCabinetCellsRequest:
+            type: object
+            properties:
+                groupId:
+                    type: integer
+                    format: int32
+                startNo:
+                    type: integer
+                    format: int32
+                endNo:
+                    type: integer
+                    format: int32
+                cellSize:
+                    type: string
+            description: 批量创建柜口请求
+        CabinetCellInfo:
+            type: object
+            properties:
                 id:
+                    type: integer
+                    format: int32
+                groupId:
+                    type: integer
+                    format: int32
+                cellNo:
+                    type: integer
+                    format: int32
+                cellSize:
                     type: string
-                token:
+                status:
                     type: string
-        GetPriceRuleRes:
+                lastOpenTime:
+                    type: string
+                    format: date-time
+                createTime:
+                    type: string
+                    format: date-time
+                updateTime:
+                    type: string
+                    format: date-time
+            description: 柜口信息
+        CloseCabinetCellReply:
             type: object
             properties:
-                rules:
+                code:
+                    type: string
+                msg:
+                    type: string
+                success:
+                    type: boolean
+            description: 关闭柜口响应
+        CloseCabinetCellRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+            description: 关闭柜口请求
+        CreateCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cellId:
+                    type: integer
+                    format: int32
+                cellInfo:
+                    $ref: '#/components/schemas/CabinetCellInfo'
+            description: 创建柜口响应
+        CreateCabinetCellRequest:
+            type: object
+            properties:
+                groupId:
+                    type: integer
+                    format: int32
+                cellNo:
+                    type: integer
+                    format: int32
+                cellSize:
+                    type: string
+                status:
+                    type: string
+            description: 创建柜口请求
+        DeleteCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                success:
+                    type: boolean
+            description: 删除柜口响应
+        DeleteCabinetCellRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+            description: 删除柜口请求
+        GetCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cellInfo:
+                    $ref: '#/components/schemas/CabinetCellInfo'
+            description: 获取柜口响应
+        GetCabinetCellsByGroupReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cells:
                     type: array
                     items:
-                        $ref: '#/components/schemas/LockerPriceRule'
+                        $ref: '#/components/schemas/CabinetCellInfo'
+                total:
+                    type: string
+            description: 根据柜组获取所有柜口响应
         GoogleProtobufAny:
             type: object
             properties:
@@ -277,154 +406,77 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        LockerPriceRule:
+        ListCabinetCellsReply:
             type: object
             properties:
-                id:
+                code:
                     type: string
-                    description: 基础标识
-                ruleName:
+                msg:
                     type: string
-                feeType:
-                    type: integer
-                    description: 核心配置
-                    format: int32
-                lockerType:
-                    type: integer
-                    format: int32
-                freeDuration:
-                    type: number
-                    format: float
-                hourlyRate:
-                    type: number
-                    description: 金额设置
-                    format: float
-                dailyCap:
-                    type: number
-                    format: float
-                dailyRate:
-                    type: number
-                    format: float
-                advanceAmount:
-                    type: number
-                    format: float
-                depositAmount:
-                    type: number
-                    format: float
-                isDepositEnabled:
-                    type: boolean
-                    description: 功能开关
-                isAdvancePay:
-                    type: boolean
-        Point:
+                cells:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CabinetCellInfo'
+                total:
+                    type: string
+            description: 柜口列表响应
+        ListCabinetCellsRequest:
             type: object
             properties:
-                locationId:
-                    type: integer
-                    format: int32
-                name:
+                page:
                     type: string
-                address:
+                size:
                     type: string
-                availableLarge:
-                    type: integer
-                    format: int32
-                availableMedium:
-                    type: integer
-                    format: int32
-                availableSmall:
-                    type: integer
-                    format: int32
-                openTime:
-                    type: string
-                mobile:
-                    type: string
-                pointImage:
-                    type: string
-                pointType:
-                    type: string
-                latitude:
-                    type: number
-                    format: float
-                longitude:
-                    type: number
-                    format: float
-                id:
+                groupId:
                     type: integer
                     format: int32
                 status:
                     type: string
-        PointInfoReq:
+            description: 柜口列表请求
+        OpenCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                success:
+                    type: boolean
+            description: 开启柜口响应
+        OpenCabinetCellRequest:
             type: object
             properties:
                 id:
-                    type: string
-        PointInfoRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                name:
-                    type: string
-                address:
-                    type: string
-                pointType:
-                    type: string
-                availableLarge:
-                    type: string
-                availableMedium:
-                    type: string
-                availableSmall:
-                    type: string
-                openTime:
-                    type: string
-                staus:
-                    type: string
-                pointImage:
-                    type: string
-        PointList:
-            type: object
-            properties:
-                name:
-                    type: string
-                address:
-                    type: string
-                availableLarge:
-                    type: string
-                availableMedium:
-                    type: string
-                availableSmall:
-                    type: string
-        PointListRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/PointList'
-        SetPriceRuleReq:
-            type: object
-            properties:
-                networkId:
-                    type: string
-                rules:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/LockerPriceRule'
-        SetPriceRuleRes:
-            type: object
-            properties:
-                code:
                     type: integer
                     format: int32
+            description: 开启柜口请求
+        SearchCabinetCellsReply:
+            type: object
+            properties:
+                code:
+                    type: string
                 msg:
                     type: string
+                cells:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CabinetCellInfo'
+                total:
+                    type: string
+            description: 搜索柜口响应
+        SearchCabinetCellsRequest:
+            type: object
+            properties:
+                keyword:
+                    type: string
+                groupId:
+                    type: integer
+                    format: int32
+                page:
+                    type: string
+                size:
+                    type: string
+            description: 搜索柜口请求
         Status:
             type: object
             properties:
@@ -441,23 +493,35 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-        UpdatePointReq:
-            type: object
-            properties:
-                point:
-                    $ref: '#/components/schemas/Point'
-        UpdatePointRes:
+        UpdateCabinetCellReply:
             type: object
             properties:
                 code:
-                    type: integer
-                    format: int32
+                    type: string
                 msg:
                     type: string
-        UploadFileRes:
+                cellInfo:
+                    $ref: '#/components/schemas/CabinetCellInfo'
+            description: 更新柜口响应
+        UpdateCabinetCellRequest:
             type: object
             properties:
-                url:
+                id:
+                    type: integer
+                    format: int32
+                groupId:
+                    type: integer
+                    format: int32
+                cellNo:
+                    type: integer
+                    format: int32
+                cellSize:
                     type: string
+                status:
+                    type: string
+                lastOpenTime:
+                    type: string
+                    format: date-time
+            description: 更新柜口请求
 tags:
-    - name: Admin
+    - name: CabinetCell

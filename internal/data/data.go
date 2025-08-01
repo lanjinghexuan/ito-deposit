@@ -24,7 +24,7 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewGreeterRepo, NewCityRepo, NewNearbyRepo, pkg.NewSendSms, NewAdminRepo)
+var ProviderSet = wire.NewSet(NewData, NewGreeterRepo, NewCityRepo, NewNearbyRepo, pkg.NewSendSms, NewAdminRepo, NewCabinetCellRepo)
 
 // Data .
 type Data struct {
@@ -132,10 +132,8 @@ func (a *redisAdapter) Get(ctx context.Context, key string) *redis.StringCmd {
 
 // NewData .
 func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
-	helper := log.NewHelper(logger)
-
 	cleanup := func() {
-		helper.Info("closing the data resources")
+		// 清理资源
 	}
 
 	db, err := gorm.Open(mysql.Open(c.Database.Source), &gorm.Config{})
@@ -144,12 +142,9 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 		panic("failed to connect database")
 	}
 
-	// 自动迁移数据库表结构
-	if err := db.AutoMigrate(&City{}, &LockerPoint{}); err != nil {
-		helper.Errorf("自动迁移数据库表结构失败: %v", err)
-	} else {
-		helper.Info("自动迁移数据库表结构成功")
-	}
+	// 静默迁移柜组表和柜口表
+	db.AutoMigrate(&CabinetGroup{})
+	db.AutoMigrate(&CabinetCell{})
 
 	redisDB := RedisInit(c)
 

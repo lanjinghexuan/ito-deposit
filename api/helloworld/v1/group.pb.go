@@ -7,8 +7,10 @@
 package v1
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -21,15 +23,157 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// 柜组信息
+type GroupInfo struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                                    // 柜组ID
+	LocationPointId int32                  `protobuf:"varint,2,opt,name=location_point_id,json=locationPointId,proto3" json:"location_point_id,omitempty"` // 所属寄存点ID
+	GroupName       string                 `protobuf:"bytes,3,opt,name=group_name,json=groupName,proto3" json:"group_name,omitempty"`                      // 柜组名称
+	GroupCode       string                 `protobuf:"bytes,4,opt,name=group_code,json=groupCode,proto3" json:"group_code,omitempty"`                      // 柜组编码(可扫码)
+	GroupType       string                 `protobuf:"bytes,5,opt,name=group_type,json=groupType,proto3" json:"group_type,omitempty"`                      // 柜组类型：standard-标准、refrigerated-冷藏、oversize-超大
+	Status          string                 `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`                                             // 柜组状态：normal-正常、abnormal-异常、disabled-禁用、damaged-损坏
+	TotalCells      int32                  `protobuf:"varint,7,opt,name=total_cells,json=totalCells,proto3" json:"total_cells,omitempty"`                  // 总格口数
+	StartNo         int32                  `protobuf:"varint,8,opt,name=start_no,json=startNo,proto3" json:"start_no,omitempty"`                           // 起始编号
+	EndNo           int32                  `protobuf:"varint,9,opt,name=end_no,json=endNo,proto3" json:"end_no,omitempty"`                                 // 结束编号
+	InstallTime     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=install_time,json=installTime,proto3" json:"install_time,omitempty"`               // 安装时间
+	CreateTime      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`                  // 创建时间
+	UpdateTime      *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`                  // 更新时间
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *GroupInfo) Reset() {
+	*x = GroupInfo{}
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GroupInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GroupInfo) ProtoMessage() {}
+
+func (x *GroupInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GroupInfo.ProtoReflect.Descriptor instead.
+func (*GroupInfo) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *GroupInfo) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *GroupInfo) GetLocationPointId() int32 {
+	if x != nil {
+		return x.LocationPointId
+	}
+	return 0
+}
+
+func (x *GroupInfo) GetGroupName() string {
+	if x != nil {
+		return x.GroupName
+	}
+	return ""
+}
+
+func (x *GroupInfo) GetGroupCode() string {
+	if x != nil {
+		return x.GroupCode
+	}
+	return ""
+}
+
+func (x *GroupInfo) GetGroupType() string {
+	if x != nil {
+		return x.GroupType
+	}
+	return ""
+}
+
+func (x *GroupInfo) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *GroupInfo) GetTotalCells() int32 {
+	if x != nil {
+		return x.TotalCells
+	}
+	return 0
+}
+
+func (x *GroupInfo) GetStartNo() int32 {
+	if x != nil {
+		return x.StartNo
+	}
+	return 0
+}
+
+func (x *GroupInfo) GetEndNo() int32 {
+	if x != nil {
+		return x.EndNo
+	}
+	return 0
+}
+
+func (x *GroupInfo) GetInstallTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.InstallTime
+	}
+	return nil
+}
+
+func (x *GroupInfo) GetCreateTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreateTime
+	}
+	return nil
+}
+
+func (x *GroupInfo) GetUpdateTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdateTime
+	}
+	return nil
+}
+
+// 创建柜组请求
 type CreateGroupRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	LocationPointId int32                  `protobuf:"varint,1,opt,name=location_point_id,json=locationPointId,proto3" json:"location_point_id,omitempty"` // 所属寄存点ID
+	GroupName       string                 `protobuf:"bytes,2,opt,name=group_name,json=groupName,proto3" json:"group_name,omitempty"`                      // 柜组名称
+	GroupCode       string                 `protobuf:"bytes,3,opt,name=group_code,json=groupCode,proto3" json:"group_code,omitempty"`                      // 柜组编码(可扫码)
+	GroupType       string                 `protobuf:"bytes,4,opt,name=group_type,json=groupType,proto3" json:"group_type,omitempty"`                      // 柜组类型
+	TotalCells      int32                  `protobuf:"varint,5,opt,name=total_cells,json=totalCells,proto3" json:"total_cells,omitempty"`                  // 总格口数
+	StartNo         int32                  `protobuf:"varint,6,opt,name=start_no,json=startNo,proto3" json:"start_no,omitempty"`                           // 起始编号
+	EndNo           int32                  `protobuf:"varint,7,opt,name=end_no,json=endNo,proto3" json:"end_no,omitempty"`                                 // 结束编号
+	InstallTime     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=install_time,json=installTime,proto3" json:"install_time,omitempty"`                // 安装时间
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *CreateGroupRequest) Reset() {
 	*x = CreateGroupRequest{}
-	mi := &file_helloworld_v1_group_proto_msgTypes[0]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -41,7 +185,7 @@ func (x *CreateGroupRequest) String() string {
 func (*CreateGroupRequest) ProtoMessage() {}
 
 func (x *CreateGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_group_proto_msgTypes[0]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -54,18 +198,78 @@ func (x *CreateGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateGroupRequest.ProtoReflect.Descriptor instead.
 func (*CreateGroupRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_group_proto_rawDescGZIP(), []int{0}
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{1}
 }
 
+func (x *CreateGroupRequest) GetLocationPointId() int32 {
+	if x != nil {
+		return x.LocationPointId
+	}
+	return 0
+}
+
+func (x *CreateGroupRequest) GetGroupName() string {
+	if x != nil {
+		return x.GroupName
+	}
+	return ""
+}
+
+func (x *CreateGroupRequest) GetGroupCode() string {
+	if x != nil {
+		return x.GroupCode
+	}
+	return ""
+}
+
+func (x *CreateGroupRequest) GetGroupType() string {
+	if x != nil {
+		return x.GroupType
+	}
+	return ""
+}
+
+func (x *CreateGroupRequest) GetTotalCells() int32 {
+	if x != nil {
+		return x.TotalCells
+	}
+	return 0
+}
+
+func (x *CreateGroupRequest) GetStartNo() int32 {
+	if x != nil {
+		return x.StartNo
+	}
+	return 0
+}
+
+func (x *CreateGroupRequest) GetEndNo() int32 {
+	if x != nil {
+		return x.EndNo
+	}
+	return 0
+}
+
+func (x *CreateGroupRequest) GetInstallTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.InstallTime
+	}
+	return nil
+}
+
+// 创建柜组响应
 type CreateGroupReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`                      // 状态码
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`                         // 响应消息
+	GroupId       int32                  `protobuf:"varint,3,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"` // 创建的柜组ID
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateGroupReply) Reset() {
 	*x = CreateGroupReply{}
-	mi := &file_helloworld_v1_group_proto_msgTypes[1]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -77,7 +281,7 @@ func (x *CreateGroupReply) String() string {
 func (*CreateGroupReply) ProtoMessage() {}
 
 func (x *CreateGroupReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_group_proto_msgTypes[1]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -90,18 +294,50 @@ func (x *CreateGroupReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateGroupReply.ProtoReflect.Descriptor instead.
 func (*CreateGroupReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_group_proto_rawDescGZIP(), []int{1}
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{2}
 }
 
+func (x *CreateGroupReply) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *CreateGroupReply) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *CreateGroupReply) GetGroupId() int32 {
+	if x != nil {
+		return x.GroupId
+	}
+	return 0
+}
+
+// 更新柜组请求
 type UpdateGroupRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                                    // 柜组ID
+	LocationPointId int32                  `protobuf:"varint,2,opt,name=location_point_id,json=locationPointId,proto3" json:"location_point_id,omitempty"` // 所属寄存点ID
+	GroupName       string                 `protobuf:"bytes,3,opt,name=group_name,json=groupName,proto3" json:"group_name,omitempty"`                      // 柜组名称
+	GroupCode       string                 `protobuf:"bytes,4,opt,name=group_code,json=groupCode,proto3" json:"group_code,omitempty"`                      // 柜组编码(可扫码)
+	GroupType       string                 `protobuf:"bytes,5,opt,name=group_type,json=groupType,proto3" json:"group_type,omitempty"`                      // 柜组类型
+	Status          string                 `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`                                             // 柜组状态
+	TotalCells      int32                  `protobuf:"varint,7,opt,name=total_cells,json=totalCells,proto3" json:"total_cells,omitempty"`                  // 总格口数
+	StartNo         int32                  `protobuf:"varint,8,opt,name=start_no,json=startNo,proto3" json:"start_no,omitempty"`                           // 起始编号
+	EndNo           int32                  `protobuf:"varint,9,opt,name=end_no,json=endNo,proto3" json:"end_no,omitempty"`                                 // 结束编号
+	InstallTime     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=install_time,json=installTime,proto3" json:"install_time,omitempty"`               // 安装时间
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *UpdateGroupRequest) Reset() {
 	*x = UpdateGroupRequest{}
-	mi := &file_helloworld_v1_group_proto_msgTypes[2]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -113,7 +349,7 @@ func (x *UpdateGroupRequest) String() string {
 func (*UpdateGroupRequest) ProtoMessage() {}
 
 func (x *UpdateGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_group_proto_msgTypes[2]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -126,18 +362,92 @@ func (x *UpdateGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateGroupRequest.ProtoReflect.Descriptor instead.
 func (*UpdateGroupRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_group_proto_rawDescGZIP(), []int{2}
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{3}
 }
 
+func (x *UpdateGroupRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *UpdateGroupRequest) GetLocationPointId() int32 {
+	if x != nil {
+		return x.LocationPointId
+	}
+	return 0
+}
+
+func (x *UpdateGroupRequest) GetGroupName() string {
+	if x != nil {
+		return x.GroupName
+	}
+	return ""
+}
+
+func (x *UpdateGroupRequest) GetGroupCode() string {
+	if x != nil {
+		return x.GroupCode
+	}
+	return ""
+}
+
+func (x *UpdateGroupRequest) GetGroupType() string {
+	if x != nil {
+		return x.GroupType
+	}
+	return ""
+}
+
+func (x *UpdateGroupRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *UpdateGroupRequest) GetTotalCells() int32 {
+	if x != nil {
+		return x.TotalCells
+	}
+	return 0
+}
+
+func (x *UpdateGroupRequest) GetStartNo() int32 {
+	if x != nil {
+		return x.StartNo
+	}
+	return 0
+}
+
+func (x *UpdateGroupRequest) GetEndNo() int32 {
+	if x != nil {
+		return x.EndNo
+	}
+	return 0
+}
+
+func (x *UpdateGroupRequest) GetInstallTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.InstallTime
+	}
+	return nil
+}
+
+// 更新柜组响应
 type UpdateGroupReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`  // 状态码
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`     // 响应消息
+	Group         *GroupInfo             `protobuf:"bytes,3,opt,name=group,proto3" json:"group,omitempty"` // 更新后的柜组信息
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateGroupReply) Reset() {
 	*x = UpdateGroupReply{}
-	mi := &file_helloworld_v1_group_proto_msgTypes[3]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -149,7 +459,7 @@ func (x *UpdateGroupReply) String() string {
 func (*UpdateGroupReply) ProtoMessage() {}
 
 func (x *UpdateGroupReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_group_proto_msgTypes[3]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -162,18 +472,41 @@ func (x *UpdateGroupReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateGroupReply.ProtoReflect.Descriptor instead.
 func (*UpdateGroupReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_group_proto_rawDescGZIP(), []int{3}
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{4}
 }
 
+func (x *UpdateGroupReply) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *UpdateGroupReply) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *UpdateGroupReply) GetGroup() *GroupInfo {
+	if x != nil {
+		return x.Group
+	}
+	return nil
+}
+
+// 删除柜组请求
 type DeleteGroupRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // 柜组ID
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DeleteGroupRequest) Reset() {
 	*x = DeleteGroupRequest{}
-	mi := &file_helloworld_v1_group_proto_msgTypes[4]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -185,7 +518,7 @@ func (x *DeleteGroupRequest) String() string {
 func (*DeleteGroupRequest) ProtoMessage() {}
 
 func (x *DeleteGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_group_proto_msgTypes[4]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -198,18 +531,29 @@ func (x *DeleteGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteGroupRequest.ProtoReflect.Descriptor instead.
 func (*DeleteGroupRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_group_proto_rawDescGZIP(), []int{4}
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{5}
 }
 
+func (x *DeleteGroupRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// 删除柜组响应
 type DeleteGroupReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`       // 状态码
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`          // 响应消息
+	Success       bool                   `protobuf:"varint,3,opt,name=success,proto3" json:"success,omitempty"` // 删除是否成功
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DeleteGroupReply) Reset() {
 	*x = DeleteGroupReply{}
-	mi := &file_helloworld_v1_group_proto_msgTypes[5]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -221,7 +565,7 @@ func (x *DeleteGroupReply) String() string {
 func (*DeleteGroupReply) ProtoMessage() {}
 
 func (x *DeleteGroupReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_group_proto_msgTypes[5]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -234,18 +578,41 @@ func (x *DeleteGroupReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteGroupReply.ProtoReflect.Descriptor instead.
 func (*DeleteGroupReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_group_proto_rawDescGZIP(), []int{5}
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{6}
 }
 
+func (x *DeleteGroupReply) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *DeleteGroupReply) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *DeleteGroupReply) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+// 获取柜组请求
 type GetGroupRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // 柜组ID
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetGroupRequest) Reset() {
 	*x = GetGroupRequest{}
-	mi := &file_helloworld_v1_group_proto_msgTypes[6]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -257,7 +624,7 @@ func (x *GetGroupRequest) String() string {
 func (*GetGroupRequest) ProtoMessage() {}
 
 func (x *GetGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_group_proto_msgTypes[6]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -270,18 +637,29 @@ func (x *GetGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupRequest.ProtoReflect.Descriptor instead.
 func (*GetGroupRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_group_proto_rawDescGZIP(), []int{6}
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{7}
 }
 
+func (x *GetGroupRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+// 获取柜组响应
 type GetGroupReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`  // 状态码
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`     // 响应消息
+	Group         *GroupInfo             `protobuf:"bytes,3,opt,name=group,proto3" json:"group,omitempty"` // 柜组信息
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetGroupReply) Reset() {
 	*x = GetGroupReply{}
-	mi := &file_helloworld_v1_group_proto_msgTypes[7]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -293,7 +671,7 @@ func (x *GetGroupReply) String() string {
 func (*GetGroupReply) ProtoMessage() {}
 
 func (x *GetGroupReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_group_proto_msgTypes[7]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -306,18 +684,45 @@ func (x *GetGroupReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGroupReply.ProtoReflect.Descriptor instead.
 func (*GetGroupReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_group_proto_rawDescGZIP(), []int{7}
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{8}
 }
 
+func (x *GetGroupReply) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *GetGroupReply) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *GetGroupReply) GetGroup() *GroupInfo {
+	if x != nil {
+		return x.Group
+	}
+	return nil
+}
+
+// 柜组列表请求
 type ListGroupRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Page            int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`                                                // 页码
+	Size            int64                  `protobuf:"varint,2,opt,name=size,proto3" json:"size,omitempty"`                                                // 每页数量
+	LocationPointId int32                  `protobuf:"varint,3,opt,name=location_point_id,json=locationPointId,proto3" json:"location_point_id,omitempty"` // 寄存点ID过滤
+	Status          string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`                                             // 状态过滤
+	GroupType       string                 `protobuf:"bytes,5,opt,name=group_type,json=groupType,proto3" json:"group_type,omitempty"`                      // 类型过滤
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *ListGroupRequest) Reset() {
 	*x = ListGroupRequest{}
-	mi := &file_helloworld_v1_group_proto_msgTypes[8]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -329,7 +734,7 @@ func (x *ListGroupRequest) String() string {
 func (*ListGroupRequest) ProtoMessage() {}
 
 func (x *ListGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_group_proto_msgTypes[8]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -342,18 +747,58 @@ func (x *ListGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListGroupRequest.ProtoReflect.Descriptor instead.
 func (*ListGroupRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_group_proto_rawDescGZIP(), []int{8}
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{9}
 }
 
+func (x *ListGroupRequest) GetPage() int64 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListGroupRequest) GetSize() int64 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+func (x *ListGroupRequest) GetLocationPointId() int32 {
+	if x != nil {
+		return x.LocationPointId
+	}
+	return 0
+}
+
+func (x *ListGroupRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *ListGroupRequest) GetGroupType() string {
+	if x != nil {
+		return x.GroupType
+	}
+	return ""
+}
+
+// 柜组列表响应
 type ListGroupReply struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`    // 状态码
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`       // 响应消息
+	Groups        []*GroupInfo           `protobuf:"bytes,3,rep,name=groups,proto3" json:"groups,omitempty"` // 柜组列表
+	Total         int64                  `protobuf:"varint,4,opt,name=total,proto3" json:"total,omitempty"`  // 总数量
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListGroupReply) Reset() {
 	*x = ListGroupReply{}
-	mi := &file_helloworld_v1_group_proto_msgTypes[9]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -365,7 +810,7 @@ func (x *ListGroupReply) String() string {
 func (*ListGroupReply) ProtoMessage() {}
 
 func (x *ListGroupReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_group_proto_msgTypes[9]
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -378,95 +823,377 @@ func (x *ListGroupReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListGroupReply.ProtoReflect.Descriptor instead.
 func (*ListGroupReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_group_proto_rawDescGZIP(), []int{9}
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{10}
 }
 
-var File_helloworld_v1_group_proto protoreflect.FileDescriptor
+func (x *ListGroupReply) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
 
-const file_helloworld_v1_group_proto_rawDesc = "" +
+func (x *ListGroupReply) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *ListGroupReply) GetGroups() []*GroupInfo {
+	if x != nil {
+		return x.Groups
+	}
+	return nil
+}
+
+func (x *ListGroupReply) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+// 搜索柜组请求
+type SearchGroupRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Keyword         string                 `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty"`                                           // 搜索关键词（柜组名称、编码）
+	LocationPointId int32                  `protobuf:"varint,2,opt,name=location_point_id,json=locationPointId,proto3" json:"location_point_id,omitempty"` // 寄存点ID过滤
+	Status          string                 `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`                                             // 状态过滤
+	GroupType       string                 `protobuf:"bytes,4,opt,name=group_type,json=groupType,proto3" json:"group_type,omitempty"`                      // 类型过滤
+	Page            int64                  `protobuf:"varint,5,opt,name=page,proto3" json:"page,omitempty"`                                                // 页码
+	Size            int64                  `protobuf:"varint,6,opt,name=size,proto3" json:"size,omitempty"`                                                // 每页数量
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *SearchGroupRequest) Reset() {
+	*x = SearchGroupRequest{}
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchGroupRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchGroupRequest) ProtoMessage() {}
+
+func (x *SearchGroupRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchGroupRequest.ProtoReflect.Descriptor instead.
+func (*SearchGroupRequest) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *SearchGroupRequest) GetKeyword() string {
+	if x != nil {
+		return x.Keyword
+	}
+	return ""
+}
+
+func (x *SearchGroupRequest) GetLocationPointId() int32 {
+	if x != nil {
+		return x.LocationPointId
+	}
+	return 0
+}
+
+func (x *SearchGroupRequest) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *SearchGroupRequest) GetGroupType() string {
+	if x != nil {
+		return x.GroupType
+	}
+	return ""
+}
+
+func (x *SearchGroupRequest) GetPage() int64 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *SearchGroupRequest) GetSize() int64 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+// 搜索柜组响应
+type SearchGroupReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`    // 状态码
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`       // 响应消息
+	Groups        []*GroupInfo           `protobuf:"bytes,3,rep,name=groups,proto3" json:"groups,omitempty"` // 搜索结果
+	Total         int64                  `protobuf:"varint,4,opt,name=total,proto3" json:"total,omitempty"`  // 总数量
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchGroupReply) Reset() {
+	*x = SearchGroupReply{}
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchGroupReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchGroupReply) ProtoMessage() {}
+
+func (x *SearchGroupReply) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_group_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchGroupReply.ProtoReflect.Descriptor instead.
+func (*SearchGroupReply) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_group_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *SearchGroupReply) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *SearchGroupReply) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+func (x *SearchGroupReply) GetGroups() []*GroupInfo {
+	if x != nil {
+		return x.Groups
+	}
+	return nil
+}
+
+func (x *SearchGroupReply) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+var File_api_helloworld_v1_group_proto protoreflect.FileDescriptor
+
+const file_api_helloworld_v1_group_proto_rawDesc = "" +
 	"\n" +
-	"\x19helloworld/v1/group.proto\x12\x11api.helloworld.v1\"\x14\n" +
-	"\x12CreateGroupRequest\"\x12\n" +
-	"\x10CreateGroupReply\"\x14\n" +
-	"\x12UpdateGroupRequest\"\x12\n" +
-	"\x10UpdateGroupReply\"\x14\n" +
-	"\x12DeleteGroupRequest\"\x12\n" +
-	"\x10DeleteGroupReply\"\x11\n" +
-	"\x0fGetGroupRequest\"\x0f\n" +
-	"\rGetGroupReply\"\x12\n" +
-	"\x10ListGroupRequest\"\x10\n" +
-	"\x0eListGroupReply2\xbf\x03\n" +
-	"\x05Group\x12Y\n" +
-	"\vCreateGroup\x12%.api.helloworld.v1.CreateGroupRequest\x1a#.api.helloworld.v1.CreateGroupReply\x12Y\n" +
-	"\vUpdateGroup\x12%.api.helloworld.v1.UpdateGroupRequest\x1a#.api.helloworld.v1.UpdateGroupReply\x12Y\n" +
-	"\vDeleteGroup\x12%.api.helloworld.v1.DeleteGroupRequest\x1a#.api.helloworld.v1.DeleteGroupReply\x12P\n" +
-	"\bGetGroup\x12\".api.helloworld.v1.GetGroupRequest\x1a .api.helloworld.v1.GetGroupReply\x12S\n" +
-	"\tListGroup\x12#.api.helloworld.v1.ListGroupRequest\x1a!.api.helloworld.v1.ListGroupReplyB7\n" +
+	"\x1dapi/helloworld/v1/group.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc8\x03\n" +
+	"\tGroupInfo\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12*\n" +
+	"\x11location_point_id\x18\x02 \x01(\x05R\x0flocationPointId\x12\x1d\n" +
+	"\n" +
+	"group_name\x18\x03 \x01(\tR\tgroupName\x12\x1d\n" +
+	"\n" +
+	"group_code\x18\x04 \x01(\tR\tgroupCode\x12\x1d\n" +
+	"\n" +
+	"group_type\x18\x05 \x01(\tR\tgroupType\x12\x16\n" +
+	"\x06status\x18\x06 \x01(\tR\x06status\x12\x1f\n" +
+	"\vtotal_cells\x18\a \x01(\x05R\n" +
+	"totalCells\x12\x19\n" +
+	"\bstart_no\x18\b \x01(\x05R\astartNo\x12\x15\n" +
+	"\x06end_no\x18\t \x01(\x05R\x05endNo\x12=\n" +
+	"\finstall_time\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\vinstallTime\x12;\n" +
+	"\vcreate_time\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"createTime\x12;\n" +
+	"\vupdate_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"updateTime\"\xaf\x02\n" +
+	"\x12CreateGroupRequest\x12*\n" +
+	"\x11location_point_id\x18\x01 \x01(\x05R\x0flocationPointId\x12\x1d\n" +
+	"\n" +
+	"group_name\x18\x02 \x01(\tR\tgroupName\x12\x1d\n" +
+	"\n" +
+	"group_code\x18\x03 \x01(\tR\tgroupCode\x12\x1d\n" +
+	"\n" +
+	"group_type\x18\x04 \x01(\tR\tgroupType\x12\x1f\n" +
+	"\vtotal_cells\x18\x05 \x01(\x05R\n" +
+	"totalCells\x12\x19\n" +
+	"\bstart_no\x18\x06 \x01(\x05R\astartNo\x12\x15\n" +
+	"\x06end_no\x18\a \x01(\x05R\x05endNo\x12=\n" +
+	"\finstall_time\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\vinstallTime\"S\n" +
+	"\x10CreateGroupReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x12\x19\n" +
+	"\bgroup_id\x18\x03 \x01(\x05R\agroupId\"\xd7\x02\n" +
+	"\x12UpdateGroupRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12*\n" +
+	"\x11location_point_id\x18\x02 \x01(\x05R\x0flocationPointId\x12\x1d\n" +
+	"\n" +
+	"group_name\x18\x03 \x01(\tR\tgroupName\x12\x1d\n" +
+	"\n" +
+	"group_code\x18\x04 \x01(\tR\tgroupCode\x12\x1d\n" +
+	"\n" +
+	"group_type\x18\x05 \x01(\tR\tgroupType\x12\x16\n" +
+	"\x06status\x18\x06 \x01(\tR\x06status\x12\x1f\n" +
+	"\vtotal_cells\x18\a \x01(\x05R\n" +
+	"totalCells\x12\x19\n" +
+	"\bstart_no\x18\b \x01(\x05R\astartNo\x12\x15\n" +
+	"\x06end_no\x18\t \x01(\x05R\x05endNo\x12=\n" +
+	"\finstall_time\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\vinstallTime\"l\n" +
+	"\x10UpdateGroupReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x122\n" +
+	"\x05group\x18\x03 \x01(\v2\x1c.api.helloworld.v1.GroupInfoR\x05group\"$\n" +
+	"\x12DeleteGroupRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"R\n" +
+	"\x10DeleteGroupReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x12\x18\n" +
+	"\asuccess\x18\x03 \x01(\bR\asuccess\"!\n" +
+	"\x0fGetGroupRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"i\n" +
+	"\rGetGroupReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x122\n" +
+	"\x05group\x18\x03 \x01(\v2\x1c.api.helloworld.v1.GroupInfoR\x05group\"\x9d\x01\n" +
+	"\x10ListGroupRequest\x12\x12\n" +
+	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x12\n" +
+	"\x04size\x18\x02 \x01(\x03R\x04size\x12*\n" +
+	"\x11location_point_id\x18\x03 \x01(\x05R\x0flocationPointId\x12\x16\n" +
+	"\x06status\x18\x04 \x01(\tR\x06status\x12\x1d\n" +
+	"\n" +
+	"group_type\x18\x05 \x01(\tR\tgroupType\"\x82\x01\n" +
+	"\x0eListGroupReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x124\n" +
+	"\x06groups\x18\x03 \x03(\v2\x1c.api.helloworld.v1.GroupInfoR\x06groups\x12\x14\n" +
+	"\x05total\x18\x04 \x01(\x03R\x05total\"\xb9\x01\n" +
+	"\x12SearchGroupRequest\x12\x18\n" +
+	"\akeyword\x18\x01 \x01(\tR\akeyword\x12*\n" +
+	"\x11location_point_id\x18\x02 \x01(\x05R\x0flocationPointId\x12\x16\n" +
+	"\x06status\x18\x03 \x01(\tR\x06status\x12\x1d\n" +
+	"\n" +
+	"group_type\x18\x04 \x01(\tR\tgroupType\x12\x12\n" +
+	"\x04page\x18\x05 \x01(\x03R\x04page\x12\x12\n" +
+	"\x04size\x18\x06 \x01(\x03R\x04size\"\x84\x01\n" +
+	"\x10SearchGroupReply\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg\x124\n" +
+	"\x06groups\x18\x03 \x03(\v2\x1c.api.helloworld.v1.GroupInfoR\x06groups\x12\x14\n" +
+	"\x05total\x18\x04 \x01(\x03R\x05total2\xc0\x05\n" +
+	"\x05Group\x12v\n" +
+	"\vCreateGroup\x12%.api.helloworld.v1.CreateGroupRequest\x1a#.api.helloworld.v1.CreateGroupReply\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v1/group/create\x12v\n" +
+	"\vUpdateGroup\x12%.api.helloworld.v1.UpdateGroupRequest\x1a#.api.helloworld.v1.UpdateGroupReply\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\x1a\x10/v1/group/update\x12v\n" +
+	"\vDeleteGroup\x12%.api.helloworld.v1.DeleteGroupRequest\x1a#.api.helloworld.v1.DeleteGroupReply\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v1/group/delete\x12g\n" +
+	"\bGetGroup\x12\".api.helloworld.v1.GetGroupRequest\x1a .api.helloworld.v1.GetGroupReply\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/group/get\x12n\n" +
+	"\tListGroup\x12#.api.helloworld.v1.ListGroupRequest\x1a!.api.helloworld.v1.ListGroupReply\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/group/list\x12v\n" +
+	"\vSearchGroup\x12%.api.helloworld.v1.SearchGroupRequest\x1a#.api.helloworld.v1.SearchGroupReply\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v1/group/searchB7\n" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
 
 var (
-	file_helloworld_v1_group_proto_rawDescOnce sync.Once
-	file_helloworld_v1_group_proto_rawDescData []byte
+	file_api_helloworld_v1_group_proto_rawDescOnce sync.Once
+	file_api_helloworld_v1_group_proto_rawDescData []byte
 )
 
-func file_helloworld_v1_group_proto_rawDescGZIP() []byte {
-	file_helloworld_v1_group_proto_rawDescOnce.Do(func() {
-		file_helloworld_v1_group_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_helloworld_v1_group_proto_rawDesc), len(file_helloworld_v1_group_proto_rawDesc)))
+func file_api_helloworld_v1_group_proto_rawDescGZIP() []byte {
+	file_api_helloworld_v1_group_proto_rawDescOnce.Do(func() {
+		file_api_helloworld_v1_group_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_group_proto_rawDesc), len(file_api_helloworld_v1_group_proto_rawDesc)))
 	})
-	return file_helloworld_v1_group_proto_rawDescData
+	return file_api_helloworld_v1_group_proto_rawDescData
 }
 
-var file_helloworld_v1_group_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
-var file_helloworld_v1_group_proto_goTypes = []any{
-	(*CreateGroupRequest)(nil), // 0: api.helloworld.v1.CreateGroupRequest
-	(*CreateGroupReply)(nil),   // 1: api.helloworld.v1.CreateGroupReply
-	(*UpdateGroupRequest)(nil), // 2: api.helloworld.v1.UpdateGroupRequest
-	(*UpdateGroupReply)(nil),   // 3: api.helloworld.v1.UpdateGroupReply
-	(*DeleteGroupRequest)(nil), // 4: api.helloworld.v1.DeleteGroupRequest
-	(*DeleteGroupReply)(nil),   // 5: api.helloworld.v1.DeleteGroupReply
-	(*GetGroupRequest)(nil),    // 6: api.helloworld.v1.GetGroupRequest
-	(*GetGroupReply)(nil),      // 7: api.helloworld.v1.GetGroupReply
-	(*ListGroupRequest)(nil),   // 8: api.helloworld.v1.ListGroupRequest
-	(*ListGroupReply)(nil),     // 9: api.helloworld.v1.ListGroupReply
+var file_api_helloworld_v1_group_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_api_helloworld_v1_group_proto_goTypes = []any{
+	(*GroupInfo)(nil),             // 0: api.helloworld.v1.GroupInfo
+	(*CreateGroupRequest)(nil),    // 1: api.helloworld.v1.CreateGroupRequest
+	(*CreateGroupReply)(nil),      // 2: api.helloworld.v1.CreateGroupReply
+	(*UpdateGroupRequest)(nil),    // 3: api.helloworld.v1.UpdateGroupRequest
+	(*UpdateGroupReply)(nil),      // 4: api.helloworld.v1.UpdateGroupReply
+	(*DeleteGroupRequest)(nil),    // 5: api.helloworld.v1.DeleteGroupRequest
+	(*DeleteGroupReply)(nil),      // 6: api.helloworld.v1.DeleteGroupReply
+	(*GetGroupRequest)(nil),       // 7: api.helloworld.v1.GetGroupRequest
+	(*GetGroupReply)(nil),         // 8: api.helloworld.v1.GetGroupReply
+	(*ListGroupRequest)(nil),      // 9: api.helloworld.v1.ListGroupRequest
+	(*ListGroupReply)(nil),        // 10: api.helloworld.v1.ListGroupReply
+	(*SearchGroupRequest)(nil),    // 11: api.helloworld.v1.SearchGroupRequest
+	(*SearchGroupReply)(nil),      // 12: api.helloworld.v1.SearchGroupReply
+	(*timestamppb.Timestamp)(nil), // 13: google.protobuf.Timestamp
 }
-var file_helloworld_v1_group_proto_depIdxs = []int32{
-	0, // 0: api.helloworld.v1.Group.CreateGroup:input_type -> api.helloworld.v1.CreateGroupRequest
-	2, // 1: api.helloworld.v1.Group.UpdateGroup:input_type -> api.helloworld.v1.UpdateGroupRequest
-	4, // 2: api.helloworld.v1.Group.DeleteGroup:input_type -> api.helloworld.v1.DeleteGroupRequest
-	6, // 3: api.helloworld.v1.Group.GetGroup:input_type -> api.helloworld.v1.GetGroupRequest
-	8, // 4: api.helloworld.v1.Group.ListGroup:input_type -> api.helloworld.v1.ListGroupRequest
-	1, // 5: api.helloworld.v1.Group.CreateGroup:output_type -> api.helloworld.v1.CreateGroupReply
-	3, // 6: api.helloworld.v1.Group.UpdateGroup:output_type -> api.helloworld.v1.UpdateGroupReply
-	5, // 7: api.helloworld.v1.Group.DeleteGroup:output_type -> api.helloworld.v1.DeleteGroupReply
-	7, // 8: api.helloworld.v1.Group.GetGroup:output_type -> api.helloworld.v1.GetGroupReply
-	9, // 9: api.helloworld.v1.Group.ListGroup:output_type -> api.helloworld.v1.ListGroupReply
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+var file_api_helloworld_v1_group_proto_depIdxs = []int32{
+	13, // 0: api.helloworld.v1.GroupInfo.install_time:type_name -> google.protobuf.Timestamp
+	13, // 1: api.helloworld.v1.GroupInfo.create_time:type_name -> google.protobuf.Timestamp
+	13, // 2: api.helloworld.v1.GroupInfo.update_time:type_name -> google.protobuf.Timestamp
+	13, // 3: api.helloworld.v1.CreateGroupRequest.install_time:type_name -> google.protobuf.Timestamp
+	13, // 4: api.helloworld.v1.UpdateGroupRequest.install_time:type_name -> google.protobuf.Timestamp
+	0,  // 5: api.helloworld.v1.UpdateGroupReply.group:type_name -> api.helloworld.v1.GroupInfo
+	0,  // 6: api.helloworld.v1.GetGroupReply.group:type_name -> api.helloworld.v1.GroupInfo
+	0,  // 7: api.helloworld.v1.ListGroupReply.groups:type_name -> api.helloworld.v1.GroupInfo
+	0,  // 8: api.helloworld.v1.SearchGroupReply.groups:type_name -> api.helloworld.v1.GroupInfo
+	1,  // 9: api.helloworld.v1.Group.CreateGroup:input_type -> api.helloworld.v1.CreateGroupRequest
+	3,  // 10: api.helloworld.v1.Group.UpdateGroup:input_type -> api.helloworld.v1.UpdateGroupRequest
+	5,  // 11: api.helloworld.v1.Group.DeleteGroup:input_type -> api.helloworld.v1.DeleteGroupRequest
+	7,  // 12: api.helloworld.v1.Group.GetGroup:input_type -> api.helloworld.v1.GetGroupRequest
+	9,  // 13: api.helloworld.v1.Group.ListGroup:input_type -> api.helloworld.v1.ListGroupRequest
+	11, // 14: api.helloworld.v1.Group.SearchGroup:input_type -> api.helloworld.v1.SearchGroupRequest
+	2,  // 15: api.helloworld.v1.Group.CreateGroup:output_type -> api.helloworld.v1.CreateGroupReply
+	4,  // 16: api.helloworld.v1.Group.UpdateGroup:output_type -> api.helloworld.v1.UpdateGroupReply
+	6,  // 17: api.helloworld.v1.Group.DeleteGroup:output_type -> api.helloworld.v1.DeleteGroupReply
+	8,  // 18: api.helloworld.v1.Group.GetGroup:output_type -> api.helloworld.v1.GetGroupReply
+	10, // 19: api.helloworld.v1.Group.ListGroup:output_type -> api.helloworld.v1.ListGroupReply
+	12, // 20: api.helloworld.v1.Group.SearchGroup:output_type -> api.helloworld.v1.SearchGroupReply
+	15, // [15:21] is the sub-list for method output_type
+	9,  // [9:15] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
-func init() { file_helloworld_v1_group_proto_init() }
-func file_helloworld_v1_group_proto_init() {
-	if File_helloworld_v1_group_proto != nil {
+func init() { file_api_helloworld_v1_group_proto_init() }
+func file_api_helloworld_v1_group_proto_init() {
+	if File_api_helloworld_v1_group_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_helloworld_v1_group_proto_rawDesc), len(file_helloworld_v1_group_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_group_proto_rawDesc), len(file_api_helloworld_v1_group_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_helloworld_v1_group_proto_goTypes,
-		DependencyIndexes: file_helloworld_v1_group_proto_depIdxs,
-		MessageInfos:      file_helloworld_v1_group_proto_msgTypes,
+		GoTypes:           file_api_helloworld_v1_group_proto_goTypes,
+		DependencyIndexes: file_api_helloworld_v1_group_proto_depIdxs,
+		MessageInfos:      file_api_helloworld_v1_group_proto_msgTypes,
 	}.Build()
-	File_helloworld_v1_group_proto = out.File
-	file_helloworld_v1_group_proto_goTypes = nil
-	file_helloworld_v1_group_proto_depIdxs = nil
+	File_api_helloworld_v1_group_proto = out.File
+	file_api_helloworld_v1_group_proto_goTypes = nil
+	file_api_helloworld_v1_group_proto_depIdxs = nil
 }

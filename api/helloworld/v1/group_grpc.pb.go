@@ -24,17 +24,27 @@ const (
 	Group_DeleteGroup_FullMethodName = "/api.helloworld.v1.Group/DeleteGroup"
 	Group_GetGroup_FullMethodName    = "/api.helloworld.v1.Group/GetGroup"
 	Group_ListGroup_FullMethodName   = "/api.helloworld.v1.Group/ListGroup"
+	Group_SearchGroup_FullMethodName = "/api.helloworld.v1.Group/SearchGroup"
 )
 
 // GroupClient is the client API for Group service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// 柜组管理服务
 type GroupClient interface {
+	// 创建柜组
 	CreateGroup(ctx context.Context, in *CreateGroupRequest, opts ...grpc.CallOption) (*CreateGroupReply, error)
+	// 更新柜组
 	UpdateGroup(ctx context.Context, in *UpdateGroupRequest, opts ...grpc.CallOption) (*UpdateGroupReply, error)
+	// 删除柜组
 	DeleteGroup(ctx context.Context, in *DeleteGroupRequest, opts ...grpc.CallOption) (*DeleteGroupReply, error)
+	// 获取单个柜组
 	GetGroup(ctx context.Context, in *GetGroupRequest, opts ...grpc.CallOption) (*GetGroupReply, error)
+	// 获取柜组列表
 	ListGroup(ctx context.Context, in *ListGroupRequest, opts ...grpc.CallOption) (*ListGroupReply, error)
+	// 搜索柜组
+	SearchGroup(ctx context.Context, in *SearchGroupRequest, opts ...grpc.CallOption) (*SearchGroupReply, error)
 }
 
 type groupClient struct {
@@ -95,15 +105,34 @@ func (c *groupClient) ListGroup(ctx context.Context, in *ListGroupRequest, opts 
 	return out, nil
 }
 
+func (c *groupClient) SearchGroup(ctx context.Context, in *SearchGroupRequest, opts ...grpc.CallOption) (*SearchGroupReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SearchGroupReply)
+	err := c.cc.Invoke(ctx, Group_SearchGroup_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GroupServer is the server API for Group service.
 // All implementations must embed UnimplementedGroupServer
 // for forward compatibility.
+//
+// 柜组管理服务
 type GroupServer interface {
+	// 创建柜组
 	CreateGroup(context.Context, *CreateGroupRequest) (*CreateGroupReply, error)
+	// 更新柜组
 	UpdateGroup(context.Context, *UpdateGroupRequest) (*UpdateGroupReply, error)
+	// 删除柜组
 	DeleteGroup(context.Context, *DeleteGroupRequest) (*DeleteGroupReply, error)
+	// 获取单个柜组
 	GetGroup(context.Context, *GetGroupRequest) (*GetGroupReply, error)
+	// 获取柜组列表
 	ListGroup(context.Context, *ListGroupRequest) (*ListGroupReply, error)
+	// 搜索柜组
+	SearchGroup(context.Context, *SearchGroupRequest) (*SearchGroupReply, error)
 	mustEmbedUnimplementedGroupServer()
 }
 
@@ -128,6 +157,9 @@ func (UnimplementedGroupServer) GetGroup(context.Context, *GetGroupRequest) (*Ge
 }
 func (UnimplementedGroupServer) ListGroup(context.Context, *ListGroupRequest) (*ListGroupReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListGroup not implemented")
+}
+func (UnimplementedGroupServer) SearchGroup(context.Context, *SearchGroupRequest) (*SearchGroupReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchGroup not implemented")
 }
 func (UnimplementedGroupServer) mustEmbedUnimplementedGroupServer() {}
 func (UnimplementedGroupServer) testEmbeddedByValue()               {}
@@ -240,6 +272,24 @@ func _Group_ListGroup_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Group_SearchGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchGroupRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GroupServer).SearchGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Group_SearchGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GroupServer).SearchGroup(ctx, req.(*SearchGroupRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Group_ServiceDesc is the grpc.ServiceDesc for Group service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -267,7 +317,11 @@ var Group_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "ListGroup",
 			Handler:    _Group_ListGroup_Handler,
 		},
+		{
+			MethodName: "SearchGroup",
+			Handler:    _Group_SearchGroup_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "helloworld/v1/group.proto",
+	Metadata: "api/helloworld/v1/group.proto",
 }

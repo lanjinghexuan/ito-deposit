@@ -2,29 +2,169 @@ syntax = "proto3";
 
 package api.helloworld.v1;
 
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
 option go_package = "ito-deposit/api/helloworld/v1;v1";
 option java_multiple_files = true;
 option java_package = "api.helloworld.v1";
 
+// 柜组管理服务
 service Group {
-	rpc CreateGroup (CreateGroupRequest) returns (CreateGroupReply);
-	rpc UpdateGroup (UpdateGroupRequest) returns (UpdateGroupReply);
-	rpc DeleteGroup (DeleteGroupRequest) returns (DeleteGroupReply);
-	rpc GetGroup (GetGroupRequest) returns (GetGroupReply);
-	rpc ListGroup (ListGroupRequest) returns (ListGroupReply);
+	// 创建柜组
+	rpc CreateGroup (CreateGroupRequest) returns (CreateGroupReply) {
+		option (google.api.http) = {
+			post: "/v1/group/create"
+			body: "*"
+		};
+	};
+	// 更新柜组
+	rpc UpdateGroup (UpdateGroupRequest) returns (UpdateGroupReply) {
+		option (google.api.http) = {
+			put: "/v1/group/update"
+			body: "*"
+		};
+	};
+	// 删除柜组
+	rpc DeleteGroup (DeleteGroupRequest) returns (DeleteGroupReply) {
+		option (google.api.http) = {
+			post: "/v1/group/delete"
+			body: "*"
+		};
+	};
+	// 获取单个柜组
+	rpc GetGroup (GetGroupRequest) returns (GetGroupReply) {
+		option (google.api.http) = {
+			get: "/v1/group/get"
+		};
+	};
+	// 获取柜组列表
+	rpc ListGroup (ListGroupRequest) returns (ListGroupReply) {
+		option (google.api.http) = {
+			post: "/v1/group/list"
+			body: "*"
+		};
+	};
+	// 搜索柜组
+	rpc SearchGroup (SearchGroupRequest) returns (SearchGroupReply) {
+		option (google.api.http) = {
+			post: "/v1/group/search"
+			body: "*"
+		};
+	};
 }
 
-message CreateGroupRequest {}
-message CreateGroupReply {}
+// 柜组信息
+message GroupInfo {
+	int32 id = 1;                                    // 柜组ID
+	int32 location_point_id = 2;                     // 所属寄存点ID
+	string group_name = 3;                           // 柜组名称
+	string group_code = 4;                           // 柜组编码(可扫码)
+	string group_type = 5;                           // 柜组类型：standard-标准、refrigerated-冷藏、oversize-超大
+	string status = 6;                               // 柜组状态：normal-正常、abnormal-异常、disabled-禁用、damaged-损坏
+	int32 total_cells = 7;                           // 总格口数
+	int32 start_no = 8;                              // 起始编号
+	int32 end_no = 9;                                // 结束编号
+	google.protobuf.Timestamp install_time = 10;    // 安装时间
+	google.protobuf.Timestamp create_time = 11;     // 创建时间
+	google.protobuf.Timestamp update_time = 12;     // 更新时间
+}
 
-message UpdateGroupRequest {}
-message UpdateGroupReply {}
+// 创建柜组请求
+message CreateGroupRequest {
+	int32 location_point_id = 1;                    // 所属寄存点ID
+	string group_name = 2;                           // 柜组名称
+	string group_code = 3;                           // 柜组编码(可扫码)
+	string group_type = 4;                           // 柜组类型
+	int32 total_cells = 5;                           // 总格口数
+	int32 start_no = 6;                              // 起始编号
+	int32 end_no = 7;                                // 结束编号
+	google.protobuf.Timestamp install_time = 8;     // 安装时间
+}
 
-message DeleteGroupRequest {}
-message DeleteGroupReply {}
+// 创建柜组响应
+message CreateGroupReply {
+	int64 code = 1;                        // 状态码
+	string msg = 2;                         // 响应消息
+	int32 group_id = 3;                     // 创建的柜组ID
+}
 
-message GetGroupRequest {}
-message GetGroupReply {}
+// 更新柜组请求
+message UpdateGroupRequest {
+	int32 id = 1;                                    // 柜组ID
+	int32 location_point_id = 2;                     // 所属寄存点ID
+	string group_name = 3;                           // 柜组名称
+	string group_code = 4;                           // 柜组编码(可扫码)
+	string group_type = 5;                           // 柜组类型
+	string status = 6;                               // 柜组状态
+	int32 total_cells = 7;                           // 总格口数
+	int32 start_no = 8;                              // 起始编号
+	int32 end_no = 9;                                // 结束编号
+	google.protobuf.Timestamp install_time = 10;    // 安装时间
+}
 
-message ListGroupRequest {}
-message ListGroupReply {}
+// 更新柜组响应
+message UpdateGroupReply {
+	int64 code = 1;                         // 状态码
+	string msg = 2;                         // 响应消息
+	GroupInfo group = 3;                    // 更新后的柜组信息
+}
+
+// 删除柜组请求
+message DeleteGroupRequest {
+	int32 id = 1;                          // 柜组ID
+}
+
+// 删除柜组响应
+message DeleteGroupReply {
+	int64 code = 1;                         // 状态码
+	string msg = 2;                         // 响应消息
+	bool success = 3;                       // 删除是否成功
+}
+
+// 获取柜组请求
+message GetGroupRequest {
+	int32 id = 1;                          // 柜组ID
+}
+
+// 获取柜组响应
+message GetGroupReply {
+	int64 code = 1;                         // 状态码
+	string msg = 2;                         // 响应消息
+	GroupInfo group = 3;                    // 柜组信息
+}
+
+// 柜组列表请求
+message ListGroupRequest {
+	int64 page = 1;                         // 页码
+	int64 size = 2;                         // 每页数量
+	int32 location_point_id = 3;            // 寄存点ID过滤
+	string status = 4;                      // 状态过滤
+	string group_type = 5;                  // 类型过滤
+}
+
+// 柜组列表响应
+message ListGroupReply {
+	int64 code = 1;                         // 状态码
+	string msg = 2;                         // 响应消息
+	repeated GroupInfo groups = 3;          // 柜组列表
+	int64 total = 4;                        // 总数量
+}
+
+// 搜索柜组请求
+message SearchGroupRequest {
+	string keyword = 1;                     // 搜索关键词（柜组名称、编码）
+	int32 location_point_id = 2;           // 寄存点ID过滤
+	string status = 3;                      // 状态过滤
+	string group_type = 4;                  // 类型过滤
+	int64 page = 5;                         // 页码
+	int64 size = 6;                         // 每页数量
+}
+
+// 搜索柜组响应
+message SearchGroupReply {
+	int64 code = 1;                         // 状态码
+	string msg = 2;                         // 响应消息
+	repeated GroupInfo groups = 3;          // 搜索结果
+	int64 total = 4;                        // 总数量
+}

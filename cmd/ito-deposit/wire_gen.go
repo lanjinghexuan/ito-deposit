@@ -52,8 +52,9 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	geoService := geo.NewGeoService(confData)
 	nearbyUsecase := biz.NewNearbyUsecase(nearbyRepo, geoService, cityUsecase, logger)
 	nearbyService := service.NewNearbyService(nearbyUsecase, logger)
-	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, logger)
-	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, logger)
+	groupService := service.NewGroupService(dataData)
+	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, groupService, logger)
+	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, groupService, logger)
 	client, err := NewEtcdClient(confServer)
 	if err != nil {
 		cleanup2()
