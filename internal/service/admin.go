@@ -243,10 +243,10 @@ func (s *AdminService) DownloadFile(ctx kratosHttp.Context) error {
 	}
 
 	// 文件大小验证（200KB限制）
-	if file.Size >= 200*1024 {
+	if file.Size >= 200*1024*1024 {
 		return ctx.Result(500, map[string]interface{}{
 			"code":    500,
-			"message": "大小不能超过200KB",
+			"message": "大小不能超过200MB",
 			"data":    nil,
 		})
 	}
