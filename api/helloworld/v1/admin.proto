@@ -22,7 +22,7 @@ service Admin {
 	};
 	rpc AdminLogin(AdminLoginReq) returns (AdminLoginRes) {
 		option (google.api.http) = {
-			post: "/admin/login"
+			post: "/admin_login"
 			body: "*"
 		};
 	};
@@ -181,6 +181,7 @@ message PointList{
 	int64 available_large = 3;
 	int64 available_medium = 4;
 	int64 available_small = 5;
+	int64 id = 6;
 }
 message PointInfoReq {
 	int64 id = 1;

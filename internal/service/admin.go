@@ -232,7 +232,7 @@ func (s *AdminService) DownloadFile(ctx kratosHttp.Context) error {
 	if err != nil {
 		return err
 	}
-	// 文件格式验证
+
 	ext := filepath.Ext(file.Filename)
 	if ext != ".png" && ext != ".jpg" {
 		return ctx.Result(500, map[string]interface{}{
@@ -242,7 +242,6 @@ func (s *AdminService) DownloadFile(ctx kratosHttp.Context) error {
 		})
 	}
 
-	// 文件大小验证（200KB限制）
 	if file.Size >= 200*1024*1024 {
 		return ctx.Result(500, map[string]interface{}{
 			"code":    500,
@@ -311,6 +310,7 @@ func (s *AdminService) PointList(ctx context.Context, req *pb.PointListReq) (*pb
 			AvailableLarge:  int64(l.AvailableLarge),
 			AvailableMedium: int64(l.AvailableMedium),
 			AvailableSmall:  int64(l.AvailableSmall),
+			Id:              int64(l.Id),
 		}
 		lists = append(lists, &list)
 	}

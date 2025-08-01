@@ -53,30 +53,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /admin/login:
-        post:
-            tags:
-                - Admin
-            operationId: Admin_AdminLogin
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/AdminLoginReq'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/AdminLoginRes'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
     /admin/setPriceRule:
         post:
             tags:
@@ -151,6 +127,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/UploadFileRes'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /admin_login:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_AdminLogin
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AdminLoginReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AdminLoginRes'
                 default:
                     description: Default error response
                     content:
@@ -396,6 +396,8 @@ components:
                 availableMedium:
                     type: string
                 availableSmall:
+                    type: string
+                id:
                     type: string
         PointListRes:
             type: object

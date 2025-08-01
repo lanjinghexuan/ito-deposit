@@ -43,7 +43,7 @@ func RegisterAdminHTTPServer(s *http.Server, srv AdminHTTPServer) {
 	r := s.Route("/")
 	r.POST("/point_info", _Admin_PointInfo0_HTTP_Handler(srv))
 	r.GET("/point_list", _Admin_PointList0_HTTP_Handler(srv))
-	r.POST("/admin/login", _Admin_AdminLogin0_HTTP_Handler(srv))
+	r.POST("/admin_login", _Admin_AdminLogin0_HTTP_Handler(srv))
 	r.POST("/admin/setPriceRule", _Admin_SetPriceRule0_HTTP_Handler(srv))
 	r.GET("/admin/getPriceRule", _Admin_GetPriceRule0_HTTP_Handler(srv))
 	r.GET("/admin/uploadFile", _Admin_UploadFile0_HTTP_Handler(srv))
@@ -252,7 +252,7 @@ func (c *AdminHTTPClientImpl) AddPoint(ctx context.Context, in *AddPointReq, opt
 
 func (c *AdminHTTPClientImpl) AdminLogin(ctx context.Context, in *AdminLoginReq, opts ...http.CallOption) (*AdminLoginRes, error) {
 	var out AdminLoginRes
-	pattern := "/admin/login"
+	pattern := "/admin_login"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationAdminAdminLogin))
 	opts = append(opts, http.PathTemplate(pattern))
