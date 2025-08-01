@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/redis/go-redis/v9"
@@ -111,8 +112,23 @@ func (s *UserService) Login(ctx context.Context, req *pb.LoginRequest) (*pb.Logi
 }
 
 func (s *UserService) OrderList(ctx context.Context, req *pb.OrderListRequest) (*pb.OrderListRes, error) {
+	key := fmt.Sprintf("ito-deposit/user/OrderList%s", "123")
+	res, err := s.RedisDb.Get(context.Background(), key).Result()
+	if err != nil && err != redis.Nil {
+		return &pb.OrderListRes{}, err
+	}
+
+	if res != "" {
+		var resData pb.OrderListRes
+		err = json.Unmarshal([]byte(res), &resData)
+		if err != nil {
+			return &pb.OrderListRes{}, err
+		}
+		return &resData, nil
+	}
+
 	var order []data.LockerOrders
-	err := s.DB.Debug().Find(&order).Error
+	err = s.DB.Debug().Find(&order).Error
 	if err != nil {
 		return &pb.OrderListRes{
 			Code: 500,
@@ -136,11 +152,16 @@ func (s *UserService) OrderList(ctx context.Context, req *pb.OrderListRequest) (
 		}
 		lists = append(lists, &list)
 	}
-	return &pb.OrderListRes{
+
+	var res1 *pb.OrderListRes
+	res1 = &pb.OrderListRes{
 		Code: 200,
 		Msg:  "查询成功",
 		List: lists,
-	}, nil
+	}
+	jsonList, err := json.Marshal(res1)
+	s.RedisDb.Set(context.Background(), key, jsonList, time.Minute*5)
+	return res1, nil
 }
 func (s *UserService) Admin(ctx context.Context, req *pb.AdminRequest) (*pb.AdminRes, error) {
 
