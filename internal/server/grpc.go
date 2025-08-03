@@ -16,7 +16,7 @@ import (
 func NewGRPCServer(c *conf.Server,
 	greeter *service.GreeterService, order *service.OrderService, user *service.UserService, home *service.HomeService,
 	deposit *service.DepositService, admin *service.AdminService, city *service.CityService, nearby *service.NearbyService,
-	group *service.GroupService, logger log.Logger) *grpc.Server {
+	group *service.GroupService, cell *service.CabinetCellService, logger log.Logger) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(),
@@ -50,5 +50,6 @@ func NewGRPCServer(c *conf.Server,
 	v1.RegisterNearbyServer(srv, nearby)
 	v1.RegisterAdminServer(srv, admin)
 	v1.RegisterGroupServer(srv, group)
+	v1.RegisterCabinetCellServer(srv, cell)
 	return srv
 }

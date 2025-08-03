@@ -32,7 +32,7 @@ func (r *cabinetCellRepo) convertToBizCabinetCell(cell *CabinetCell) *biz.Cabine
 	}
 	return &biz.CabinetCell{
 		Id:           cell.Id,
-		GroupId:      cell.GroupId,
+		GroupId:      cell.CabinetGroupId,
 		CellNo:       cell.CellNo,
 		CellSize:     cell.CellSize,
 		Status:       cell.Status,
@@ -45,14 +45,14 @@ func (r *cabinetCellRepo) convertToBizCabinetCell(cell *CabinetCell) *biz.Cabine
 // 将业务实体转换为数据库模型
 func (r *cabinetCellRepo) convertToDataCabinetCell(cell *biz.CabinetCell) *CabinetCell {
 	return &CabinetCell{
-		Id:           cell.Id,
-		GroupId:      cell.GroupId,
-		CellNo:       cell.CellNo,
-		CellSize:     cell.CellSize,
-		Status:       cell.Status,
-		LastOpenTime: cell.LastOpenTime,
-		CreateTime:   cell.CreateTime,
-		UpdateTime:   cell.UpdateTime,
+		Id:             cell.Id,
+		CabinetGroupId: cell.GroupId,
+		CellNo:         cell.CellNo,
+		CellSize:       cell.CellSize,
+		Status:         cell.Status,
+		LastOpenTime:   cell.LastOpenTime,
+		CreateTime:     cell.CreateTime,
+		UpdateTime:     cell.UpdateTime,
 	}
 }
 
@@ -62,7 +62,7 @@ func (r *cabinetCellRepo) CreateCabinetCell(ctx context.Context, cell *biz.Cabin
 
 	// 检查同一柜组内格口编号是否已存在
 	var existCell CabinetCell
-	err := r.data.DB.Where("group_id = ? AND cell_no = ?", dataCell.GroupId, dataCell.CellNo).First(&existCell).Error
+	err := r.data.DB.Where("cabinet_group_id = ? AND cell_no = ?", dataCell.CabinetGroupId, dataCell.CellNo).First(&existCell).Error
 	if err == nil {
 		return nil, errors.New("该柜组内格口编号已存在")
 	} else if !errors.Is(err, gorm.ErrRecordNotFound) {
@@ -101,8 +101,8 @@ func (r *cabinetCellRepo) UpdateCabinetCell(ctx context.Context, cell *biz.Cabin
 	// 如果更新格口编号，检查同一柜组内是否重复
 	if dataCell.CellNo != existCell.CellNo {
 		var duplicateCell CabinetCell
-		err := r.data.DB.Where("group_id = ? AND cell_no = ? AND id != ?",
-			dataCell.GroupId, dataCell.CellNo, dataCell.Id).First(&duplicateCell).Error
+		err := r.data.DB.Where("cabinet_group_id = ? AND cell_no = ? AND id != ?",
+			dataCell.CabinetGroupId, dataCell.CellNo, dataCell.Id).First(&duplicateCell).Error
 		if err == nil {
 			return nil, errors.New("该柜组内格口编号已存在")
 		} else if !errors.Is(err, gorm.ErrRecordNotFound) {
@@ -114,12 +114,12 @@ func (r *cabinetCellRepo) UpdateCabinetCell(ctx context.Context, cell *biz.Cabin
 	// 更新柜口信息
 	dataCell.UpdateTime = time.Now()
 	if err := r.data.DB.Model(&CabinetCell{}).Where("id = ?", dataCell.Id).Updates(map[string]interface{}{
-		"group_id":       dataCell.GroupId,
-		"cell_no":        dataCell.CellNo,
-		"cell_size":      dataCell.CellSize,
-		"status":         dataCell.Status,
-		"last_open_time": dataCell.LastOpenTime,
-		"update_time":    dataCell.UpdateTime,
+		"cabinet_group_id": dataCell.CabinetGroupId,
+		"cell_no":          dataCell.CellNo,
+		"cell_size":        dataCell.CellSize,
+		"status":           dataCell.Status,
+		"last_open_time":   dataCell.LastOpenTime,
+		"update_time":      dataCell.UpdateTime,
 	}).Error; err != nil {
 		r.log.Errorf("更新柜口失败: %v", err)
 		return nil, err
@@ -151,7 +151,7 @@ func (r *cabinetCellRepo) GetCabinetCellByID(ctx context.Context, id int32) (*bi
 // GetCabinetCellByGroupAndNo 根据柜组ID和格口编号获取柜口
 func (r *cabinetCellRepo) GetCabinetCellByGroupAndNo(ctx context.Context, groupId, cellNo int32) (*biz.CabinetCell, error) {
 	var cell CabinetCell
-	if err := r.data.DB.Where("group_id = ? AND cell_no = ?", groupId, cellNo).First(&cell).Error; err != nil {
+	if err := r.data.DB.Where("cabinet_group_id = ? AND cell_no = ?", groupId, cellNo).First(&cell).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errors.New("柜口不存在")
 		}
@@ -171,7 +171,7 @@ func (r *cabinetCellRepo) ListCabinetCells(ctx context.Context, page, pageSize i
 	query := r.data.DB.Model(&CabinetCell{})
 
 	if groupId > 0 {
-		query = query.Where("group_id = ?", groupId)
+		query = query.Where("cabinet_group_id = ?", groupId)
 	}
 
 	if status != "" {
@@ -186,7 +186,7 @@ func (r *cabinetCellRepo) ListCabinetCells(ctx context.Context, page, pageSize i
 
 	// 分页查询
 	offset := (page - 1) * pageSize
-	if err := query.Order("group_id ASC, cell_no ASC").Offset(int(offset)).Limit(int(pageSize)).Find(&cells).Error; err != nil {
+	if err := query.Order("cabinet_group_id ASC, cell_no ASC").Offset(int(offset)).Limit(int(pageSize)).Find(&cells).Error; err != nil {
 		r.log.Errorf("获取柜口列表失败: %v", err)
 		return nil, 0, err
 	}
@@ -263,7 +263,7 @@ func (r *cabinetCellRepo) SearchCabinetCells(ctx context.Context, keyword string
 	query := r.data.DB.Model(&CabinetCell{})
 
 	if groupId > 0 {
-		query = query.Where("group_id = ?", groupId)
+		query = query.Where("cabinet_group_id = ?", groupId)
 	}
 
 	// 关键词搜索（格口编号或状态）
@@ -282,7 +282,7 @@ func (r *cabinetCellRepo) SearchCabinetCells(ctx context.Context, keyword string
 
 	// 分页查询
 	offset := (page - 1) * pageSize
-	if err := query.Order("group_id ASC, cell_no ASC").Offset(int(offset)).Limit(int(pageSize)).Find(&cells).Error; err != nil {
+	if err := query.Order("cabinet_group_id ASC, cell_no ASC").Offset(int(offset)).Limit(int(pageSize)).Find(&cells).Error; err != nil {
 		r.log.Errorf("搜索柜口失败: %v", err)
 		return nil, 0, err
 	}
@@ -301,7 +301,7 @@ func (r *cabinetCellRepo) SearchCabinetCells(ctx context.Context, keyword string
 func (r *cabinetCellRepo) GetCabinetCellsByGroupId(ctx context.Context, groupId int32) ([]*biz.CabinetCell, error) {
 	var cells []CabinetCell
 
-	if err := r.data.DB.Where("group_id = ?", groupId).Order("cell_no ASC").Find(&cells).Error; err != nil {
+	if err := r.data.DB.Where("cabinet_group_id = ?", groupId).Order("cell_no ASC").Find(&cells).Error; err != nil {
 		r.log.Errorf("根据柜组ID获取柜口失败: %v", err)
 		return nil, err
 	}

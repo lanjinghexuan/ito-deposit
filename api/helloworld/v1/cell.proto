@@ -84,7 +84,7 @@ service CabinetCell {
 // 柜口信息
 message CabinetCellInfo {
 	int32 id = 1;                                          // 格口ID
-	int32 group_id = 2;                                    // 所属柜组ID
+	int32 cabinet_group_id = 2;                                    // 所属柜组ID
 	int32 cell_no = 3;                                     // 格口编号
 	string cell_size = 4;                                  // 格口大小：small-小、medium-中、large-大
 	string status = 5;                                     // 格口状态：normal-正常、inUse-使用中、abnormal-异常、disabled-禁用、damaged-损坏
@@ -95,7 +95,7 @@ message CabinetCellInfo {
 
 // 创建柜口请求
 message CreateCabinetCellRequest {
-	int32 group_id = 1;                                    // 所属柜组ID
+	int32 cabinet_group_id = 1;                                    // 所属柜组ID
 	int32 cell_no = 2;                                     // 格口编号
 	string cell_size = 3;                                  // 格口大小
 	string status = 4;                                     // 格口状态
@@ -112,7 +112,7 @@ message CreateCabinetCellReply {
 // 更新柜口请求
 message UpdateCabinetCellRequest {
 	int32 id = 1;                                          // 柜口ID
-	int32 group_id = 2;                                    // 所属柜组ID
+	int32 cabinet_group_id = 2;                                    // 所属柜组ID
 	int32 cell_no = 3;                                     // 格口编号
 	string cell_size = 4;                                  // 格口大小
 	string status = 5;                                     // 格口状态
@@ -154,7 +154,7 @@ message GetCabinetCellReply {
 message ListCabinetCellsRequest {
 	int64 page = 1;                                        // 页码
 	int64 size = 2;                                        // 每页数量
-	int32 group_id = 3;                                    // 柜组ID过滤
+	int32 cabinet_group_id = 3;                                    // 柜组ID过滤
 	string status = 4;                                     // 状态过滤
 }
 
@@ -169,7 +169,7 @@ message ListCabinetCellsReply {
 // 搜索柜口请求
 message SearchCabinetCellsRequest {
 	string keyword = 1;                                    // 搜索关键词（格口编号、状态、大小）
-	int32 group_id = 2;                                    // 柜组ID过滤
+	int32 cabinet_group_id = 2;                                    // 柜组ID过滤
 	int64 page = 3;                                        // 页码
 	int64 size = 4;                                        // 每页数量
 }
@@ -184,7 +184,7 @@ message SearchCabinetCellsReply {
 
 // 根据柜组获取所有柜口请求
 message GetCabinetCellsByGroupRequest {
-	int32 group_id = 1;                                    // 柜组ID
+	int32 cabinet_group_id = 1;                                    // 柜组ID
 }
 
 // 根据柜组获取所有柜口响应
@@ -197,7 +197,7 @@ message GetCabinetCellsByGroupReply {
 
 // 批量创建柜口请求
 message BatchCreateCabinetCellsRequest {
-	int32 group_id = 1;                                    // 柜组ID
+	int32 cabinet_group_id = 1;                                    // 柜组ID
 	int32 start_no = 2;                                    // 起始编号
 	int32 end_no = 3;                                      // 结束编号
 	string cell_size = 4;                                  // 格口大小

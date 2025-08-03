@@ -53,8 +53,11 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	nearbyUsecase := biz.NewNearbyUsecase(nearbyRepo, geoService, cityUsecase, logger)
 	nearbyService := service.NewNearbyService(nearbyUsecase, logger)
 	groupService := service.NewGroupService(dataData)
-	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, groupService, logger)
-	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, groupService, logger)
+	cabinetCellRepo := data.NewCabinetCellRepo(dataData, logger)
+	cabinetCellUsecase := biz.NewCabinetCellUsecase(cabinetCellRepo, logger)
+	cabinetCellService := service.NewCabinetCellService(dataData, cabinetCellUsecase)
+	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, groupService, cabinetCellService, logger)
+	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, groupService, cabinetCellService, logger)
 	client, err := NewEtcdClient(confServer)
 	if err != nil {
 		cleanup2()

@@ -25,17 +25,17 @@ const (
 
 // 柜口信息
 type CabinetCellInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                          // 格口ID
-	GroupId       int32                  `protobuf:"varint,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`                 // 所属柜组ID
-	CellNo        int32                  `protobuf:"varint,3,opt,name=cell_no,json=cellNo,proto3" json:"cell_no,omitempty"`                    // 格口编号
-	CellSize      string                 `protobuf:"bytes,4,opt,name=cell_size,json=cellSize,proto3" json:"cell_size,omitempty"`               // 格口大小：small-小、medium-中、large-大
-	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`                                   // 格口状态：normal-正常、inUse-使用中、abnormal-异常、disabled-禁用、damaged-损坏
-	LastOpenTime  *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=last_open_time,json=lastOpenTime,proto3" json:"last_open_time,omitempty"` // 最后开启时间
-	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`         // 创建时间
-	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`         // 更新时间
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                                 // 格口ID
+	CabinetGroupId int32                  `protobuf:"varint,2,opt,name=cabinet_group_id,json=cabinetGroupId,proto3" json:"cabinet_group_id,omitempty"` // 所属柜组ID
+	CellNo         int32                  `protobuf:"varint,3,opt,name=cell_no,json=cellNo,proto3" json:"cell_no,omitempty"`                           // 格口编号
+	CellSize       string                 `protobuf:"bytes,4,opt,name=cell_size,json=cellSize,proto3" json:"cell_size,omitempty"`                      // 格口大小：small-小、medium-中、large-大
+	Status         string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`                                          // 格口状态：normal-正常、inUse-使用中、abnormal-异常、disabled-禁用、damaged-损坏
+	LastOpenTime   *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=last_open_time,json=lastOpenTime,proto3" json:"last_open_time,omitempty"`        // 最后开启时间
+	CreateTime     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`                // 创建时间
+	UpdateTime     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`                // 更新时间
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CabinetCellInfo) Reset() {
@@ -75,9 +75,9 @@ func (x *CabinetCellInfo) GetId() int32 {
 	return 0
 }
 
-func (x *CabinetCellInfo) GetGroupId() int32 {
+func (x *CabinetCellInfo) GetCabinetGroupId() int32 {
 	if x != nil {
-		return x.GroupId
+		return x.CabinetGroupId
 	}
 	return 0
 }
@@ -126,13 +126,13 @@ func (x *CabinetCellInfo) GetUpdateTime() *timestamppb.Timestamp {
 
 // 创建柜口请求
 type CreateCabinetCellRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	GroupId       int32                  `protobuf:"varint,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`   // 所属柜组ID
-	CellNo        int32                  `protobuf:"varint,2,opt,name=cell_no,json=cellNo,proto3" json:"cell_no,omitempty"`      // 格口编号
-	CellSize      string                 `protobuf:"bytes,3,opt,name=cell_size,json=cellSize,proto3" json:"cell_size,omitempty"` // 格口大小
-	Status        string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`                     // 格口状态
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	CabinetGroupId int32                  `protobuf:"varint,1,opt,name=cabinet_group_id,json=cabinetGroupId,proto3" json:"cabinet_group_id,omitempty"` // 所属柜组ID
+	CellNo         int32                  `protobuf:"varint,2,opt,name=cell_no,json=cellNo,proto3" json:"cell_no,omitempty"`                           // 格口编号
+	CellSize       string                 `protobuf:"bytes,3,opt,name=cell_size,json=cellSize,proto3" json:"cell_size,omitempty"`                      // 格口大小
+	Status         string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`                                          // 格口状态
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateCabinetCellRequest) Reset() {
@@ -165,9 +165,9 @@ func (*CreateCabinetCellRequest) Descriptor() ([]byte, []int) {
 	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateCabinetCellRequest) GetGroupId() int32 {
+func (x *CreateCabinetCellRequest) GetCabinetGroupId() int32 {
 	if x != nil {
-		return x.GroupId
+		return x.CabinetGroupId
 	}
 	return 0
 }
@@ -264,15 +264,15 @@ func (x *CreateCabinetCellReply) GetCellInfo() *CabinetCellInfo {
 
 // 更新柜口请求
 type UpdateCabinetCellRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                          // 柜口ID
-	GroupId       int32                  `protobuf:"varint,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`                 // 所属柜组ID
-	CellNo        int32                  `protobuf:"varint,3,opt,name=cell_no,json=cellNo,proto3" json:"cell_no,omitempty"`                    // 格口编号
-	CellSize      string                 `protobuf:"bytes,4,opt,name=cell_size,json=cellSize,proto3" json:"cell_size,omitempty"`               // 格口大小
-	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`                                   // 格口状态
-	LastOpenTime  *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=last_open_time,json=lastOpenTime,proto3" json:"last_open_time,omitempty"` // 最后开启时间
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                                 // 柜口ID
+	CabinetGroupId int32                  `protobuf:"varint,2,opt,name=cabinet_group_id,json=cabinetGroupId,proto3" json:"cabinet_group_id,omitempty"` // 所属柜组ID
+	CellNo         int32                  `protobuf:"varint,3,opt,name=cell_no,json=cellNo,proto3" json:"cell_no,omitempty"`                           // 格口编号
+	CellSize       string                 `protobuf:"bytes,4,opt,name=cell_size,json=cellSize,proto3" json:"cell_size,omitempty"`                      // 格口大小
+	Status         string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`                                          // 格口状态
+	LastOpenTime   *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=last_open_time,json=lastOpenTime,proto3" json:"last_open_time,omitempty"`        // 最后开启时间
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateCabinetCellRequest) Reset() {
@@ -312,9 +312,9 @@ func (x *UpdateCabinetCellRequest) GetId() int32 {
 	return 0
 }
 
-func (x *UpdateCabinetCellRequest) GetGroupId() int32 {
+func (x *UpdateCabinetCellRequest) GetCabinetGroupId() int32 {
 	if x != nil {
-		return x.GroupId
+		return x.CabinetGroupId
 	}
 	return 0
 }
@@ -622,13 +622,13 @@ func (x *GetCabinetCellReply) GetCellInfo() *CabinetCellInfo {
 
 // 柜口列表请求
 type ListCabinetCellsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Page          int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`                      // 页码
-	Size          int64                  `protobuf:"varint,2,opt,name=size,proto3" json:"size,omitempty"`                      // 每页数量
-	GroupId       int32                  `protobuf:"varint,3,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"` // 柜组ID过滤
-	Status        string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`                   // 状态过滤
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Page           int64                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`                                             // 页码
+	Size           int64                  `protobuf:"varint,2,opt,name=size,proto3" json:"size,omitempty"`                                             // 每页数量
+	CabinetGroupId int32                  `protobuf:"varint,3,opt,name=cabinet_group_id,json=cabinetGroupId,proto3" json:"cabinet_group_id,omitempty"` // 柜组ID过滤
+	Status         string                 `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`                                          // 状态过滤
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ListCabinetCellsRequest) Reset() {
@@ -675,9 +675,9 @@ func (x *ListCabinetCellsRequest) GetSize() int64 {
 	return 0
 }
 
-func (x *ListCabinetCellsRequest) GetGroupId() int32 {
+func (x *ListCabinetCellsRequest) GetCabinetGroupId() int32 {
 	if x != nil {
-		return x.GroupId
+		return x.CabinetGroupId
 	}
 	return 0
 }
@@ -760,13 +760,13 @@ func (x *ListCabinetCellsReply) GetTotal() int64 {
 
 // 搜索柜口请求
 type SearchCabinetCellsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Keyword       string                 `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty"`                 // 搜索关键词（格口编号、状态、大小）
-	GroupId       int32                  `protobuf:"varint,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"` // 柜组ID过滤
-	Page          int64                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`                      // 页码
-	Size          int64                  `protobuf:"varint,4,opt,name=size,proto3" json:"size,omitempty"`                      // 每页数量
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Keyword        string                 `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty"`                                        // 搜索关键词（格口编号、状态、大小）
+	CabinetGroupId int32                  `protobuf:"varint,2,opt,name=cabinet_group_id,json=cabinetGroupId,proto3" json:"cabinet_group_id,omitempty"` // 柜组ID过滤
+	Page           int64                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`                                             // 页码
+	Size           int64                  `protobuf:"varint,4,opt,name=size,proto3" json:"size,omitempty"`                                             // 每页数量
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *SearchCabinetCellsRequest) Reset() {
@@ -806,9 +806,9 @@ func (x *SearchCabinetCellsRequest) GetKeyword() string {
 	return ""
 }
 
-func (x *SearchCabinetCellsRequest) GetGroupId() int32 {
+func (x *SearchCabinetCellsRequest) GetCabinetGroupId() int32 {
 	if x != nil {
-		return x.GroupId
+		return x.CabinetGroupId
 	}
 	return 0
 }
@@ -898,10 +898,10 @@ func (x *SearchCabinetCellsReply) GetTotal() int64 {
 
 // 根据柜组获取所有柜口请求
 type GetCabinetCellsByGroupRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	GroupId       int32                  `protobuf:"varint,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"` // 柜组ID
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	CabinetGroupId int32                  `protobuf:"varint,1,opt,name=cabinet_group_id,json=cabinetGroupId,proto3" json:"cabinet_group_id,omitempty"` // 柜组ID
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *GetCabinetCellsByGroupRequest) Reset() {
@@ -934,9 +934,9 @@ func (*GetCabinetCellsByGroupRequest) Descriptor() ([]byte, []int) {
 	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *GetCabinetCellsByGroupRequest) GetGroupId() int32 {
+func (x *GetCabinetCellsByGroupRequest) GetCabinetGroupId() int32 {
 	if x != nil {
-		return x.GroupId
+		return x.CabinetGroupId
 	}
 	return 0
 }
@@ -1012,13 +1012,13 @@ func (x *GetCabinetCellsByGroupReply) GetTotal() int64 {
 
 // 批量创建柜口请求
 type BatchCreateCabinetCellsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	GroupId       int32                  `protobuf:"varint,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`   // 柜组ID
-	StartNo       int32                  `protobuf:"varint,2,opt,name=start_no,json=startNo,proto3" json:"start_no,omitempty"`   // 起始编号
-	EndNo         int32                  `protobuf:"varint,3,opt,name=end_no,json=endNo,proto3" json:"end_no,omitempty"`         // 结束编号
-	CellSize      string                 `protobuf:"bytes,4,opt,name=cell_size,json=cellSize,proto3" json:"cell_size,omitempty"` // 格口大小
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	CabinetGroupId int32                  `protobuf:"varint,1,opt,name=cabinet_group_id,json=cabinetGroupId,proto3" json:"cabinet_group_id,omitempty"` // 柜组ID
+	StartNo        int32                  `protobuf:"varint,2,opt,name=start_no,json=startNo,proto3" json:"start_no,omitempty"`                        // 起始编号
+	EndNo          int32                  `protobuf:"varint,3,opt,name=end_no,json=endNo,proto3" json:"end_no,omitempty"`                              // 结束编号
+	CellSize       string                 `protobuf:"bytes,4,opt,name=cell_size,json=cellSize,proto3" json:"cell_size,omitempty"`                      // 格口大小
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *BatchCreateCabinetCellsRequest) Reset() {
@@ -1051,9 +1051,9 @@ func (*BatchCreateCabinetCellsRequest) Descriptor() ([]byte, []int) {
 	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *BatchCreateCabinetCellsRequest) GetGroupId() int32 {
+func (x *BatchCreateCabinetCellsRequest) GetCabinetGroupId() int32 {
 	if x != nil {
-		return x.GroupId
+		return x.CabinetGroupId
 	}
 	return 0
 }
@@ -1364,10 +1364,10 @@ var File_api_helloworld_v1_cell_proto protoreflect.FileDescriptor
 
 const file_api_helloworld_v1_cell_proto_rawDesc = "" +
 	"\n" +
-	"\x1capi/helloworld/v1/cell.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc6\x02\n" +
+	"\x1capi/helloworld/v1/cell.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd5\x02\n" +
 	"\x0fCabinetCellInfo\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x19\n" +
-	"\bgroup_id\x18\x02 \x01(\x05R\agroupId\x12\x17\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12(\n" +
+	"\x10cabinet_group_id\x18\x02 \x01(\x05R\x0ecabinetGroupId\x12\x17\n" +
 	"\acell_no\x18\x03 \x01(\x05R\x06cellNo\x12\x1b\n" +
 	"\tcell_size\x18\x04 \x01(\tR\bcellSize\x12\x16\n" +
 	"\x06status\x18\x05 \x01(\tR\x06status\x12@\n" +
@@ -1375,9 +1375,9 @@ const file_api_helloworld_v1_cell_proto_rawDesc = "" +
 	"\vcreate_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\x12;\n" +
 	"\vupdate_time\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"updateTime\"\x83\x01\n" +
-	"\x18CreateCabinetCellRequest\x12\x19\n" +
-	"\bgroup_id\x18\x01 \x01(\x05R\agroupId\x12\x17\n" +
+	"updateTime\"\x92\x01\n" +
+	"\x18CreateCabinetCellRequest\x12(\n" +
+	"\x10cabinet_group_id\x18\x01 \x01(\x05R\x0ecabinetGroupId\x12\x17\n" +
 	"\acell_no\x18\x02 \x01(\x05R\x06cellNo\x12\x1b\n" +
 	"\tcell_size\x18\x03 \x01(\tR\bcellSize\x12\x16\n" +
 	"\x06status\x18\x04 \x01(\tR\x06status\"\x98\x01\n" +
@@ -1385,10 +1385,10 @@ const file_api_helloworld_v1_cell_proto_rawDesc = "" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\x12\x17\n" +
 	"\acell_id\x18\x03 \x01(\x05R\x06cellId\x12?\n" +
-	"\tcell_info\x18\x04 \x01(\v2\".api.helloworld.v1.CabinetCellInfoR\bcellInfo\"\xd5\x01\n" +
+	"\tcell_info\x18\x04 \x01(\v2\".api.helloworld.v1.CabinetCellInfoR\bcellInfo\"\xe4\x01\n" +
 	"\x18UpdateCabinetCellRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x19\n" +
-	"\bgroup_id\x18\x02 \x01(\x05R\agroupId\x12\x17\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12(\n" +
+	"\x10cabinet_group_id\x18\x02 \x01(\x05R\x0ecabinetGroupId\x12\x17\n" +
 	"\acell_no\x18\x03 \x01(\x05R\x06cellNo\x12\x1b\n" +
 	"\tcell_size\x18\x04 \x01(\tR\bcellSize\x12\x16\n" +
 	"\x06status\x18\x05 \x01(\tR\x06status\x12@\n" +
@@ -1408,36 +1408,36 @@ const file_api_helloworld_v1_cell_proto_rawDesc = "" +
 	"\x13GetCabinetCellReply\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\x12?\n" +
-	"\tcell_info\x18\x03 \x01(\v2\".api.helloworld.v1.CabinetCellInfoR\bcellInfo\"t\n" +
+	"\tcell_info\x18\x03 \x01(\v2\".api.helloworld.v1.CabinetCellInfoR\bcellInfo\"\x83\x01\n" +
 	"\x17ListCabinetCellsRequest\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x03R\x04page\x12\x12\n" +
-	"\x04size\x18\x02 \x01(\x03R\x04size\x12\x19\n" +
-	"\bgroup_id\x18\x03 \x01(\x05R\agroupId\x12\x16\n" +
+	"\x04size\x18\x02 \x01(\x03R\x04size\x12(\n" +
+	"\x10cabinet_group_id\x18\x03 \x01(\x05R\x0ecabinetGroupId\x12\x16\n" +
 	"\x06status\x18\x04 \x01(\tR\x06status\"\x8d\x01\n" +
 	"\x15ListCabinetCellsReply\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\x128\n" +
 	"\x05cells\x18\x03 \x03(\v2\".api.helloworld.v1.CabinetCellInfoR\x05cells\x12\x14\n" +
-	"\x05total\x18\x04 \x01(\x03R\x05total\"x\n" +
+	"\x05total\x18\x04 \x01(\x03R\x05total\"\x87\x01\n" +
 	"\x19SearchCabinetCellsRequest\x12\x18\n" +
-	"\akeyword\x18\x01 \x01(\tR\akeyword\x12\x19\n" +
-	"\bgroup_id\x18\x02 \x01(\x05R\agroupId\x12\x12\n" +
+	"\akeyword\x18\x01 \x01(\tR\akeyword\x12(\n" +
+	"\x10cabinet_group_id\x18\x02 \x01(\x05R\x0ecabinetGroupId\x12\x12\n" +
 	"\x04page\x18\x03 \x01(\x03R\x04page\x12\x12\n" +
 	"\x04size\x18\x04 \x01(\x03R\x04size\"\x8f\x01\n" +
 	"\x17SearchCabinetCellsReply\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\x128\n" +
 	"\x05cells\x18\x03 \x03(\v2\".api.helloworld.v1.CabinetCellInfoR\x05cells\x12\x14\n" +
-	"\x05total\x18\x04 \x01(\x03R\x05total\":\n" +
-	"\x1dGetCabinetCellsByGroupRequest\x12\x19\n" +
-	"\bgroup_id\x18\x01 \x01(\x05R\agroupId\"\x93\x01\n" +
+	"\x05total\x18\x04 \x01(\x03R\x05total\"I\n" +
+	"\x1dGetCabinetCellsByGroupRequest\x12(\n" +
+	"\x10cabinet_group_id\x18\x01 \x01(\x05R\x0ecabinetGroupId\"\x93\x01\n" +
 	"\x1bGetCabinetCellsByGroupReply\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\x128\n" +
 	"\x05cells\x18\x03 \x03(\v2\".api.helloworld.v1.CabinetCellInfoR\x05cells\x12\x14\n" +
-	"\x05total\x18\x04 \x01(\x03R\x05total\"\x8a\x01\n" +
-	"\x1eBatchCreateCabinetCellsRequest\x12\x19\n" +
-	"\bgroup_id\x18\x01 \x01(\x05R\agroupId\x12\x19\n" +
+	"\x05total\x18\x04 \x01(\x03R\x05total\"\x99\x01\n" +
+	"\x1eBatchCreateCabinetCellsRequest\x12(\n" +
+	"\x10cabinet_group_id\x18\x01 \x01(\x05R\x0ecabinetGroupId\x12\x19\n" +
 	"\bstart_no\x18\x02 \x01(\x05R\astartNo\x12\x15\n" +
 	"\x06end_no\x18\x03 \x01(\x05R\x05endNo\x12\x1b\n" +
 	"\tcell_size\x18\x04 \x01(\tR\bcellSize\"t\n" +

@@ -39,7 +39,7 @@ paths:
             description: 根据柜组获取所有柜口
             operationId: CabinetCell_GetCabinetCellsByGroup
             parameters:
-                - name: groupId
+                - name: cabinetGroupId
                   in: query
                   schema:
                     type: integer
@@ -275,7 +275,7 @@ components:
         BatchCreateCabinetCellsRequest:
             type: object
             properties:
-                groupId:
+                cabinetGroupId:
                     type: integer
                     format: int32
                 startNo:
@@ -293,7 +293,7 @@ components:
                 id:
                     type: integer
                     format: int32
-                groupId:
+                cabinetGroupId:
                     type: integer
                     format: int32
                 cellNo:
@@ -346,7 +346,7 @@ components:
         CreateCabinetCellRequest:
             type: object
             properties:
-                groupId:
+                cabinetGroupId:
                     type: integer
                     format: int32
                 cellNo:
@@ -427,7 +427,7 @@ components:
                     type: string
                 size:
                     type: string
-                groupId:
+                cabinetGroupId:
                     type: integer
                     format: int32
                 status:
@@ -469,7 +469,7 @@ components:
             properties:
                 keyword:
                     type: string
-                groupId:
+                cabinetGroupId:
                     type: integer
                     format: int32
                 page:
@@ -509,7 +509,7 @@ components:
                 id:
                     type: integer
                     format: int32
-                groupId:
+                cabinetGroupId:
                     type: integer
                     format: int32
                 cellNo:

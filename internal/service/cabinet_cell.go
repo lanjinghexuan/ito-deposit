@@ -35,14 +35,14 @@ func (s *CabinetCellService) convertToPbCabinetCell(cell *biz.CabinetCell) *pb.C
 	}
 
 	return &pb.CabinetCellInfo{
-		Id:           cell.Id,
-		GroupId:      cell.GroupId,
-		CellNo:       cell.CellNo,
-		CellSize:     cell.CellSize,
-		Status:       cell.Status,
-		LastOpenTime: timeToTimestamp(cell.LastOpenTime),
-		CreateTime:   timeToTimestamp(cell.CreateTime),
-		UpdateTime:   timeToTimestamp(cell.UpdateTime),
+		Id:             cell.Id,
+		CabinetGroupId: cell.GroupId,
+		CellNo:         cell.CellNo,
+		CellSize:       cell.CellSize,
+		Status:         cell.Status,
+		LastOpenTime:   timeToTimestamp(cell.LastOpenTime),
+		CreateTime:     timeToTimestamp(cell.CreateTime),
+		UpdateTime:     timeToTimestamp(cell.UpdateTime),
 	}
 }
 
@@ -59,7 +59,7 @@ func (s *CabinetCellService) CreateCabinetCell(ctx context.Context, req *pb.Crea
 	}
 
 	// 1. 参数验证
-	if req.GroupId == 0 {
+	if req.CabinetGroupId == 0 {
 		return &pb.CreateCabinetCellReply{
 			Code: 400,
 			Msg:  "柜组ID不能为空",
@@ -86,7 +86,7 @@ func (s *CabinetCellService) CreateCabinetCell(ctx context.Context, req *pb.Crea
 
 	// 3. 创建业务实体
 	cell := &biz.CabinetCell{
-		GroupId:  req.GroupId,
+		GroupId:  req.CabinetGroupId,
 		CellNo:   req.CellNo,
 		CellSize: cellSize,
 		Status:   status,
@@ -152,8 +152,8 @@ func (s *CabinetCellService) UpdateCabinetCell(ctx context.Context, req *pb.Upda
 		CreateTime:   existingCell.CreateTime,
 	}
 
-	if req.GroupId != 0 {
-		updateCell.GroupId = req.GroupId
+	if req.CabinetGroupId != 0 {
+		updateCell.GroupId = req.CabinetGroupId
 	}
 	if req.CellNo != 0 {
 		updateCell.CellNo = req.CellNo
@@ -278,7 +278,7 @@ func (s *CabinetCellService) ListCabinetCells(ctx context.Context, req *pb.ListC
 	}
 
 	// 2. 调用业务层获取柜口列表
-	cells, total, err := s.uc.ListCabinetCells(ctx, int32(page), int32(pageSize), req.GroupId, req.Status)
+	cells, total, err := s.uc.ListCabinetCells(ctx, int32(page), int32(pageSize), req.CabinetGroupId, req.Status)
 	if err != nil {
 		return &pb.ListCabinetCellsReply{
 			Code: 500,
@@ -317,7 +317,7 @@ func (s *CabinetCellService) SearchCabinetCells(ctx context.Context, req *pb.Sea
 	}
 
 	// 2. 调用业务层搜索柜口
-	cells, total, err := s.uc.SearchCabinetCells(ctx, req.Keyword, int32(page), int32(pageSize), req.GroupId)
+	cells, total, err := s.uc.SearchCabinetCells(ctx, req.Keyword, int32(page), int32(pageSize), req.CabinetGroupId)
 	if err != nil {
 		return &pb.SearchCabinetCellsReply{
 			Code: 500,
@@ -343,7 +343,7 @@ func (s *CabinetCellService) SearchCabinetCells(ctx context.Context, req *pb.Sea
 // GetCabinetCellsByGroup 根据柜组获取所有柜口
 func (s *CabinetCellService) GetCabinetCellsByGroup(ctx context.Context, req *pb.GetCabinetCellsByGroupRequest) (*pb.GetCabinetCellsByGroupReply, error) {
 	// 1. 参数验证
-	if req.GroupId == 0 {
+	if req.CabinetGroupId == 0 {
 		return &pb.GetCabinetCellsByGroupReply{
 			Code: 400,
 			Msg:  "柜组ID不能为空",
@@ -351,7 +351,7 @@ func (s *CabinetCellService) GetCabinetCellsByGroup(ctx context.Context, req *pb
 	}
 
 	// 2. 调用业务层获取柜口列表
-	cells, err := s.uc.GetCabinetCellsByGroupId(ctx, req.GroupId)
+	cells, err := s.uc.GetCabinetCellsByGroupId(ctx, req.CabinetGroupId)
 	if err != nil {
 		return &pb.GetCabinetCellsByGroupReply{
 			Code: 500,
@@ -377,7 +377,7 @@ func (s *CabinetCellService) GetCabinetCellsByGroup(ctx context.Context, req *pb
 // BatchCreateCabinetCells 批量创建柜口
 func (s *CabinetCellService) BatchCreateCabinetCells(ctx context.Context, req *pb.BatchCreateCabinetCellsRequest) (*pb.BatchCreateCabinetCellsReply, error) {
 	// 1. 参数验证
-	if req.GroupId == 0 {
+	if req.CabinetGroupId == 0 {
 		return &pb.BatchCreateCabinetCellsReply{
 			Code: 400,
 			Msg:  "柜组ID不能为空",
@@ -401,7 +401,7 @@ func (s *CabinetCellService) BatchCreateCabinetCells(ctx context.Context, req *p
 	var cells []*biz.CabinetCell
 	for cellNo := req.StartNo; cellNo <= req.EndNo; cellNo++ {
 		cell := &biz.CabinetCell{
-			GroupId:  req.GroupId,
+			GroupId:  req.CabinetGroupId,
 			CellNo:   cellNo,
 			CellSize: cellSize,
 			Status:   "normal",
