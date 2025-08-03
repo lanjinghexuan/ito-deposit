@@ -2,11 +2,15 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/apache/rocketmq-client-go/v2/primitive"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 	"ito-deposit/internal/basic/pkg"
+	"ito-deposit/internal/biz"
+	"log"
 	"math/rand"
 	"strconv"
 	"time"
@@ -17,6 +21,14 @@ import (
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/data"
 )
+
+type DepositOrderMessage struct {
+	OrderNo           string  `json:"order_no"`
+	UserID            int64   `json:"user_id"`
+	ScheduledDuration int32   `json:"scheduled_duration"`
+	Price             float64 `json:"price"`
+	LockerID          int64   `json:"locker_id"`
+}
 
 type DepositService struct {
 	pb.UnimplementedDepositServer
@@ -59,15 +71,19 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 	}
 	price += lockerPriceRules.HourlyRate * float64(req.ScheduledDuration)
 	var locker data.Lockers
+	var localMessage biz.LocalMessage
+	var mqjson []byte
+	topic := "deposit_create"
+
 	err = s.data.DB.Transaction(func(tx *gorm.DB) error {
-		err = s.data.DB.Table("lockers").Where("locker_point_id = ?", req.CabinetId).Select("id").Where("status = 1").Limit(1).Find(&locker).Error
+		err = tx.Table("lockers").Where("locker_point_id = ?", req.CabinetId).Select("id").Where("status = 1").Limit(1).Find(&locker).Error
 		if err != nil {
 			return err
 		}
 		if locker.Id == 0 {
 			return errors.New("寄存柜可用数量不足")
 		}
-		updaateres := s.data.DB.Table("lockers").Where("id = ?", locker.Id).Update("status", 2)
+		updaateres := tx.Table("lockers").Where("id = ?", locker.Id).Update("status", 2)
 		if updaateres.RowsAffected == 0 {
 			return errors.New("更新柜子状态失败")
 		}
@@ -90,7 +106,38 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 			DepositStatus:     0,
 			ActualDuration:    0,
 		}
-		err = s.data.DB.Table("locker_orders").Create(&addOrder).Error
+
+		mqMessage := &DepositOrderMessage{
+			OrderNo:           OrderNo,
+			UserID:            intUserId,
+			ScheduledDuration: req.ScheduledDuration,
+			Price:             price,
+			LockerID:          int64(locker.Id),
+		}
+
+		mqjson, err = json.Marshal(mqMessage)
+		if err != nil {
+			return err
+		}
+
+		localMessage = biz.LocalMessage{
+			BusinessKey:   OrderNo,
+			Topic:         topic,
+			Tags:          "",
+			Body:          string(mqjson),
+			Status:        0,
+			RetryCount:    0,
+			NextRetryTime: time.Now(),
+			CreatedAt:     time.Now(),
+			UpdatedAt:     time.Now().Add(time.Minute),
+		}
+
+		err = tx.Table("locker_orders").Create(&addOrder).Error
+		if err != nil {
+			return err
+		}
+
+		err = tx.Table("local_message").Create(&localMessage).Error
 		if err != nil {
 			return err
 		}
@@ -98,6 +145,24 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 	})
 	if err != nil {
 		return nil, err
+	}
+
+	mqMsg := &primitive.Message{
+		Topic: topic, // 你可以自己定义
+		Body:  mqjson,
+	}
+	_, err = s.data.Mq.SendSync(context.Background(), mqMsg)
+	if err != nil {
+		return nil, err
+	}
+	err = s.data.DB.Table("local_message").
+		Where("business_key = ?", OrderNo).
+		Updates(map[string]interface{}{
+			"status":     1,
+			"updated_at": time.Now(),
+		}).Error
+	if err != nil {
+		log.Println("更新本地消息状态失败，OrderNo:", OrderNo, err)
 	}
 
 	return &pb.CreateDepositReply{
@@ -127,7 +192,7 @@ func (s *DepositService) ReturnToken(ctx context.Context, req *pb.ReturnTokenReq
 		// 根据您的需求设置 JWT 中的声明
 		"your_custom_claim": "your_custom_value",
 		"id":                "123",
-		"exp":               time.Now().Add(time.Hour * 24 * 7).Unix(),
+		"exp":               time.Now().Add(time.Hour * 24 * 30).Unix(),
 	})
 
 	signedString, err := claims.SignedString([]byte(s.server.Jwt.Authkey))

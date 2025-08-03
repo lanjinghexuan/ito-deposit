@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"fmt"
+	"github.com/apache/rocketmq-client-go/v2/consumer"
 
 	"github.com/apache/rocketmq-client-go/v2"
 	"github.com/apache/rocketmq-client-go/v2/producer"
@@ -129,6 +130,7 @@ func (a *redisAdapter) Get(ctx context.Context, key string) *redis.StringCmd {
 
 // NewData .
 func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
+
 	helper := log.NewHelper(logger)
 
 	db, err := gorm.Open(mysql.Open(c.Database.Source), &gorm.Config{})
@@ -147,7 +149,7 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 
 	mq, err := rocketmq.NewProducer(
 		producer.WithGroupName("deposit_group"),
-		producer.WithNameServer([]string{"14.103.235.215:9876"}),
+		producer.WithNameServer([]string{"14.103.243.149:9876"}),
 	)
 	if err != nil {
 		panic(err)
@@ -161,6 +163,23 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 		if err := mq.Shutdown(); err != nil {
 			helper.Errorf("failed to shutdown mq: %v", err)
 		}
+	}
+
+	consumerIns, err := rocketmq.NewPushConsumer(
+		consumer.WithGroupName("deposit_group"),
+		consumer.WithNameServer([]string{"14.103.243.149:9876"}),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	err = StartDepositConsumer(consumerIns, db)
+	if err != nil {
+		panic(err)
+	}
+
+	if err := consumerIns.Start(); err != nil {
+		panic(err)
 	}
 
 	return &Data{
