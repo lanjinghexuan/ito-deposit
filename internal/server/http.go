@@ -86,6 +86,7 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList["/api.helloworld.v1.Admin/SetPriceRule"] = struct{}{}
 	whiteList["/api.helloworld.v1.Admin/GetPriceRule"] = struct{}{}
 	whiteList["/api.helloworld.v1.Order/UpdateOrder"] = struct{}{}
+	whiteList["/api.helloworld.v1.Admin/AdminLogin"] = struct{}{}
 	// 寄存点相关API - 用户端不需要认证
 	whiteList["/api.helloworld.v1.Deposit/GetDepositLocker"] = struct{}{}
 	whiteList["/api.helloworld.v1.Deposit/ListDeposit"] = struct{}{}
@@ -120,7 +121,7 @@ func NewWhiteListMatcher() selector.MatchFunc {
 
 	// 特殊情况：管理员登录和创建管理员不需要JWT验证
 	loginWhiteList := make(map[string]struct{})
-	loginWhiteList["/api.helloworld.v1.Admin/Login"] = struct{}{}
+	loginWhiteList["/api.helloworld.v1.Admin/AdminLogin"] = struct{}{}
 	loginWhiteList["/api.helloworld.v1.Admin/CreateAdmin"] = struct{}{}
 	loginWhiteList["/api.helloworld.v1.Deposit/ReturnToken"] = struct{}{}
 	loginWhiteList["/api.helloworld.v1.User/SendSms"] = struct{}{}

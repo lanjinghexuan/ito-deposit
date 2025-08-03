@@ -2,10 +2,12 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	jwt1 "github.com/go-kratos/kratos/v2/middleware/auth/jwt"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/minio/minio-go/v7/pkg/credentials"
+	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"ito-deposit/internal/biz"
@@ -153,10 +155,23 @@ func (s *AdminService) SetPriceRule(ctx context.Context, req *pb.SetPriceRuleReq
 }
 
 func (s *AdminService) GetPriceRule(ctx context.Context, req *pb.GetPriceRuleReq) (*pb.GetPriceRuleRes, error) {
+	key := fmt.Sprintf("ito-deposit/admin/GetPriceRule%s", req.NetworkId)
+	res, err := s.data.Redis.Get(context.Background(), key).Result()
+	if err != nil && err != redis.Nil {
+		return &pb.GetPriceRuleRes{}, nil
+	}
+	if res != "" {
+		var data pb.GetPriceRuleRes
+		err = json.Unmarshal([]byte(res), &data)
+		if err != nil {
+			return &pb.GetPriceRuleRes{}, nil
+		}
+		return &data, nil
+	}
 	var rules []*data2.LockerPricingRules
 	fmt.Println(1)
 	// 只查询生效状态的规则
-	err := s.data.DB.Where("network_id = ? AND status = 1", req.NetworkId).Find(&rules).Error
+	err = s.data.DB.Where("network_id = ? AND status = 1", req.NetworkId).Find(&rules).Error
 	if err != nil {
 		return nil, err
 	}
@@ -178,8 +193,11 @@ func (s *AdminService) GetPriceRule(ctx context.Context, req *pb.GetPriceRuleReq
 			IsAdvancePay:     intToBool(int(r.IsAdvancePay)),
 		})
 	}
-
-	return &pb.GetPriceRuleRes{Rules: pbRules}, nil
+	var res1 *pb.GetPriceRuleRes
+	res1 = &pb.GetPriceRuleRes{Rules: pbRules}
+	jsonrule, err := json.Marshal(res1)
+	s.data.Redis.Set(context.Background(), key, jsonrule, time.Minute*5)
+	return res1, nil
 }
 
 // 辅助函数
@@ -232,7 +250,7 @@ func (s *AdminService) DownloadFile(ctx kratosHttp.Context) error {
 	if err != nil {
 		return err
 	}
-	// 文件格式验证
+
 	ext := filepath.Ext(file.Filename)
 	if ext != ".png" && ext != ".jpg" {
 		return ctx.Result(500, map[string]interface{}{
@@ -242,7 +260,6 @@ func (s *AdminService) DownloadFile(ctx kratosHttp.Context) error {
 		})
 	}
 
-	// 文件大小验证（200KB限制）
 	if file.Size >= 200*1024*1024 {
 		return ctx.Result(500, map[string]interface{}{
 			"code":    500,
@@ -295,8 +312,21 @@ func UploadFile(objectName string, fileHeader *multipart.FileHeader, c *conf.Dat
 	return fmt.Sprintf("%s/%s/%s", c.Minio.Endpoint, c.Minio.BucketName, objectName), nil
 }
 func (s *AdminService) PointList(ctx context.Context, req *pb.PointListReq) (*pb.PointListRes, error) {
+	key := fmt.Sprintf("ito-deposit/admin/PointList%s", "111")
+	res, err := s.data.Redis.Get(context.Background(), key).Result()
+	if err != nil && err != redis.Nil {
+		return &pb.PointListRes{}, nil
+	}
+	if res != "" {
+		var data pb.PointListRes
+		err = json.Unmarshal([]byte(res), &data)
+		if err != nil {
+			return &pb.PointListRes{}, nil
+		}
+		return &data, nil
+	}
 	var point []data2.LockerPoint
-	err := s.data.DB.Debug().Find(&point).Error
+	err = s.data.DB.Debug().Find(&point).Error
 	if err != nil {
 		return &pb.PointListRes{
 			Code: 500,
@@ -311,27 +341,46 @@ func (s *AdminService) PointList(ctx context.Context, req *pb.PointListReq) (*pb
 			AvailableLarge:  int64(l.AvailableLarge),
 			AvailableMedium: int64(l.AvailableMedium),
 			AvailableSmall:  int64(l.AvailableSmall),
+			Id:              int64(l.Id),
 		}
 		lists = append(lists, &list)
 	}
-	return &pb.PointListRes{
+	var res1 *pb.PointListRes
+	res1 = &pb.PointListRes{
 		Code: 200,
 		Msg:  "查询成功",
 		List: lists,
-	}, nil
+	}
+	jsonList, err := json.Marshal(res1)
+	s.data.Redis.Set(context.Background(), key, jsonList, time.Minute*5)
+	return res1, nil
 }
 
 func (s *AdminService) PointInfo(ctx context.Context, req *pb.PointInfoReq) (*pb.PointInfoRes, error) {
+	key := fmt.Sprintf("ito-deaposit/admin/PointInfo%s", req.Id)
+	res, err := s.data.Redis.Get(context.Background(), key).Result()
+	if err != nil && err != redis.Nil {
+		return &pb.PointInfoRes{}, err
+	}
+	if res != "" {
+		var data pb.PointInfoRes
+		err = json.Unmarshal([]byte(res), &data)
+		if err != nil {
+			return &pb.PointInfoRes{}, err
+		}
+		return &data, nil
+	}
 	var point data2.LockerPoint
 	fmt.Println(req.Id)
-	err := s.data.DB.Debug().Where("id = ?", req.Id).Find(&point).Error
+	err = s.data.DB.Debug().Where("id = ?", req.Id).Find(&point).Error
 	if err != nil {
 		return &pb.PointInfoRes{
 			Code: 500,
 			Msg:  "查询失败",
 		}, nil
 	}
-	return &pb.PointInfoRes{
+	var res1 *pb.PointInfoRes
+	res1 = &pb.PointInfoRes{
 		Code:            200,
 		Msg:             "查询成功",
 		Name:            point.Name,
@@ -343,7 +392,10 @@ func (s *AdminService) PointInfo(ctx context.Context, req *pb.PointInfoReq) (*pb
 		OpenTime:        point.OpenTime,
 		Staus:           point.Status,
 		PointImage:      point.PointImage,
-	}, nil
+	}
+	jsonInfo, err := json.Marshal(res1)
+	s.data.Redis.Set(context.Background(), key, jsonInfo, time.Minute*5)
+	return res1, nil
 }
 
 func (s *AdminService) AddPoint(ctx context.Context, req *pb.AddPointReq) (*pb.AddPointRes, error) {
