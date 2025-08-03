@@ -78,3 +78,25 @@ type LockerPricingRules struct {
 	CreatedAt        time.Time `gorm:"column:created_at;type:datetime;default:CURRENT_TIMESTAMP;" json:"created_at"`
 	UpdatedAt        time.Time `gorm:"column:updated_at;type:datetime;default:CURRENT_TIMESTAMP;" json:"updated_at"`
 }
+
+type LocalMessage struct {
+	Id            int64     `gorm:"column:id;type:bigint;primaryKey;not null;" json:"id"`
+	BusinessKey   string    `gorm:"column:business_key;type:varchar(128);default:NULL;" json:"business_key"`
+	Topic         string    `gorm:"column:topic;type:varchar(128);default:NULL;" json:"topic"`
+	Tags          string    `gorm:"column:tags;type:varchar(64);default:NULL;" json:"tags"`
+	Body          string    `gorm:"column:body;type:text;" json:"body"`
+	Status        int8      `gorm:"column:status;type:tinyint;default:0;" json:"status"`
+	RetryCount    int32     `gorm:"column:retry_count;type:int;default:0;" json:"retry_count"`
+	NextRetryTime time.Time `gorm:"column:next_retry_time;type:datetime;default:NULL;" json:"next_retry_time"`
+	CreatedAt     time.Time `gorm:"column:created_at;type:datetime;default:CURRENT_TIMESTAMP;" json:"created_at"`
+	UpdatedAt     time.Time `gorm:"column:updated_at;type:datetime;default:CURRENT_TIMESTAMP;" json:"updated_at"`
+}
+
+type DepositRecord struct {
+	Id        int32     `gorm:"column:id;type:int;primaryKey;not null;" json:"id"`
+	OrderNo   string    `gorm:"column:order_no;type:int;default:NULL;" json:"order_no"`
+	UserId    int32     `gorm:"column:user_id;type:int;default:NULL;" json:"user_id"`
+	LockerId  int32     `gorm:"column:locker_id;type:int;default:NULL;" json:"locker_id"`
+	Price     float64   `gorm:"column:price;type:decimal(10, 2);default:NULL;" json:"price"`
+	CreatedAt time.Time `gorm:"column:created_at;type:datetime;default:NULL;" json:"created_at"`
+}
