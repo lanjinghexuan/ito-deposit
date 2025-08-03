@@ -1113,6 +1113,7 @@ type PointList struct {
 	AvailableLarge  int64                  `protobuf:"varint,3,opt,name=available_large,json=availableLarge,proto3" json:"available_large,omitempty"`
 	AvailableMedium int64                  `protobuf:"varint,4,opt,name=available_medium,json=availableMedium,proto3" json:"available_medium,omitempty"`
 	AvailableSmall  int64                  `protobuf:"varint,5,opt,name=available_small,json=availableSmall,proto3" json:"available_small,omitempty"`
+	Id              int64                  `protobuf:"varint,6,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1178,6 +1179,13 @@ func (x *PointList) GetAvailableMedium() int64 {
 func (x *PointList) GetAvailableSmall() int64 {
 	if x != nil {
 		return x.AvailableSmall
+	}
+	return 0
+}
+
+func (x *PointList) GetId() int64 {
+	if x != nil {
+		return x.Id
 	}
 	return 0
 }
@@ -1447,13 +1455,14 @@ const file_api_helloworld_v1_admin_proto_rawDesc = "" +
 	"\fPointListRes\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\x120\n" +
-	"\x04list\x18\x03 \x03(\v2\x1c.api.helloworld.v1.PointListR\x04list\"\xb6\x01\n" +
+	"\x04list\x18\x03 \x03(\v2\x1c.api.helloworld.v1.PointListR\x04list\"\xc6\x01\n" +
 	"\tPointList\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
 	"\aaddress\x18\x02 \x01(\tR\aaddress\x12'\n" +
 	"\x0favailable_large\x18\x03 \x01(\x03R\x0eavailableLarge\x12)\n" +
 	"\x10available_medium\x18\x04 \x01(\x03R\x0favailableMedium\x12'\n" +
-	"\x0favailable_small\x18\x05 \x01(\x03R\x0eavailableSmall\"\x1e\n" +
+	"\x0favailable_small\x18\x05 \x01(\x03R\x0eavailableSmall\x12\x0e\n" +
+	"\x02id\x18\x06 \x01(\x03R\x02id\"\x1e\n" +
 	"\fPointInfoReq\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"\xd2\x02\n" +
 	"\fPointInfoRes\x12\x12\n" +
@@ -1475,7 +1484,7 @@ const file_api_helloworld_v1_admin_proto_rawDesc = "" +
 	"\tPointInfo\x12\x1f.api.helloworld.v1.PointInfoReq\x1a\x1f.api.helloworld.v1.PointInfoRes\"\x16\x82\xd3\xe4\x93\x02\x10:\x01*\"\v/point_info\x12b\n" +
 	"\tPointList\x12\x1f.api.helloworld.v1.PointListReq\x1a\x1f.api.helloworld.v1.PointListRes\"\x13\x82\xd3\xe4\x93\x02\r\x12\v/point_list\x12i\n" +
 	"\n" +
-	"AdminLogin\x12 .api.helloworld.v1.AdminLoginReq\x1a .api.helloworld.v1.AdminLoginRes\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/admin/login\x12v\n" +
+	"AdminLogin\x12 .api.helloworld.v1.AdminLoginReq\x1a .api.helloworld.v1.AdminLoginRes\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/admin_login\x12v\n" +
 	"\fSetPriceRule\x12\".api.helloworld.v1.SetPriceRuleReq\x1a\".api.helloworld.v1.SetPriceRuleRes\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/admin/setPriceRule\x12s\n" +
 	"\fGetPriceRule\x12\".api.helloworld.v1.GetPriceRuleReq\x1a\".api.helloworld.v1.GetPriceRuleRes\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/admin/getPriceRule\x12k\n" +
 	"\n" +

@@ -1,17 +1,14 @@
 openapi: 3.0.3
 info:
-  title: ITO Deposit API
+  title: ITO Deposit API - Core Modules
   description: |
-    智能寄存柜管理系统API文档
+    智能寄存柜管理系统核心模块API文档
     
-    本系统提供完整的寄存柜管理功能，包括：
-    - 用户管理和认证
-    - 寄存点管理
-    - 柜组管理
-    - 柜格管理
-    - 订单管理
-    - 附近寄存点查询
-    - 管理员功能
+    本文档包含以下核心模块：
+    - **Cell** - 柜格管理模块
+    - **City** - 城市管理模块  
+    - **Group** - 柜组管理模块
+    - **Nearby** - 附近寄存点查询模块
     
     ## 认证方式
     大部分API需要Bearer Token认证，请在请求头中添加：
@@ -30,8 +27,8 @@ info:
     ```
   version: 1.0.0
   contact:
-    name: ITO Deposit Team
-    email: support@ito-deposit.com
+    name: ITO Deposit Core Team
+    email: core@ito-deposit.com
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
@@ -43,31 +40,66 @@ servers:
     description: 生产环境
 
 tags:
-  - name: User
-    description: 用户管理相关接口
-  - name: Admin
-    description: 管理员功能接口
-  - name: Group
-    description: 柜组管理接口
   - name: CabinetCell
     description: 柜格管理接口
+  - name: City
+    description: 城市管理接口
+  - name: Group
+    description: 柜组管理接口
   - name: Nearby
     description: 附近寄存点查询接口
-  - name: Order
-    description: 订单管理接口
 
 security:
   - BearerAuth: []
 
 paths:
-  # 用户相关接口
-  /login:
+  # 柜格管理接口
+  /v1/cabinet-cell/create:
     post:
       tags:
-        - User
-      summary: 用户登录
-      description: 用户通过手机号和验证码登录系统
-      security: []
+        - CabinetCell
+      summary: 创建柜格
+      description: 创建新的柜格
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCabinetCellRequest'
+      responses:
+        '200':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCabinetCellResponse'
+
+  /v1/cabinet-cell/update:
+    put:
+      tags:
+        - CabinetCell
+      summary: 更新柜格
+      description: 更新柜格信息
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCabinetCellRequest'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCabinetCellResponse'
+
+  /v1/cabinet-cell/delete:
+    post:
+      tags:
+        - CabinetCell
+      summary: 删除柜格
+      description: 删除指定柜格
       requestBody:
         required: true
         content:
@@ -75,101 +107,203 @@ paths:
             schema:
               type: object
               required:
-                - mobile
-                - code
+                - id
               properties:
-                mobile:
-                  type: string
-                  description: 手机号
-                  example: "13800138000"
-                code:
-                  type: string
-                  description: 验证码
-                  example: "123456"
+                id:
+                  type: integer
+                  description: 柜格ID
+                  example: 1
       responses:
         '200':
-          description: 登录成功
+          description: 删除成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LoginResponse'
+                $ref: '#/components/schemas/DeleteCabinetCellResponse'
 
-  /register:
-    post:
-      tags:
-        - User
-      summary: 用户注册
-      description: 新用户注册账号
-      security: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - mobile
-                - code
-              properties:
-                mobile:
-                  type: string
-                  description: 手机号
-                  example: "13800138000"
-                code:
-                  type: string
-                  description: 验证码
-                  example: "123456"
-                nickname:
-                  type: string
-                  description: 昵称
-                  example: "用户昵称"
-      responses:
-        '200':
-          description: 注册成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RegisterResponse'
-
-  /sendSms:
-    post:
-      tags:
-        - User
-      summary: 发送短信验证码
-      description: 向指定手机号发送验证码
-      security: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - mobile
-                - source
-              properties:
-                mobile:
-                  type: string
-                  description: 手机号
-                  example: "13800138000"
-                source:
-                  type: string
-                  description: 来源（login/register）
-                  example: "login"
-      responses:
-        '200':
-          description: 发送成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BaseResponse'
-
-  /list:
+  /v1/cabinet-cell/get:
     get:
       tags:
-        - User
-      summary: 获取用户订单列表
-      description: 获取当前用户的订单列表
+        - CabinetCell
+      summary: 获取柜格信息
+      description: 根据ID获取柜格详细信息
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 柜格ID
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCabinetCellResponse'
+
+  /v1/cabinet-cell/list:
+    post:
+      tags:
+        - CabinetCell
+      summary: 获取柜格列表
+      description: 分页获取柜格列表
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListCabinetCellsRequest'
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCabinetCellsResponse'
+
+  /v1/cabinet-cell/search:
+    post:
+      tags:
+        - CabinetCell
+      summary: 搜索柜格
+      description: 根据关键词搜索柜格
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchCabinetCellsRequest'
+      responses:
+        '200':
+          description: 搜索成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchCabinetCellsResponse'
+
+  /v1/cabinet-cell/by-group:
+    get:
+      tags:
+        - CabinetCell
+      summary: 根据柜组获取柜格
+      description: 获取指定柜组的所有柜格
+      parameters:
+        - name: cabinet_group_id
+          in: query
+          required: true
+          description: 柜组ID
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCabinetCellsByGroupResponse'
+
+  /v1/cabinet-cell/batch-create:
+    post:
+      tags:
+        - CabinetCell
+      summary: 批量创建柜格
+      description: 批量创建柜格
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchCreateCabinetCellsRequest'
+      responses:
+        '200':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchCreateCabinetCellsResponse'
+
+  /v1/cabinet-cell/open:
+    post:
+      tags:
+        - CabinetCell
+      summary: 开启柜格
+      description: 开启指定柜格
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: 柜格ID
+                  example: 1
+      responses:
+        '200':
+          description: 开启成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenCabinetCellResponse'
+
+  /v1/cabinet-cell/close:
+    post:
+      tags:
+        - CabinetCell
+      summary: 关闭柜格
+      description: 关闭指定柜格
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: 柜格ID
+                  example: 1
+      responses:
+        '200':
+          description: 关闭成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloseCabinetCellResponse'
+
+  # 城市管理接口
+  /api/admin/cities:
+    post:
+      tags:
+        - City
+      summary: 创建城市
+      description: 创建新城市（管理端）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCityRequest'
+      responses:
+        '200':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCityResponse'
+    get:
+      tags:
+        - City
+      summary: 获取城市列表
+      description: 获取城市列表（管理端）
       parameters:
         - name: page
           in: query
@@ -177,7 +311,121 @@ paths:
           schema:
             type: integer
             default: 1
-        - name: size
+        - name: page_size
+          in: query
+          description: 每页数量
+          schema:
+            type: integer
+            default: 10
+        - name: status
+          in: query
+          description: 状态过滤（1-启用，0-禁用，-1-全部）
+          schema:
+            type: integer
+            default: -1
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCitiesResponse'
+
+  /api/admin/cities/{id}:
+    get:
+      tags:
+        - City
+      summary: 获取城市详情
+      description: 获取城市详情（管理端）
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 城市ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCityResponse'
+    put:
+      tags:
+        - City
+      summary: 更新城市
+      description: 更新城市信息（管理端）
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 城市ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCityRequest'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCityResponse'
+
+  /api/admin/cities/{id}/status:
+    patch:
+      tags:
+        - City
+      summary: 更新城市状态
+      description: 更新城市状态（管理端）
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 城市ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: integer
+                  description: 状态（1-启用，0-禁用）
+                  example: 1
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCityStatusResponse'
+
+  /api/cities:
+    get:
+      tags:
+        - City
+      summary: 获取城市列表
+      description: 获取城市列表（用户端）
+      security: []
+      parameters:
+        - name: page
+          in: query
+          description: 页码
+          schema:
+            type: integer
+            default: 1
+        - name: page_size
           in: query
           description: 每页数量
           schema:
@@ -189,82 +437,109 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrderListResponse'
+                $ref: '#/components/schemas/ListUserCitiesResponse'
 
-  # 管理员相关接口
-  /admin_login:
-    post:
-      tags:
-        - Admin
-      summary: 管理员登录
-      description: 管理员登录系统
-      security: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - username
-                - password
-              properties:
-                username:
-                  type: string
-                  description: 用户名
-                  example: "admin"
-                password:
-                  type: string
-                  description: 密码
-                  example: "password123"
-      responses:
-        '200':
-          description: 登录成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AdminLoginResponse'
-
-  /point_info:
-    post:
-      tags:
-        - Admin
-      summary: 获取网点信息
-      description: 根据ID获取网点详细信息
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              required:
-                - id
-              properties:
-                id:
-                  type: integer
-                  description: 网点ID
-                  example: 1
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PointInfoResponse'
-
-  /point_list:
+  /api/cities/search:
     get:
       tags:
-        - Admin
-      summary: 获取网点列表
-      description: 获取所有网点列表
+        - City
+      summary: 搜索城市
+      description: 搜索城市（用户端）
+      security: []
+      parameters:
+        - name: keyword
+          in: query
+          required: true
+          description: 搜索关键词
+          schema:
+            type: string
+            example: "北京"
+        - name: page
+          in: query
+          description: 页码
+          schema:
+            type: integer
+            default: 1
+        - name: page_size
+          in: query
+          description: 每页数量
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: 搜索成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchCitiesResponse'
+
+  /api/cities/{id}:
+    get:
+      tags:
+        - City
+      summary: 获取城市详情
+      description: 获取城市详情（用户端）
+      security: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 城市ID
+          schema:
+            type: integer
       responses:
         '200':
           description: 获取成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PointListResponse'
+                $ref: '#/components/schemas/GetUserCityResponse'
+
+  /api/cities/code/{code}:
+    get:
+      tags:
+        - City
+      summary: 根据编码获取城市
+      description: 根据城市编码获取城市信息（用户端）
+      security: []
+      parameters:
+        - name: code
+          in: path
+          required: true
+          description: 城市编码
+          schema:
+            type: string
+            example: "BJ"
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserCityResponse'
+
+  /api/cities/hot:
+    get:
+      tags:
+        - City
+      summary: 获取热门城市
+      description: 获取热门城市列表（用户端）
+      security: []
+      parameters:
+        - name: limit
+          in: query
+          description: 返回数量限制
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUserCitiesResponse'
 
   # 柜组管理接口
   /v1/group/create:
@@ -376,243 +651,98 @@ paths:
               schema:
                 $ref: '#/components/schemas/ListGroupResponse'
 
-  # 柜格管理接口
-  /v1/cabinet-cell/create:
+  /v1/group/search:
     post:
       tags:
-        - CabinetCell
-      summary: 创建柜格
-      description: 创建新的柜格
+        - Group
+      summary: 搜索柜组
+      description: 根据关键词搜索柜组
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateCabinetCellRequest'
+              $ref: '#/components/schemas/SearchGroupRequest'
       responses:
         '200':
-          description: 创建成功
+          description: 搜索成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateCabinetCellResponse'
-
-  /v1/cabinet-cell/update:
-    put:
-      tags:
-        - CabinetCell
-      summary: 更新柜格
-      description: 更新柜格信息
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateCabinetCellRequest'
-      responses:
-        '200':
-          description: 更新成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UpdateCabinetCellResponse'
-
-  /v1/cabinet-cell/delete:
-    post:
-      tags:
-        - CabinetCell
-      summary: 删除柜格
-      description: 删除指定柜格
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - id
-              properties:
-                id:
-                  type: integer
-                  description: 柜格ID
-                  example: 1
-      responses:
-        '200':
-          description: 删除成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DeleteCabinetCellResponse'
-
-  /v1/cabinet-cell/get:
-    get:
-      tags:
-        - CabinetCell
-      summary: 获取柜格信息
-      description: 根据ID获取柜格详细信息
-      parameters:
-        - name: id
-          in: query
-          required: true
-          description: 柜格ID
-          schema:
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetCabinetCellResponse'
-
-  /v1/cabinet-cell/list:
-    post:
-      tags:
-        - CabinetCell
-      summary: 获取柜格列表
-      description: 分页获取柜格列表
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ListCabinetCellsRequest'
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListCabinetCellsResponse'
-
-  /v1/cabinet-cell/by-group:
-    get:
-      tags:
-        - CabinetCell
-      summary: 根据柜组获取柜格
-      description: 获取指定柜组的所有柜格
-      parameters:
-        - name: cabinet_group_id
-          in: query
-          required: true
-          description: 柜组ID
-          schema:
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetCabinetCellsByGroupResponse'
-
-  /v1/cabinet-cell/batch-create:
-    post:
-      tags:
-        - CabinetCell
-      summary: 批量创建柜格
-      description: 批量创建柜格
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BatchCreateCabinetCellsRequest'
-      responses:
-        '200':
-          description: 创建成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BatchCreateCabinetCellsResponse'
-
-  /v1/cabinet-cell/open:
-    post:
-      tags:
-        - CabinetCell
-      summary: 开启柜格
-      description: 开启指定柜格
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - id
-              properties:
-                id:
-                  type: integer
-                  description: 柜格ID
-                  example: 1
-      responses:
-        '200':
-          description: 开启成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OpenCabinetCellResponse'
-
-  /v1/cabinet-cell/close:
-    post:
-      tags:
-        - CabinetCell
-      summary: 关闭柜格
-      description: 关闭指定柜格
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - id
-              properties:
-                id:
-                  type: integer
-                  description: 柜格ID
-                  example: 1
-      responses:
-        '200':
-          description: 关闭成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CloseCabinetCellResponse'
+                $ref: '#/components/schemas/SearchGroupResponse'
 
   # 附近寄存点查询接口
+  /api/admin/nearby/init:
+    post:
+      tags:
+        - Nearby
+      summary: 初始化寄存点地理位置数据
+      description: 初始化寄存点地理位置数据（管理端）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: 初始化成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+
   /api/nearby/locker-points:
     get:
       tags:
         - Nearby
       summary: 查找附近寄存点
-      description: 根据经纬度查找附近的寄存点
+      description: 根据位置信息查找附近的寄存点
+      security: []
       parameters:
-        - name: latitude
+        - name: city_name
           in: query
-          required: true
-          description: 纬度
+          description: 城市名称
           schema:
-            type: number
-            format: double
-            example: 39.9042
+            type: string
+            example: "北京"
+        - name: ip
+          in: query
+          description: IP地址
+          schema:
+            type: string
+            example: "192.168.1.1"
         - name: longitude
           in: query
-          required: true
           description: 经度
           schema:
             type: number
             format: double
             example: 116.4074
+        - name: latitude
+          in: query
+          description: 纬度
+          schema:
+            type: number
+            format: double
+            example: 39.9042
         - name: radius
           in: query
-          description: 搜索半径（米）
+          description: 搜索半径（公里）
+          schema:
+            type: number
+            format: double
+            default: 5.0
+        - name: limit
+          in: query
+          description: 返回数量限制
           schema:
             type: integer
-            default: 5000
-            example: 5000
+            default: 10
       responses:
         '200':
           description: 查询成功
@@ -620,6 +750,289 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FindNearbyLockerPointsResponse'
+
+  /api/nearby/city/locker-points:
+    get:
+      tags:
+        - Nearby
+      summary: 查找城市内附近寄存点
+      description: 查找用户在指定城市内附近的寄存点
+      security: []
+      parameters:
+        - name: city_name
+          in: query
+          required: true
+          description: 城市名称
+          schema:
+            type: string
+            example: "北京"
+        - name: longitude
+          in: query
+          description: 用户经度
+          schema:
+            type: number
+            format: double
+            example: 116.4074
+        - name: latitude
+          in: query
+          description: 用户纬度
+          schema:
+            type: number
+            format: double
+            example: 39.9042
+        - name: radius
+          in: query
+          description: 搜索半径（公里）
+          schema:
+            type: number
+            format: double
+            default: 5.0
+        - name: limit
+          in: query
+          description: 返回数量限制
+          schema:
+            type: integer
+            default: 10
+        - name: ip
+          in: query
+          description: 用户IP地址
+          schema:
+            type: string
+        - name: use_realtime
+          in: query
+          description: 是否使用实时定位
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindNearbyLockerPointsResponse'
+
+  /api/nearby/my-location/locker-points:
+    get:
+      tags:
+        - Nearby
+      summary: 查找我的附近寄存点
+      description: 使用实时定位查找我的附近寄存点
+      security: []
+      parameters:
+        - name: city_name
+          in: query
+          required: true
+          description: 城市名称
+          schema:
+            type: string
+            example: "北京"
+        - name: ip
+          in: query
+          description: 用户IP地址
+          schema:
+            type: string
+        - name: radius
+          in: query
+          description: 搜索半径（公里）
+          schema:
+            type: number
+            format: double
+            default: 5.0
+        - name: limit
+          in: query
+          description: 返回数量限制
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindNearbyLockerPointsResponse'
+
+  /api/nearby/city/search:
+    get:
+      tags:
+        - Nearby
+      summary: 搜索城市内寄存点
+      description: 搜索指定城市内的寄存点
+      security: []
+      parameters:
+        - name: city_name
+          in: query
+          required: true
+          description: 城市名称
+          schema:
+            type: string
+            example: "北京"
+        - name: keyword
+          in: query
+          description: 搜索关键词
+          schema:
+            type: string
+            example: "西站"
+        - name: page
+          in: query
+          description: 页码
+          schema:
+            type: integer
+            default: 1
+        - name: page_size
+          in: query
+          description: 每页数量
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: 搜索成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchLockerPointsInCityResponse'
+
+  /api/nearby/city/map:
+    get:
+      tags:
+        - Nearby
+      summary: 获取城市寄存点分布图
+      description: 获取城市寄存点分布图数据
+      security: []
+      parameters:
+        - name: city_name
+          in: query
+          required: true
+          description: 城市名称
+          schema:
+            type: string
+            example: "北京"
+        - name: north_lat
+          in: query
+          description: 北纬度（地图边界）
+          schema:
+            type: number
+            format: double
+        - name: south_lat
+          in: query
+          description: 南纬度（地图边界）
+          schema:
+            type: number
+            format: double
+        - name: east_lng
+          in: query
+          description: 东经度（地图边界）
+          schema:
+            type: number
+            format: double
+        - name: west_lng
+          in: query
+          description: 西经度（地图边界）
+          schema:
+            type: number
+            format: double
+        - name: zoom_level
+          in: query
+          description: 地图缩放级别（1-20）
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 20
+            default: 10
+        - name: enable_cluster
+          in: query
+          description: 是否启用聚合
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCityLockerPointsMapResponse'
+
+  /api/nearby/my-nearby:
+    get:
+      tags:
+        - Nearby
+      summary: 获取我的附近信息
+      description: 获取我的附近信息（实时位置和附近寄存点）
+      security: []
+      parameters:
+        - name: ip
+          in: query
+          description: 用户IP地址
+          schema:
+            type: string
+        - name: longitude
+          in: query
+          description: 用户经度
+          schema:
+            type: number
+            format: double
+        - name: latitude
+          in: query
+          description: 用户纬度
+          schema:
+            type: number
+            format: double
+        - name: radius
+          in: query
+          description: 搜索半径（公里）
+          schema:
+            type: number
+            format: double
+            default: 5.0
+        - name: limit
+          in: query
+          description: 返回寄存点数量限制
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMyNearbyInfoResponse'
+
+  /api/locker-points/all:
+    get:
+      tags:
+        - Nearby
+      summary: 获取所有寄存点
+      description: 获取所有寄存点（不依赖城市）
+      security: []
+      parameters:
+        - name: keyword
+          in: query
+          description: 搜索关键词
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: 页码
+          schema:
+            type: integer
+            default: 1
+        - name: page_size
+          in: query
+          description: 每页数量
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchLockerPointsInCityResponse'
 
 components:
   securitySchemes:
@@ -641,395 +1054,6 @@ components:
           type: string
           description: 响应消息
           example: "success"
-
-    # 用户相关模型
-    LoginResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                token:
-                  type: string
-                  description: 访问令牌
-                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                user_info:
-                  $ref: '#/components/schemas/UserInfo'
-
-    RegisterResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                user_id:
-                  type: integer
-                  description: 用户ID
-                  example: 1001
-
-    UserInfo:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 用户ID
-          example: 1001
-        mobile:
-          type: string
-          description: 手机号
-          example: "13800138000"
-        nickname:
-          type: string
-          description: 昵称
-          example: "用户昵称"
-        avatar:
-          type: string
-          description: 头像URL
-          example: "https://example.com/avatar.jpg"
-
-    OrderListResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                orders:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/OrderInfo'
-                total:
-                  type: integer
-                  description: 总数量
-                  example: 100
-
-    OrderInfo:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 订单ID
-          example: 1001
-        order_no:
-          type: string
-          description: 订单号
-          example: "ORD20240101001"
-        status:
-          type: string
-          description: 订单状态
-          enum: [pending, active, completed, cancelled]
-          example: "active"
-        amount:
-          type: number
-          format: double
-          description: 订单金额
-          example: 10.50
-        create_time:
-          type: string
-          format: date-time
-          description: 创建时间
-          example: "2024-01-01T10:00:00Z"
-
-    # 管理员相关模型
-    AdminLoginResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                token:
-                  type: string
-                  description: 管理员令牌
-                  example: "admin_token_123456"
-                admin_info:
-                  $ref: '#/components/schemas/AdminInfo'
-
-    AdminInfo:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 管理员ID
-          example: 1
-        username:
-          type: string
-          description: 用户名
-          example: "admin"
-        role:
-          type: string
-          description: 角色
-          example: "super_admin"
-
-    PointInfoResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            name:
-              type: string
-              description: 网点名称
-              example: "北京西站南广场寄存点"
-            address:
-              type: string
-              description: 网点地址
-              example: "南广场进站口东侧"
-            pointType:
-              type: string
-              description: 网点类型
-              example: "学校"
-            availableLarge:
-              type: integer
-              description: 可用大柜数量
-              example: 5
-            availableMedium:
-              type: integer
-              description: 可用中柜数量
-              example: 10
-            availableSmall:
-              type: integer
-              description: 可用小柜数量
-              example: 15
-            openTime:
-              type: string
-              description: 营业时间
-              example: "08:00-22:00"
-            status:
-              type: integer
-              description: 网点状态（1-正常，0-暂停营业）
-              example: 1
-            pointImage:
-              type: string
-              description: 网点图片URL
-              example: "https://example.com/point.jpg"
-
-    PointListResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/PointInfo'
-
-    PointInfo:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 网点ID
-          example: 1
-        name:
-          type: string
-          description: 网点名称
-          example: "北京西站南广场寄存点"
-        address:
-          type: string
-          description: 网点地址
-          example: "南广场进站口东侧"
-
-    # 柜组相关模型
-    CreateGroupRequest:
-      type: object
-      required:
-        - location_point_id
-        - group_name
-        - group_code
-        - total_cells
-      properties:
-        location_point_id:
-          type: integer
-          description: 所属寄存点ID
-          example: 1
-        group_name:
-          type: string
-          description: 柜组名称
-          example: "A区柜组"
-        group_code:
-          type: string
-          description: 柜组编码
-          example: "GRP001"
-        group_type:
-          type: string
-          description: 柜组类型
-          enum: [standard, refrigerated, oversize]
-          example: "standard"
-        total_cells:
-          type: integer
-          description: 总格口数
-          example: 20
-        start_no:
-          type: integer
-          description: 起始编号
-          example: 1
-        end_no:
-          type: integer
-          description: 结束编号
-          example: 20
-
-    CreateGroupResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            group_id:
-              type: integer
-              description: 创建的柜组ID
-              example: 1
-
-    UpdateGroupRequest:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          type: integer
-          description: 柜组ID
-          example: 1
-        location_point_id:
-          type: integer
-          description: 所属寄存点ID
-          example: 1
-        group_name:
-          type: string
-          description: 柜组名称
-          example: "A区柜组"
-        group_code:
-          type: string
-          description: 柜组编码
-          example: "GRP001"
-        group_type:
-          type: string
-          description: 柜组类型
-          enum: [standard, refrigerated, oversize]
-          example: "standard"
-        status:
-          type: string
-          description: 柜组状态
-          enum: [normal, abnormal, disabled, damaged]
-          example: "normal"
-
-    UpdateGroupResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            group:
-              $ref: '#/components/schemas/GroupInfo'
-
-    DeleteGroupResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            success:
-              type: boolean
-              description: 删除是否成功
-              example: true
-
-    GetGroupResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            group:
-              $ref: '#/components/schemas/GroupInfo'
-
-    ListGroupRequest:
-      type: object
-      properties:
-        page:
-          type: integer
-          description: 页码
-          default: 1
-          example: 1
-        size:
-          type: integer
-          description: 每页数量
-          default: 10
-          example: 10
-        location_point_id:
-          type: integer
-          description: 寄存点ID过滤
-          example: 1
-        status:
-          type: string
-          description: 状态过滤
-          enum: [normal, abnormal, disabled, damaged]
-          example: "normal"
-
-    ListGroupResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            groups:
-              type: array
-              items:
-                $ref: '#/components/schemas/GroupInfo'
-            total:
-              type: integer
-              description: 总数量
-              example: 100
-
-    GroupInfo:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 柜组ID
-          example: 1
-        location_point_id:
-          type: integer
-          description: 所属寄存点ID
-          example: 1
-        group_name:
-          type: string
-          description: 柜组名称
-          example: "A区柜组"
-        group_code:
-          type: string
-          description: 柜组编码
-          example: "GRP001"
-        group_type:
-          type: string
-          description: 柜组类型
-          enum: [standard, refrigerated, oversize]
-          example: "standard"
-        status:
-          type: string
-          description: 柜组状态
-          enum: [normal, abnormal, disabled, damaged]
-          example: "normal"
-        total_cells:
-          type: integer
-          description: 总格口数
-          example: 20
-        start_no:
-          type: integer
-          description: 起始编号
-          example: 1
-        end_no:
-          type: integer
-          description: 结束编号
-          example: 20
-        create_time:
-          type: string
-          format: date-time
-          description: 创建时间
-          example: "2024-01-01T10:00:00Z"
-        update_time:
-          type: string
-          format: date-time
-          description: 更新时间
-          example: "2024-01-01T10:00:00Z"
 
     # 柜格相关模型
     CreateCabinetCellRequest:
@@ -1097,6 +1121,11 @@ components:
           description: 格口状态
           enum: [normal, inUse, abnormal, disabled, damaged]
           example: "normal"
+        last_open_time:
+          type: string
+          format: date-time
+          description: 最后开启时间
+          example: "2024-01-01T10:00:00Z"
 
     UpdateCabinetCellResponse:
       allOf:
@@ -1137,7 +1166,7 @@ components:
           description: 每页数量
           default: 10
           example: 10
-        group_id:
+        cabinet_group_id:
           type: integer
           description: 柜组ID过滤
           example: 1
@@ -1160,6 +1189,42 @@ components:
               type: integer
               description: 总数量
               example: 100
+
+    SearchCabinetCellsRequest:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: 搜索关键词（格口编号、状态、大小）
+          example: "1"
+        cabinet_group_id:
+          type: integer
+          description: 柜组ID过滤
+          example: 1
+        page:
+          type: integer
+          description: 页码
+          default: 1
+          example: 1
+        size:
+          type: integer
+          description: 每页数量
+          default: 10
+          example: 10
+
+    SearchCabinetCellsResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            cells:
+              type: array
+              items:
+                $ref: '#/components/schemas/CabinetCellInfo'
+            total:
+              type: integer
+              description: 总数量
+              example: 50
 
     GetCabinetCellsByGroupResponse:
       allOf:
@@ -1276,25 +1341,540 @@ components:
           description: 更新时间
           example: "2024-01-01T10:00:00Z"
 
-    # 附近寄存点相关模型
-    FindNearbyLockerPointsResponse:
+    # 城市相关模型
+    CreateCityRequest:
+      type: object
+      required:
+        - name
+        - status
+      properties:
+        name:
+          type: string
+          description: 城市名称
+          example: "北京"
+        status:
+          type: integer
+          description: 状态（1-启用，0-禁用）
+          example: 1
+
+    CreateCityResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 城市ID
+          example: 1
+        name:
+          type: string
+          description: 城市名称
+          example: "北京"
+        code:
+          type: string
+          description: 城市编码
+          example: "BJ"
+        latitude:
+          type: number
+          format: double
+          description: 纬度
+          example: 39.9042
+        longitude:
+          type: number
+          format: double
+          description: 经度
+          example: 116.4074
+        status:
+          type: integer
+          description: 状态（1-启用，0-禁用）
+          example: 1
+
+    UpdateCityRequest:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: 城市ID
+          example: 1
+        name:
+          type: string
+          description: 城市名称
+          example: "北京"
+        status:
+          type: integer
+          description: 状态（1-启用，0-禁用）
+          example: 1
+
+    UpdateCityResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 城市ID
+          example: 1
+        name:
+          type: string
+          description: 城市名称
+          example: "北京"
+        code:
+          type: string
+          description: 城市编码
+          example: "BJ"
+        latitude:
+          type: number
+          format: double
+          description: 纬度
+          example: 39.9042
+        longitude:
+          type: number
+          format: double
+          description: 经度
+          example: 116.4074
+        status:
+          type: integer
+          description: 状态（1-启用，0-禁用）
+          example: 1
+
+    GetCityResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 城市ID
+          example: 1
+        name:
+          type: string
+          description: 城市名称
+          example: "北京"
+        code:
+          type: string
+          description: 城市编码
+          example: "BJ"
+        latitude:
+          type: number
+          format: double
+          description: 纬度
+          example: 39.9042
+        longitude:
+          type: number
+          format: double
+          description: 经度
+          example: 116.4074
+        status:
+          type: integer
+          description: 状态（1-启用，0-禁用）
+          example: 1
+
+    ListCitiesResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: 总数
+          example: 100
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CityInfo'
+
+    UpdateCityStatusResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: 是否成功
+          example: true
+
+    ListUserCitiesResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: 总数
+          example: 100
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCityInfo'
+
+    SearchCitiesResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: 总数
+          example: 50
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCityInfo'
+
+    GetUserCityResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 城市ID
+          example: 1
+        name:
+          type: string
+          description: 城市名称
+          example: "北京"
+        code:
+          type: string
+          description: 城市编码
+          example: "BJ"
+        latitude:
+          type: number
+          format: double
+          description: 纬度
+          example: 39.9042
+        longitude:
+          type: number
+          format: double
+          description: 经度
+          example: 116.4074
+
+    CityInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 城市ID
+          example: 1
+        name:
+          type: string
+          description: 城市名称
+          example: "北京"
+        code:
+          type: string
+          description: 城市编码
+          example: "BJ"
+        latitude:
+          type: number
+          format: double
+          description: 纬度
+          example: 39.9042
+        longitude:
+          type: number
+          format: double
+          description: 经度
+          example: 116.4074
+        status:
+          type: integer
+          description: 状态（1-启用，0-禁用）
+          example: 1
+
+    UserCityInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 城市ID
+          example: 1
+        name:
+          type: string
+          description: 城市名称
+          example: "北京"
+        code:
+          type: string
+          description: 城市编码
+          example: "BJ"
+        latitude:
+          type: number
+          format: double
+          description: 纬度
+          example: 39.9042
+        longitude:
+          type: number
+          format: double
+          description: 经度
+          example: 116.4074
+
+    # 柜组相关模型
+    CreateGroupRequest:
+      type: object
+      required:
+        - location_point_id
+        - group_name
+        - group_code
+        - total_cells
+      properties:
+        location_point_id:
+          type: integer
+          description: 所属寄存点ID
+          example: 1
+        group_name:
+          type: string
+          description: 柜组名称
+          example: "A区柜组"
+        group_code:
+          type: string
+          description: 柜组编码
+          example: "GRP001"
+        group_type:
+          type: string
+          description: 柜组类型
+          enum: [standard, refrigerated, oversize]
+          example: "standard"
+        total_cells:
+          type: integer
+          description: 总格口数
+          example: 20
+        start_no:
+          type: integer
+          description: 起始编号
+          example: 1
+        end_no:
+          type: integer
+          description: 结束编号
+          example: 20
+        install_time:
+          type: string
+          format: date-time
+          description: 安装时间
+          example: "2024-01-01T10:00:00Z"
+
+    CreateGroupResponse:
       allOf:
         - $ref: '#/components/schemas/BaseResponse'
         - type: object
           properties:
-            data:
-              type: object
-              properties:
-                locker_points:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/LockerPointInfo'
-                total:
-                  type: integer
-                  description: 总数量
-                  example: 10
+            group_id:
+              type: integer
+              description: 创建的柜组ID
+              example: 1
 
-    LockerPointInfo:
+    UpdateGroupRequest:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: 柜组ID
+          example: 1
+        location_point_id:
+          type: integer
+          description: 所属寄存点ID
+          example: 1
+        group_name:
+          type: string
+          description: 柜组名称
+          example: "A区柜组"
+        group_code:
+          type: string
+          description: 柜组编码
+          example: "GRP001"
+        group_type:
+          type: string
+          description: 柜组类型
+          enum: [standard, refrigerated, oversize]
+          example: "standard"
+        status:
+          type: string
+          description: 柜组状态
+          enum: [normal, abnormal, disabled, damaged]
+          example: "normal"
+        total_cells:
+          type: integer
+          description: 总格口数
+          example: 20
+        start_no:
+          type: integer
+          description: 起始编号
+          example: 1
+        end_no:
+          type: integer
+          description: 结束编号
+          example: 20
+        install_time:
+          type: string
+          format: date-time
+          description: 安装时间
+          example: "2024-01-01T10:00:00Z"
+
+    UpdateGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            group:
+              $ref: '#/components/schemas/GroupInfo'
+
+    DeleteGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            success:
+              type: boolean
+              description: 删除是否成功
+              example: true
+
+    GetGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            group:
+              $ref: '#/components/schemas/GroupInfo'
+
+    ListGroupRequest:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: 页码
+          default: 1
+          example: 1
+        size:
+          type: integer
+          description: 每页数量
+          default: 10
+          example: 10
+        location_point_id:
+          type: integer
+          description: 寄存点ID过滤
+          example: 1
+        status:
+          type: string
+          description: 状态过滤
+          enum: [normal, abnormal, disabled, damaged]
+          example: "normal"
+        group_type:
+          type: string
+          description: 类型过滤
+          enum: [standard, refrigerated, oversize]
+          example: "standard"
+
+    ListGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/GroupInfo'
+            total:
+              type: integer
+              description: 总数量
+              example: 100
+
+    SearchGroupRequest:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: 搜索关键词（柜组名称、编码）
+          example: "A区"
+        location_point_id:
+          type: integer
+          description: 寄存点ID过滤
+          example: 1
+        status:
+          type: string
+          description: 状态过滤
+          enum: [normal, abnormal, disabled, damaged]
+          example: "normal"
+        group_type:
+          type: string
+          description: 类型过滤
+          enum: [standard, refrigerated, oversize]
+          example: "standard"
+        page:
+          type: integer
+          description: 页码
+          default: 1
+          example: 1
+        size:
+          type: integer
+          description: 每页数量
+          default: 10
+          example: 10
+
+    SearchGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/GroupInfo'
+            total:
+              type: integer
+              description: 总数量
+              example: 50
+
+    GroupInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 柜组ID
+          example: 1
+        location_point_id:
+          type: integer
+          description: 所属寄存点ID
+          example: 1
+        group_name:
+          type: string
+          description: 柜组名称
+          example: "A区柜组"
+        group_code:
+          type: string
+          description: 柜组编码
+          example: "GRP001"
+        group_type:
+          type: string
+          description: 柜组类型
+          enum: [standard, refrigerated, oversize]
+          example: "standard"
+        status:
+          type: string
+          description: 柜组状态
+          enum: [normal, abnormal, disabled, damaged]
+          example: "normal"
+        total_cells:
+          type: integer
+          description: 总格口数
+          example: 20
+        start_no:
+          type: integer
+          description: 起始编号
+          example: 1
+        end_no:
+          type: integer
+          description: 结束编号
+          example: 20
+        install_time:
+          type: string
+          format: date-time
+          description: 安装时间
+          example: "2024-01-01T10:00:00Z"
+        create_time:
+          type: string
+          format: date-time
+          description: 创建时间
+          example: "2024-01-01T10:00:00Z"
+        update_time:
+          type: string
+          format: date-time
+          description: 更新时间
+          example: "2024-01-01T10:00:00Z"
+
+    # 附近寄存点相关模型
+    FindNearbyLockerPointsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyLockerPointInfo'
+
+    NearbyLockerPointInfo:
       type: object
       properties:
         id:
@@ -1307,29 +1887,231 @@ components:
           example: "北京西站南广场寄存点"
         address:
           type: string
-          description: 详细地址
+          description: 地址
           example: "南广场进站口东侧"
+        distance:
+          type: number
+          format: float
+          description: 距离（公里）
+          example: 1.5
+        longitude:
+          type: number
+          format: float
+          description: 经度
+          example: 116.4074
         latitude:
           type: number
-          format: double
+          format: float
           description: 纬度
           example: 39.9042
+
+    SearchLockerPointsInCityResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LockerPointDetail'
+        total:
+          type: integer
+          description: 总记录数
+          example: 100
+        page:
+          type: integer
+          description: 当前页码
+          example: 1
+        page_size:
+          type: integer
+          description: 每页大小
+          example: 10
+
+    LockerPointDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 寄存点ID
+          example: 1
+        name:
+          type: string
+          description: 寄存点名称
+          example: "北京西站南广场寄存点"
+        address:
+          type: string
+          description: 地址
+          example: "南广场进站口东侧"
+        longitude:
+          type: number
+          format: float
+          description: 经度
+          example: 116.4074
+        latitude:
+          type: number
+          format: float
+          description: 纬度
+          example: 39.9042
+        available_large:
+          type: integer
+          description: 可用大柜数量
+          example: 5
+        available_medium:
+          type: integer
+          description: 可用中柜数量
+          example: 10
+        available_small:
+          type: integer
+          description: 可用小柜数量
+          example: 15
+        open_time:
+          type: string
+          description: 营业时间
+          example: "08:00-22:00"
+        mobile:
+          type: string
+          description: 联系电话
+          example: "400-123-4567"
+
+    GetCityLockerPointsMapResponse:
+      type: object
+      properties:
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/MapPointInfo'
+        clusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterInfo'
+        total_count:
+          type: integer
+          description: 总寄存点数量
+          example: 50
+        zoom_level:
+          type: integer
+          description: 当前缩放级别
+          example: 10
+        is_clustered:
+          type: boolean
+          description: 是否返回聚合数据
+          example: true
+
+    MapPointInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 寄存点ID
+          example: 1
+        name:
+          type: string
+          description: 寄存点名称
+          example: "北京西站南广场寄存点"
+        address:
+          type: string
+          description: 地址
+          example: "南广场进站口东侧"
         longitude:
           type: number
           format: double
           description: 经度
           example: 116.4074
-        distance:
+        latitude:
           type: number
           format: double
-          description: 距离（米）
-          example: 1500.5
-        available_cells:
+          description: 纬度
+          example: 39.9042
+        total_available:
           type: integer
-          description: 可用柜格数量
-          example: 15
+          description: 总可用柜数量
+          example: 30
         status:
           type: string
-          description: 寄存点状态
-          enum: [normal, maintenance, closed]
-          example: "normal"
+          description: 状态
+          enum: [available, busy, full]
+          example: "available"
+
+    ClusterInfo:
+      type: object
+      properties:
+        longitude:
+          type: number
+          format: double
+          description: 聚合点经度
+          example: 116.4074
+        latitude:
+          type: number
+          format: double
+          description: 聚合点纬度
+          example: 39.9042
+        count:
+          type: integer
+          description: 聚合点数量
+          example: 5
+        total_available:
+          type: integer
+          description: 聚合点总可用柜数量
+          example: 150
+        point_ids:
+          type: array
+          items:
+            type: integer
+          description: 聚合的寄存点ID列表
+          example: [1, 2, 3, 4, 5]
+
+    GetMyNearbyInfoResponse:
+      type: object
+      properties:
+        user_location:
+          $ref: '#/components/schemas/UserLocationInfo'
+        nearby_points:
+          type: array
+          items:
+            $ref: '#/components/schemas/NearbyLockerPointInfo'
+        total_count:
+          type: integer
+          description: 附近寄存点总数
+          example: 20
+        search_radius:
+          type: number
+          format: double
+          description: 实际搜索半径
+          example: 5.0
+        baidu_map_ak:
+          type: string
+          description: 百度地图AK（前端使用）
+          example: "your_baidu_map_ak"
+
+    UserLocationInfo:
+      type: object
+      properties:
+        longitude:
+          type: number
+          format: double
+          description: 用户经度
+          example: 116.4074
+        latitude:
+          type: number
+          format: double
+          description: 用户纬度
+          example: 39.9042
+        address:
+          type: string
+          description: 详细地址
+          example: "北京市海淀区中关村大街1号"
+        city:
+          type: string
+          description: 城市名称
+          example: "北京"
+        district:
+          type: string
+          description: 区县
+          example: "海淀区"
+        province:
+          type: string
+          description: 省份
+          example: "北京市"
+        location_type:
+          type: string
+          description: 定位类型
+          enum: [ip, gps, city_center]
+          example: "gps"
