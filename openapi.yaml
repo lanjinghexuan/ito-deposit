@@ -1,527 +1,1335 @@
-# Generated with protoc-gen-openapi
-# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
-
 openapi: 3.0.3
 info:
-    title: CabinetCell API
-    description: 柜口管理服务
-    version: 0.0.1
-paths:
-    /v1/cabinet-cell/batch-create:
-        post:
-            tags:
-                - CabinetCell
-            description: 批量创建柜口
-            operationId: CabinetCell_BatchCreateCabinetCells
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/BatchCreateCabinetCellsRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/BatchCreateCabinetCellsReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/cabinet-cell/by-group:
-        get:
-            tags:
-                - CabinetCell
-            description: 根据柜组获取所有柜口
-            operationId: CabinetCell_GetCabinetCellsByGroup
-            parameters:
-                - name: cabinetGroupId
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/GetCabinetCellsByGroupReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/cabinet-cell/close:
-        post:
-            tags:
-                - CabinetCell
-            description: 关闭柜口
-            operationId: CabinetCell_CloseCabinetCell
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CloseCabinetCellRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/CloseCabinetCellReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/cabinet-cell/create:
-        post:
-            tags:
-                - CabinetCell
-            description: 创建柜口
-            operationId: CabinetCell_CreateCabinetCell
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreateCabinetCellRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/CreateCabinetCellReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/cabinet-cell/delete:
-        post:
-            tags:
-                - CabinetCell
-            description: 删除柜口
-            operationId: CabinetCell_DeleteCabinetCell
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/DeleteCabinetCellRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DeleteCabinetCellReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/cabinet-cell/get:
-        get:
-            tags:
-                - CabinetCell
-            description: 获取单个柜口
-            operationId: CabinetCell_GetCabinetCell
-            parameters:
-                - name: id
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/GetCabinetCellReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/cabinet-cell/list:
-        post:
-            tags:
-                - CabinetCell
-            description: 获取柜口列表
-            operationId: CabinetCell_ListCabinetCells
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ListCabinetCellsRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ListCabinetCellsReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/cabinet-cell/open:
-        post:
-            tags:
-                - CabinetCell
-            description: 开启柜口
-            operationId: CabinetCell_OpenCabinetCell
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/OpenCabinetCellRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/OpenCabinetCellReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/cabinet-cell/search:
-        post:
-            tags:
-                - CabinetCell
-            description: 搜索柜口
-            operationId: CabinetCell_SearchCabinetCells
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/SearchCabinetCellsRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/SearchCabinetCellsReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/cabinet-cell/update:
-        put:
-            tags:
-                - CabinetCell
-            description: 更新柜口
-            operationId: CabinetCell_UpdateCabinetCell
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateCabinetCellRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/UpdateCabinetCellReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-components:
-    schemas:
-        BatchCreateCabinetCellsReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                count:
-                    type: integer
-                    format: int32
-                success:
-                    type: boolean
-            description: 批量创建柜口响应
-        BatchCreateCabinetCellsRequest:
-            type: object
-            properties:
-                cabinetGroupId:
-                    type: integer
-                    format: int32
-                startNo:
-                    type: integer
-                    format: int32
-                endNo:
-                    type: integer
-                    format: int32
-                cellSize:
-                    type: string
-            description: 批量创建柜口请求
-        CabinetCellInfo:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                cabinetGroupId:
-                    type: integer
-                    format: int32
-                cellNo:
-                    type: integer
-                    format: int32
-                cellSize:
-                    type: string
-                status:
-                    type: string
-                lastOpenTime:
-                    type: string
-                    format: date-time
-                createTime:
-                    type: string
-                    format: date-time
-                updateTime:
-                    type: string
-                    format: date-time
-            description: 柜口信息
-        CloseCabinetCellReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                success:
-                    type: boolean
-            description: 关闭柜口响应
-        CloseCabinetCellRequest:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-            description: 关闭柜口请求
-        CreateCabinetCellReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                cellId:
-                    type: integer
-                    format: int32
-                cellInfo:
-                    $ref: '#/components/schemas/CabinetCellInfo'
-            description: 创建柜口响应
-        CreateCabinetCellRequest:
-            type: object
-            properties:
-                cabinetGroupId:
-                    type: integer
-                    format: int32
-                cellNo:
-                    type: integer
-                    format: int32
-                cellSize:
-                    type: string
-                status:
-                    type: string
-            description: 创建柜口请求
-        DeleteCabinetCellReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                success:
-                    type: boolean
-            description: 删除柜口响应
-        DeleteCabinetCellRequest:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-            description: 删除柜口请求
-        GetCabinetCellReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                cellInfo:
-                    $ref: '#/components/schemas/CabinetCellInfo'
-            description: 获取柜口响应
-        GetCabinetCellsByGroupReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                cells:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CabinetCellInfo'
-                total:
-                    type: string
-            description: 根据柜组获取所有柜口响应
-        GoogleProtobufAny:
-            type: object
-            properties:
-                '@type':
-                    type: string
-                    description: The type of the serialized message.
-            additionalProperties: true
-            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        ListCabinetCellsReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                cells:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CabinetCellInfo'
-                total:
-                    type: string
-            description: 柜口列表响应
-        ListCabinetCellsRequest:
-            type: object
-            properties:
-                page:
-                    type: string
-                size:
-                    type: string
-                cabinetGroupId:
-                    type: integer
-                    format: int32
-                status:
-                    type: string
-            description: 柜口列表请求
-        OpenCabinetCellReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                success:
-                    type: boolean
-            description: 开启柜口响应
-        OpenCabinetCellRequest:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-            description: 开启柜口请求
-        SearchCabinetCellsReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                cells:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/CabinetCellInfo'
-                total:
-                    type: string
-            description: 搜索柜口响应
-        SearchCabinetCellsRequest:
-            type: object
-            properties:
-                keyword:
-                    type: string
-                cabinetGroupId:
-                    type: integer
-                    format: int32
-                page:
-                    type: string
-                size:
-                    type: string
-            description: 搜索柜口请求
-        Status:
-            type: object
-            properties:
-                code:
-                    type: integer
-                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
-                    format: int32
-                message:
-                    type: string
-                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-                details:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/GoogleProtobufAny'
-                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
-            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-        UpdateCabinetCellReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                cellInfo:
-                    $ref: '#/components/schemas/CabinetCellInfo'
-            description: 更新柜口响应
-        UpdateCabinetCellRequest:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                cabinetGroupId:
-                    type: integer
-                    format: int32
-                cellNo:
-                    type: integer
-                    format: int32
-                cellSize:
-                    type: string
-                status:
-                    type: string
-                lastOpenTime:
-                    type: string
-                    format: date-time
-            description: 更新柜口请求
+  title: ITO Deposit API
+  description: |
+    智能寄存柜管理系统API文档
+    
+    本系统提供完整的寄存柜管理功能，包括：
+    - 用户管理和认证
+    - 寄存点管理
+    - 柜组管理
+    - 柜格管理
+    - 订单管理
+    - 附近寄存点查询
+    - 管理员功能
+    
+    ## 认证方式
+    大部分API需要Bearer Token认证，请在请求头中添加：
+    ```
+    Authorization: Bearer <your_token>
+    ```
+    
+    ## 响应格式
+    所有API响应都遵循统一格式：
+    ```json
+    {
+      "code": 200,
+      "msg": "success",
+      "data": {...}
+    }
+    ```
+  version: 1.0.0
+  contact:
+    name: ITO Deposit Team
+    email: support@ito-deposit.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8000
+    description: 开发环境
+  - url: https://api.ito-deposit.com
+    description: 生产环境
+
 tags:
-    - name: CabinetCell
+  - name: User
+    description: 用户管理相关接口
+  - name: Admin
+    description: 管理员功能接口
+  - name: Group
+    description: 柜组管理接口
+  - name: CabinetCell
+    description: 柜格管理接口
+  - name: Nearby
+    description: 附近寄存点查询接口
+  - name: Order
+    description: 订单管理接口
+
+security:
+  - BearerAuth: []
+
+paths:
+  # 用户相关接口
+  /login:
+    post:
+      tags:
+        - User
+      summary: 用户登录
+      description: 用户通过手机号和验证码登录系统
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mobile
+                - code
+              properties:
+                mobile:
+                  type: string
+                  description: 手机号
+                  example: "13800138000"
+                code:
+                  type: string
+                  description: 验证码
+                  example: "123456"
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+
+  /register:
+    post:
+      tags:
+        - User
+      summary: 用户注册
+      description: 新用户注册账号
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mobile
+                - code
+              properties:
+                mobile:
+                  type: string
+                  description: 手机号
+                  example: "13800138000"
+                code:
+                  type: string
+                  description: 验证码
+                  example: "123456"
+                nickname:
+                  type: string
+                  description: 昵称
+                  example: "用户昵称"
+      responses:
+        '200':
+          description: 注册成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+
+  /sendSms:
+    post:
+      tags:
+        - User
+      summary: 发送短信验证码
+      description: 向指定手机号发送验证码
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mobile
+                - source
+              properties:
+                mobile:
+                  type: string
+                  description: 手机号
+                  example: "13800138000"
+                source:
+                  type: string
+                  description: 来源（login/register）
+                  example: "login"
+      responses:
+        '200':
+          description: 发送成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+
+  /list:
+    get:
+      tags:
+        - User
+      summary: 获取用户订单列表
+      description: 获取当前用户的订单列表
+      parameters:
+        - name: page
+          in: query
+          description: 页码
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          description: 每页数量
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderListResponse'
+
+  # 管理员相关接口
+  /admin_login:
+    post:
+      tags:
+        - Admin
+      summary: 管理员登录
+      description: 管理员登录系统
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  description: 用户名
+                  example: "admin"
+                password:
+                  type: string
+                  description: 密码
+                  example: "password123"
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLoginResponse'
+
+  /point_info:
+    post:
+      tags:
+        - Admin
+      summary: 获取网点信息
+      description: 根据ID获取网点详细信息
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: 网点ID
+                  example: 1
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PointInfoResponse'
+
+  /point_list:
+    get:
+      tags:
+        - Admin
+      summary: 获取网点列表
+      description: 获取所有网点列表
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PointListResponse'
+
+  # 柜组管理接口
+  /v1/group/create:
+    post:
+      tags:
+        - Group
+      summary: 创建柜组
+      description: 创建新的柜组
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupRequest'
+      responses:
+        '200':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateGroupResponse'
+
+  /v1/group/update:
+    put:
+      tags:
+        - Group
+      summary: 更新柜组
+      description: 更新柜组信息
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGroupRequest'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateGroupResponse'
+
+  /v1/group/delete:
+    post:
+      tags:
+        - Group
+      summary: 删除柜组
+      description: 删除指定柜组
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: 柜组ID
+                  example: 1
+      responses:
+        '200':
+          description: 删除成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteGroupResponse'
+
+  /v1/group/get:
+    get:
+      tags:
+        - Group
+      summary: 获取柜组信息
+      description: 根据ID获取柜组详细信息
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 柜组ID
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGroupResponse'
+
+  /v1/group/list:
+    post:
+      tags:
+        - Group
+      summary: 获取柜组列表
+      description: 分页获取柜组列表
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListGroupRequest'
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListGroupResponse'
+
+  # 柜格管理接口
+  /v1/cabinet-cell/create:
+    post:
+      tags:
+        - CabinetCell
+      summary: 创建柜格
+      description: 创建新的柜格
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCabinetCellRequest'
+      responses:
+        '200':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCabinetCellResponse'
+
+  /v1/cabinet-cell/update:
+    put:
+      tags:
+        - CabinetCell
+      summary: 更新柜格
+      description: 更新柜格信息
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCabinetCellRequest'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCabinetCellResponse'
+
+  /v1/cabinet-cell/delete:
+    post:
+      tags:
+        - CabinetCell
+      summary: 删除柜格
+      description: 删除指定柜格
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: 柜格ID
+                  example: 1
+      responses:
+        '200':
+          description: 删除成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCabinetCellResponse'
+
+  /v1/cabinet-cell/get:
+    get:
+      tags:
+        - CabinetCell
+      summary: 获取柜格信息
+      description: 根据ID获取柜格详细信息
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 柜格ID
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCabinetCellResponse'
+
+  /v1/cabinet-cell/list:
+    post:
+      tags:
+        - CabinetCell
+      summary: 获取柜格列表
+      description: 分页获取柜格列表
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListCabinetCellsRequest'
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCabinetCellsResponse'
+
+  /v1/cabinet-cell/by-group:
+    get:
+      tags:
+        - CabinetCell
+      summary: 根据柜组获取柜格
+      description: 获取指定柜组的所有柜格
+      parameters:
+        - name: cabinet_group_id
+          in: query
+          required: true
+          description: 柜组ID
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCabinetCellsByGroupResponse'
+
+  /v1/cabinet-cell/batch-create:
+    post:
+      tags:
+        - CabinetCell
+      summary: 批量创建柜格
+      description: 批量创建柜格
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchCreateCabinetCellsRequest'
+      responses:
+        '200':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchCreateCabinetCellsResponse'
+
+  /v1/cabinet-cell/open:
+    post:
+      tags:
+        - CabinetCell
+      summary: 开启柜格
+      description: 开启指定柜格
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: 柜格ID
+                  example: 1
+      responses:
+        '200':
+          description: 开启成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenCabinetCellResponse'
+
+  /v1/cabinet-cell/close:
+    post:
+      tags:
+        - CabinetCell
+      summary: 关闭柜格
+      description: 关闭指定柜格
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: 柜格ID
+                  example: 1
+      responses:
+        '200':
+          description: 关闭成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloseCabinetCellResponse'
+
+  # 附近寄存点查询接口
+  /api/nearby/locker-points:
+    get:
+      tags:
+        - Nearby
+      summary: 查找附近寄存点
+      description: 根据经纬度查找附近的寄存点
+      parameters:
+        - name: latitude
+          in: query
+          required: true
+          description: 纬度
+          schema:
+            type: number
+            format: double
+            example: 39.9042
+        - name: longitude
+          in: query
+          required: true
+          description: 经度
+          schema:
+            type: number
+            format: double
+            example: 116.4074
+        - name: radius
+          in: query
+          description: 搜索半径（米）
+          schema:
+            type: integer
+            default: 5000
+            example: 5000
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindNearbyLockerPointsResponse'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    # 基础响应结构
+    BaseResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 状态码
+          example: 200
+        msg:
+          type: string
+          description: 响应消息
+          example: "success"
+
+    # 用户相关模型
+    LoginResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: 访问令牌
+                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                user_info:
+                  $ref: '#/components/schemas/UserInfo'
+
+    RegisterResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: 用户ID
+                  example: 1001
+
+    UserInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 用户ID
+          example: 1001
+        mobile:
+          type: string
+          description: 手机号
+          example: "13800138000"
+        nickname:
+          type: string
+          description: 昵称
+          example: "用户昵称"
+        avatar:
+          type: string
+          description: 头像URL
+          example: "https://example.com/avatar.jpg"
+
+    OrderListResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                orders:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OrderInfo'
+                total:
+                  type: integer
+                  description: 总数量
+                  example: 100
+
+    OrderInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 订单ID
+          example: 1001
+        order_no:
+          type: string
+          description: 订单号
+          example: "ORD20240101001"
+        status:
+          type: string
+          description: 订单状态
+          enum: [pending, active, completed, cancelled]
+          example: "active"
+        amount:
+          type: number
+          format: double
+          description: 订单金额
+          example: 10.50
+        create_time:
+          type: string
+          format: date-time
+          description: 创建时间
+          example: "2024-01-01T10:00:00Z"
+
+    # 管理员相关模型
+    AdminLoginResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: 管理员令牌
+                  example: "admin_token_123456"
+                admin_info:
+                  $ref: '#/components/schemas/AdminInfo'
+
+    AdminInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 管理员ID
+          example: 1
+        username:
+          type: string
+          description: 用户名
+          example: "admin"
+        role:
+          type: string
+          description: 角色
+          example: "super_admin"
+
+    PointInfoResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            name:
+              type: string
+              description: 网点名称
+              example: "北京西站南广场寄存点"
+            address:
+              type: string
+              description: 网点地址
+              example: "南广场进站口东侧"
+            pointType:
+              type: string
+              description: 网点类型
+              example: "学校"
+            availableLarge:
+              type: integer
+              description: 可用大柜数量
+              example: 5
+            availableMedium:
+              type: integer
+              description: 可用中柜数量
+              example: 10
+            availableSmall:
+              type: integer
+              description: 可用小柜数量
+              example: 15
+            openTime:
+              type: string
+              description: 营业时间
+              example: "08:00-22:00"
+            status:
+              type: integer
+              description: 网点状态（1-正常，0-暂停营业）
+              example: 1
+            pointImage:
+              type: string
+              description: 网点图片URL
+              example: "https://example.com/point.jpg"
+
+    PointListResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/PointInfo'
+
+    PointInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 网点ID
+          example: 1
+        name:
+          type: string
+          description: 网点名称
+          example: "北京西站南广场寄存点"
+        address:
+          type: string
+          description: 网点地址
+          example: "南广场进站口东侧"
+
+    # 柜组相关模型
+    CreateGroupRequest:
+      type: object
+      required:
+        - location_point_id
+        - group_name
+        - group_code
+        - total_cells
+      properties:
+        location_point_id:
+          type: integer
+          description: 所属寄存点ID
+          example: 1
+        group_name:
+          type: string
+          description: 柜组名称
+          example: "A区柜组"
+        group_code:
+          type: string
+          description: 柜组编码
+          example: "GRP001"
+        group_type:
+          type: string
+          description: 柜组类型
+          enum: [standard, refrigerated, oversize]
+          example: "standard"
+        total_cells:
+          type: integer
+          description: 总格口数
+          example: 20
+        start_no:
+          type: integer
+          description: 起始编号
+          example: 1
+        end_no:
+          type: integer
+          description: 结束编号
+          example: 20
+
+    CreateGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            group_id:
+              type: integer
+              description: 创建的柜组ID
+              example: 1
+
+    UpdateGroupRequest:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: 柜组ID
+          example: 1
+        location_point_id:
+          type: integer
+          description: 所属寄存点ID
+          example: 1
+        group_name:
+          type: string
+          description: 柜组名称
+          example: "A区柜组"
+        group_code:
+          type: string
+          description: 柜组编码
+          example: "GRP001"
+        group_type:
+          type: string
+          description: 柜组类型
+          enum: [standard, refrigerated, oversize]
+          example: "standard"
+        status:
+          type: string
+          description: 柜组状态
+          enum: [normal, abnormal, disabled, damaged]
+          example: "normal"
+
+    UpdateGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            group:
+              $ref: '#/components/schemas/GroupInfo'
+
+    DeleteGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            success:
+              type: boolean
+              description: 删除是否成功
+              example: true
+
+    GetGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            group:
+              $ref: '#/components/schemas/GroupInfo'
+
+    ListGroupRequest:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: 页码
+          default: 1
+          example: 1
+        size:
+          type: integer
+          description: 每页数量
+          default: 10
+          example: 10
+        location_point_id:
+          type: integer
+          description: 寄存点ID过滤
+          example: 1
+        status:
+          type: string
+          description: 状态过滤
+          enum: [normal, abnormal, disabled, damaged]
+          example: "normal"
+
+    ListGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/GroupInfo'
+            total:
+              type: integer
+              description: 总数量
+              example: 100
+
+    GroupInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 柜组ID
+          example: 1
+        location_point_id:
+          type: integer
+          description: 所属寄存点ID
+          example: 1
+        group_name:
+          type: string
+          description: 柜组名称
+          example: "A区柜组"
+        group_code:
+          type: string
+          description: 柜组编码
+          example: "GRP001"
+        group_type:
+          type: string
+          description: 柜组类型
+          enum: [standard, refrigerated, oversize]
+          example: "standard"
+        status:
+          type: string
+          description: 柜组状态
+          enum: [normal, abnormal, disabled, damaged]
+          example: "normal"
+        total_cells:
+          type: integer
+          description: 总格口数
+          example: 20
+        start_no:
+          type: integer
+          description: 起始编号
+          example: 1
+        end_no:
+          type: integer
+          description: 结束编号
+          example: 20
+        create_time:
+          type: string
+          format: date-time
+          description: 创建时间
+          example: "2024-01-01T10:00:00Z"
+        update_time:
+          type: string
+          format: date-time
+          description: 更新时间
+          example: "2024-01-01T10:00:00Z"
+
+    # 柜格相关模型
+    CreateCabinetCellRequest:
+      type: object
+      required:
+        - cabinet_group_id
+        - cell_no
+        - cell_size
+      properties:
+        cabinet_group_id:
+          type: integer
+          description: 所属柜组ID
+          example: 1
+        cell_no:
+          type: integer
+          description: 格口编号
+          example: 1
+        cell_size:
+          type: string
+          description: 格口大小
+          enum: [small, medium, large]
+          example: "medium"
+        status:
+          type: string
+          description: 格口状态
+          enum: [normal, inUse, abnormal, disabled, damaged]
+          example: "normal"
+
+    CreateCabinetCellResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            cell_id:
+              type: integer
+              description: 创建的柜格ID
+              example: 1
+            cell_info:
+              $ref: '#/components/schemas/CabinetCellInfo'
+
+    UpdateCabinetCellRequest:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: 柜格ID
+          example: 1
+        cabinet_group_id:
+          type: integer
+          description: 所属柜组ID
+          example: 1
+        cell_no:
+          type: integer
+          description: 格口编号
+          example: 1
+        cell_size:
+          type: string
+          description: 格口大小
+          enum: [small, medium, large]
+          example: "medium"
+        status:
+          type: string
+          description: 格口状态
+          enum: [normal, inUse, abnormal, disabled, damaged]
+          example: "normal"
+
+    UpdateCabinetCellResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            cell_info:
+              $ref: '#/components/schemas/CabinetCellInfo'
+
+    DeleteCabinetCellResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            success:
+              type: boolean
+              description: 删除是否成功
+              example: true
+
+    GetCabinetCellResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            cell_info:
+              $ref: '#/components/schemas/CabinetCellInfo'
+
+    ListCabinetCellsRequest:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: 页码
+          default: 1
+          example: 1
+        size:
+          type: integer
+          description: 每页数量
+          default: 10
+          example: 10
+        group_id:
+          type: integer
+          description: 柜组ID过滤
+          example: 1
+        status:
+          type: string
+          description: 状态过滤
+          enum: [normal, inUse, abnormal, disabled, damaged]
+          example: "normal"
+
+    ListCabinetCellsResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            cells:
+              type: array
+              items:
+                $ref: '#/components/schemas/CabinetCellInfo'
+            total:
+              type: integer
+              description: 总数量
+              example: 100
+
+    GetCabinetCellsByGroupResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            cells:
+              type: array
+              items:
+                $ref: '#/components/schemas/CabinetCellInfo'
+            total:
+              type: integer
+              description: 总数量
+              example: 20
+
+    BatchCreateCabinetCellsRequest:
+      type: object
+      required:
+        - cabinet_group_id
+        - start_no
+        - end_no
+        - cell_size
+      properties:
+        cabinet_group_id:
+          type: integer
+          description: 柜组ID
+          example: 1
+        start_no:
+          type: integer
+          description: 起始编号
+          example: 1
+        end_no:
+          type: integer
+          description: 结束编号
+          example: 20
+        cell_size:
+          type: string
+          description: 格口大小
+          enum: [small, medium, large]
+          example: "medium"
+
+    BatchCreateCabinetCellsResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            count:
+              type: integer
+              description: 创建数量
+              example: 20
+            success:
+              type: boolean
+              description: 是否成功
+              example: true
+
+    OpenCabinetCellResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            success:
+              type: boolean
+              description: 是否成功
+              example: true
+
+    CloseCabinetCellResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            success:
+              type: boolean
+              description: 是否成功
+              example: true
+
+    CabinetCellInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 格口ID
+          example: 1
+        cabinet_group_id:
+          type: integer
+          description: 所属柜组ID
+          example: 1
+        cell_no:
+          type: integer
+          description: 格口编号
+          example: 1
+        cell_size:
+          type: string
+          description: 格口大小
+          enum: [small, medium, large]
+          example: "medium"
+        status:
+          type: string
+          description: 格口状态
+          enum: [normal, inUse, abnormal, disabled, damaged]
+          example: "normal"
+        last_open_time:
+          type: string
+          format: date-time
+          description: 最后开启时间
+          example: "2024-01-01T10:00:00Z"
+        create_time:
+          type: string
+          format: date-time
+          description: 创建时间
+          example: "2024-01-01T10:00:00Z"
+        update_time:
+          type: string
+          format: date-time
+          description: 更新时间
+          example: "2024-01-01T10:00:00Z"
+
+    # 附近寄存点相关模型
+    FindNearbyLockerPointsResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                locker_points:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/LockerPointInfo'
+                total:
+                  type: integer
+                  description: 总数量
+                  example: 10
+
+    LockerPointInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 寄存点ID
+          example: 1
+        name:
+          type: string
+          description: 寄存点名称
+          example: "北京西站南广场寄存点"
+        address:
+          type: string
+          description: 详细地址
+          example: "南广场进站口东侧"
+        latitude:
+          type: number
+          format: double
+          description: 纬度
+          example: 39.9042
+        longitude:
+          type: number
+          format: double
+          description: 经度
+          example: 116.4074
+        distance:
+          type: number
+          format: double
+          description: 距离（米）
+          example: 1500.5
+        available_cells:
+          type: integer
+          description: 可用柜格数量
+          example: 15
+        status:
+          type: string
+          description: 寄存点状态
+          enum: [normal, maintenance, closed]
+          example: "normal"
