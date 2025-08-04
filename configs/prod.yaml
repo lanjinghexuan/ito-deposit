@@ -1,0 +1,34 @@
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 1s
+  jwt:
+    authkey: a9999
+  pprof:
+    port: 6601
+    switch: true
+  etcd:
+    endpoints:
+      - "172.23.143.90:2379"   # 单节点示例
+    dial_timeout: 3s
+    name: "ito-deposit"
+data:
+  database:
+    driver: mysql
+    source: root:Hao@10086@tcp(8.155.62.49:3306)/ito?parseTime=True&loc=Local
+  redis:
+    addr: 14.103.235.215:6379
+    password: 686c75a503764f121f81cc01c8dc04a7
+    db: 0
+  smscode: 373c436ad05c4eeba2fe9a646e9e2c61
+  minio:
+    endpoint: 14.103.235.215:9000
+    access_key_id: wxy
+    access_key_secret: wxy200621
+    bucket_name: test
+    use_ssl: false
+    base_path: ""
+    bucket-url: http://14.103.235.215:9000/test
