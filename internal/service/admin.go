@@ -168,6 +168,7 @@ func (s *AdminService) GetPriceRule(ctx context.Context, req *pb.GetPriceRuleReq
 		}
 		return &data, nil
 	}
+
 	var rules []*data2.LockerPricingRules
 	fmt.Println(1)
 	// 只查询生效状态的规则

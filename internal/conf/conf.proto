@@ -43,7 +43,8 @@ message Server {
 message Data {
   message Database {
     string driver = 1;
-    string source = 2;
+    string master = 2;     // 主库 DSN（写）
+    string slave  = 3;     // 从库 DSN（读）
   }
   message Redis {
     string network = 1;

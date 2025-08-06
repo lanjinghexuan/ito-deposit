@@ -12,14 +12,14 @@ server:
     switch: true
   etcd:
     endpoints:
-      - "127.0.0.1:2379"   # 单节点示例
+      - "172.23.143.90:2379"   # 单节点示例
     dial_timeout: 3s
     name: "ito-deposit"
 data:
   database:
     driver: mysql
-    master: "root:686c75a503764f121f81cc01c8dc04a7@tcp(14.103.235.215:3306)/ito?charset=utf8mb4&parseTime=True&loc=Local"
-    slave: "root:04819B92E9A561CD696C3FB75EAF6162@tcp(14.103.235.217:3306)/ito?charset=utf8mb4&parseTime=True&loc=Local"
+    master: root:686c75a503764f121f81cc01c8dc04a7@tcp(14.103.235.215:3306)/ito?parseTime=True&loc=Local//主库
+    slave: root:04819B92E9A561CD696C3FB75EAF6162@tcp(14.103.235.217:3306)/ito?parseTime=True&loc=Local//主库
   redis:
     addr: 14.103.235.215:6379
     password: 686c75a503764f121f81cc01c8dc04a7

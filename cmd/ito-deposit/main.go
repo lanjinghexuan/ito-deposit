@@ -21,6 +21,7 @@ import (
 	"go.uber.org/zap"
 
 	_ "go.uber.org/automaxprocs" // 自动调整GOMAXPROCS与CPU配合
+	_ "net/http/pprof"
 )
 
 // 通过 -ldflags 方式注入的版本信息
@@ -51,7 +52,7 @@ func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, reg registry.Re
 			gs, // grpc服务
 			hs, // http服务
 		),
-		//kratos.Registrar(reg), // 服务注册中心
+		kratos.Registrar(reg), // 服务注册中心
 	)
 }
 

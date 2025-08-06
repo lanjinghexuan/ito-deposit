@@ -37,4 +37,4 @@ bin/
 .idea/
 *.swp
 
-configs/config-2.yaml
+/项目进展报告.md
