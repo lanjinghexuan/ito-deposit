@@ -65,7 +65,7 @@ func getDefaultParams(radius float64, limit int64) (float64, int64) {
 	return radius, limit
 }
 
-// 查询附近寄存点的核心方法，减少代码重复
+// 查询附近寄存点的核心方法
 func (s *NearbyService) findNearbyLockerPointsCore(ctx context.Context, longitude, latitude float64, radius float64, limit int64) (*v1.FindNearbyLockerPointsReply, error) {
 	// 调用业务逻辑查询附近的寄存点
 	lockerPoints, err := s.uc.FindNearbyLockerPoints(ctx, longitude, latitude, radius, limit)
