@@ -6,10 +6,10 @@ services:
     image: mysql:8.0
     container_name: ito-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 2003225zyh  # 保留root密码，不影响应用连接
+      MYSQL_ROOT_PASSWORD: Hao@10086
       MYSQL_DATABASE: ito
       MYSQL_USER: ito
-      MYSQL_PASSWORD: 2003225zyh  # 更新为配置文件中的密码
+      MYSQL_PASSWORD: Hao@10086
     ports:
       - "3306:3306"
     volumes:
@@ -27,7 +27,6 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
-    command: redis-server --requirepass 2003225zyh  # 添加Redis密码，与配置文件一致
     networks:
       - ito-network
 
@@ -46,11 +45,8 @@ services:
     environment:
       - DB_HOST=mysql
       - DB_PORT=3306
-      - DB_USER=ito
-      - DB_PASSWORD=2003225zyh  # 添加数据库密码环境变量
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - REDIS_PASSWORD=2003225zyh  # 添加Redis密码环境变量
     networks:
       - ito-network
     restart: unless-stopped
