@@ -180,18 +180,13 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 	} else {
 		helper.Info("自动迁移数据库表结构成功")
 	}
-<<<<<<< HEAD
 	//redis
-=======
-
-	sqlDB, err := db.DB()
+	sqlDB, err = db.DB()
 	// SetMaxIdleConns 设置空闲连接池中连接的最大数量。
 	sqlDB.SetMaxIdleConns(10)
 
 	// SetMaxOpenConns 设置打开数据库连接的最大数量。
 	sqlDB.SetMaxOpenConns(100)
-
->>>>>>> 548c1d0b70a95dac18704d15294bac456fded91b
 	redisDB := RedisInit(c)
 
 	mq, err := rocketmq.NewProducer(
