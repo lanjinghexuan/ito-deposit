@@ -7,8 +7,6 @@
 package main
 
 import (
-	"github.com/go-kratos/kratos/v2"
-	"github.com/go-kratos/kratos/v2/log"
 	"ito-deposit/internal/basic/pkg"
 	"ito-deposit/internal/biz"
 	"ito-deposit/internal/conf"
@@ -16,10 +14,13 @@ import (
 	"ito-deposit/internal/pkg/geo"
 	"ito-deposit/internal/server"
 	"ito-deposit/internal/service"
-)
 
-import (
+	"github.com/go-kratos/kratos/v2"
+	"github.com/go-kratos/kratos/v2/log"
+
 	_ "go.uber.org/automaxprocs"
+
+	_ "net/http/pprof"
 )
 
 // Injectors from wire.go:
@@ -57,7 +58,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	cabinetCellUsecase := biz.NewCabinetCellUsecase(cabinetCellRepo, logger)
 	cabinetCellService := service.NewCabinetCellService(dataData, cabinetCellUsecase)
 	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, groupService, cabinetCellService, logger)
-	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, groupService, cabinetCellService, logger)
+	httpServer := server.NewHTTPServerWithBlacklist(confServer, dataData, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, groupService, cabinetCellService, logger)
 	client, err := NewEtcdClient(confServer)
 	if err != nil {
 		cleanup2()

@@ -6,9 +6,10 @@ import (
 	"strings"
 	"time"
 
+	"ito-deposit/internal/biz"
+
 	"github.com/go-kratos/kratos/v2/log"
 	"gorm.io/gorm"
-	"ito-deposit/internal/biz"
 )
 
 // cabinetCellRepo 柜口数据仓库实现
@@ -30,6 +31,15 @@ func (r *cabinetCellRepo) convertToBizCabinetCell(cell *CabinetCell) *biz.Cabine
 	if cell == nil {
 		return nil
 	}
+
+	// 调试：打印数据库原始数据
+	r.log.Infof("=== 数据库原始数据 ===")
+	r.log.Infof("ID: %d", cell.Id)
+	r.log.Infof("CabinetGroupId: %d", cell.CabinetGroupId)
+	r.log.Infof("CellNo: %d", cell.CellNo)
+	r.log.Infof("CellSize: '%s' (长度: %d)", cell.CellSize, len(cell.CellSize))
+	r.log.Infof("Status: '%s'", cell.Status)
+
 	return &biz.CabinetCell{
 		Id:           cell.Id,
 		GroupId:      cell.CabinetGroupId,
