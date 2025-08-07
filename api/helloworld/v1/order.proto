@@ -49,20 +49,154 @@ service Order {
 		};
 	};
 
+
+	rpc CreateLockerStorage (CreateLockerStorageRequest) returns (CreateLockerStorageReply) {
+		option (google.api.http) = {
+			post: "/create/locker/storage"
+			body: "*"
+		};
+	};
+
+	rpc HandleRemindTask (HandleRemindTaskRequest) returns (HandleRemindTaskReply) {
+		option (google.api.http) = {
+			post: "/handle/remind/task"
+			body: "*"
+		};
+	};
+	rpc HandleTimeOutTask (HandleTimeOutTaskRequest) returns (HandleTimeOutTaskReply) {
+		option (google.api.http) = {
+			post: "/handle/timeout/task"
+			body: "*"
+		};
+	};
+
+
+
+
 	rpc ManageOrderSearch (ManageOrderSearchRequest) returns (ManageOrderSearchReply) {
 		option (google.api.http) = {
 			post: "/manage/orders/search"
 			body: "*"
 		};
 	};
+	rpc ManageOrderDel (ManageOrderDelRequest) returns (ManageOrderDelReply) {
+		option (google.api.http) = {
+			post: "/manage/orders/del"
+			body: "*"
+		};
+	};
 
+	rpc ManageOrder (ManageOrderDelRequest) returns (ManageOrderDelReply) {
+		option (google.api.http) = {
+			post: "/manage/orders/del"
+			body: "*"
+		};
+	};
+	rpc ManageOrderDetail (ManageOrderDetailRequest) returns (ManageOrderDetailReply) {
+		option (google.api.http) = {
+			post: "/manage/orders/detail"
+			body: "*"
+		};
+	};
 
 }
+
+message ManageOrderDetailRequest {
+	int64 order_id = 1;       // 订单ID（必填，关联主订单）
+	int64 cabinet_id = 2;     // 柜子ID（必填，寄存的柜格编号）
+	int64 user_id = 3;        // 用户ID（必填，寄存人ID）
+	int64 expire_time = 4;    // 过期时间（必填，秒级时间戳）
+	int64 status = 5;         // 寄存状态（必填，1=寄存中，0=待寄存）
+	int64 id = 6;
+	int64 order_number = 7;
+	int64 scheduled_duration = 8;
+	int64 hourly_rate = 9;
+	int64 role = 10;
+}
+message ManageOrderDetailReply {
+	string Msg = 2;
+	repeated 	OrderInfo order = 1;  // 返回单个订单信息
+}
+
+
+message ManageOrderDelRequest {
+	int64 order_id = 1;       // 订单ID（必填，关联主订单）
+	int64 cabinet_id = 2;     // 柜子ID（必填，寄存的柜格编号）
+	int64 user_id = 3;        // 用户ID（必填，寄存人ID）
+	int64 expire_time = 4;    // 过期时间（必填，秒级时间戳）
+	int64 status = 5;         // 寄存状态（必填，1=寄存中，0=待寄存）
+	int64 id = 6;
+	int64 order_number = 7;
+	int64 scheduled_duration = 8;
+	int64 hourly_rate = 9;
+	int64 role = 10;
+}
+message ManageOrderDelReply {
+	string Msg = 2;
+}
+
+message HandleTimeOutTaskRequest {
+	int64 order_id = 1;       // 订单ID（必填，关联主订单）
+	int64 cabinet_id = 2;     // 柜子ID（必填，寄存的柜格编号）
+	int64 user_id = 3;        // 用户ID（必填，寄存人ID）
+	int64 expire_time = 4;    // 过期时间（必填，秒级时间戳）
+	int64 status = 5;         // 寄存状态（必填，1=寄存中，0=待寄存）
+	int64 id = 6;
+	int64 order_number = 7;
+	int64 scheduled_duration = 8;
+	int64 hourly_rate = 9;
+
+}
+message HandleTimeOutTaskReply {
+	string Msg = 2;
+}
+
+
+
+
+message HandleRemindTaskRequest {
+	int64 order_id = 1;       // 订单ID（必填，关联主订单）
+	int64 cabinet_id = 2;     // 柜子ID（必填，寄存的柜格编号）
+	int64 user_id = 3;        // 用户ID（必填，寄存人ID）
+	int64 expire_time = 4;    // 过期时间（必填，秒级时间戳）
+	int64 status = 5;         // 寄存状态（必填，1=寄存中，0=待寄存）
+	int64 id = 6;
+	int64 order_number = 7;
+}
+message HandleRemindTaskReply {
+	string Msg = 2;
+}
+
+
+
+
+message CreateLockerStorageRequest {
+	int64 order_id = 1;       // 订单ID（必填，关联主订单）
+	int64 cabinet_id = 2;     // 柜子ID（必填，寄存的柜格编号）
+	int64 user_id = 3;        // 用户ID（必填，寄存人ID）
+	int64 expire_time = 4;    // 过期时间（必填，秒级时间戳）
+	int32 status = 5;         // 寄存状态（必填，1=寄存中，0=待寄存）
+}
+message CreateLockerStorageReply {
+	repeated 	OrderInfo order = 1;  // 返回单个订单信息
+	string Msg = 2;
+}
+
+
 message ManageOrderSearchRequest {
+	string order_number = 1;                         // 业务订单号（唯一标识）
+	string title = 12;
+	int64  order_id  = 13;
+	int64  status  = 15;
+	int64  role  = 19;
+	int64  Id  = 20;
 
 }
 message ManageOrderSearchReply {
+	repeated 	OrderInfo order = 1;  // 返回单个订单信息
+	string Msg = 2;
 }
+
 // 订单信息
 message OrderInfo {
 	int32 id = 1;                                    // 订单ID
@@ -96,6 +230,7 @@ message CreateOrderRequest {
 	float  hourly_rate = 16;
 	int64  locker_point_id  = 17;
 	int64  type_id  = 18;
+
 }
 message CreateOrderReply {
 	string Msg = 2;                              // 支付链接
@@ -109,7 +244,7 @@ message UpdateOrderRequest {
 	int64 deposit_status = 7;                        // 押金状态
 	float 	hourly_rate = 8;                         //每小时费用
 	int64  locker_type  = 10;
-  string title = 12;
+	string title = 12;
 	int64  locker_point_id  = 17;
 	int64  type_id  = 18;
 	int64  cabinet_id = 19;
