@@ -3,1003 +3,10 @@
 
 openapi: 3.0.3
 info:
-    title: ""
+    title: CabinetCell API
+    description: 柜口管理服务
     version: 0.0.1
 paths:
-    /admin:
-        post:
-            tags:
-                - User
-            operationId: User_Admin
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.AdminRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.AdminRes'
-    /admin/addPoint:
-        post:
-            tags:
-                - Admin
-            operationId: Admin_AddPoint
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.AddPointReq'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.AddPointRes'
-    /admin/getPriceRule:
-        get:
-            tags:
-                - Admin
-            operationId: Admin_GetPriceRule
-            parameters:
-                - name: networkId
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.GetPriceRuleRes'
-    /admin/setPriceRule:
-        post:
-            tags:
-                - Admin
-            operationId: Admin_SetPriceRule
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.SetPriceRuleReq'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.SetPriceRuleRes'
-    /admin/updatePoint:
-        post:
-            tags:
-                - Admin
-            operationId: Admin_UpdatePoint
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.UpdatePointReq'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.UpdatePointRes'
-    /admin/uploadFile:
-        get:
-            tags:
-                - Admin
-            operationId: Admin_UploadFile
-            parameters:
-                - name: file
-                  in: query
-                  schema:
-                    type: string
-                    format: bytes
-                - name: fileName
-                  in: query
-                  schema:
-                    type: string
-                - name: fileSize
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.UploadFileRes'
-    /admin_login:
-        post:
-            tags:
-                - Admin
-            operationId: Admin_AdminLogin
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.AdminLoginReq'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.AdminLoginRes'
-    /api/admin/cities:
-        get:
-            tags:
-                - City
-            description: 获取城市列表 (管理端)
-            operationId: City_ListCities
-            parameters:
-                - name: page
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-                - name: pageSize
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-                - name: status
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListCitiesReply'
-        post:
-            tags:
-                - City
-            description: 创建城市 (管理端)
-            operationId: City_CreateCity
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.CreateCityRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.CreateCityReply'
-    /api/admin/cities/{id}:
-        get:
-            tags:
-                - City
-            description: 获取城市详情 (管理端)
-            operationId: City_GetCity
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: int32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.GetCityReply'
-        put:
-            tags:
-                - City
-            description: 更新城市 (管理端)
-            operationId: City_UpdateCity
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: int32
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.UpdateCityRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.UpdateCityReply'
-    /api/admin/cities/{id}/status:
-        patch:
-            tags:
-                - City
-            description: 更新城市状态 (管理端)
-            operationId: City_UpdateCityStatus
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: int32
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.UpdateCityStatusRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.UpdateCityStatusReply'
-    /api/admin/nearby/init:
-        post:
-            tags:
-                - Nearby
-            description: 初始化寄存点地理位置数据
-            operationId: Nearby_InitLockerPointsGeo
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.InitLockerPointsGeoRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.InitLockerPointsGeoReply'
-    /api/cities:
-        get:
-            tags:
-                - City
-            description: 获取城市列表 (用户端)
-            operationId: City_ListUserCities
-            parameters:
-                - name: page
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-                - name: pageSize
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListUserCitiesReply'
-    /api/cities/code/{code}:
-        get:
-            tags:
-                - City
-            description: 根据城市编码获取城市 (用户端)
-            operationId: City_GetCityByCode
-            parameters:
-                - name: code
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.GetUserCityReply'
-    /api/cities/hot:
-        get:
-            tags:
-                - City
-            description: 获取热门城市 (用户端)
-            operationId: City_GetHotCities
-            parameters:
-                - name: limit
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListUserCitiesReply'
-    /api/cities/search:
-        get:
-            tags:
-                - City
-            description: 搜索城市 (用户端)
-            operationId: City_SearchCities
-            parameters:
-                - name: keyword
-                  in: query
-                  schema:
-                    type: string
-                - name: page
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-                - name: pageSize
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.SearchCitiesReply'
-    /api/cities/{id}:
-        get:
-            tags:
-                - City
-            description: 获取城市详情 (用户端)
-            operationId: City_GetUserCity
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: int32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.GetUserCityReply'
-    /api/locker-points/all:
-        get:
-            tags:
-                - Nearby
-            description: 获取所有寄存点（不依赖城市）
-            operationId: Nearby_GetAllLockerPoints
-            parameters:
-                - name: keyword
-                  in: query
-                  schema:
-                    type: string
-                - name: page
-                  in: query
-                  schema:
-                    type: string
-                - name: pageSize
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.SearchLockerPointsInCityReply'
-    /api/nearby/city/locker-points:
-        get:
-            tags:
-                - Nearby
-            description: 查找用户在指定城市内附近的寄存点
-            operationId: Nearby_FindNearbyLockerPointsInCity
-            parameters:
-                - name: cityName
-                  in: query
-                  schema:
-                    type: string
-                - name: longitude
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: latitude
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: radius
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: limit
-                  in: query
-                  schema:
-                    type: string
-                - name: ip
-                  in: query
-                  schema:
-                    type: string
-                - name: useRealtime
-                  in: query
-                  schema:
-                    type: boolean
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.FindNearbyLockerPointsReply'
-    /api/nearby/city/map:
-        get:
-            tags:
-                - Nearby
-            description: 获取城市寄存点分布图数据
-            operationId: Nearby_GetCityLockerPointsMap
-            parameters:
-                - name: cityName
-                  in: query
-                  schema:
-                    type: string
-                - name: northLat
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: southLat
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: eastLng
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: westLng
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: zoomLevel
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-                - name: enableCluster
-                  in: query
-                  schema:
-                    type: boolean
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.GetCityLockerPointsMapReply'
-    /api/nearby/city/search:
-        get:
-            tags:
-                - Nearby
-            description: 搜索指定城市内的寄存点
-            operationId: Nearby_SearchLockerPointsInCity
-            parameters:
-                - name: cityName
-                  in: query
-                  schema:
-                    type: string
-                - name: keyword
-                  in: query
-                  schema:
-                    type: string
-                - name: page
-                  in: query
-                  schema:
-                    type: string
-                - name: pageSize
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.SearchLockerPointsInCityReply'
-    /api/nearby/locker-points:
-        get:
-            tags:
-                - Nearby
-            description: 查找附近的寄存点
-            operationId: Nearby_FindNearbyLockerPoints
-            parameters:
-                - name: cityName
-                  in: query
-                  description: 位置信息（三选一）
-                  schema:
-                    type: string
-                - name: ip
-                  in: query
-                  schema:
-                    type: string
-                - name: longitude
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: latitude
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: radius
-                  in: query
-                  description: 查询参数
-                  schema:
-                    type: number
-                    format: double
-                - name: limit
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.FindNearbyLockerPointsReply'
-    /api/nearby/my-location/locker-points:
-        get:
-            tags:
-                - Nearby
-            description: 使用实时定位查找我的附近寄存点
-            operationId: Nearby_FindMyNearbyLockerPoints
-            parameters:
-                - name: cityName
-                  in: query
-                  schema:
-                    type: string
-                - name: ip
-                  in: query
-                  schema:
-                    type: string
-                - name: radius
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: limit
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.FindNearbyLockerPointsReply'
-    /api/nearby/my-nearby:
-        get:
-            tags:
-                - Nearby
-            description: 获取我的附近信息（实时位置和附近寄存点）
-            operationId: Nearby_GetMyNearbyInfo
-            parameters:
-                - name: ip
-                  in: query
-                  schema:
-                    type: string
-                - name: longitude
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: latitude
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: radius
-                  in: query
-                  schema:
-                    type: number
-                    format: double
-                - name: limit
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.GetMyNearbyInfoReply'
-    /create/locker/storage:
-        post:
-            tags:
-                - Order
-            operationId: Order_CreateLockerStorage
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.CreateLockerStorageRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.CreateLockerStorageReply'
-    /decodetoken:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_DecodeToken
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ReturnTokenRes'
-    /deposit:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_ListDeposit
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListDepositReply'
-    /deposit/createDeposit:
-        post:
-            tags:
-                - Deposit
-            operationId: Deposit_CreateDeposit
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.CreateDepositRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.CreateDepositReply'
-    /deposit/sendCodeByOrder:
-        post:
-            tags:
-                - Deposit
-            operationId: Deposit_SendCodeByOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.SendCodeByOrderReq'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.SendCodeByOrderRes'
-    /deposit/updateDepositLockerId:
-        post:
-            tags:
-                - Deposit
-            operationId: Deposit_UpdateDepositLockerId
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.UpdateDepositLockerIdReq'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.UpdateDepositLockerIdRes'
-    /getDepositLocker:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_GetDepositLocker
-            parameters:
-                - name: lockerId
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.GetDepositLockerRes'
-    /handle/remind/task:
-        post:
-            tags:
-                - Order
-            operationId: Order_HandleRemindTask
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.HandleRemindTaskRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.HandleRemindTaskReply'
-    /handle/timeout/task:
-        post:
-            tags:
-                - Order
-            operationId: Order_HandleTimeOutTask
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.HandleTimeOutTaskRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.HandleTimeOutTaskReply'
-    /helloworld/{name}:
-        get:
-            tags:
-                - Greeter
-            description: Sends a greeting
-            operationId: Greeter_SayHello
-            parameters:
-                - name: name
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
-    /home:
-        get:
-            tags:
-                - Home
-            operationId: Home_ListHome
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListHomeReply'
-    /home/local:
-        get:
-            tags:
-                - Home
-            operationId: Home_CreateLocal
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.CreateLocalReply'
-    /list:
-        get:
-            tags:
-                - User
-            operationId: User_OrderList
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.OrderListRes'
-    /login:
-        post:
-            tags:
-                - User
-            operationId: User_Login
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.LoginRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.LoginRes'
-    /manage/orders/del:
-        post:
-            tags:
-                - Order
-            operationId: Order_ManageOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.ManageOrderDelRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ManageOrderDelReply'
-    /manage/orders/detail:
-        post:
-            tags:
-                - Order
-            operationId: Order_ManageOrderDetail
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.ManageOrderDetailRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ManageOrderDetailReply'
-    /manage/orders/search:
-        post:
-            tags:
-                - Order
-            operationId: Order_ManageOrderSearch
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.ManageOrderSearchRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ManageOrderSearchReply'
-    /point_info:
-        post:
-            tags:
-                - Admin
-            operationId: Admin_PointInfo
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.PointInfoReq'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.PointInfoRes'
-    /point_list:
-        get:
-            tags:
-                - Admin
-            operationId: Admin_PointList
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.PointListRes'
-    /register:
-        post:
-            tags:
-                - User
-            operationId: User_Register
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.RegisterRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.RegisterRes'
-    /returntoken:
-        get:
-            tags:
-                - Deposit
-            operationId: Deposit_ReturnToken
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ReturnTokenRes'
-    /sendSms:
-        post:
-            tags:
-                - User
-            operationId: User_SendSms
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.SendSmsRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.SendSmsRes'
     /v1/cabinet-cell/batch-create:
         post:
             tags:
@@ -1010,7 +17,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.BatchCreateCabinetCellsRequest'
+                            $ref: '#/components/schemas/BatchCreateCabinetCellsRequest'
                 required: true
             responses:
                 "200":
@@ -1018,7 +25,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.BatchCreateCabinetCellsReply'
+                                $ref: '#/components/schemas/BatchCreateCabinetCellsReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /v1/cabinet-cell/by-group:
         get:
             tags:
@@ -1037,7 +50,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.GetCabinetCellsByGroupReply'
+                                $ref: '#/components/schemas/GetCabinetCellsByGroupReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /v1/cabinet-cell/close:
         post:
             tags:
@@ -1048,7 +67,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.CloseCabinetCellRequest'
+                            $ref: '#/components/schemas/CloseCabinetCellRequest'
                 required: true
             responses:
                 "200":
@@ -1056,7 +75,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.CloseCabinetCellReply'
+                                $ref: '#/components/schemas/CloseCabinetCellReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /v1/cabinet-cell/create:
         post:
             tags:
@@ -1067,7 +92,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.CreateCabinetCellRequest'
+                            $ref: '#/components/schemas/CreateCabinetCellRequest'
                 required: true
             responses:
                 "200":
@@ -1075,7 +100,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.CreateCabinetCellReply'
+                                $ref: '#/components/schemas/CreateCabinetCellReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /v1/cabinet-cell/delete:
         post:
             tags:
@@ -1086,7 +117,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.DeleteCabinetCellRequest'
+                            $ref: '#/components/schemas/DeleteCabinetCellRequest'
                 required: true
             responses:
                 "200":
@@ -1094,7 +125,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.DeleteCabinetCellReply'
+                                $ref: '#/components/schemas/DeleteCabinetCellReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /v1/cabinet-cell/get:
         get:
             tags:
@@ -1113,7 +150,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.GetCabinetCellReply'
+                                $ref: '#/components/schemas/GetCabinetCellReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /v1/cabinet-cell/list:
         post:
             tags:
@@ -1124,7 +167,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.ListCabinetCellsRequest'
+                            $ref: '#/components/schemas/ListCabinetCellsRequest'
                 required: true
             responses:
                 "200":
@@ -1132,7 +175,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListCabinetCellsReply'
+                                $ref: '#/components/schemas/ListCabinetCellsReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /v1/cabinet-cell/open:
         post:
             tags:
@@ -1143,7 +192,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.OpenCabinetCellRequest'
+                            $ref: '#/components/schemas/OpenCabinetCellRequest'
                 required: true
             responses:
                 "200":
@@ -1151,7 +200,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.OpenCabinetCellReply'
+                                $ref: '#/components/schemas/OpenCabinetCellReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /v1/cabinet-cell/search:
         post:
             tags:
@@ -1162,7 +217,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.SearchCabinetCellsRequest'
+                            $ref: '#/components/schemas/SearchCabinetCellsRequest'
                 required: true
             responses:
                 "200":
@@ -1170,7 +225,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.SearchCabinetCellsReply'
+                                $ref: '#/components/schemas/SearchCabinetCellsReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
     /v1/cabinet-cell/update:
         put:
             tags:
@@ -1181,7 +242,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.UpdateCabinetCellRequest'
+                            $ref: '#/components/schemas/UpdateCabinetCellRequest'
                 required: true
             responses:
                 "200":
@@ -1189,18 +250,23 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.UpdateCabinetCellReply'
-    /v1/group/create:
+                                $ref: '#/components/schemas/UpdateCabinetCellReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    status:
         post:
             tags:
-                - Group
-            description: 创建柜组
-            operationId: Group_CreateGroup
+                - CabinetCell
+            operationId: CabinetCell_CellStatus
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.CreateGroupRequest'
+                            $ref: '#/components/schemas/CellStatusReq'
                 required: true
             responses:
                 "200":
@@ -1208,301 +274,16 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.CreateGroupReply'
-    /v1/group/delete:
-        post:
-            tags:
-                - Group
-            description: 删除柜组
-            operationId: Group_DeleteGroup
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.DeleteGroupRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
+                                $ref: '#/components/schemas/CellStatusRes'
+                default:
+                    description: Default error response
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.DeleteGroupReply'
-    /v1/group/get:
-        get:
-            tags:
-                - Group
-            description: 获取单个柜组
-            operationId: Group_GetGroup
-            parameters:
-                - name: id
-                  in: query
-                  schema:
-                    type: integer
-                    format: int32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.GetGroupReply'
-    /v1/group/list:
-        post:
-            tags:
-                - Group
-            description: 获取柜组列表
-            operationId: Group_ListGroup
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.ListGroupRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListGroupReply'
-    /v1/group/search:
-        post:
-            tags:
-                - Group
-            description: 搜索柜组
-            operationId: Group_SearchGroup
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.SearchGroupRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.SearchGroupReply'
-    /v1/group/update:
-        put:
-            tags:
-                - Group
-            description: 更新柜组
-            operationId: Group_UpdateGroup
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.UpdateGroupRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.UpdateGroupReply'
-    /v1/order/create:
-        post:
-            tags:
-                - Order
-            operationId: Order_CreateOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.CreateOrderRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.CreateOrderReply'
-    /v1/order/del:
-        post:
-            tags:
-                - Order
-            operationId: Order_DeleteOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.DeleteOrderRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.DeleteOrderReply'
-    /v1/order/get:
-        get:
-            tags:
-                - Order
-            operationId: Order_GetOrder
-            parameters:
-                - name: id
-                  in: query
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.GetOrderReply'
-    /v1/order/update:
-        put:
-            tags:
-                - Order
-            operationId: Order_UpdateOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.UpdateOrderRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.UpdateOrderReply'
-    /v1/orders/list:
-        post:
-            tags:
-                - Order
-            operationId: Order_ListOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.ListOrderRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ListOrderReply'
-    /v1/orders/show:
-        post:
-            tags:
-                - Order
-            operationId: Order_ShowOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/api.helloworld.v1.ShowOrderRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/api.helloworld.v1.ShowOrderReply'
+                                $ref: '#/components/schemas/Status'
 components:
     schemas:
-        api.helloworld.v1.AddPointReq:
-            type: object
-            properties:
-                locationId:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                address:
-                    type: string
-                availableLarge:
-                    type: integer
-                    format: int32
-                availableMedium:
-                    type: integer
-                    format: int32
-                availableSmall:
-                    type: integer
-                    format: int32
-                openTime:
-                    type: string
-                mobile:
-                    type: string
-                pointImage:
-                    type: string
-                pointType:
-                    type: string
-                latitude:
-                    type: number
-                    format: float
-                longitude:
-                    type: number
-                    format: float
-        api.helloworld.v1.AddPointRes:
-            type: object
-            properties:
-                code:
-                    type: integer
-                    format: int32
-                msg:
-                    type: string
-        api.helloworld.v1.AdminLoginReq:
-            type: object
-            properties:
-                mobile:
-                    type: string
-                password:
-                    type: string
-                smsCode:
-                    type: string
-        api.helloworld.v1.AdminLoginRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                id:
-                    type: string
-                token:
-                    type: string
-        api.helloworld.v1.AdminRequest:
-            type: object
-            properties:
-                adminId:
-                    type: string
-                lockerPointId:
-                    type: string
-        api.helloworld.v1.AdminRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                pointNum:
-                    type: string
-                yesterdayOrderNum:
-                    type: string
-                lastOrderPrice:
-                    type: number
-                    format: float
-                lastOrderNum:
-                    type: string
-                mouthPrice:
-                    type: number
-                    format: float
-                monthNum:
-                    type: string
-        api.helloworld.v1.BatchCreateCabinetCellsReply:
+        BatchCreateCabinetCellsReply:
             type: object
             properties:
                 code:
@@ -1515,7 +296,7 @@ components:
                 success:
                     type: boolean
             description: 批量创建柜口响应
-        api.helloworld.v1.BatchCreateCabinetCellsRequest:
+        BatchCreateCabinetCellsRequest:
             type: object
             properties:
                 cabinetGroupId:
@@ -1530,7 +311,7 @@ components:
                 cellSize:
                     type: string
             description: 批量创建柜口请求
-        api.helloworld.v1.CabinetCellInfo:
+        CabinetCellInfo:
             type: object
             properties:
                 id:
@@ -1556,27 +337,19 @@ components:
                     type: string
                     format: date-time
             description: 柜口信息
-        api.helloworld.v1.CityInfo:
+        CellStatusReq:
             type: object
             properties:
-                id:
-                    type: integer
-                    format: int32
-                name:
+                status:
                     type: string
+        CellStatusRes:
+            type: object
+            properties:
                 code:
                     type: string
-                latitude:
-                    type: number
-                    format: double
-                longitude:
-                    type: number
-                    format: double
-                status:
-                    type: integer
-                    format: int32
-            description: 城市信息
-        api.helloworld.v1.CloseCabinetCellReply:
+                msg:
+                    type: string
+        CloseCabinetCellReply:
             type: object
             properties:
                 code:
@@ -1586,35 +359,14 @@ components:
                 success:
                     type: boolean
             description: 关闭柜口响应
-        api.helloworld.v1.CloseCabinetCellRequest:
+        CloseCabinetCellRequest:
             type: object
             properties:
                 id:
                     type: integer
                     format: int32
             description: 关闭柜口请求
-        api.helloworld.v1.ClusterInfo:
-            type: object
-            properties:
-                longitude:
-                    type: number
-                    format: double
-                latitude:
-                    type: number
-                    format: double
-                count:
-                    type: integer
-                    format: int32
-                totalAvailable:
-                    type: integer
-                    format: int32
-                pointIds:
-                    type: array
-                    items:
-                        type: integer
-                        format: int32
-            description: 聚合点信息
-        api.helloworld.v1.CreateCabinetCellReply:
+        CreateCabinetCellReply:
             type: object
             properties:
                 code:
@@ -1625,9 +377,9 @@ components:
                     type: integer
                     format: int32
                 cellInfo:
-                    $ref: '#/components/schemas/api.helloworld.v1.CabinetCellInfo'
+                    $ref: '#/components/schemas/CabinetCellInfo'
             description: 创建柜口响应
-        api.helloworld.v1.CreateCabinetCellRequest:
+        CreateCabinetCellRequest:
             type: object
             properties:
                 cabinetGroupId:
@@ -1641,163 +393,7 @@ components:
                 status:
                     type: string
             description: 创建柜口请求
-        api.helloworld.v1.CreateCityReply:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                code:
-                    type: string
-                latitude:
-                    type: number
-                    format: double
-                longitude:
-                    type: number
-                    format: double
-                status:
-                    type: integer
-                    format: int32
-            description: 创建城市响应
-        api.helloworld.v1.CreateCityRequest:
-            type: object
-            properties:
-                name:
-                    type: string
-                status:
-                    type: integer
-                    format: int32
-            description: 创建城市请求
-        api.helloworld.v1.CreateDepositReply:
-            type: object
-            properties:
-                code:
-                    type: integer
-                    format: int32
-                msg:
-                    type: string
-                data:
-                    $ref: '#/components/schemas/api.helloworld.v1.DepositReplyData'
-        api.helloworld.v1.CreateDepositRequest:
-            type: object
-            properties:
-                scheduledDuration:
-                    type: integer
-                    format: int32
-                lockerType:
-                    type: integer
-                    format: int32
-                cabinetId:
-                    type: integer
-                    format: int32
-        api.helloworld.v1.CreateGroupReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                groupId:
-                    type: integer
-                    format: int32
-            description: 创建柜组响应
-        api.helloworld.v1.CreateGroupRequest:
-            type: object
-            properties:
-                locationPointId:
-                    type: integer
-                    format: int32
-                groupName:
-                    type: string
-                groupCode:
-                    type: string
-                groupType:
-                    type: string
-                totalCells:
-                    type: integer
-                    format: int32
-                startNo:
-                    type: integer
-                    format: int32
-                endNo:
-                    type: integer
-                    format: int32
-                installTime:
-                    type: string
-                    format: date-time
-            description: 创建柜组请求
-        api.helloworld.v1.CreateLocalReply:
-            type: object
-            properties: {}
-        api.helloworld.v1.CreateLockerStorageReply:
-            type: object
-            properties:
-                order:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
-                Msg:
-                    type: string
-        api.helloworld.v1.CreateLockerStorageRequest:
-            type: object
-            properties:
-                orderId:
-                    type: string
-                cabinetId:
-                    type: string
-                userId:
-                    type: string
-                expireTime:
-                    type: string
-                status:
-                    type: integer
-                    format: int32
-        api.helloworld.v1.CreateOrderReply:
-            type: object
-            properties:
-                Msg:
-                    type: string
-        api.helloworld.v1.CreateOrderRequest:
-            type: object
-            properties:
-                orderNumber:
-                    type: string
-                userId:
-                    type: string
-                scheduledDuration:
-                    type: string
-                price:
-                    type: number
-                    format: double
-                discount:
-                    type: number
-                    format: double
-                amountPaid:
-                    type: number
-                    format: double
-                storageLocationName:
-                    type: string
-                cabinetId:
-                    type: string
-                depositStatus:
-                    type: string
-                title:
-                    type: string
-                orderId:
-                    type: string
-                status:
-                    type: string
-                hourlyRate:
-                    type: number
-                    format: float
-                lockerPointId:
-                    type: string
-                typeId:
-                    type: string
-            description: 创建订单请求
-        api.helloworld.v1.DeleteCabinetCellReply:
+        DeleteCabinetCellReply:
             type: object
             properties:
                 code:
@@ -1807,61 +403,14 @@ components:
                 success:
                     type: boolean
             description: 删除柜口响应
-        api.helloworld.v1.DeleteCabinetCellRequest:
+        DeleteCabinetCellRequest:
             type: object
             properties:
                 id:
                     type: integer
                     format: int32
             description: 删除柜口请求
-        api.helloworld.v1.DeleteGroupReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                success:
-                    type: boolean
-            description: 删除柜组响应
-        api.helloworld.v1.DeleteGroupRequest:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-            description: 删除柜组请求
-        api.helloworld.v1.DeleteOrderReply:
-            type: object
-            properties:
-                success:
-                    type: boolean
-        api.helloworld.v1.DeleteOrderRequest:
-            type: object
-            properties:
-                status:
-                    type: string
-                id:
-                    type: integer
-                    format: int32
-            description: 删除订单请求
-        api.helloworld.v1.DepositReplyData:
-            type: object
-            properties:
-                orderNo:
-                    type: string
-                lockerId:
-                    type: integer
-                    format: int32
-        api.helloworld.v1.FindNearbyLockerPointsReply:
-            type: object
-            properties:
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.NearbyLockerPointInfo'
-            description: 查找附近的寄存点响应
-        api.helloworld.v1.GetCabinetCellReply:
+        GetCabinetCellReply:
             type: object
             properties:
                 code:
@@ -1869,9 +418,9 @@ components:
                 msg:
                     type: string
                 cellInfo:
-                    $ref: '#/components/schemas/api.helloworld.v1.CabinetCellInfo'
+                    $ref: '#/components/schemas/CabinetCellInfo'
             description: 获取柜口响应
-        api.helloworld.v1.GetCabinetCellsByGroupReply:
+        GetCabinetCellsByGroupReply:
             type: object
             properties:
                 code:
@@ -1881,219 +430,19 @@ components:
                 cells:
                     type: array
                     items:
-                        $ref: '#/components/schemas/api.helloworld.v1.CabinetCellInfo'
+                        $ref: '#/components/schemas/CabinetCellInfo'
                 total:
                     type: string
             description: 根据柜组获取所有柜口响应
-        api.helloworld.v1.GetCityLockerPointsMapReply:
+        GoogleProtobufAny:
             type: object
             properties:
-                points:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.MapPointInfo'
-                clusters:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.ClusterInfo'
-                totalCount:
-                    type: integer
-                    format: int32
-                zoomLevel:
-                    type: integer
-                    format: int32
-                isClustered:
-                    type: boolean
-            description: 获取城市寄存点分布图响应
-        api.helloworld.v1.GetCityReply:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                name:
+                '@type':
                     type: string
-                code:
-                    type: string
-                latitude:
-                    type: number
-                    format: double
-                longitude:
-                    type: number
-                    format: double
-                status:
-                    type: integer
-                    format: int32
-            description: 获取城市详情响应
-        api.helloworld.v1.GetDepositLockerRes:
-            type: object
-            properties:
-                address:
-                    type: string
-                name:
-                    type: string
-                longitude:
-                    type: number
-                    format: float
-                latitude:
-                    type: number
-                    format: float
-                locker:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.Locker'
-        api.helloworld.v1.GetGroupReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                group:
-                    $ref: '#/components/schemas/api.helloworld.v1.GroupInfo'
-            description: 获取柜组响应
-        api.helloworld.v1.GetMyNearbyInfoReply:
-            type: object
-            properties:
-                userLocation:
-                    $ref: '#/components/schemas/api.helloworld.v1.UserLocationInfo'
-                nearbyPoints:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.NearbyLockerPointInfo'
-                totalCount:
-                    type: integer
-                    format: int32
-                searchRadius:
-                    type: number
-                    format: double
-                baiduMapAk:
-                    type: string
-            description: 获取我的附近信息响应
-        api.helloworld.v1.GetOrderReply:
-            type: object
-            properties:
-                order:
-                    $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
-        api.helloworld.v1.GetPriceRuleRes:
-            type: object
-            properties:
-                rules:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.LockerPriceRule'
-        api.helloworld.v1.GetUserCityReply:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                code:
-                    type: string
-                latitude:
-                    type: number
-                    format: double
-                longitude:
-                    type: number
-                    format: double
-            description: 获取用户端城市详情响应
-        api.helloworld.v1.GroupInfo:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                locationPointId:
-                    type: integer
-                    format: int32
-                groupName:
-                    type: string
-                groupCode:
-                    type: string
-                groupType:
-                    type: string
-                status:
-                    type: string
-                totalCells:
-                    type: integer
-                    format: int32
-                startNo:
-                    type: integer
-                    format: int32
-                endNo:
-                    type: integer
-                    format: int32
-                installTime:
-                    type: string
-                    format: date-time
-                createTime:
-                    type: string
-                    format: date-time
-                updateTime:
-                    type: string
-                    format: date-time
-            description: 柜组信息
-        api.helloworld.v1.HandleRemindTaskReply:
-            type: object
-            properties:
-                Msg:
-                    type: string
-        api.helloworld.v1.HandleRemindTaskRequest:
-            type: object
-            properties:
-                orderId:
-                    type: string
-                cabinetId:
-                    type: string
-                userId:
-                    type: string
-                expireTime:
-                    type: string
-                status:
-                    type: string
-                id:
-                    type: string
-                orderNumber:
-                    type: string
-        api.helloworld.v1.HandleTimeOutTaskReply:
-            type: object
-            properties:
-                Msg:
-                    type: string
-        api.helloworld.v1.HandleTimeOutTaskRequest:
-            type: object
-            properties:
-                orderId:
-                    type: string
-                cabinetId:
-                    type: string
-                userId:
-                    type: string
-                expireTime:
-                    type: string
-                status:
-                    type: string
-                id:
-                    type: string
-                orderNumber:
-                    type: string
-                scheduledDuration:
-                    type: string
-                hourlyRate:
-                    type: string
-        api.helloworld.v1.InitLockerPointsGeoReply:
-            type: object
-            properties:
-                success:
-                    type: boolean
-            description: 初始化寄存点地理位置数据响应
-        api.helloworld.v1.InitLockerPointsGeoRequest:
-            type: object
-            properties: {}
-            description: 初始化寄存点地理位置数据请求
-        api.helloworld.v1.ListCabinetCellsReply:
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ListCabinetCellsReply:
             type: object
             properties:
                 code:
@@ -2103,11 +452,11 @@ components:
                 cells:
                     type: array
                     items:
-                        $ref: '#/components/schemas/api.helloworld.v1.CabinetCellInfo'
+                        $ref: '#/components/schemas/CabinetCellInfo'
                 total:
                     type: string
             description: 柜口列表响应
-        api.helloworld.v1.ListCabinetCellsRequest:
+        ListCabinetCellsRequest:
             type: object
             properties:
                 page:
@@ -2120,321 +469,7 @@ components:
                 status:
                     type: string
             description: 柜口列表请求
-        api.helloworld.v1.ListCitiesReply:
-            type: object
-            properties:
-                total:
-                    type: string
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.CityInfo'
-            description: 获取城市列表响应
-        api.helloworld.v1.ListDepositReply:
-            type: object
-            properties: {}
-        api.helloworld.v1.ListGroupReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                groups:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.GroupInfo'
-                total:
-                    type: string
-            description: 柜组列表响应
-        api.helloworld.v1.ListGroupRequest:
-            type: object
-            properties:
-                page:
-                    type: string
-                size:
-                    type: string
-                locationPointId:
-                    type: integer
-                    format: int32
-                status:
-                    type: string
-                groupType:
-                    type: string
-            description: 柜组列表请求
-        api.helloworld.v1.ListHomeReply:
-            type: object
-            properties: {}
-        api.helloworld.v1.ListOrderReply:
-            type: object
-            properties:
-                orders:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
-                total:
-                    type: string
-        api.helloworld.v1.ListOrderRequest:
-            type: object
-            properties:
-                page:
-                    type: string
-                size:
-                    type: string
-                storageLocationName:
-                    type: string
-                status:
-                    type: string
-            description: 订单列表请求
-        api.helloworld.v1.ListUserCitiesReply:
-            type: object
-            properties:
-                total:
-                    type: string
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.UserCityInfo'
-            description: 获取用户端城市列表响应
-        api.helloworld.v1.Locker:
-            type: object
-            properties:
-                name:
-                    type: string
-                description:
-                    type: string
-                size:
-                    type: string
-                num:
-                    type: integer
-                    format: int32
-                hourlyRate:
-                    type: number
-                    format: float
-                lockerType:
-                    type: integer
-                    format: int32
-                freeDuration:
-                    type: number
-                    format: float
-        api.helloworld.v1.LockerPointDetail:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                address:
-                    type: string
-                longitude:
-                    type: number
-                    format: float
-                latitude:
-                    type: number
-                    format: float
-                availableLarge:
-                    type: integer
-                    format: int32
-                availableMedium:
-                    type: integer
-                    format: int32
-                availableSmall:
-                    type: integer
-                    format: int32
-                openTime:
-                    type: string
-                mobile:
-                    type: string
-            description: 寄存点详细信息
-        api.helloworld.v1.LockerPriceRule:
-            type: object
-            properties:
-                id:
-                    type: string
-                    description: 基础标识
-                ruleName:
-                    type: string
-                feeType:
-                    type: integer
-                    description: 核心配置
-                    format: int32
-                lockerType:
-                    type: integer
-                    format: int32
-                freeDuration:
-                    type: number
-                    format: float
-                hourlyRate:
-                    type: number
-                    description: 金额设置
-                    format: float
-                dailyCap:
-                    type: number
-                    format: float
-                dailyRate:
-                    type: number
-                    format: float
-                advanceAmount:
-                    type: number
-                    format: float
-                depositAmount:
-                    type: number
-                    format: float
-                isDepositEnabled:
-                    type: boolean
-                    description: 功能开关
-                isAdvancePay:
-                    type: boolean
-        api.helloworld.v1.LoginRequest:
-            type: object
-            properties:
-                mobile:
-                    type: string
-                password:
-                    type: string
-                smsCode:
-                    type: string
-                username:
-                    type: string
-        api.helloworld.v1.LoginRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                id:
-                    type: string
-                token:
-                    type: string
-        api.helloworld.v1.ManageOrderDelReply:
-            type: object
-            properties:
-                Msg:
-                    type: string
-        api.helloworld.v1.ManageOrderDelRequest:
-            type: object
-            properties:
-                orderId:
-                    type: string
-                cabinetId:
-                    type: string
-                userId:
-                    type: string
-                expireTime:
-                    type: string
-                status:
-                    type: string
-                id:
-                    type: string
-                orderNumber:
-                    type: string
-                scheduledDuration:
-                    type: string
-                hourlyRate:
-                    type: string
-                role:
-                    type: string
-        api.helloworld.v1.ManageOrderDetailReply:
-            type: object
-            properties:
-                Msg:
-                    type: string
-                order:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
-        api.helloworld.v1.ManageOrderDetailRequest:
-            type: object
-            properties:
-                orderId:
-                    type: string
-                cabinetId:
-                    type: string
-                userId:
-                    type: string
-                expireTime:
-                    type: string
-                status:
-                    type: string
-                id:
-                    type: string
-                orderNumber:
-                    type: string
-                scheduledDuration:
-                    type: string
-                hourlyRate:
-                    type: string
-                role:
-                    type: string
-        api.helloworld.v1.ManageOrderSearchReply:
-            type: object
-            properties:
-                order:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
-                Msg:
-                    type: string
-        api.helloworld.v1.ManageOrderSearchRequest:
-            type: object
-            properties:
-                orderNumber:
-                    type: string
-                title:
-                    type: string
-                orderId:
-                    type: string
-                status:
-                    type: string
-                role:
-                    type: string
-                Id:
-                    type: string
-        api.helloworld.v1.MapPointInfo:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                address:
-                    type: string
-                longitude:
-                    type: number
-                    format: double
-                latitude:
-                    type: number
-                    format: double
-                totalAvailable:
-                    type: integer
-                    format: int32
-                status:
-                    type: string
-            description: 地图点位信息（详细点位）
-        api.helloworld.v1.NearbyLockerPointInfo:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                address:
-                    type: string
-                distance:
-                    type: number
-                    format: float
-                longitude:
-                    type: number
-                    format: float
-                latitude:
-                    type: number
-                    format: float
-            description: 附近寄存点信息
-        api.helloworld.v1.OpenCabinetCellReply:
+        OpenCabinetCellReply:
             type: object
             properties:
                 code:
@@ -2444,207 +479,14 @@ components:
                 success:
                     type: boolean
             description: 开启柜口响应
-        api.helloworld.v1.OpenCabinetCellRequest:
+        OpenCabinetCellRequest:
             type: object
             properties:
                 id:
                     type: integer
                     format: int32
             description: 开启柜口请求
-        api.helloworld.v1.OrderInfo:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                orderNumber:
-                    type: string
-                userId:
-                    type: string
-                scheduledDuration:
-                    type: string
-                actualDuration:
-                    type: string
-                price:
-                    type: number
-                    format: double
-                discount:
-                    type: number
-                    format: double
-                amountPaid:
-                    type: number
-                    format: double
-                storageLocationName:
-                    type: string
-                cabinetId:
-                    type: string
-                status:
-                    type: string
-                depositStatus:
-                    type: string
-            description: 订单信息
-        api.helloworld.v1.OrderList:
-            type: object
-            properties:
-                OrderNumber:
-                    type: string
-                UserId:
-                    type: string
-                ScheduledDuration:
-                    type: string
-                ActualDuration:
-                    type: string
-                Price:
-                    type: number
-                    format: float
-                Discount:
-                    type: number
-                    format: float
-                AmountPaid:
-                    type: number
-                    format: float
-                StorageLocationName:
-                    type: string
-                CabinetId:
-                    type: string
-                Status:
-                    type: string
-                DepositStatus:
-                    type: string
-        api.helloworld.v1.OrderListRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.OrderList'
-        api.helloworld.v1.Point:
-            type: object
-            properties:
-                locationId:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                address:
-                    type: string
-                availableLarge:
-                    type: integer
-                    format: int32
-                availableMedium:
-                    type: integer
-                    format: int32
-                availableSmall:
-                    type: integer
-                    format: int32
-                openTime:
-                    type: string
-                mobile:
-                    type: string
-                pointImage:
-                    type: string
-                pointType:
-                    type: string
-                latitude:
-                    type: number
-                    format: float
-                longitude:
-                    type: number
-                    format: float
-                id:
-                    type: integer
-                    format: int32
-                status:
-                    type: string
-        api.helloworld.v1.PointInfoReq:
-            type: object
-            properties:
-                id:
-                    type: string
-        api.helloworld.v1.PointInfoRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                name:
-                    type: string
-                address:
-                    type: string
-                pointType:
-                    type: string
-                availableLarge:
-                    type: string
-                availableMedium:
-                    type: string
-                availableSmall:
-                    type: string
-                openTime:
-                    type: string
-                staus:
-                    type: string
-                pointImage:
-                    type: string
-        api.helloworld.v1.PointList:
-            type: object
-            properties:
-                name:
-                    type: string
-                address:
-                    type: string
-                availableLarge:
-                    type: string
-                availableMedium:
-                    type: string
-                availableSmall:
-                    type: string
-                id:
-                    type: string
-        api.helloworld.v1.PointListRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                list:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.PointList'
-        api.helloworld.v1.RegisterRequest:
-            type: object
-            properties:
-                mobile:
-                    type: string
-                password:
-                    type: string
-                smsCode:
-                    type: string
-                username:
-                    type: string
-        api.helloworld.v1.RegisterRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-        api.helloworld.v1.ReturnTokenRes:
-            type: object
-            properties:
-                token:
-                    type: string
-                coe:
-                    type: integer
-                    format: int32
-                msg:
-                    type: string
-        api.helloworld.v1.SearchCabinetCellsReply:
+        SearchCabinetCellsReply:
             type: object
             properties:
                 code:
@@ -2654,11 +496,11 @@ components:
                 cells:
                     type: array
                     items:
-                        $ref: '#/components/schemas/api.helloworld.v1.CabinetCellInfo'
+                        $ref: '#/components/schemas/CabinetCellInfo'
                 total:
                     type: string
             description: 搜索柜口响应
-        api.helloworld.v1.SearchCabinetCellsRequest:
+        SearchCabinetCellsRequest:
             type: object
             properties:
                 keyword:
@@ -2671,123 +513,23 @@ components:
                 size:
                     type: string
             description: 搜索柜口请求
-        api.helloworld.v1.SearchCitiesReply:
-            type: object
-            properties:
-                total:
-                    type: string
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.UserCityInfo'
-            description: 搜索城市响应
-        api.helloworld.v1.SearchGroupReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                groups:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.GroupInfo'
-                total:
-                    type: string
-            description: 搜索柜组响应
-        api.helloworld.v1.SearchGroupRequest:
-            type: object
-            properties:
-                keyword:
-                    type: string
-                locationPointId:
-                    type: integer
-                    format: int32
-                status:
-                    type: string
-                groupType:
-                    type: string
-                page:
-                    type: string
-                size:
-                    type: string
-            description: 搜索柜组请求
-        api.helloworld.v1.SearchLockerPointsInCityReply:
-            type: object
-            properties:
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.LockerPointDetail'
-                total:
-                    type: string
-                page:
-                    type: string
-                pageSize:
-                    type: string
-            description: 搜索指定城市内寄存点响应
-        api.helloworld.v1.SendCodeByOrderReq:
-            type: object
-            properties:
-                orderNo:
-                    type: string
-        api.helloworld.v1.SendCodeByOrderRes:
-            type: object
-            properties:
-                msg:
-                    type: string
-                code:
-                    type: integer
-                    format: int32
-                data:
-                    type: string
-        api.helloworld.v1.SendSmsRequest:
-            type: object
-            properties:
-                mobile:
-                    type: string
-                source:
-                    type: string
-        api.helloworld.v1.SendSmsRes:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-        api.helloworld.v1.SetPriceRuleReq:
-            type: object
-            properties:
-                networkId:
-                    type: string
-                rules:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/api.helloworld.v1.LockerPriceRule'
-        api.helloworld.v1.SetPriceRuleRes:
+        Status:
             type: object
             properties:
                 code:
                     type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
                     format: int32
-                msg:
+                message:
                     type: string
-        api.helloworld.v1.ShowOrderReply:
-            type: object
-            properties:
-                order:
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
                     type: array
                     items:
-                        $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
-                Msg:
-                    type: string
-        api.helloworld.v1.ShowOrderRequest:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-        api.helloworld.v1.UpdateCabinetCellReply:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        UpdateCabinetCellReply:
             type: object
             properties:
                 code:
@@ -2795,9 +537,9 @@ components:
                 msg:
                     type: string
                 cellInfo:
-                    $ref: '#/components/schemas/api.helloworld.v1.CabinetCellInfo'
+                    $ref: '#/components/schemas/CabinetCellInfo'
             description: 更新柜口响应
-        api.helloworld.v1.UpdateCabinetCellRequest:
+        UpdateCabinetCellRequest:
             type: object
             properties:
                 id:
@@ -2817,216 +559,5 @@ components:
                     type: string
                     format: date-time
             description: 更新柜口请求
-        api.helloworld.v1.UpdateCityReply:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                code:
-                    type: string
-                latitude:
-                    type: number
-                    format: double
-                longitude:
-                    type: number
-                    format: double
-                status:
-                    type: integer
-                    format: int32
-            description: 更新城市响应
-        api.helloworld.v1.UpdateCityRequest:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                status:
-                    type: integer
-                    format: int32
-            description: 更新城市请求
-        api.helloworld.v1.UpdateCityStatusReply:
-            type: object
-            properties:
-                success:
-                    type: boolean
-            description: 更新城市状态响应
-        api.helloworld.v1.UpdateCityStatusRequest:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                status:
-                    type: integer
-                    format: int32
-            description: 更新城市状态请求
-        api.helloworld.v1.UpdateDepositLockerIdReq:
-            type: object
-            properties:
-                orderId:
-                    type: string
-        api.helloworld.v1.UpdateDepositLockerIdRes:
-            type: object
-            properties:
-                code:
-                    type: integer
-                    format: int32
-                msg:
-                    type: string
-                lockerId:
-                    type: integer
-                    format: int32
-        api.helloworld.v1.UpdateGroupReply:
-            type: object
-            properties:
-                code:
-                    type: string
-                msg:
-                    type: string
-                group:
-                    $ref: '#/components/schemas/api.helloworld.v1.GroupInfo'
-            description: 更新柜组响应
-        api.helloworld.v1.UpdateGroupRequest:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                locationPointId:
-                    type: integer
-                    format: int32
-                groupName:
-                    type: string
-                groupCode:
-                    type: string
-                groupType:
-                    type: string
-                status:
-                    type: string
-                totalCells:
-                    type: integer
-                    format: int32
-                startNo:
-                    type: integer
-                    format: int32
-                endNo:
-                    type: integer
-                    format: int32
-                installTime:
-                    type: string
-                    format: date-time
-            description: 更新柜组请求
-        api.helloworld.v1.UpdateOrderReply:
-            type: object
-            properties:
-                order:
-                    $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
-                payUrl:
-                    type: string
-        api.helloworld.v1.UpdateOrderRequest:
-            type: object
-            properties:
-                id:
-                    type: string
-                actualDuration:
-                    type: string
-                status:
-                    type: string
-                depositStatus:
-                    type: string
-                hourlyRate:
-                    type: number
-                    format: float
-                lockerType:
-                    type: string
-                title:
-                    type: string
-                lockerPointId:
-                    type: string
-                typeId:
-                    type: string
-                cabinetId:
-                    type: string
-            description: 更新订单请求
-        api.helloworld.v1.UpdatePointReq:
-            type: object
-            properties:
-                point:
-                    $ref: '#/components/schemas/api.helloworld.v1.Point'
-        api.helloworld.v1.UpdatePointRes:
-            type: object
-            properties:
-                code:
-                    type: integer
-                    format: int32
-                msg:
-                    type: string
-        api.helloworld.v1.UploadFileRes:
-            type: object
-            properties:
-                url:
-                    type: string
-        api.helloworld.v1.UserCityInfo:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    format: int32
-                name:
-                    type: string
-                code:
-                    type: string
-                latitude:
-                    type: number
-                    format: double
-                longitude:
-                    type: number
-                    format: double
-            description: 用户端城市信息
-        api.helloworld.v1.UserLocationInfo:
-            type: object
-            properties:
-                longitude:
-                    type: number
-                    format: double
-                latitude:
-                    type: number
-                    format: double
-                address:
-                    type: string
-                city:
-                    type: string
-                district:
-                    type: string
-                province:
-                    type: string
-                locationType:
-                    type: string
-            description: 用户位置信息
-        helloworld.v1.HelloReply:
-            type: object
-            properties:
-                message:
-                    type: string
-            description: The response message containing the greetings
 tags:
-    - name: Admin
     - name: CabinetCell
-      description: 柜口管理服务
-    - name: City
-      description: 城市服务定义
-    - name: Deposit
-    - name: Greeter
-      description: The greeting service definition.
-    - name: Group
-      description: 柜组管理服务
-    - name: Home
-    - name: Nearby
-      description: 附近服务定义
-    - name: Order
-    - name: User

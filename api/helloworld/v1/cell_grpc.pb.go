@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.26.1
-// source: helloworld/v1/cell.proto
+// source: api/helloworld/v1/cell.proto
 
 package v1
 
@@ -19,6 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	CabinetCell_CellStatus_FullMethodName              = "/api.helloworld.v1.CabinetCell/CellStatus"
 	CabinetCell_CreateCabinetCell_FullMethodName       = "/api.helloworld.v1.CabinetCell/CreateCabinetCell"
 	CabinetCell_UpdateCabinetCell_FullMethodName       = "/api.helloworld.v1.CabinetCell/UpdateCabinetCell"
 	CabinetCell_DeleteCabinetCell_FullMethodName       = "/api.helloworld.v1.CabinetCell/DeleteCabinetCell"
@@ -37,6 +38,7 @@ const (
 //
 // 柜口管理服务
 type CabinetCellClient interface {
+	CellStatus(ctx context.Context, in *CellStatusReq, opts ...grpc.CallOption) (*CellStatusRes, error)
 	// 创建柜口
 	CreateCabinetCell(ctx context.Context, in *CreateCabinetCellRequest, opts ...grpc.CallOption) (*CreateCabinetCellReply, error)
 	// 更新柜口
@@ -65,6 +67,16 @@ type cabinetCellClient struct {
 
 func NewCabinetCellClient(cc grpc.ClientConnInterface) CabinetCellClient {
 	return &cabinetCellClient{cc}
+}
+
+func (c *cabinetCellClient) CellStatus(ctx context.Context, in *CellStatusReq, opts ...grpc.CallOption) (*CellStatusRes, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CellStatusRes)
+	err := c.cc.Invoke(ctx, CabinetCell_CellStatus_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *cabinetCellClient) CreateCabinetCell(ctx context.Context, in *CreateCabinetCellRequest, opts ...grpc.CallOption) (*CreateCabinetCellReply, error) {
@@ -173,6 +185,7 @@ func (c *cabinetCellClient) CloseCabinetCell(ctx context.Context, in *CloseCabin
 //
 // 柜口管理服务
 type CabinetCellServer interface {
+	CellStatus(context.Context, *CellStatusReq) (*CellStatusRes, error)
 	// 创建柜口
 	CreateCabinetCell(context.Context, *CreateCabinetCellRequest) (*CreateCabinetCellReply, error)
 	// 更新柜口
@@ -203,6 +216,9 @@ type CabinetCellServer interface {
 // pointer dereference when methods are called.
 type UnimplementedCabinetCellServer struct{}
 
+func (UnimplementedCabinetCellServer) CellStatus(context.Context, *CellStatusReq) (*CellStatusRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CellStatus not implemented")
+}
 func (UnimplementedCabinetCellServer) CreateCabinetCell(context.Context, *CreateCabinetCellRequest) (*CreateCabinetCellReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCabinetCell not implemented")
 }
@@ -252,6 +268,24 @@ func RegisterCabinetCellServer(s grpc.ServiceRegistrar, srv CabinetCellServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&CabinetCell_ServiceDesc, srv)
+}
+
+func _CabinetCell_CellStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CellStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CabinetCellServer).CellStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CabinetCell_CellStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CabinetCellServer).CellStatus(ctx, req.(*CellStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _CabinetCell_CreateCabinetCell_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -442,6 +476,10 @@ var CabinetCell_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*CabinetCellServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "CellStatus",
+			Handler:    _CabinetCell_CellStatus_Handler,
+		},
+		{
 			MethodName: "CreateCabinetCell",
 			Handler:    _CabinetCell_CreateCabinetCell_Handler,
 		},
@@ -483,5 +521,5 @@ var CabinetCell_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "helloworld/v1/cell.proto",
+	Metadata: "api/helloworld/v1/cell.proto",
 }

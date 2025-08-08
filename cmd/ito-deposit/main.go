@@ -3,12 +3,14 @@ package main
 import (
 	"context"
 	"flag"
+	"ito-deposit/internal/conf" // 项目内部配置定义
+	"os"
+
 	etcd "github.com/go-kratos/kratos/contrib/registry/etcd/v2" // etcd注册中心插件
 	"github.com/go-kratos/kratos/v2/registry"                   // kratos服务注册相关接口
 	clientv3 "go.etcd.io/etcd/client/v3"                        // etcd客户端v3版本
+
 	"ito-deposit/internal/basic/pkg/job"
-	"ito-deposit/internal/conf"
-	"os"
 
 	"ito-deposit/internal/basic/pkg"
 
@@ -22,8 +24,9 @@ import (
 
 	"go.uber.org/zap"
 
-	_ "go.uber.org/automaxprocs" // 自动调整GOMAXPROCS与CPU配合
 	_ "net/http/pprof"
+
+	_ "go.uber.org/automaxprocs" // 自动调整GOMAXPROCS与CPU配合
 )
 
 // 通过 -ldflags 方式注入的版本信息
