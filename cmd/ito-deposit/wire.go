@@ -10,6 +10,7 @@ import (
 	"ito-deposit/internal/biz"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/data"
+	"ito-deposit/internal/pkg/geo"
 	"ito-deposit/internal/server"
 	"ito-deposit/internal/service"
 

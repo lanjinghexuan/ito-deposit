@@ -11,6 +11,13 @@ option java_package = "api.helloworld.v1";
 
 // 柜口管理服务
 service CabinetCell {
+	rpc CellStatus(CellStatusReq) returns (CellStatusRes) {
+		option (google.api.http) = {
+			post: "status"
+			body: "*"
+		};
+	};
+
 	// 创建柜口
 	rpc CreateCabinetCell (CreateCabinetCellRequest) returns (CreateCabinetCellReply) {
 		option (google.api.http) = {
@@ -234,3 +241,20 @@ message CloseCabinetCellReply {
 	string msg = 2;                                        // 响应消息
 	bool success = 3;                                      // 是否成功
 }
+message CellStatusReq {
+	string status = 1;
+}
+message CellStatusRes {
+	int64 code = 1;
+	string msg = 2;
+//	repeated CellStatus list = 3;
+}
+//message CellStatus{
+//	int64 CabinetGroupId = 1;  // 所属柜组ID
+//	int64 CellNo = 2;  // 格口编号
+//	string Status = 3;// 格口状态
+//	string LastOpenTime = 4;  // 最后开启时间
+//	string CreateTime = 5;     // 创建时间
+//	string UpdateTime = 6;   // 更新时间
+//	string CellSize = 7;      // 格口大小
+//}

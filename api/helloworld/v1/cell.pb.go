@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.26.1
-// source: helloworld/v1/cell.proto
+// source: api/helloworld/v1/cell.proto
 
 package v1
 
@@ -40,7 +40,7 @@ type CabinetCellInfo struct {
 
 func (x *CabinetCellInfo) Reset() {
 	*x = CabinetCellInfo{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[0]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -52,7 +52,7 @@ func (x *CabinetCellInfo) String() string {
 func (*CabinetCellInfo) ProtoMessage() {}
 
 func (x *CabinetCellInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[0]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -65,7 +65,7 @@ func (x *CabinetCellInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CabinetCellInfo.ProtoReflect.Descriptor instead.
 func (*CabinetCellInfo) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{0}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CabinetCellInfo) GetId() int32 {
@@ -137,7 +137,7 @@ type CreateCabinetCellRequest struct {
 
 func (x *CreateCabinetCellRequest) Reset() {
 	*x = CreateCabinetCellRequest{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[1]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -149,7 +149,7 @@ func (x *CreateCabinetCellRequest) String() string {
 func (*CreateCabinetCellRequest) ProtoMessage() {}
 
 func (x *CreateCabinetCellRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[1]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -162,7 +162,7 @@ func (x *CreateCabinetCellRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCabinetCellRequest.ProtoReflect.Descriptor instead.
 func (*CreateCabinetCellRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{1}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateCabinetCellRequest) GetCabinetGroupId() int32 {
@@ -206,7 +206,7 @@ type CreateCabinetCellReply struct {
 
 func (x *CreateCabinetCellReply) Reset() {
 	*x = CreateCabinetCellReply{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[2]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -218,7 +218,7 @@ func (x *CreateCabinetCellReply) String() string {
 func (*CreateCabinetCellReply) ProtoMessage() {}
 
 func (x *CreateCabinetCellReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[2]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -231,7 +231,7 @@ func (x *CreateCabinetCellReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCabinetCellReply.ProtoReflect.Descriptor instead.
 func (*CreateCabinetCellReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{2}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateCabinetCellReply) GetCode() int64 {
@@ -277,7 +277,7 @@ type UpdateCabinetCellRequest struct {
 
 func (x *UpdateCabinetCellRequest) Reset() {
 	*x = UpdateCabinetCellRequest{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[3]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -289,7 +289,7 @@ func (x *UpdateCabinetCellRequest) String() string {
 func (*UpdateCabinetCellRequest) ProtoMessage() {}
 
 func (x *UpdateCabinetCellRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[3]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -302,7 +302,7 @@ func (x *UpdateCabinetCellRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCabinetCellRequest.ProtoReflect.Descriptor instead.
 func (*UpdateCabinetCellRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{3}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UpdateCabinetCellRequest) GetId() int32 {
@@ -359,7 +359,7 @@ type UpdateCabinetCellReply struct {
 
 func (x *UpdateCabinetCellReply) Reset() {
 	*x = UpdateCabinetCellReply{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[4]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -371,7 +371,7 @@ func (x *UpdateCabinetCellReply) String() string {
 func (*UpdateCabinetCellReply) ProtoMessage() {}
 
 func (x *UpdateCabinetCellReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[4]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -384,7 +384,7 @@ func (x *UpdateCabinetCellReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCabinetCellReply.ProtoReflect.Descriptor instead.
 func (*UpdateCabinetCellReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{4}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UpdateCabinetCellReply) GetCode() int64 {
@@ -418,7 +418,7 @@ type DeleteCabinetCellRequest struct {
 
 func (x *DeleteCabinetCellRequest) Reset() {
 	*x = DeleteCabinetCellRequest{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[5]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -430,7 +430,7 @@ func (x *DeleteCabinetCellRequest) String() string {
 func (*DeleteCabinetCellRequest) ProtoMessage() {}
 
 func (x *DeleteCabinetCellRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[5]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -443,7 +443,7 @@ func (x *DeleteCabinetCellRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteCabinetCellRequest.ProtoReflect.Descriptor instead.
 func (*DeleteCabinetCellRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{5}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DeleteCabinetCellRequest) GetId() int32 {
@@ -465,7 +465,7 @@ type DeleteCabinetCellReply struct {
 
 func (x *DeleteCabinetCellReply) Reset() {
 	*x = DeleteCabinetCellReply{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[6]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -477,7 +477,7 @@ func (x *DeleteCabinetCellReply) String() string {
 func (*DeleteCabinetCellReply) ProtoMessage() {}
 
 func (x *DeleteCabinetCellReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[6]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -490,7 +490,7 @@ func (x *DeleteCabinetCellReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteCabinetCellReply.ProtoReflect.Descriptor instead.
 func (*DeleteCabinetCellReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{6}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DeleteCabinetCellReply) GetCode() int64 {
@@ -524,7 +524,7 @@ type GetCabinetCellRequest struct {
 
 func (x *GetCabinetCellRequest) Reset() {
 	*x = GetCabinetCellRequest{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[7]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -536,7 +536,7 @@ func (x *GetCabinetCellRequest) String() string {
 func (*GetCabinetCellRequest) ProtoMessage() {}
 
 func (x *GetCabinetCellRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[7]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -549,7 +549,7 @@ func (x *GetCabinetCellRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCabinetCellRequest.ProtoReflect.Descriptor instead.
 func (*GetCabinetCellRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{7}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetCabinetCellRequest) GetId() int32 {
@@ -571,7 +571,7 @@ type GetCabinetCellReply struct {
 
 func (x *GetCabinetCellReply) Reset() {
 	*x = GetCabinetCellReply{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[8]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -583,7 +583,7 @@ func (x *GetCabinetCellReply) String() string {
 func (*GetCabinetCellReply) ProtoMessage() {}
 
 func (x *GetCabinetCellReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[8]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -596,7 +596,7 @@ func (x *GetCabinetCellReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCabinetCellReply.ProtoReflect.Descriptor instead.
 func (*GetCabinetCellReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{8}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetCabinetCellReply) GetCode() int64 {
@@ -633,7 +633,7 @@ type ListCabinetCellsRequest struct {
 
 func (x *ListCabinetCellsRequest) Reset() {
 	*x = ListCabinetCellsRequest{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[9]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -645,7 +645,7 @@ func (x *ListCabinetCellsRequest) String() string {
 func (*ListCabinetCellsRequest) ProtoMessage() {}
 
 func (x *ListCabinetCellsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[9]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -658,7 +658,7 @@ func (x *ListCabinetCellsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListCabinetCellsRequest.ProtoReflect.Descriptor instead.
 func (*ListCabinetCellsRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{9}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ListCabinetCellsRequest) GetPage() int64 {
@@ -702,7 +702,7 @@ type ListCabinetCellsReply struct {
 
 func (x *ListCabinetCellsReply) Reset() {
 	*x = ListCabinetCellsReply{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[10]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -714,7 +714,7 @@ func (x *ListCabinetCellsReply) String() string {
 func (*ListCabinetCellsReply) ProtoMessage() {}
 
 func (x *ListCabinetCellsReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[10]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -727,7 +727,7 @@ func (x *ListCabinetCellsReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListCabinetCellsReply.ProtoReflect.Descriptor instead.
 func (*ListCabinetCellsReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{10}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ListCabinetCellsReply) GetCode() int64 {
@@ -771,7 +771,7 @@ type SearchCabinetCellsRequest struct {
 
 func (x *SearchCabinetCellsRequest) Reset() {
 	*x = SearchCabinetCellsRequest{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[11]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -783,7 +783,7 @@ func (x *SearchCabinetCellsRequest) String() string {
 func (*SearchCabinetCellsRequest) ProtoMessage() {}
 
 func (x *SearchCabinetCellsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[11]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -796,7 +796,7 @@ func (x *SearchCabinetCellsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchCabinetCellsRequest.ProtoReflect.Descriptor instead.
 func (*SearchCabinetCellsRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{11}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *SearchCabinetCellsRequest) GetKeyword() string {
@@ -840,7 +840,7 @@ type SearchCabinetCellsReply struct {
 
 func (x *SearchCabinetCellsReply) Reset() {
 	*x = SearchCabinetCellsReply{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[12]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -852,7 +852,7 @@ func (x *SearchCabinetCellsReply) String() string {
 func (*SearchCabinetCellsReply) ProtoMessage() {}
 
 func (x *SearchCabinetCellsReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[12]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -865,7 +865,7 @@ func (x *SearchCabinetCellsReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchCabinetCellsReply.ProtoReflect.Descriptor instead.
 func (*SearchCabinetCellsReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{12}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *SearchCabinetCellsReply) GetCode() int64 {
@@ -906,7 +906,7 @@ type GetCabinetCellsByGroupRequest struct {
 
 func (x *GetCabinetCellsByGroupRequest) Reset() {
 	*x = GetCabinetCellsByGroupRequest{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[13]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -918,7 +918,7 @@ func (x *GetCabinetCellsByGroupRequest) String() string {
 func (*GetCabinetCellsByGroupRequest) ProtoMessage() {}
 
 func (x *GetCabinetCellsByGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[13]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -931,7 +931,7 @@ func (x *GetCabinetCellsByGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCabinetCellsByGroupRequest.ProtoReflect.Descriptor instead.
 func (*GetCabinetCellsByGroupRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{13}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *GetCabinetCellsByGroupRequest) GetCabinetGroupId() int32 {
@@ -954,7 +954,7 @@ type GetCabinetCellsByGroupReply struct {
 
 func (x *GetCabinetCellsByGroupReply) Reset() {
 	*x = GetCabinetCellsByGroupReply{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[14]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -966,7 +966,7 @@ func (x *GetCabinetCellsByGroupReply) String() string {
 func (*GetCabinetCellsByGroupReply) ProtoMessage() {}
 
 func (x *GetCabinetCellsByGroupReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[14]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -979,7 +979,7 @@ func (x *GetCabinetCellsByGroupReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCabinetCellsByGroupReply.ProtoReflect.Descriptor instead.
 func (*GetCabinetCellsByGroupReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{14}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *GetCabinetCellsByGroupReply) GetCode() int64 {
@@ -1023,7 +1023,7 @@ type BatchCreateCabinetCellsRequest struct {
 
 func (x *BatchCreateCabinetCellsRequest) Reset() {
 	*x = BatchCreateCabinetCellsRequest{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[15]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1035,7 +1035,7 @@ func (x *BatchCreateCabinetCellsRequest) String() string {
 func (*BatchCreateCabinetCellsRequest) ProtoMessage() {}
 
 func (x *BatchCreateCabinetCellsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[15]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1048,7 +1048,7 @@ func (x *BatchCreateCabinetCellsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BatchCreateCabinetCellsRequest.ProtoReflect.Descriptor instead.
 func (*BatchCreateCabinetCellsRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{15}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *BatchCreateCabinetCellsRequest) GetCabinetGroupId() int32 {
@@ -1092,7 +1092,7 @@ type BatchCreateCabinetCellsReply struct {
 
 func (x *BatchCreateCabinetCellsReply) Reset() {
 	*x = BatchCreateCabinetCellsReply{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[16]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1104,7 +1104,7 @@ func (x *BatchCreateCabinetCellsReply) String() string {
 func (*BatchCreateCabinetCellsReply) ProtoMessage() {}
 
 func (x *BatchCreateCabinetCellsReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[16]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1117,7 +1117,7 @@ func (x *BatchCreateCabinetCellsReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BatchCreateCabinetCellsReply.ProtoReflect.Descriptor instead.
 func (*BatchCreateCabinetCellsReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{16}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *BatchCreateCabinetCellsReply) GetCode() int64 {
@@ -1158,7 +1158,7 @@ type OpenCabinetCellRequest struct {
 
 func (x *OpenCabinetCellRequest) Reset() {
 	*x = OpenCabinetCellRequest{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[17]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1170,7 +1170,7 @@ func (x *OpenCabinetCellRequest) String() string {
 func (*OpenCabinetCellRequest) ProtoMessage() {}
 
 func (x *OpenCabinetCellRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[17]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1183,7 +1183,7 @@ func (x *OpenCabinetCellRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OpenCabinetCellRequest.ProtoReflect.Descriptor instead.
 func (*OpenCabinetCellRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{17}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *OpenCabinetCellRequest) GetId() int32 {
@@ -1205,7 +1205,7 @@ type OpenCabinetCellReply struct {
 
 func (x *OpenCabinetCellReply) Reset() {
 	*x = OpenCabinetCellReply{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[18]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1217,7 +1217,7 @@ func (x *OpenCabinetCellReply) String() string {
 func (*OpenCabinetCellReply) ProtoMessage() {}
 
 func (x *OpenCabinetCellReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[18]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1230,7 +1230,7 @@ func (x *OpenCabinetCellReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OpenCabinetCellReply.ProtoReflect.Descriptor instead.
 func (*OpenCabinetCellReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{18}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *OpenCabinetCellReply) GetCode() int64 {
@@ -1264,7 +1264,7 @@ type CloseCabinetCellRequest struct {
 
 func (x *CloseCabinetCellRequest) Reset() {
 	*x = CloseCabinetCellRequest{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[19]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1276,7 +1276,7 @@ func (x *CloseCabinetCellRequest) String() string {
 func (*CloseCabinetCellRequest) ProtoMessage() {}
 
 func (x *CloseCabinetCellRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[19]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1289,7 +1289,7 @@ func (x *CloseCabinetCellRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CloseCabinetCellRequest.ProtoReflect.Descriptor instead.
 func (*CloseCabinetCellRequest) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{19}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *CloseCabinetCellRequest) GetId() int32 {
@@ -1311,7 +1311,7 @@ type CloseCabinetCellReply struct {
 
 func (x *CloseCabinetCellReply) Reset() {
 	*x = CloseCabinetCellReply{}
-	mi := &file_helloworld_v1_cell_proto_msgTypes[20]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1323,7 +1323,7 @@ func (x *CloseCabinetCellReply) String() string {
 func (*CloseCabinetCellReply) ProtoMessage() {}
 
 func (x *CloseCabinetCellReply) ProtoReflect() protoreflect.Message {
-	mi := &file_helloworld_v1_cell_proto_msgTypes[20]
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1336,7 +1336,7 @@ func (x *CloseCabinetCellReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CloseCabinetCellReply.ProtoReflect.Descriptor instead.
 func (*CloseCabinetCellReply) Descriptor() ([]byte, []int) {
-	return file_helloworld_v1_cell_proto_rawDescGZIP(), []int{20}
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *CloseCabinetCellReply) GetCode() int64 {
@@ -1360,11 +1360,107 @@ func (x *CloseCabinetCellReply) GetSuccess() bool {
 	return false
 }
 
-var File_helloworld_v1_cell_proto protoreflect.FileDescriptor
+type CellStatusReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Status        string                 `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
 
-const file_helloworld_v1_cell_proto_rawDesc = "" +
+func (x *CellStatusReq) Reset() {
+	*x = CellStatusReq{}
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CellStatusReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CellStatusReq) ProtoMessage() {}
+
+func (x *CellStatusReq) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CellStatusReq.ProtoReflect.Descriptor instead.
+func (*CellStatusReq) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *CellStatusReq) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+type CellStatusRes struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          int64                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Msg           string                 `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"` //	repeated CellStatus list = 3;
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CellStatusRes) Reset() {
+	*x = CellStatusRes{}
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CellStatusRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CellStatusRes) ProtoMessage() {}
+
+func (x *CellStatusRes) ProtoReflect() protoreflect.Message {
+	mi := &file_api_helloworld_v1_cell_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CellStatusRes.ProtoReflect.Descriptor instead.
+func (*CellStatusRes) Descriptor() ([]byte, []int) {
+	return file_api_helloworld_v1_cell_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *CellStatusRes) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *CellStatusRes) GetMsg() string {
+	if x != nil {
+		return x.Msg
+	}
+	return ""
+}
+
+var File_api_helloworld_v1_cell_proto protoreflect.FileDescriptor
+
+const file_api_helloworld_v1_cell_proto_rawDesc = "" +
 	"\n" +
-	"\x18helloworld/v1/cell.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd5\x02\n" +
+	"\x1capi/helloworld/v1/cell.proto\x12\x11api.helloworld.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd5\x02\n" +
 	"\x0fCabinetCellInfo\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12(\n" +
 	"\x10cabinet_group_id\x18\x02 \x01(\x05R\x0ecabinetGroupId\x12\x17\n" +
@@ -1457,8 +1553,15 @@ const file_helloworld_v1_cell_proto_rawDesc = "" +
 	"\x15CloseCabinetCellReply\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
 	"\x03msg\x18\x02 \x01(\tR\x03msg\x12\x18\n" +
-	"\asuccess\x18\x03 \x01(\bR\asuccess2\xca\v\n" +
-	"\vCabinetCell\x12\x8f\x01\n" +
+	"\asuccess\x18\x03 \x01(\bR\asuccess\"'\n" +
+	"\rCellStatusReq\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\tR\x06status\"5\n" +
+	"\rCellStatusRes\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\x03R\x04code\x12\x10\n" +
+	"\x03msg\x18\x02 \x01(\tR\x03msg2\xaf\f\n" +
+	"\vCabinetCell\x12c\n" +
+	"\n" +
+	"CellStatus\x12 .api.helloworld.v1.CellStatusReq\x1a .api.helloworld.v1.CellStatusRes\"\x11\x82\xd3\xe4\x93\x02\v:\x01*\"\x06status\x12\x8f\x01\n" +
 	"\x11CreateCabinetCell\x12+.api.helloworld.v1.CreateCabinetCellRequest\x1a).api.helloworld.v1.CreateCabinetCellReply\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/v1/cabinet-cell/create\x12\x8f\x01\n" +
 	"\x11UpdateCabinetCell\x12+.api.helloworld.v1.UpdateCabinetCellRequest\x1a).api.helloworld.v1.UpdateCabinetCellReply\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\x1a\x17/v1/cabinet-cell/update\x12\x8f\x01\n" +
 	"\x11DeleteCabinetCell\x12+.api.helloworld.v1.DeleteCabinetCellRequest\x1a).api.helloworld.v1.DeleteCabinetCellReply\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/v1/cabinet-cell/delete\x12\x80\x01\n" +
@@ -1472,19 +1575,19 @@ const file_helloworld_v1_cell_proto_rawDesc = "" +
 	"\x11api.helloworld.v1P\x01Z ito-deposit/api/helloworld/v1;v1b\x06proto3"
 
 var (
-	file_helloworld_v1_cell_proto_rawDescOnce sync.Once
-	file_helloworld_v1_cell_proto_rawDescData []byte
+	file_api_helloworld_v1_cell_proto_rawDescOnce sync.Once
+	file_api_helloworld_v1_cell_proto_rawDescData []byte
 )
 
-func file_helloworld_v1_cell_proto_rawDescGZIP() []byte {
-	file_helloworld_v1_cell_proto_rawDescOnce.Do(func() {
-		file_helloworld_v1_cell_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_helloworld_v1_cell_proto_rawDesc), len(file_helloworld_v1_cell_proto_rawDesc)))
+func file_api_helloworld_v1_cell_proto_rawDescGZIP() []byte {
+	file_api_helloworld_v1_cell_proto_rawDescOnce.Do(func() {
+		file_api_helloworld_v1_cell_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_cell_proto_rawDesc), len(file_api_helloworld_v1_cell_proto_rawDesc)))
 	})
-	return file_helloworld_v1_cell_proto_rawDescData
+	return file_api_helloworld_v1_cell_proto_rawDescData
 }
 
-var file_helloworld_v1_cell_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
-var file_helloworld_v1_cell_proto_goTypes = []any{
+var file_api_helloworld_v1_cell_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var file_api_helloworld_v1_cell_proto_goTypes = []any{
 	(*CabinetCellInfo)(nil),                // 0: api.helloworld.v1.CabinetCellInfo
 	(*CreateCabinetCellRequest)(nil),       // 1: api.helloworld.v1.CreateCabinetCellRequest
 	(*CreateCabinetCellReply)(nil),         // 2: api.helloworld.v1.CreateCabinetCellReply
@@ -1506,66 +1609,70 @@ var file_helloworld_v1_cell_proto_goTypes = []any{
 	(*OpenCabinetCellReply)(nil),           // 18: api.helloworld.v1.OpenCabinetCellReply
 	(*CloseCabinetCellRequest)(nil),        // 19: api.helloworld.v1.CloseCabinetCellRequest
 	(*CloseCabinetCellReply)(nil),          // 20: api.helloworld.v1.CloseCabinetCellReply
-	(*timestamppb.Timestamp)(nil),          // 21: google.protobuf.Timestamp
+	(*CellStatusReq)(nil),                  // 21: api.helloworld.v1.CellStatusReq
+	(*CellStatusRes)(nil),                  // 22: api.helloworld.v1.CellStatusRes
+	(*timestamppb.Timestamp)(nil),          // 23: google.protobuf.Timestamp
 }
-var file_helloworld_v1_cell_proto_depIdxs = []int32{
-	21, // 0: api.helloworld.v1.CabinetCellInfo.last_open_time:type_name -> google.protobuf.Timestamp
-	21, // 1: api.helloworld.v1.CabinetCellInfo.create_time:type_name -> google.protobuf.Timestamp
-	21, // 2: api.helloworld.v1.CabinetCellInfo.update_time:type_name -> google.protobuf.Timestamp
+var file_api_helloworld_v1_cell_proto_depIdxs = []int32{
+	23, // 0: api.helloworld.v1.CabinetCellInfo.last_open_time:type_name -> google.protobuf.Timestamp
+	23, // 1: api.helloworld.v1.CabinetCellInfo.create_time:type_name -> google.protobuf.Timestamp
+	23, // 2: api.helloworld.v1.CabinetCellInfo.update_time:type_name -> google.protobuf.Timestamp
 	0,  // 3: api.helloworld.v1.CreateCabinetCellReply.cell_info:type_name -> api.helloworld.v1.CabinetCellInfo
-	21, // 4: api.helloworld.v1.UpdateCabinetCellRequest.last_open_time:type_name -> google.protobuf.Timestamp
+	23, // 4: api.helloworld.v1.UpdateCabinetCellRequest.last_open_time:type_name -> google.protobuf.Timestamp
 	0,  // 5: api.helloworld.v1.UpdateCabinetCellReply.cell_info:type_name -> api.helloworld.v1.CabinetCellInfo
 	0,  // 6: api.helloworld.v1.GetCabinetCellReply.cell_info:type_name -> api.helloworld.v1.CabinetCellInfo
 	0,  // 7: api.helloworld.v1.ListCabinetCellsReply.cells:type_name -> api.helloworld.v1.CabinetCellInfo
 	0,  // 8: api.helloworld.v1.SearchCabinetCellsReply.cells:type_name -> api.helloworld.v1.CabinetCellInfo
 	0,  // 9: api.helloworld.v1.GetCabinetCellsByGroupReply.cells:type_name -> api.helloworld.v1.CabinetCellInfo
-	1,  // 10: api.helloworld.v1.CabinetCell.CreateCabinetCell:input_type -> api.helloworld.v1.CreateCabinetCellRequest
-	3,  // 11: api.helloworld.v1.CabinetCell.UpdateCabinetCell:input_type -> api.helloworld.v1.UpdateCabinetCellRequest
-	5,  // 12: api.helloworld.v1.CabinetCell.DeleteCabinetCell:input_type -> api.helloworld.v1.DeleteCabinetCellRequest
-	7,  // 13: api.helloworld.v1.CabinetCell.GetCabinetCell:input_type -> api.helloworld.v1.GetCabinetCellRequest
-	9,  // 14: api.helloworld.v1.CabinetCell.ListCabinetCells:input_type -> api.helloworld.v1.ListCabinetCellsRequest
-	11, // 15: api.helloworld.v1.CabinetCell.SearchCabinetCells:input_type -> api.helloworld.v1.SearchCabinetCellsRequest
-	13, // 16: api.helloworld.v1.CabinetCell.GetCabinetCellsByGroup:input_type -> api.helloworld.v1.GetCabinetCellsByGroupRequest
-	15, // 17: api.helloworld.v1.CabinetCell.BatchCreateCabinetCells:input_type -> api.helloworld.v1.BatchCreateCabinetCellsRequest
-	17, // 18: api.helloworld.v1.CabinetCell.OpenCabinetCell:input_type -> api.helloworld.v1.OpenCabinetCellRequest
-	19, // 19: api.helloworld.v1.CabinetCell.CloseCabinetCell:input_type -> api.helloworld.v1.CloseCabinetCellRequest
-	2,  // 20: api.helloworld.v1.CabinetCell.CreateCabinetCell:output_type -> api.helloworld.v1.CreateCabinetCellReply
-	4,  // 21: api.helloworld.v1.CabinetCell.UpdateCabinetCell:output_type -> api.helloworld.v1.UpdateCabinetCellReply
-	6,  // 22: api.helloworld.v1.CabinetCell.DeleteCabinetCell:output_type -> api.helloworld.v1.DeleteCabinetCellReply
-	8,  // 23: api.helloworld.v1.CabinetCell.GetCabinetCell:output_type -> api.helloworld.v1.GetCabinetCellReply
-	10, // 24: api.helloworld.v1.CabinetCell.ListCabinetCells:output_type -> api.helloworld.v1.ListCabinetCellsReply
-	12, // 25: api.helloworld.v1.CabinetCell.SearchCabinetCells:output_type -> api.helloworld.v1.SearchCabinetCellsReply
-	14, // 26: api.helloworld.v1.CabinetCell.GetCabinetCellsByGroup:output_type -> api.helloworld.v1.GetCabinetCellsByGroupReply
-	16, // 27: api.helloworld.v1.CabinetCell.BatchCreateCabinetCells:output_type -> api.helloworld.v1.BatchCreateCabinetCellsReply
-	18, // 28: api.helloworld.v1.CabinetCell.OpenCabinetCell:output_type -> api.helloworld.v1.OpenCabinetCellReply
-	20, // 29: api.helloworld.v1.CabinetCell.CloseCabinetCell:output_type -> api.helloworld.v1.CloseCabinetCellReply
-	20, // [20:30] is the sub-list for method output_type
-	10, // [10:20] is the sub-list for method input_type
+	21, // 10: api.helloworld.v1.CabinetCell.CellStatus:input_type -> api.helloworld.v1.CellStatusReq
+	1,  // 11: api.helloworld.v1.CabinetCell.CreateCabinetCell:input_type -> api.helloworld.v1.CreateCabinetCellRequest
+	3,  // 12: api.helloworld.v1.CabinetCell.UpdateCabinetCell:input_type -> api.helloworld.v1.UpdateCabinetCellRequest
+	5,  // 13: api.helloworld.v1.CabinetCell.DeleteCabinetCell:input_type -> api.helloworld.v1.DeleteCabinetCellRequest
+	7,  // 14: api.helloworld.v1.CabinetCell.GetCabinetCell:input_type -> api.helloworld.v1.GetCabinetCellRequest
+	9,  // 15: api.helloworld.v1.CabinetCell.ListCabinetCells:input_type -> api.helloworld.v1.ListCabinetCellsRequest
+	11, // 16: api.helloworld.v1.CabinetCell.SearchCabinetCells:input_type -> api.helloworld.v1.SearchCabinetCellsRequest
+	13, // 17: api.helloworld.v1.CabinetCell.GetCabinetCellsByGroup:input_type -> api.helloworld.v1.GetCabinetCellsByGroupRequest
+	15, // 18: api.helloworld.v1.CabinetCell.BatchCreateCabinetCells:input_type -> api.helloworld.v1.BatchCreateCabinetCellsRequest
+	17, // 19: api.helloworld.v1.CabinetCell.OpenCabinetCell:input_type -> api.helloworld.v1.OpenCabinetCellRequest
+	19, // 20: api.helloworld.v1.CabinetCell.CloseCabinetCell:input_type -> api.helloworld.v1.CloseCabinetCellRequest
+	22, // 21: api.helloworld.v1.CabinetCell.CellStatus:output_type -> api.helloworld.v1.CellStatusRes
+	2,  // 22: api.helloworld.v1.CabinetCell.CreateCabinetCell:output_type -> api.helloworld.v1.CreateCabinetCellReply
+	4,  // 23: api.helloworld.v1.CabinetCell.UpdateCabinetCell:output_type -> api.helloworld.v1.UpdateCabinetCellReply
+	6,  // 24: api.helloworld.v1.CabinetCell.DeleteCabinetCell:output_type -> api.helloworld.v1.DeleteCabinetCellReply
+	8,  // 25: api.helloworld.v1.CabinetCell.GetCabinetCell:output_type -> api.helloworld.v1.GetCabinetCellReply
+	10, // 26: api.helloworld.v1.CabinetCell.ListCabinetCells:output_type -> api.helloworld.v1.ListCabinetCellsReply
+	12, // 27: api.helloworld.v1.CabinetCell.SearchCabinetCells:output_type -> api.helloworld.v1.SearchCabinetCellsReply
+	14, // 28: api.helloworld.v1.CabinetCell.GetCabinetCellsByGroup:output_type -> api.helloworld.v1.GetCabinetCellsByGroupReply
+	16, // 29: api.helloworld.v1.CabinetCell.BatchCreateCabinetCells:output_type -> api.helloworld.v1.BatchCreateCabinetCellsReply
+	18, // 30: api.helloworld.v1.CabinetCell.OpenCabinetCell:output_type -> api.helloworld.v1.OpenCabinetCellReply
+	20, // 31: api.helloworld.v1.CabinetCell.CloseCabinetCell:output_type -> api.helloworld.v1.CloseCabinetCellReply
+	21, // [21:32] is the sub-list for method output_type
+	10, // [10:21] is the sub-list for method input_type
 	10, // [10:10] is the sub-list for extension type_name
 	10, // [10:10] is the sub-list for extension extendee
 	0,  // [0:10] is the sub-list for field type_name
 }
 
-func init() { file_helloworld_v1_cell_proto_init() }
-func file_helloworld_v1_cell_proto_init() {
-	if File_helloworld_v1_cell_proto != nil {
+func init() { file_api_helloworld_v1_cell_proto_init() }
+func file_api_helloworld_v1_cell_proto_init() {
+	if File_api_helloworld_v1_cell_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_helloworld_v1_cell_proto_rawDesc), len(file_helloworld_v1_cell_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_helloworld_v1_cell_proto_rawDesc), len(file_api_helloworld_v1_cell_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   21,
+			NumMessages:   23,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_helloworld_v1_cell_proto_goTypes,
-		DependencyIndexes: file_helloworld_v1_cell_proto_depIdxs,
-		MessageInfos:      file_helloworld_v1_cell_proto_msgTypes,
+		GoTypes:           file_api_helloworld_v1_cell_proto_goTypes,
+		DependencyIndexes: file_api_helloworld_v1_cell_proto_depIdxs,
+		MessageInfos:      file_api_helloworld_v1_cell_proto_msgTypes,
 	}.Build()
-	File_helloworld_v1_cell_proto = out.File
-	file_helloworld_v1_cell_proto_goTypes = nil
-	file_helloworld_v1_cell_proto_depIdxs = nil
+	File_api_helloworld_v1_cell_proto = out.File
+	file_api_helloworld_v1_cell_proto_goTypes = nil
+	file_api_helloworld_v1_cell_proto_depIdxs = nil
 }

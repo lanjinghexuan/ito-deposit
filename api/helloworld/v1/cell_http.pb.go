@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-http v2.8.4
 // - protoc             v5.26.1
-// source: helloworld/v1/cell.proto
+// source: api/helloworld/v1/cell.proto
 
 package v1
 
@@ -20,6 +20,7 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationCabinetCellBatchCreateCabinetCells = "/api.helloworld.v1.CabinetCell/BatchCreateCabinetCells"
+const OperationCabinetCellCellStatus = "/api.helloworld.v1.CabinetCell/CellStatus"
 const OperationCabinetCellCloseCabinetCell = "/api.helloworld.v1.CabinetCell/CloseCabinetCell"
 const OperationCabinetCellCreateCabinetCell = "/api.helloworld.v1.CabinetCell/CreateCabinetCell"
 const OperationCabinetCellDeleteCabinetCell = "/api.helloworld.v1.CabinetCell/DeleteCabinetCell"
@@ -33,6 +34,7 @@ const OperationCabinetCellUpdateCabinetCell = "/api.helloworld.v1.CabinetCell/Up
 type CabinetCellHTTPServer interface {
 	// BatchCreateCabinetCells 批量创建柜口
 	BatchCreateCabinetCells(context.Context, *BatchCreateCabinetCellsRequest) (*BatchCreateCabinetCellsReply, error)
+	CellStatus(context.Context, *CellStatusReq) (*CellStatusRes, error)
 	// CloseCabinetCell 关闭柜口
 	CloseCabinetCell(context.Context, *CloseCabinetCellRequest) (*CloseCabinetCellReply, error)
 	// CreateCabinetCell 创建柜口
@@ -55,6 +57,7 @@ type CabinetCellHTTPServer interface {
 
 func RegisterCabinetCellHTTPServer(s *http.Server, srv CabinetCellHTTPServer) {
 	r := s.Route("/")
+	r.POST("status", _CabinetCell_CellStatus0_HTTP_Handler(srv))
 	r.POST("/v1/cabinet-cell/create", _CabinetCell_CreateCabinetCell0_HTTP_Handler(srv))
 	r.PUT("/v1/cabinet-cell/update", _CabinetCell_UpdateCabinetCell0_HTTP_Handler(srv))
 	r.POST("/v1/cabinet-cell/delete", _CabinetCell_DeleteCabinetCell0_HTTP_Handler(srv))
@@ -65,6 +68,28 @@ func RegisterCabinetCellHTTPServer(s *http.Server, srv CabinetCellHTTPServer) {
 	r.POST("/v1/cabinet-cell/batch-create", _CabinetCell_BatchCreateCabinetCells0_HTTP_Handler(srv))
 	r.POST("/v1/cabinet-cell/open", _CabinetCell_OpenCabinetCell0_HTTP_Handler(srv))
 	r.POST("/v1/cabinet-cell/close", _CabinetCell_CloseCabinetCell0_HTTP_Handler(srv))
+}
+
+func _CabinetCell_CellStatus0_HTTP_Handler(srv CabinetCellHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CellStatusReq
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationCabinetCellCellStatus)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CellStatus(ctx, req.(*CellStatusReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CellStatusRes)
+		return ctx.Result(200, reply)
+	}
 }
 
 func _CabinetCell_CreateCabinetCell0_HTTP_Handler(srv CabinetCellHTTPServer) func(ctx http.Context) error {
@@ -283,6 +308,7 @@ func _CabinetCell_CloseCabinetCell0_HTTP_Handler(srv CabinetCellHTTPServer) func
 
 type CabinetCellHTTPClient interface {
 	BatchCreateCabinetCells(ctx context.Context, req *BatchCreateCabinetCellsRequest, opts ...http.CallOption) (rsp *BatchCreateCabinetCellsReply, err error)
+	CellStatus(ctx context.Context, req *CellStatusReq, opts ...http.CallOption) (rsp *CellStatusRes, err error)
 	CloseCabinetCell(ctx context.Context, req *CloseCabinetCellRequest, opts ...http.CallOption) (rsp *CloseCabinetCellReply, err error)
 	CreateCabinetCell(ctx context.Context, req *CreateCabinetCellRequest, opts ...http.CallOption) (rsp *CreateCabinetCellReply, err error)
 	DeleteCabinetCell(ctx context.Context, req *DeleteCabinetCellRequest, opts ...http.CallOption) (rsp *DeleteCabinetCellReply, err error)
@@ -307,6 +333,19 @@ func (c *CabinetCellHTTPClientImpl) BatchCreateCabinetCells(ctx context.Context,
 	pattern := "/v1/cabinet-cell/batch-create"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationCabinetCellBatchCreateCabinetCells))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *CabinetCellHTTPClientImpl) CellStatus(ctx context.Context, in *CellStatusReq, opts ...http.CallOption) (*CellStatusRes, error) {
+	var out CellStatusRes
+	pattern := "status"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationCabinetCellCellStatus))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

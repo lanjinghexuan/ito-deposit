@@ -68,7 +68,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 		return nil, nil, err
 	}
 	registrar := NewRegistrar(client)
-	scheduler := job.NewScheduler(adminService)
+	scheduler := job.NewScheduler(cabinetCellService)
 	app := newApp(logger, grpcServer, httpServer, registrar, confServer, scheduler)
 	return app, func() {
 		cleanup2()
