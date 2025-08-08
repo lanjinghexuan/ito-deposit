@@ -75,7 +75,7 @@ func (s *AdminRepo) AddPointAddPoint(ctx context.Context, point *biz.LockerPoint
 
 func (s *AdminRepo) UpdatePoint(ctx context.Context, point *biz.LockerPoint, userId int32) (*pb.UpdatePointRes, error) {
 
-	err := s.data.DB.Where("id = ?", point.Id).Where("admin_id = ?", userId).Updates(&point).Error
+	err := s.data.DB.Where("id = ?", point.Id).Updates(&point).Error
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "修改失败: %v", err)
 	}
