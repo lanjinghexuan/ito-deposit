@@ -645,6 +645,24 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.helloworld.v1.GetMyNearbyInfoReply'
+    /create/locker/storage:
+        post:
+            tags:
+                - Order
+            operationId: Order_CreateLockerStorage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.CreateLockerStorageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.CreateLockerStorageReply'
     /decodetoken:
         get:
             tags:
@@ -741,6 +759,42 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.helloworld.v1.GetDepositLockerRes'
+    /handle/remind/task:
+        post:
+            tags:
+                - Order
+            operationId: Order_HandleRemindTask
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.HandleRemindTaskRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.HandleRemindTaskReply'
+    /handle/timeout/task:
+        post:
+            tags:
+                - Order
+            operationId: Order_HandleTimeOutTask
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.HandleTimeOutTaskRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.HandleTimeOutTaskReply'
     /helloworld/{name}:
         get:
             tags:
@@ -814,6 +868,42 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/api.helloworld.v1.LoginRes'
+    /manage/orders/del:
+        post:
+            tags:
+                - Order
+            operationId: Order_ManageOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.ManageOrderDelRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ManageOrderDelReply'
+    /manage/orders/detail:
+        post:
+            tags:
+                - Order
+            operationId: Order_ManageOrderDetail
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.ManageOrderDetailRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ManageOrderDetailReply'
     /manage/orders/search:
         post:
             tags:
@@ -1641,6 +1731,29 @@ components:
         api.helloworld.v1.CreateLocalReply:
             type: object
             properties: {}
+        api.helloworld.v1.CreateLockerStorageReply:
+            type: object
+            properties:
+                order:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
+                Msg:
+                    type: string
+        api.helloworld.v1.CreateLockerStorageRequest:
+            type: object
+            properties:
+                orderId:
+                    type: string
+                cabinetId:
+                    type: string
+                userId:
+                    type: string
+                expireTime:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
         api.helloworld.v1.CreateOrderReply:
             type: object
             properties:
@@ -1922,6 +2035,54 @@ components:
                     type: string
                     format: date-time
             description: 柜组信息
+        api.helloworld.v1.HandleRemindTaskReply:
+            type: object
+            properties:
+                Msg:
+                    type: string
+        api.helloworld.v1.HandleRemindTaskRequest:
+            type: object
+            properties:
+                orderId:
+                    type: string
+                cabinetId:
+                    type: string
+                userId:
+                    type: string
+                expireTime:
+                    type: string
+                status:
+                    type: string
+                id:
+                    type: string
+                orderNumber:
+                    type: string
+        api.helloworld.v1.HandleTimeOutTaskReply:
+            type: object
+            properties:
+                Msg:
+                    type: string
+        api.helloworld.v1.HandleTimeOutTaskRequest:
+            type: object
+            properties:
+                orderId:
+                    type: string
+                cabinetId:
+                    type: string
+                userId:
+                    type: string
+                expireTime:
+                    type: string
+                status:
+                    type: string
+                id:
+                    type: string
+                orderNumber:
+                    type: string
+                scheduledDuration:
+                    type: string
+                hourlyRate:
+                    type: string
         api.helloworld.v1.InitLockerPointsGeoReply:
             type: object
             properties:
@@ -2147,12 +2308,90 @@ components:
                     type: string
                 token:
                     type: string
+        api.helloworld.v1.ManageOrderDelReply:
+            type: object
+            properties:
+                Msg:
+                    type: string
+        api.helloworld.v1.ManageOrderDelRequest:
+            type: object
+            properties:
+                orderId:
+                    type: string
+                cabinetId:
+                    type: string
+                userId:
+                    type: string
+                expireTime:
+                    type: string
+                status:
+                    type: string
+                id:
+                    type: string
+                orderNumber:
+                    type: string
+                scheduledDuration:
+                    type: string
+                hourlyRate:
+                    type: string
+                role:
+                    type: string
+        api.helloworld.v1.ManageOrderDetailReply:
+            type: object
+            properties:
+                Msg:
+                    type: string
+                order:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
+        api.helloworld.v1.ManageOrderDetailRequest:
+            type: object
+            properties:
+                orderId:
+                    type: string
+                cabinetId:
+                    type: string
+                userId:
+                    type: string
+                expireTime:
+                    type: string
+                status:
+                    type: string
+                id:
+                    type: string
+                orderNumber:
+                    type: string
+                scheduledDuration:
+                    type: string
+                hourlyRate:
+                    type: string
+                role:
+                    type: string
         api.helloworld.v1.ManageOrderSearchReply:
             type: object
-            properties: {}
+            properties:
+                order:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
+                Msg:
+                    type: string
         api.helloworld.v1.ManageOrderSearchRequest:
             type: object
-            properties: {}
+            properties:
+                orderNumber:
+                    type: string
+                title:
+                    type: string
+                orderId:
+                    type: string
+                status:
+                    type: string
+                role:
+                    type: string
+                Id:
+                    type: string
         api.helloworld.v1.MapPointInfo:
             type: object
             properties:

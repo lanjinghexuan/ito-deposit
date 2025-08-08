@@ -19,13 +19,19 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Order_CreateOrder_FullMethodName       = "/api.helloworld.v1.Order/CreateOrder"
-	Order_UpdateOrder_FullMethodName       = "/api.helloworld.v1.Order/UpdateOrder"
-	Order_DeleteOrder_FullMethodName       = "/api.helloworld.v1.Order/DeleteOrder"
-	Order_GetOrder_FullMethodName          = "/api.helloworld.v1.Order/GetOrder"
-	Order_ListOrder_FullMethodName         = "/api.helloworld.v1.Order/ListOrder"
-	Order_ShowOrder_FullMethodName         = "/api.helloworld.v1.Order/ShowOrder"
-	Order_ManageOrderSearch_FullMethodName = "/api.helloworld.v1.Order/ManageOrderSearch"
+	Order_CreateOrder_FullMethodName         = "/api.helloworld.v1.Order/CreateOrder"
+	Order_UpdateOrder_FullMethodName         = "/api.helloworld.v1.Order/UpdateOrder"
+	Order_DeleteOrder_FullMethodName         = "/api.helloworld.v1.Order/DeleteOrder"
+	Order_GetOrder_FullMethodName            = "/api.helloworld.v1.Order/GetOrder"
+	Order_ListOrder_FullMethodName           = "/api.helloworld.v1.Order/ListOrder"
+	Order_ShowOrder_FullMethodName           = "/api.helloworld.v1.Order/ShowOrder"
+	Order_CreateLockerStorage_FullMethodName = "/api.helloworld.v1.Order/CreateLockerStorage"
+	Order_HandleRemindTask_FullMethodName    = "/api.helloworld.v1.Order/HandleRemindTask"
+	Order_HandleTimeOutTask_FullMethodName   = "/api.helloworld.v1.Order/HandleTimeOutTask"
+	Order_ManageOrderSearch_FullMethodName   = "/api.helloworld.v1.Order/ManageOrderSearch"
+	Order_ManageOrderDel_FullMethodName      = "/api.helloworld.v1.Order/ManageOrderDel"
+	Order_ManageOrder_FullMethodName         = "/api.helloworld.v1.Order/ManageOrder"
+	Order_ManageOrderDetail_FullMethodName   = "/api.helloworld.v1.Order/ManageOrderDetail"
 )
 
 // OrderClient is the client API for Order service.
@@ -38,7 +44,13 @@ type OrderClient interface {
 	GetOrder(ctx context.Context, in *GetOrderRequest, opts ...grpc.CallOption) (*GetOrderReply, error)
 	ListOrder(ctx context.Context, in *ListOrderRequest, opts ...grpc.CallOption) (*ListOrderReply, error)
 	ShowOrder(ctx context.Context, in *ShowOrderRequest, opts ...grpc.CallOption) (*ShowOrderReply, error)
+	CreateLockerStorage(ctx context.Context, in *CreateLockerStorageRequest, opts ...grpc.CallOption) (*CreateLockerStorageReply, error)
+	HandleRemindTask(ctx context.Context, in *HandleRemindTaskRequest, opts ...grpc.CallOption) (*HandleRemindTaskReply, error)
+	HandleTimeOutTask(ctx context.Context, in *HandleTimeOutTaskRequest, opts ...grpc.CallOption) (*HandleTimeOutTaskReply, error)
 	ManageOrderSearch(ctx context.Context, in *ManageOrderSearchRequest, opts ...grpc.CallOption) (*ManageOrderSearchReply, error)
+	ManageOrderDel(ctx context.Context, in *ManageOrderDelRequest, opts ...grpc.CallOption) (*ManageOrderDelReply, error)
+	ManageOrder(ctx context.Context, in *ManageOrderDelRequest, opts ...grpc.CallOption) (*ManageOrderDelReply, error)
+	ManageOrderDetail(ctx context.Context, in *ManageOrderDetailRequest, opts ...grpc.CallOption) (*ManageOrderDetailReply, error)
 }
 
 type orderClient struct {
@@ -109,10 +121,70 @@ func (c *orderClient) ShowOrder(ctx context.Context, in *ShowOrderRequest, opts 
 	return out, nil
 }
 
+func (c *orderClient) CreateLockerStorage(ctx context.Context, in *CreateLockerStorageRequest, opts ...grpc.CallOption) (*CreateLockerStorageReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateLockerStorageReply)
+	err := c.cc.Invoke(ctx, Order_CreateLockerStorage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) HandleRemindTask(ctx context.Context, in *HandleRemindTaskRequest, opts ...grpc.CallOption) (*HandleRemindTaskReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(HandleRemindTaskReply)
+	err := c.cc.Invoke(ctx, Order_HandleRemindTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) HandleTimeOutTask(ctx context.Context, in *HandleTimeOutTaskRequest, opts ...grpc.CallOption) (*HandleTimeOutTaskReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(HandleTimeOutTaskReply)
+	err := c.cc.Invoke(ctx, Order_HandleTimeOutTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *orderClient) ManageOrderSearch(ctx context.Context, in *ManageOrderSearchRequest, opts ...grpc.CallOption) (*ManageOrderSearchReply, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ManageOrderSearchReply)
 	err := c.cc.Invoke(ctx, Order_ManageOrderSearch_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) ManageOrderDel(ctx context.Context, in *ManageOrderDelRequest, opts ...grpc.CallOption) (*ManageOrderDelReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ManageOrderDelReply)
+	err := c.cc.Invoke(ctx, Order_ManageOrderDel_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) ManageOrder(ctx context.Context, in *ManageOrderDelRequest, opts ...grpc.CallOption) (*ManageOrderDelReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ManageOrderDelReply)
+	err := c.cc.Invoke(ctx, Order_ManageOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) ManageOrderDetail(ctx context.Context, in *ManageOrderDetailRequest, opts ...grpc.CallOption) (*ManageOrderDetailReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ManageOrderDetailReply)
+	err := c.cc.Invoke(ctx, Order_ManageOrderDetail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -129,7 +201,13 @@ type OrderServer interface {
 	GetOrder(context.Context, *GetOrderRequest) (*GetOrderReply, error)
 	ListOrder(context.Context, *ListOrderRequest) (*ListOrderReply, error)
 	ShowOrder(context.Context, *ShowOrderRequest) (*ShowOrderReply, error)
+	CreateLockerStorage(context.Context, *CreateLockerStorageRequest) (*CreateLockerStorageReply, error)
+	HandleRemindTask(context.Context, *HandleRemindTaskRequest) (*HandleRemindTaskReply, error)
+	HandleTimeOutTask(context.Context, *HandleTimeOutTaskRequest) (*HandleTimeOutTaskReply, error)
 	ManageOrderSearch(context.Context, *ManageOrderSearchRequest) (*ManageOrderSearchReply, error)
+	ManageOrderDel(context.Context, *ManageOrderDelRequest) (*ManageOrderDelReply, error)
+	ManageOrder(context.Context, *ManageOrderDelRequest) (*ManageOrderDelReply, error)
+	ManageOrderDetail(context.Context, *ManageOrderDetailRequest) (*ManageOrderDetailReply, error)
 	mustEmbedUnimplementedOrderServer()
 }
 
@@ -158,8 +236,26 @@ func (UnimplementedOrderServer) ListOrder(context.Context, *ListOrderRequest) (*
 func (UnimplementedOrderServer) ShowOrder(context.Context, *ShowOrderRequest) (*ShowOrderReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ShowOrder not implemented")
 }
+func (UnimplementedOrderServer) CreateLockerStorage(context.Context, *CreateLockerStorageRequest) (*CreateLockerStorageReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateLockerStorage not implemented")
+}
+func (UnimplementedOrderServer) HandleRemindTask(context.Context, *HandleRemindTaskRequest) (*HandleRemindTaskReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HandleRemindTask not implemented")
+}
+func (UnimplementedOrderServer) HandleTimeOutTask(context.Context, *HandleTimeOutTaskRequest) (*HandleTimeOutTaskReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HandleTimeOutTask not implemented")
+}
 func (UnimplementedOrderServer) ManageOrderSearch(context.Context, *ManageOrderSearchRequest) (*ManageOrderSearchReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ManageOrderSearch not implemented")
+}
+func (UnimplementedOrderServer) ManageOrderDel(context.Context, *ManageOrderDelRequest) (*ManageOrderDelReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ManageOrderDel not implemented")
+}
+func (UnimplementedOrderServer) ManageOrder(context.Context, *ManageOrderDelRequest) (*ManageOrderDelReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ManageOrder not implemented")
+}
+func (UnimplementedOrderServer) ManageOrderDetail(context.Context, *ManageOrderDetailRequest) (*ManageOrderDetailReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ManageOrderDetail not implemented")
 }
 func (UnimplementedOrderServer) mustEmbedUnimplementedOrderServer() {}
 func (UnimplementedOrderServer) testEmbeddedByValue()               {}
@@ -290,6 +386,60 @@ func _Order_ShowOrder_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Order_CreateLockerStorage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateLockerStorageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).CreateLockerStorage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_CreateLockerStorage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).CreateLockerStorage(ctx, req.(*CreateLockerStorageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_HandleRemindTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HandleRemindTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).HandleRemindTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_HandleRemindTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).HandleRemindTask(ctx, req.(*HandleRemindTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_HandleTimeOutTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HandleTimeOutTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).HandleTimeOutTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_HandleTimeOutTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).HandleTimeOutTask(ctx, req.(*HandleTimeOutTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Order_ManageOrderSearch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ManageOrderSearchRequest)
 	if err := dec(in); err != nil {
@@ -304,6 +454,60 @@ func _Order_ManageOrderSearch_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrderServer).ManageOrderSearch(ctx, req.(*ManageOrderSearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_ManageOrderDel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ManageOrderDelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).ManageOrderDel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_ManageOrderDel_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).ManageOrderDel(ctx, req.(*ManageOrderDelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_ManageOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ManageOrderDelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).ManageOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_ManageOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).ManageOrder(ctx, req.(*ManageOrderDelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_ManageOrderDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ManageOrderDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).ManageOrderDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_ManageOrderDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).ManageOrderDetail(ctx, req.(*ManageOrderDetailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -340,8 +544,32 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Order_ShowOrder_Handler,
 		},
 		{
+			MethodName: "CreateLockerStorage",
+			Handler:    _Order_CreateLockerStorage_Handler,
+		},
+		{
+			MethodName: "HandleRemindTask",
+			Handler:    _Order_HandleRemindTask_Handler,
+		},
+		{
+			MethodName: "HandleTimeOutTask",
+			Handler:    _Order_HandleTimeOutTask_Handler,
+		},
+		{
 			MethodName: "ManageOrderSearch",
 			Handler:    _Order_ManageOrderSearch_Handler,
+		},
+		{
+			MethodName: "ManageOrderDel",
+			Handler:    _Order_ManageOrderDel_Handler,
+		},
+		{
+			MethodName: "ManageOrder",
+			Handler:    _Order_ManageOrder_Handler,
+		},
+		{
+			MethodName: "ManageOrderDetail",
+			Handler:    _Order_ManageOrderDetail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

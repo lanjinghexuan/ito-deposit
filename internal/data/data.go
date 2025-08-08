@@ -19,6 +19,7 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/plugin/dbresolver"
 )
 
 // ProviderSet is data providers.
@@ -100,7 +101,10 @@ func (a *dbAdapter) Find(dest interface{}) error {
 
 func (d *dbAdapter) Transaction(fn func(DBInterface) error) error {
 	return d.db.Transaction(func(tx *gorm.DB) error {
-		txAdapter := &dbAdapter{db: tx}
+		// ✅ 强制事务中所有读操作也走主库
+		txAdapter := &dbAdapter{
+			db: tx.Clauses(dbresolver.Write),
+		}
 		return fn(txAdapter)
 	})
 }
@@ -132,26 +136,51 @@ func (a *redisAdapter) Get(ctx context.Context, key string) *redis.StringCmd {
 func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 
 	helper := log.NewHelper(logger)
-
-	db, err := gorm.Open(mysql.Open(c.Database.Source), &gorm.Config{})
+	masterDsn := c.Database.Master
+	slaveDsn := c.Database.Slave
+	if masterDsn == "" {
+		panic("config error: database.master is required")
+	}
+	if slaveDsn == "" {
+		panic("config error: database.slave is required")
+	}
+	//主库
+	db, err := gorm.Open(mysql.Open(masterDsn), &gorm.Config{})
 	if err != nil {
-		fmt.Println("err:", err)
+		fmt.Println("failed to connect to master database", err)
 		panic("failed to connect database")
 	}
-
+	sqlDB, err := db.DB()
+	if err != nil {
+		panic(err)
+	}
+	sqlDB.SetMaxIdleConns(10)
+	sqlDB.SetMaxOpenConns(50)
+	sqlDB.SetConnMaxLifetime(time.Hour)
+	//从库
+	err = db.Use(
+		dbresolver.Register(
+			dbresolver.Config{
+				Replicas: []gorm.Dialector{
+					mysql.Open(slaveDsn), // 从库（读）
+				},
+				Policy: dbresolver.RandomPolicy{}, // 读负载均衡策略
+			},
+		).
+			SetMaxIdleConns(10).
+			SetMaxOpenConns(50).
+			SetConnMaxLifetime(time.Hour),
+	)
+	if err != nil {
+		helper.Errorf("failed to register dbresolver: %v", err)
+		panic(err)
+	}
 	if err := db.AutoMigrate(&City{}, &LockerPoint{}); err != nil {
 		helper.Errorf("自动迁移数据库表结构失败: %v", err)
 	} else {
 		helper.Info("自动迁移数据库表结构成功")
 	}
-
-	sqlDB, err := db.DB()
-	// SetMaxIdleConns 设置空闲连接池中连接的最大数量。
-	sqlDB.SetMaxIdleConns(10)
-
-	// SetMaxOpenConns 设置打开数据库连接的最大数量。
-	sqlDB.SetMaxOpenConns(100)
-
+	//redis
 	redisDB := RedisInit(c)
 
 	mq, err := rocketmq.NewProducer(

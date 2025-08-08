@@ -18,11 +18,13 @@ server:
 data:
   database:
     driver: mysql
-    source: root:Hao@10086@tcp(8.155.62.49:3306)/ito?parseTime=True&loc=Local
+    master: "root:686c75a503764f121f81cc01c8dc04a7@tcp(14.103.235.215:3306)/ito?charset=utf8mb4&parseTime=True&loc=Local"
+    slave: "root:04819B92E9A561CD696C3FB75EAF6162@tcp(14.103.235.217:3306)/ito?charset=utf8mb4&parseTime=True&loc=Local"
   redis:
     addr: 14.103.235.215:6379
     password: 686c75a503764f121f81cc01c8dc04a7
     db: 0
+
   smscode: 373c436ad05c4eeba2fe9a646e9e2c61
   minio:
     endpoint: 14.103.235.215:9000
