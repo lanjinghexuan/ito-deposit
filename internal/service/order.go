@@ -301,8 +301,8 @@ func (s *OrderService) CreateOrder(ctx context.Context, req *pb.CreateOrderReque
 	//创建柜子的状态处理
 
 	Lockers := data.Lockers{
-		LockerPointId: int32(req.LockerPointId),
-		TypeId:        int32(req.TypeId),
+		LockerPointId: req.LockerPointId,
+		TypeId:        req.TypeId,
 		Status:        int8(req.Status),
 	}
 	err = s.DB.Create(&Lockers).Error

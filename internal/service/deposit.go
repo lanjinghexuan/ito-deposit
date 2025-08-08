@@ -100,7 +100,7 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 			Discount:          0,
 			AmountPaid:        price,
 			Status:            1,
-			CabinetId:         locker.Id,
+			CabinetId:         int32(locker.Id),
 			CreateTime:        time.Now(),
 			UpdateTime:        time.Now(),
 			DepositStatus:     0,
@@ -170,7 +170,7 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 		Msg:  "添加寄存订单成功",
 		Data: &pb.DepositReplyData{
 			OrderNo:  OrderNo,
-			LockerId: locker.Id,
+			LockerId: int32(locker.Id),
 		},
 	}, nil
 }
@@ -356,7 +356,7 @@ func (s *DepositService) UpdateDepositLockerId(ctx context.Context, req *pb.Upda
 	return &pb.UpdateDepositLockerIdRes{
 		Code:     200,
 		Msg:      "修改成功",
-		LockerId: newLocker.Id,
+		LockerId: int32(newLocker.Id),
 	}, nil
 }
 
