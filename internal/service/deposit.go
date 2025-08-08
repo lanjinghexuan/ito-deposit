@@ -208,11 +208,7 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 		Msg:  "添加寄存订单成功",
 		Data: &pb.DepositReplyData{
 			OrderNo:  OrderNo,
-<<<<<<< HEAD
-			LockerId: int32(locker.Id),
-=======
 			LockerId: int32(lockerID),
->>>>>>> c7faa8141686d333f091a98906bccc7ba10312da
 		},
 	}, nil
 }

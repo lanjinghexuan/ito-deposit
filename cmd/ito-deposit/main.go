@@ -9,12 +9,8 @@ import (
 	etcd "github.com/go-kratos/kratos/contrib/registry/etcd/v2" // etcd注册中心插件
 	"github.com/go-kratos/kratos/v2/registry"                   // kratos服务注册相关接口
 	clientv3 "go.etcd.io/etcd/client/v3"                        // etcd客户端v3版本
-<<<<<<< HEAD
-=======
+
 	"ito-deposit/internal/basic/pkg/job"
-	"ito-deposit/internal/conf"
-	"os"
->>>>>>> c7faa8141686d333f091a98906bccc7ba10312da
 
 	"ito-deposit/internal/basic/pkg"
 

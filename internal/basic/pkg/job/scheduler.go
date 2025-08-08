@@ -14,7 +14,7 @@ type Scheduler struct {
 
 func NewScheduler(jobSvc *service.AdminService) *Scheduler {
 	c := cron.New(cron.WithSeconds()) // 支持到秒
-	// 每 5 分钟执行一次
+	// 每10秒执行一次
 	_, err := c.AddFunc("*/10 * * * * *", func() {
 		jobSvc.LockerStatus()
 	})
