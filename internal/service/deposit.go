@@ -37,12 +37,15 @@ type DepositService struct {
 	pkg    *pkg.SendSms
 }
 
-func NewDepositService(data2 *data.Data, server *conf.Server, pkg *pkg.SendSms) *DepositService {
-	return &DepositService{
+func NewDepositService(ctx context.Context, data2 *data.Data, server *conf.Server, pkg *pkg.SendSms) *DepositService {
+	svc := &DepositService{
 		data:   data2,
 		server: server,
 		pkg:    pkg,
 	}
+
+	svc.StartLockerSyncJob(ctx) // 启动定时同步任务
+	return svc
 }
 
 func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDepositRequest) (*pb.CreateDepositReply, error) {
@@ -55,43 +58,71 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 	}
 
 	mapClaims, ok := kratosToken.(*jwt.MapClaims)
+	if !ok {
+		return &pb.CreateDepositReply{
+			Code: 401,
+			Msg:  "token解析失败",
+		}, nil
+	}
 
 	userId := (*mapClaims)["id"].(string)
-	var lockerPriceRules data.LockerPricingRules
-	err := s.data.DB.Table("locker_pricing_rules").Where("network_id = ? ", req.CabinetId).Where("status = 1").
-		Where("locker_type = ?", req.LockerType).Limit(1).Find(&lockerPriceRules).Error
-	if err != nil {
-		return nil, err
-	}
 	intUserId, err := strconv.ParseInt(userId, 10, 64)
-	OrderNo := time.Now().Format("20060102150405") + userId
-	var price float64
+	if err != nil {
+		return nil, fmt.Errorf("用户ID格式错误: %w", err)
+	}
+
+	// 查询定价规则
+	var lockerPriceRules data.LockerPricingRules
+	err = s.data.DB.Table("locker_pricing_rules").
+		Where("network_id = ?", req.CabinetId).
+		Where("locker_type = ?", req.LockerType).
+		Where("status = 1").
+		Limit(1).Find(&lockerPriceRules).Error
+	if err != nil {
+		return nil, fmt.Errorf("查询定价规则失败: %w", err)
+	}
+
+	// 计算价格
+	price := 0.0
 	if lockerPriceRules.IsDepositEnabled == 1 {
 		price += lockerPriceRules.DepositAmount
 	}
 	price += lockerPriceRules.HourlyRate * float64(req.ScheduledDuration)
-	var locker data.Lockers
-	var localMessage biz.LocalMessage
-	var mqjson []byte
+
+	// 从 Redis 抢 lockerId
+	redisKey := fmt.Sprintf("cabinet_available_%d", req.CabinetId)
+	lockerIDStr, err := s.data.Redis.SPop(ctx, redisKey).Result()
+	if err == redis.Nil || lockerIDStr == "" {
+		return &pb.CreateDepositReply{
+			Code: 400,
+			Msg:  "寄存柜可用数量不足",
+		}, nil
+	}
+	lockerID, _ := strconv.Atoi(lockerIDStr)
+
+	OrderNo := time.Now().Format("20060102150405") + userId
 	topic := "deposit_create"
+	var mqjson []byte
 
 	err = s.data.DB.Transaction(func(tx *gorm.DB) error {
-		err = tx.Table("lockers").Where("locker_point_id = ?", req.CabinetId).Select("id").Where("status = 1").Limit(1).Find(&locker).Error
+		// 查询 locker 确认存在
+		var locker data.Lockers
+		err = tx.Table("lockers").Where("id = ?", lockerID).First(&locker).Error
 		if err != nil {
-			return err
+			return fmt.Errorf("locker 不存在: %w", err)
 		}
-		if locker.Id == 0 {
-			return errors.New("寄存柜可用数量不足")
+		if locker.Status != 1 {
+			return errors.New("locker 已被占用")
 		}
-		updaateres := tx.Table("lockers").Where("id = ?", locker.Id).Update("status", 2)
-		if updaateres.RowsAffected == 0 {
-			return errors.New("更新柜子状态失败")
+
+		// 占用 locker
+		res := tx.Table("lockers").Where("id = ? AND status = 1", lockerID).Update("status", 2)
+		if res.RowsAffected == 0 {
+			return errors.New("locker 状态更新失败")
 		}
-		if updaateres.Error != nil {
-			return updaateres.Error
-		}
-		//cabineId := strconv.Itoa(int(locker.Id))
-		addOrder := data.LockerOrders{
+
+		// 创建订单
+		order := data.LockerOrders{
 			OrderNumber:       OrderNo,
 			UserId:            uint64(intUserId),
 			StartTime:         time.Now(),
@@ -107,6 +138,7 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 			ActualDuration:    0,
 		}
 
+		// 构造 MQ 消息内容
 		mqMessage := &DepositOrderMessage{
 			OrderNo:           OrderNo,
 			UserID:            intUserId,
@@ -114,13 +146,13 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 			Price:             price,
 			LockerID:          int64(locker.Id),
 		}
-
 		mqjson, err = json.Marshal(mqMessage)
 		if err != nil {
-			return err
+			return fmt.Errorf("MQ消息序列化失败: %w", err)
 		}
 
-		localMessage = biz.LocalMessage{
+		// 保存本地消息
+		localMessage := biz.LocalMessage{
 			BusinessKey:   OrderNo,
 			Topic:         topic,
 			Tags:          "",
@@ -132,29 +164,34 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 			UpdatedAt:     time.Now().Add(time.Minute),
 		}
 
-		err = tx.Table("locker_orders").Create(&addOrder).Error
-		if err != nil {
+		if err := tx.Table("locker_orders").Create(&order).Error; err != nil {
+			return err
+		}
+		if err := tx.Table("local_message").Create(&localMessage).Error; err != nil {
 			return err
 		}
 
-		err = tx.Table("local_message").Create(&localMessage).Error
-		if err != nil {
-			return err
-		}
 		return nil
 	})
+
+	// 回滚 Redis
 	if err != nil {
+		// 放回 Redis
+		s.data.Redis.SAdd(ctx, redisKey, lockerIDStr)
 		return nil, err
 	}
 
+	// 发送 MQ 消息
 	mqMsg := &primitive.Message{
-		Topic: topic, // 你可以自己定义
+		Topic: topic,
 		Body:  mqjson,
 	}
 	_, err = s.data.Mq.SendSync(context.Background(), mqMsg)
 	if err != nil {
 		return nil, err
 	}
+
+	// 更新本地消息状态
 	err = s.data.DB.Table("local_message").
 		Where("business_key = ?", OrderNo).
 		Updates(map[string]interface{}{
@@ -165,15 +202,21 @@ func (s *DepositService) CreateDeposit(ctx context.Context, req *pb.CreateDeposi
 		log.Println("更新本地消息状态失败，OrderNo:", OrderNo, err)
 	}
 
+	// 返回结果
 	return &pb.CreateDepositReply{
 		Code: 200,
 		Msg:  "添加寄存订单成功",
 		Data: &pb.DepositReplyData{
 			OrderNo:  OrderNo,
+<<<<<<< HEAD
 			LockerId: int32(locker.Id),
+=======
+			LockerId: int32(lockerID),
+>>>>>>> c7faa8141686d333f091a98906bccc7ba10312da
 		},
 	}, nil
 }
+
 func (s *DepositService) UpdateDeposit(ctx context.Context, req *pb.UpdateDepositRequest) (*pb.UpdateDepositReply, error) {
 	return &pb.UpdateDepositReply{}, nil
 }
@@ -387,4 +430,51 @@ func (s *DepositService) SendCodeByOrder(ctx context.Context, req *pb.SendCodeBy
 		Code: 200,
 		Data: "",
 	}, nil
+}
+
+func (s *DepositService) StartLockerSyncJob(ctx context.Context) {
+	ticker := time.NewTicker(30 * time.Second) // 每30秒同步一次
+	go func() {
+		for {
+			select {
+			case <-ctx.Done():
+				ticker.Stop()
+				return
+			case <-ticker.C:
+				s.syncAvailableLockers(ctx)
+			}
+		}
+	}()
+}
+
+func (s *DepositService) syncAvailableLockers(ctx context.Context) {
+	var lockers []data.Lockers
+
+	// 查询所有可用 locker（status = 1）
+	err := s.data.DB.Table("lockers").Where("status = ?", 1).Find(&lockers).Error
+	if err != nil {
+		log.Println("[locker-sync] 查询数据库失败:", err)
+		return
+	}
+
+	// 分组写入 Redis：cabinet_available_{cabinet_id}
+	group := make(map[int][]interface{}) // map[LockerPointId][]locker_id
+	for _, locker := range lockers {
+		group[int(locker.LockerPointId)] = append(group[int(locker.LockerPointId)], locker.Id)
+	}
+
+	// 清空旧集合，写入新集合
+	for cabinetID, lockerIDs := range group {
+		key := fmt.Sprintf("cabinet_available_%d", cabinetID)
+
+		// 用 pipeline 批量操作（可选）
+		pipe := s.data.Redis.TxPipeline()
+		pipe.Del(ctx, key)                // 清空原集合
+		pipe.SAdd(ctx, key, lockerIDs...) // 添加所有locker
+		_, err := pipe.Exec(ctx)
+		if err != nil {
+			log.Println("[locker-sync] 同步失败 cabinet:", cabinetID, "err:", err)
+		}
+	}
+	log.Println("[locker-sync] 同步完成，可用locker总数:", len(lockers))
 }

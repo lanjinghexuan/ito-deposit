@@ -6,6 +6,7 @@
 package main
 
 import (
+	"ito-deposit/internal/basic/pkg/job"
 	"ito-deposit/internal/biz"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/data"
@@ -22,6 +23,7 @@ import (
 
 // wireApp init kratos application.
 func wireApp(*conf.Server, *conf.Data, log.Logger) (*kratos.App, func(), error) {
+<<<<<<< HEAD
 	panic(wire.Build(server.ProviderSet, data.ProviderSet, biz.ProviderSet, service.ProviderSet, newApp))
 }
 
@@ -39,4 +41,7 @@ func newApp(gs *grpc.Server, hs *http.Server, cs *cronserver.Server, logger log.
 			cs, // 添加定时任务服务器
 		),
 	)
+=======
+	panic(wire.Build(server.ProviderSet, data.ProviderSet, biz.ProviderSet, service.ProviderSet, newApp, NewRegistrar, NewEtcdClient, geo.ProviderSet, NewContext, job.NewScheduler))
+>>>>>>> c7faa8141686d333f091a98906bccc7ba10312da
 }

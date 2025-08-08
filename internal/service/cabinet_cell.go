@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"log"
 	"strings"
 
 	pb "ito-deposit/api/helloworld/v1"
@@ -35,11 +36,30 @@ func (s *CabinetCellService) convertToPbCabinetCell(cell *biz.CabinetCell) *pb.C
 		return nil
 	}
 
+	// 详细调试：打印柜格完整信息
+	log.Printf("=== 转换柜格数据 ===")
+	log.Printf("ID: %d", cell.Id)
+	log.Printf("GroupId: %d", cell.GroupId)
+	log.Printf("CellNo: %d", cell.CellNo)
+	log.Printf("CellSize: '%s' (长度: %d)", cell.CellSize, len(cell.CellSize))
+	log.Printf("Status: '%s'", cell.Status)
+	log.Printf("CreateTime: %v", cell.CreateTime)
+	log.Printf("UpdateTime: %v", cell.UpdateTime)
+
+	// 确保cell_size字段不为空，如果为空则设置默认值
+	cellSize := cell.CellSize
+	if cellSize == "" {
+		cellSize = "medium" // 默认为中等尺寸
+		log.Printf("警告：柜格 %d 的 CellSize 为空，设置为默认值 'medium'", cell.Id)
+	}
+
+	log.Printf("最终使用的 CellSize: '%s'", cellSize)
+
 	return &pb.CabinetCellInfo{
 		Id:             cell.Id,
 		CabinetGroupId: cell.GroupId,
 		CellNo:         cell.CellNo,
-		CellSize:       cell.CellSize,
+		CellSize:       cellSize,
 		Status:         cell.Status,
 		LastOpenTime:   timeToTimestamp(cell.LastOpenTime),
 		CreateTime:     timeToTimestamp(cell.CreateTime),
