@@ -427,3 +427,7 @@ func (s *AdminService) UpdatePoint(ctx context.Context, req *pb.UpdatePointReq) 
 	userId := (*mapClaims)["id"].(string)
 	return s.repo.UpdatePoint(ctx, req, userId)
 }
+
+func (s *AdminService) LockerStatus() {
+	fmt.Println("================================================")
+}

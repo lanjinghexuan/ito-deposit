@@ -1,2117 +1,2793 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
 openapi: 3.0.3
 info:
-  title: ITO Deposit API - Core Modules
-  description: |
-    智能寄存柜管理系统核心模块API文档
-    
-    本文档包含以下核心模块：
-    - **Cell** - 柜格管理模块
-    - **City** - 城市管理模块  
-    - **Group** - 柜组管理模块
-    - **Nearby** - 附近寄存点查询模块
-    
-    ## 认证方式
-    大部分API需要Bearer Token认证，请在请求头中添加：
-    ```
-    Authorization: Bearer <your_token>
-    ```
-    
-    ## 响应格式
-    所有API响应都遵循统一格式：
-    ```json
-    {
-      "code": 200,
-      "msg": "success",
-      "data": {...}
-    }
-    ```
-  version: 1.0.0
-  contact:
-    name: ITO Deposit Core Team
-    email: core@ito-deposit.com
-  license:
-    name: MIT
-    url: https://opensource.org/licenses/MIT
-
-servers:
-  - url: http://localhost:8000
-    description: 开发环境
-  - url: https://api.ito-deposit.com
-    description: 生产环境
-
-tags:
-  - name: CabinetCell
-    description: 柜格管理接口
-  - name: City
-    description: 城市管理接口
-  - name: Group
-    description: 柜组管理接口
-  - name: Nearby
-    description: 附近寄存点查询接口
-
-security:
-  - BearerAuth: []
-
+    title: ""
+    version: 0.0.1
 paths:
-  # 柜格管理接口
-  /v1/cabinet-cell/create:
-    post:
-      tags:
-        - CabinetCell
-      summary: 创建柜格
-      description: 创建新的柜格
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateCabinetCellRequest'
-      responses:
-        '200':
-          description: 创建成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateCabinetCellResponse'
-
-  /v1/cabinet-cell/update:
-    put:
-      tags:
-        - CabinetCell
-      summary: 更新柜格
-      description: 更新柜格信息
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateCabinetCellRequest'
-      responses:
-        '200':
-          description: 更新成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UpdateCabinetCellResponse'
-
-  /v1/cabinet-cell/delete:
-    post:
-      tags:
-        - CabinetCell
-      summary: 删除柜格
-      description: 删除指定柜格
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - id
-              properties:
-                id:
-                  type: integer
-                  description: 柜格ID
-                  example: 1
-      responses:
-        '200':
-          description: 删除成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DeleteCabinetCellResponse'
-
-  /v1/cabinet-cell/get:
-    get:
-      tags:
-        - CabinetCell
-      summary: 获取柜格信息
-      description: 根据ID获取柜格详细信息
-      parameters:
-        - name: id
-          in: query
-          required: true
-          description: 柜格ID
-          schema:
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetCabinetCellResponse'
-
-  /v1/cabinet-cell/list:
-    post:
-      tags:
-        - CabinetCell
-      summary: 获取柜格列表
-      description: 分页获取柜格列表
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ListCabinetCellsRequest'
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListCabinetCellsResponse'
-
-  /v1/cabinet-cell/search:
-    post:
-      tags:
-        - CabinetCell
-      summary: 搜索柜格
-      description: 根据关键词搜索柜格
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SearchCabinetCellsRequest'
-      responses:
-        '200':
-          description: 搜索成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchCabinetCellsResponse'
-
-  /v1/cabinet-cell/by-group:
-    get:
-      tags:
-        - CabinetCell
-      summary: 根据柜组获取柜格
-      description: 获取指定柜组的所有柜格
-      parameters:
-        - name: cabinet_group_id
-          in: query
-          required: true
-          description: 柜组ID
-          schema:
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetCabinetCellsByGroupResponse'
-
-  /v1/cabinet-cell/batch-create:
-    post:
-      tags:
-        - CabinetCell
-      summary: 批量创建柜格
-      description: 批量创建柜格
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BatchCreateCabinetCellsRequest'
-      responses:
-        '200':
-          description: 创建成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BatchCreateCabinetCellsResponse'
-
-  /v1/cabinet-cell/open:
-    post:
-      tags:
-        - CabinetCell
-      summary: 开启柜格
-      description: 开启指定柜格
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - id
-              properties:
-                id:
-                  type: integer
-                  description: 柜格ID
-                  example: 1
-      responses:
-        '200':
-          description: 开启成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OpenCabinetCellResponse'
-
-  /v1/cabinet-cell/close:
-    post:
-      tags:
-        - CabinetCell
-      summary: 关闭柜格
-      description: 关闭指定柜格
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - id
-              properties:
-                id:
-                  type: integer
-                  description: 柜格ID
-                  example: 1
-      responses:
-        '200':
-          description: 关闭成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CloseCabinetCellResponse'
-
-  # 城市管理接口
-  /api/admin/cities:
-    post:
-      tags:
-        - City
-      summary: 创建城市
-      description: 创建新城市（管理端）
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateCityRequest'
-      responses:
-        '200':
-          description: 创建成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateCityResponse'
-    get:
-      tags:
-        - City
-      summary: 获取城市列表
-      description: 获取城市列表（管理端）
-      parameters:
-        - name: page
-          in: query
-          description: 页码
-          schema:
-            type: integer
-            default: 1
-        - name: page_size
-          in: query
-          description: 每页数量
-          schema:
-            type: integer
-            default: 10
-        - name: status
-          in: query
-          description: 状态过滤（1-启用，0-禁用，-1-全部）
-          schema:
-            type: integer
-            default: -1
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListCitiesResponse'
-
-  /api/admin/cities/{id}:
-    get:
-      tags:
-        - City
-      summary: 获取城市详情
-      description: 获取城市详情（管理端）
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: 城市ID
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetCityResponse'
-    put:
-      tags:
-        - City
-      summary: 更新城市
-      description: 更新城市信息（管理端）
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: 城市ID
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateCityRequest'
-      responses:
-        '200':
-          description: 更新成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UpdateCityResponse'
-
-  /api/admin/cities/{id}/status:
-    patch:
-      tags:
-        - City
-      summary: 更新城市状态
-      description: 更新城市状态（管理端）
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: 城市ID
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - status
-              properties:
-                status:
-                  type: integer
-                  description: 状态（1-启用，0-禁用）
-                  example: 1
-      responses:
-        '200':
-          description: 更新成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UpdateCityStatusResponse'
-
-  /api/cities:
-    get:
-      tags:
-        - City
-      summary: 获取城市列表
-      description: 获取城市列表（用户端）
-      security: []
-      parameters:
-        - name: page
-          in: query
-          description: 页码
-          schema:
-            type: integer
-            default: 1
-        - name: page_size
-          in: query
-          description: 每页数量
-          schema:
-            type: integer
-            default: 10
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListUserCitiesResponse'
-
-  /api/cities/search:
-    get:
-      tags:
-        - City
-      summary: 搜索城市
-      description: 搜索城市（用户端）
-      security: []
-      parameters:
-        - name: keyword
-          in: query
-          required: true
-          description: 搜索关键词
-          schema:
-            type: string
-            example: "北京"
-        - name: page
-          in: query
-          description: 页码
-          schema:
-            type: integer
-            default: 1
-        - name: page_size
-          in: query
-          description: 每页数量
-          schema:
-            type: integer
-            default: 10
-      responses:
-        '200':
-          description: 搜索成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchCitiesResponse'
-
-  /api/cities/{id}:
-    get:
-      tags:
-        - City
-      summary: 获取城市详情
-      description: 获取城市详情（用户端）
-      security: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: 城市ID
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetUserCityResponse'
-
-  /api/cities/code/{code}:
-    get:
-      tags:
-        - City
-      summary: 根据编码获取城市
-      description: 根据城市编码获取城市信息（用户端）
-      security: []
-      parameters:
-        - name: code
-          in: path
-          required: true
-          description: 城市编码
-          schema:
-            type: string
-            example: "BJ"
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetUserCityResponse'
-
-  /api/cities/hot:
-    get:
-      tags:
-        - City
-      summary: 获取热门城市
-      description: 获取热门城市列表（用户端）
-      security: []
-      parameters:
-        - name: limit
-          in: query
-          description: 返回数量限制
-          schema:
-            type: integer
-            default: 10
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListUserCitiesResponse'
-
-  # 柜组管理接口
-  /v1/group/create:
-    post:
-      tags:
-        - Group
-      summary: 创建柜组
-      description: 创建新的柜组
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateGroupRequest'
-      responses:
-        '200':
-          description: 创建成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateGroupResponse'
-
-  /v1/group/update:
-    put:
-      tags:
-        - Group
-      summary: 更新柜组
-      description: 更新柜组信息
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateGroupRequest'
-      responses:
-        '200':
-          description: 更新成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UpdateGroupResponse'
-
-  /v1/group/delete:
-    post:
-      tags:
-        - Group
-      summary: 删除柜组
-      description: 删除指定柜组
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - id
-              properties:
-                id:
-                  type: integer
-                  description: 柜组ID
-                  example: 1
-      responses:
-        '200':
-          description: 删除成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DeleteGroupResponse'
-
-  /v1/group/get:
-    get:
-      tags:
-        - Group
-      summary: 获取柜组信息
-      description: 根据ID获取柜组详细信息
-      parameters:
-        - name: id
-          in: query
-          required: true
-          description: 柜组ID
-          schema:
-            type: integer
-            example: 1
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetGroupResponse'
-
-  /v1/group/list:
-    post:
-      tags:
-        - Group
-      summary: 获取柜组列表
-      description: 分页获取柜组列表
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ListGroupRequest'
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListGroupResponse'
-
-  /v1/group/search:
-    post:
-      tags:
-        - Group
-      summary: 搜索柜组
-      description: 根据关键词搜索柜组
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SearchGroupRequest'
-      responses:
-        '200':
-          description: 搜索成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchGroupResponse'
-
-  # 附近寄存点查询接口
-  /api/admin/nearby/init:
-    post:
-      tags:
-        - Nearby
-      summary: 初始化寄存点地理位置数据
-      description: 初始化寄存点地理位置数据（管理端）
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: 初始化成功
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
+    /admin:
+        post:
+            tags:
+                - User
+            operationId: User_Admin
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.AdminRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.AdminRes'
+    /admin/addPoint:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_AddPoint
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.AddPointReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.AddPointRes'
+    /admin/getPriceRule:
+        get:
+            tags:
+                - Admin
+            operationId: Admin_GetPriceRule
+            parameters:
+                - name: networkId
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetPriceRuleRes'
+    /admin/setPriceRule:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_SetPriceRule
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.SetPriceRuleReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.SetPriceRuleRes'
+    /admin/updatePoint:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_UpdatePoint
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.UpdatePointReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.UpdatePointRes'
+    /admin/uploadFile:
+        get:
+            tags:
+                - Admin
+            operationId: Admin_UploadFile
+            parameters:
+                - name: file
+                  in: query
+                  schema:
+                    type: string
+                    format: bytes
+                - name: fileName
+                  in: query
+                  schema:
+                    type: string
+                - name: fileSize
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.UploadFileRes'
+    /admin_login:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_AdminLogin
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.AdminLoginReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.AdminLoginRes'
+    /api/admin/cities:
+        get:
+            tags:
+                - City
+            description: 获取城市列表 (管理端)
+            operationId: City_ListCities
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: status
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ListCitiesReply'
+        post:
+            tags:
+                - City
+            description: 创建城市 (管理端)
+            operationId: City_CreateCity
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.CreateCityRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.CreateCityReply'
+    /api/admin/cities/{id}:
+        get:
+            tags:
+                - City
+            description: 获取城市详情 (管理端)
+            operationId: City_GetCity
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetCityReply'
+        put:
+            tags:
+                - City
+            description: 更新城市 (管理端)
+            operationId: City_UpdateCity
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.UpdateCityRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.UpdateCityReply'
+    /api/admin/cities/{id}/status:
+        patch:
+            tags:
+                - City
+            description: 更新城市状态 (管理端)
+            operationId: City_UpdateCityStatus
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.UpdateCityStatusRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.UpdateCityStatusReply'
+    /api/admin/nearby/init:
+        post:
+            tags:
+                - Nearby
+            description: 初始化寄存点地理位置数据
+            operationId: Nearby_InitLockerPointsGeo
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.InitLockerPointsGeoRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.InitLockerPointsGeoReply'
+    /api/cities:
+        get:
+            tags:
+                - City
+            description: 获取城市列表 (用户端)
+            operationId: City_ListUserCities
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ListUserCitiesReply'
+    /api/cities/code/{code}:
+        get:
+            tags:
+                - City
+            description: 根据城市编码获取城市 (用户端)
+            operationId: City_GetCityByCode
+            parameters:
+                - name: code
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetUserCityReply'
+    /api/cities/hot:
+        get:
+            tags:
+                - City
+            description: 获取热门城市 (用户端)
+            operationId: City_GetHotCities
+            parameters:
+                - name: limit
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ListUserCitiesReply'
+    /api/cities/search:
+        get:
+            tags:
+                - City
+            description: 搜索城市 (用户端)
+            operationId: City_SearchCities
+            parameters:
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.SearchCitiesReply'
+    /api/cities/{id}:
+        get:
+            tags:
+                - City
+            description: 获取城市详情 (用户端)
+            operationId: City_GetUserCity
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetUserCityReply'
+    /api/locker-points/all:
+        get:
+            tags:
+                - Nearby
+            description: 获取所有寄存点（不依赖城市）
+            operationId: Nearby_GetAllLockerPoints
+            parameters:
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: page
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.SearchLockerPointsInCityReply'
+    /api/nearby/city/locker-points:
+        get:
+            tags:
+                - Nearby
+            description: 查找用户在指定城市内附近的寄存点
+            operationId: Nearby_FindNearbyLockerPointsInCity
+            parameters:
+                - name: cityName
+                  in: query
+                  schema:
+                    type: string
+                - name: longitude
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: latitude
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: radius
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: limit
+                  in: query
+                  schema:
+                    type: string
+                - name: ip
+                  in: query
+                  schema:
+                    type: string
+                - name: useRealtime
+                  in: query
+                  schema:
                     type: boolean
-                    example: true
-
-  /api/nearby/locker-points:
-    get:
-      tags:
-        - Nearby
-      summary: 查找附近寄存点
-      description: 根据位置信息查找附近的寄存点
-      security: []
-      parameters:
-        - name: city_name
-          in: query
-          description: 城市名称
-          schema:
-            type: string
-            example: "北京"
-        - name: ip
-          in: query
-          description: IP地址
-          schema:
-            type: string
-            example: "192.168.1.1"
-        - name: longitude
-          in: query
-          description: 经度
-          schema:
-            type: number
-            format: double
-            example: 116.4074
-        - name: latitude
-          in: query
-          description: 纬度
-          schema:
-            type: number
-            format: double
-            example: 39.9042
-        - name: radius
-          in: query
-          description: 搜索半径（公里）
-          schema:
-            type: number
-            format: double
-            default: 5.0
-        - name: limit
-          in: query
-          description: 返回数量限制
-          schema:
-            type: integer
-            default: 10
-      responses:
-        '200':
-          description: 查询成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FindNearbyLockerPointsResponse'
-
-  /api/nearby/city/locker-points:
-    get:
-      tags:
-        - Nearby
-      summary: 查找城市内附近寄存点
-      description: 查找用户在指定城市内附近的寄存点
-      security: []
-      parameters:
-        - name: city_name
-          in: query
-          required: true
-          description: 城市名称
-          schema:
-            type: string
-            example: "北京"
-        - name: longitude
-          in: query
-          description: 用户经度
-          schema:
-            type: number
-            format: double
-            example: 116.4074
-        - name: latitude
-          in: query
-          description: 用户纬度
-          schema:
-            type: number
-            format: double
-            example: 39.9042
-        - name: radius
-          in: query
-          description: 搜索半径（公里）
-          schema:
-            type: number
-            format: double
-            default: 5.0
-        - name: limit
-          in: query
-          description: 返回数量限制
-          schema:
-            type: integer
-            default: 10
-        - name: ip
-          in: query
-          description: 用户IP地址
-          schema:
-            type: string
-        - name: use_realtime
-          in: query
-          description: 是否使用实时定位
-          schema:
-            type: boolean
-            default: false
-      responses:
-        '200':
-          description: 查询成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FindNearbyLockerPointsResponse'
-
-  /api/nearby/my-location/locker-points:
-    get:
-      tags:
-        - Nearby
-      summary: 查找我的附近寄存点
-      description: 使用实时定位查找我的附近寄存点
-      security: []
-      parameters:
-        - name: city_name
-          in: query
-          required: true
-          description: 城市名称
-          schema:
-            type: string
-            example: "北京"
-        - name: ip
-          in: query
-          description: 用户IP地址
-          schema:
-            type: string
-        - name: radius
-          in: query
-          description: 搜索半径（公里）
-          schema:
-            type: number
-            format: double
-            default: 5.0
-        - name: limit
-          in: query
-          description: 返回数量限制
-          schema:
-            type: integer
-            default: 10
-      responses:
-        '200':
-          description: 查询成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FindNearbyLockerPointsResponse'
-
-  /api/nearby/city/search:
-    get:
-      tags:
-        - Nearby
-      summary: 搜索城市内寄存点
-      description: 搜索指定城市内的寄存点
-      security: []
-      parameters:
-        - name: city_name
-          in: query
-          required: true
-          description: 城市名称
-          schema:
-            type: string
-            example: "北京"
-        - name: keyword
-          in: query
-          description: 搜索关键词
-          schema:
-            type: string
-            example: "西站"
-        - name: page
-          in: query
-          description: 页码
-          schema:
-            type: integer
-            default: 1
-        - name: page_size
-          in: query
-          description: 每页数量
-          schema:
-            type: integer
-            default: 10
-      responses:
-        '200':
-          description: 搜索成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchLockerPointsInCityResponse'
-
-  /api/nearby/city/map:
-    get:
-      tags:
-        - Nearby
-      summary: 获取城市寄存点分布图
-      description: 获取城市寄存点分布图数据
-      security: []
-      parameters:
-        - name: city_name
-          in: query
-          required: true
-          description: 城市名称
-          schema:
-            type: string
-            example: "北京"
-        - name: north_lat
-          in: query
-          description: 北纬度（地图边界）
-          schema:
-            type: number
-            format: double
-        - name: south_lat
-          in: query
-          description: 南纬度（地图边界）
-          schema:
-            type: number
-            format: double
-        - name: east_lng
-          in: query
-          description: 东经度（地图边界）
-          schema:
-            type: number
-            format: double
-        - name: west_lng
-          in: query
-          description: 西经度（地图边界）
-          schema:
-            type: number
-            format: double
-        - name: zoom_level
-          in: query
-          description: 地图缩放级别（1-20）
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 20
-            default: 10
-        - name: enable_cluster
-          in: query
-          description: 是否启用聚合
-          schema:
-            type: boolean
-            default: true
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetCityLockerPointsMapResponse'
-
-  /api/nearby/my-nearby:
-    get:
-      tags:
-        - Nearby
-      summary: 获取我的附近信息
-      description: 获取我的附近信息（实时位置和附近寄存点）
-      security: []
-      parameters:
-        - name: ip
-          in: query
-          description: 用户IP地址
-          schema:
-            type: string
-        - name: longitude
-          in: query
-          description: 用户经度
-          schema:
-            type: number
-            format: double
-        - name: latitude
-          in: query
-          description: 用户纬度
-          schema:
-            type: number
-            format: double
-        - name: radius
-          in: query
-          description: 搜索半径（公里）
-          schema:
-            type: number
-            format: double
-            default: 5.0
-        - name: limit
-          in: query
-          description: 返回寄存点数量限制
-          schema:
-            type: integer
-            default: 20
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetMyNearbyInfoResponse'
-
-  /api/locker-points/all:
-    get:
-      tags:
-        - Nearby
-      summary: 获取所有寄存点
-      description: 获取所有寄存点（不依赖城市）
-      security: []
-      parameters:
-        - name: keyword
-          in: query
-          description: 搜索关键词
-          schema:
-            type: string
-        - name: page
-          in: query
-          description: 页码
-          schema:
-            type: integer
-            default: 1
-        - name: page_size
-          in: query
-          description: 每页数量
-          schema:
-            type: integer
-            default: 10
-      responses:
-        '200':
-          description: 获取成功
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchLockerPointsInCityResponse'
-
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.FindNearbyLockerPointsReply'
+    /api/nearby/city/map:
+        get:
+            tags:
+                - Nearby
+            description: 获取城市寄存点分布图数据
+            operationId: Nearby_GetCityLockerPointsMap
+            parameters:
+                - name: cityName
+                  in: query
+                  schema:
+                    type: string
+                - name: northLat
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: southLat
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: eastLng
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: westLng
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: zoomLevel
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: enableCluster
+                  in: query
+                  schema:
+                    type: boolean
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetCityLockerPointsMapReply'
+    /api/nearby/city/search:
+        get:
+            tags:
+                - Nearby
+            description: 搜索指定城市内的寄存点
+            operationId: Nearby_SearchLockerPointsInCity
+            parameters:
+                - name: cityName
+                  in: query
+                  schema:
+                    type: string
+                - name: keyword
+                  in: query
+                  schema:
+                    type: string
+                - name: page
+                  in: query
+                  schema:
+                    type: string
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.SearchLockerPointsInCityReply'
+    /api/nearby/locker-points:
+        get:
+            tags:
+                - Nearby
+            description: 查找附近的寄存点
+            operationId: Nearby_FindNearbyLockerPoints
+            parameters:
+                - name: cityName
+                  in: query
+                  description: 位置信息（三选一）
+                  schema:
+                    type: string
+                - name: ip
+                  in: query
+                  schema:
+                    type: string
+                - name: longitude
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: latitude
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: radius
+                  in: query
+                  description: 查询参数
+                  schema:
+                    type: number
+                    format: double
+                - name: limit
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.FindNearbyLockerPointsReply'
+    /api/nearby/my-location/locker-points:
+        get:
+            tags:
+                - Nearby
+            description: 使用实时定位查找我的附近寄存点
+            operationId: Nearby_FindMyNearbyLockerPoints
+            parameters:
+                - name: cityName
+                  in: query
+                  schema:
+                    type: string
+                - name: ip
+                  in: query
+                  schema:
+                    type: string
+                - name: radius
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: limit
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.FindNearbyLockerPointsReply'
+    /api/nearby/my-nearby:
+        get:
+            tags:
+                - Nearby
+            description: 获取我的附近信息（实时位置和附近寄存点）
+            operationId: Nearby_GetMyNearbyInfo
+            parameters:
+                - name: ip
+                  in: query
+                  schema:
+                    type: string
+                - name: longitude
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: latitude
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: radius
+                  in: query
+                  schema:
+                    type: number
+                    format: double
+                - name: limit
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetMyNearbyInfoReply'
+    /decodetoken:
+        get:
+            tags:
+                - Deposit
+            operationId: Deposit_DecodeToken
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ReturnTokenRes'
+    /deposit:
+        get:
+            tags:
+                - Deposit
+            operationId: Deposit_ListDeposit
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ListDepositReply'
+    /deposit/createDeposit:
+        post:
+            tags:
+                - Deposit
+            operationId: Deposit_CreateDeposit
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.CreateDepositRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.CreateDepositReply'
+    /deposit/sendCodeByOrder:
+        post:
+            tags:
+                - Deposit
+            operationId: Deposit_SendCodeByOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.SendCodeByOrderReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.SendCodeByOrderRes'
+    /deposit/updateDepositLockerId:
+        post:
+            tags:
+                - Deposit
+            operationId: Deposit_UpdateDepositLockerId
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.UpdateDepositLockerIdReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.UpdateDepositLockerIdRes'
+    /getDepositLocker:
+        get:
+            tags:
+                - Deposit
+            operationId: Deposit_GetDepositLocker
+            parameters:
+                - name: lockerId
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetDepositLockerRes'
+    /helloworld/{name}:
+        get:
+            tags:
+                - Greeter
+            description: Sends a greeting
+            operationId: Greeter_SayHello
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
+    /home:
+        get:
+            tags:
+                - Home
+            operationId: Home_ListHome
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ListHomeReply'
+    /home/local:
+        get:
+            tags:
+                - Home
+            operationId: Home_CreateLocal
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.CreateLocalReply'
+    /list:
+        get:
+            tags:
+                - User
+            operationId: User_OrderList
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.OrderListRes'
+    /login:
+        post:
+            tags:
+                - User
+            operationId: User_Login
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.LoginRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.LoginRes'
+    /manage/orders/search:
+        post:
+            tags:
+                - Order
+            operationId: Order_ManageOrderSearch
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.ManageOrderSearchRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ManageOrderSearchReply'
+    /point_info:
+        post:
+            tags:
+                - Admin
+            operationId: Admin_PointInfo
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.PointInfoReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.PointInfoRes'
+    /point_list:
+        get:
+            tags:
+                - Admin
+            operationId: Admin_PointList
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.PointListRes'
+    /register:
+        post:
+            tags:
+                - User
+            operationId: User_Register
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.RegisterRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.RegisterRes'
+    /returntoken:
+        get:
+            tags:
+                - Deposit
+            operationId: Deposit_ReturnToken
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ReturnTokenRes'
+    /sendSms:
+        post:
+            tags:
+                - User
+            operationId: User_SendSms
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.SendSmsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.SendSmsRes'
+    /v1/cabinet-cell/batch-create:
+        post:
+            tags:
+                - CabinetCell
+            description: 批量创建柜口
+            operationId: CabinetCell_BatchCreateCabinetCells
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.BatchCreateCabinetCellsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.BatchCreateCabinetCellsReply'
+    /v1/cabinet-cell/by-group:
+        get:
+            tags:
+                - CabinetCell
+            description: 根据柜组获取所有柜口
+            operationId: CabinetCell_GetCabinetCellsByGroup
+            parameters:
+                - name: cabinetGroupId
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetCabinetCellsByGroupReply'
+    /v1/cabinet-cell/close:
+        post:
+            tags:
+                - CabinetCell
+            description: 关闭柜口
+            operationId: CabinetCell_CloseCabinetCell
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.CloseCabinetCellRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.CloseCabinetCellReply'
+    /v1/cabinet-cell/create:
+        post:
+            tags:
+                - CabinetCell
+            description: 创建柜口
+            operationId: CabinetCell_CreateCabinetCell
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.CreateCabinetCellRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.CreateCabinetCellReply'
+    /v1/cabinet-cell/delete:
+        post:
+            tags:
+                - CabinetCell
+            description: 删除柜口
+            operationId: CabinetCell_DeleteCabinetCell
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.DeleteCabinetCellRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.DeleteCabinetCellReply'
+    /v1/cabinet-cell/get:
+        get:
+            tags:
+                - CabinetCell
+            description: 获取单个柜口
+            operationId: CabinetCell_GetCabinetCell
+            parameters:
+                - name: id
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetCabinetCellReply'
+    /v1/cabinet-cell/list:
+        post:
+            tags:
+                - CabinetCell
+            description: 获取柜口列表
+            operationId: CabinetCell_ListCabinetCells
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.ListCabinetCellsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ListCabinetCellsReply'
+    /v1/cabinet-cell/open:
+        post:
+            tags:
+                - CabinetCell
+            description: 开启柜口
+            operationId: CabinetCell_OpenCabinetCell
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.OpenCabinetCellRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.OpenCabinetCellReply'
+    /v1/cabinet-cell/search:
+        post:
+            tags:
+                - CabinetCell
+            description: 搜索柜口
+            operationId: CabinetCell_SearchCabinetCells
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.SearchCabinetCellsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.SearchCabinetCellsReply'
+    /v1/cabinet-cell/update:
+        put:
+            tags:
+                - CabinetCell
+            description: 更新柜口
+            operationId: CabinetCell_UpdateCabinetCell
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.UpdateCabinetCellRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.UpdateCabinetCellReply'
+    /v1/group/create:
+        post:
+            tags:
+                - Group
+            description: 创建柜组
+            operationId: Group_CreateGroup
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.CreateGroupRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.CreateGroupReply'
+    /v1/group/delete:
+        post:
+            tags:
+                - Group
+            description: 删除柜组
+            operationId: Group_DeleteGroup
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.DeleteGroupRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.DeleteGroupReply'
+    /v1/group/get:
+        get:
+            tags:
+                - Group
+            description: 获取单个柜组
+            operationId: Group_GetGroup
+            parameters:
+                - name: id
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetGroupReply'
+    /v1/group/list:
+        post:
+            tags:
+                - Group
+            description: 获取柜组列表
+            operationId: Group_ListGroup
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.ListGroupRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ListGroupReply'
+    /v1/group/search:
+        post:
+            tags:
+                - Group
+            description: 搜索柜组
+            operationId: Group_SearchGroup
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.SearchGroupRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.SearchGroupReply'
+    /v1/group/update:
+        put:
+            tags:
+                - Group
+            description: 更新柜组
+            operationId: Group_UpdateGroup
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.UpdateGroupRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.UpdateGroupReply'
+    /v1/order/create:
+        post:
+            tags:
+                - Order
+            operationId: Order_CreateOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.CreateOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.CreateOrderReply'
+    /v1/order/del:
+        post:
+            tags:
+                - Order
+            operationId: Order_DeleteOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.DeleteOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.DeleteOrderReply'
+    /v1/order/get:
+        get:
+            tags:
+                - Order
+            operationId: Order_GetOrder
+            parameters:
+                - name: id
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.GetOrderReply'
+    /v1/order/update:
+        put:
+            tags:
+                - Order
+            operationId: Order_UpdateOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.UpdateOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.UpdateOrderReply'
+    /v1/orders/list:
+        post:
+            tags:
+                - Order
+            operationId: Order_ListOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.ListOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ListOrderReply'
+    /v1/orders/show:
+        post:
+            tags:
+                - Order
+            operationId: Order_ShowOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.helloworld.v1.ShowOrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.helloworld.v1.ShowOrderReply'
 components:
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-
-  schemas:
-    # 基础响应结构
-    BaseResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          description: 状态码
-          example: 200
-        msg:
-          type: string
-          description: 响应消息
-          example: "success"
-
-    # 柜格相关模型
-    CreateCabinetCellRequest:
-      type: object
-      required:
-        - cabinet_group_id
-        - cell_no
-        - cell_size
-      properties:
-        cabinet_group_id:
-          type: integer
-          description: 所属柜组ID
-          example: 1
-        cell_no:
-          type: integer
-          description: 格口编号
-          example: 1
-        cell_size:
-          type: string
-          description: 格口大小
-          enum: [small, medium, large]
-          example: "medium"
-        status:
-          type: string
-          description: 格口状态
-          enum: [normal, inUse, abnormal, disabled, damaged]
-          example: "normal"
-
-    CreateCabinetCellResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            cell_id:
-              type: integer
-              description: 创建的柜格ID
-              example: 1
-            cell_info:
-              $ref: '#/components/schemas/CabinetCellInfo'
-
-    UpdateCabinetCellRequest:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          type: integer
-          description: 柜格ID
-          example: 1
-        cabinet_group_id:
-          type: integer
-          description: 所属柜组ID
-          example: 1
-        cell_no:
-          type: integer
-          description: 格口编号
-          example: 1
-        cell_size:
-          type: string
-          description: 格口大小
-          enum: [small, medium, large]
-          example: "medium"
-        status:
-          type: string
-          description: 格口状态
-          enum: [normal, inUse, abnormal, disabled, damaged]
-          example: "normal"
-        last_open_time:
-          type: string
-          format: date-time
-          description: 最后开启时间
-          example: "2024-01-01T10:00:00Z"
-
-    UpdateCabinetCellResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            cell_info:
-              $ref: '#/components/schemas/CabinetCellInfo'
-
-    DeleteCabinetCellResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            success:
-              type: boolean
-              description: 删除是否成功
-              example: true
-
-    GetCabinetCellResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            cell_info:
-              $ref: '#/components/schemas/CabinetCellInfo'
-
-    ListCabinetCellsRequest:
-      type: object
-      properties:
-        page:
-          type: integer
-          description: 页码
-          default: 1
-          example: 1
-        size:
-          type: integer
-          description: 每页数量
-          default: 10
-          example: 10
-        cabinet_group_id:
-          type: integer
-          description: 柜组ID过滤
-          example: 1
-        status:
-          type: string
-          description: 状态过滤
-          enum: [normal, inUse, abnormal, disabled, damaged]
-          example: "normal"
-
-    ListCabinetCellsResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            cells:
-              type: array
-              items:
-                $ref: '#/components/schemas/CabinetCellInfo'
-            total:
-              type: integer
-              description: 总数量
-              example: 100
-
-    SearchCabinetCellsRequest:
-      type: object
-      properties:
-        keyword:
-          type: string
-          description: 搜索关键词（格口编号、状态、大小）
-          example: "1"
-        cabinet_group_id:
-          type: integer
-          description: 柜组ID过滤
-          example: 1
-        page:
-          type: integer
-          description: 页码
-          default: 1
-          example: 1
-        size:
-          type: integer
-          description: 每页数量
-          default: 10
-          example: 10
-
-    SearchCabinetCellsResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            cells:
-              type: array
-              items:
-                $ref: '#/components/schemas/CabinetCellInfo'
-            total:
-              type: integer
-              description: 总数量
-              example: 50
-
-    GetCabinetCellsByGroupResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            cells:
-              type: array
-              items:
-                $ref: '#/components/schemas/CabinetCellInfo'
-            total:
-              type: integer
-              description: 总数量
-              example: 20
-
-    BatchCreateCabinetCellsRequest:
-      type: object
-      required:
-        - cabinet_group_id
-        - start_no
-        - end_no
-        - cell_size
-      properties:
-        cabinet_group_id:
-          type: integer
-          description: 柜组ID
-          example: 1
-        start_no:
-          type: integer
-          description: 起始编号
-          example: 1
-        end_no:
-          type: integer
-          description: 结束编号
-          example: 20
-        cell_size:
-          type: string
-          description: 格口大小
-          enum: [small, medium, large]
-          example: "medium"
-
-    BatchCreateCabinetCellsResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            count:
-              type: integer
-              description: 创建数量
-              example: 20
-            success:
-              type: boolean
-              description: 是否成功
-              example: true
-
-    OpenCabinetCellResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            success:
-              type: boolean
-              description: 是否成功
-              example: true
-
-    CloseCabinetCellResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            success:
-              type: boolean
-              description: 是否成功
-              example: true
-
-    CabinetCellInfo:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 格口ID
-          example: 1
-        cabinet_group_id:
-          type: integer
-          description: 所属柜组ID
-          example: 1
-        cell_no:
-          type: integer
-          description: 格口编号
-          example: 1
-        cell_size:
-          type: string
-          description: 格口大小
-          enum: [small, medium, large]
-          example: "medium"
-        status:
-          type: string
-          description: 格口状态
-          enum: [normal, inUse, abnormal, disabled, damaged]
-          example: "normal"
-        last_open_time:
-          type: string
-          format: date-time
-          description: 最后开启时间
-          example: "2024-01-01T10:00:00Z"
-        create_time:
-          type: string
-          format: date-time
-          description: 创建时间
-          example: "2024-01-01T10:00:00Z"
-        update_time:
-          type: string
-          format: date-time
-          description: 更新时间
-          example: "2024-01-01T10:00:00Z"
-
-    # 城市相关模型
-    CreateCityRequest:
-      type: object
-      required:
-        - name
-        - status
-      properties:
-        name:
-          type: string
-          description: 城市名称
-          example: "北京"
-        status:
-          type: integer
-          description: 状态（1-启用，0-禁用）
-          example: 1
-
-    CreateCityResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 城市ID
-          example: 1
-        name:
-          type: string
-          description: 城市名称
-          example: "北京"
-        code:
-          type: string
-          description: 城市编码
-          example: "BJ"
-        latitude:
-          type: number
-          format: double
-          description: 纬度
-          example: 39.9042
-        longitude:
-          type: number
-          format: double
-          description: 经度
-          example: 116.4074
-        status:
-          type: integer
-          description: 状态（1-启用，0-禁用）
-          example: 1
-
-    UpdateCityRequest:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          type: integer
-          description: 城市ID
-          example: 1
-        name:
-          type: string
-          description: 城市名称
-          example: "北京"
-        status:
-          type: integer
-          description: 状态（1-启用，0-禁用）
-          example: 1
-
-    UpdateCityResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 城市ID
-          example: 1
-        name:
-          type: string
-          description: 城市名称
-          example: "北京"
-        code:
-          type: string
-          description: 城市编码
-          example: "BJ"
-        latitude:
-          type: number
-          format: double
-          description: 纬度
-          example: 39.9042
-        longitude:
-          type: number
-          format: double
-          description: 经度
-          example: 116.4074
-        status:
-          type: integer
-          description: 状态（1-启用，0-禁用）
-          example: 1
-
-    GetCityResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 城市ID
-          example: 1
-        name:
-          type: string
-          description: 城市名称
-          example: "北京"
-        code:
-          type: string
-          description: 城市编码
-          example: "BJ"
-        latitude:
-          type: number
-          format: double
-          description: 纬度
-          example: 39.9042
-        longitude:
-          type: number
-          format: double
-          description: 经度
-          example: 116.4074
-        status:
-          type: integer
-          description: 状态（1-启用，0-禁用）
-          example: 1
-
-    ListCitiesResponse:
-      type: object
-      properties:
-        total:
-          type: integer
-          description: 总数
-          example: 100
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/CityInfo'
-
-    UpdateCityStatusResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: 是否成功
-          example: true
-
-    ListUserCitiesResponse:
-      type: object
-      properties:
-        total:
-          type: integer
-          description: 总数
-          example: 100
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserCityInfo'
-
-    SearchCitiesResponse:
-      type: object
-      properties:
-        total:
-          type: integer
-          description: 总数
-          example: 50
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserCityInfo'
-
-    GetUserCityResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 城市ID
-          example: 1
-        name:
-          type: string
-          description: 城市名称
-          example: "北京"
-        code:
-          type: string
-          description: 城市编码
-          example: "BJ"
-        latitude:
-          type: number
-          format: double
-          description: 纬度
-          example: 39.9042
-        longitude:
-          type: number
-          format: double
-          description: 经度
-          example: 116.4074
-
-    CityInfo:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 城市ID
-          example: 1
-        name:
-          type: string
-          description: 城市名称
-          example: "北京"
-        code:
-          type: string
-          description: 城市编码
-          example: "BJ"
-        latitude:
-          type: number
-          format: double
-          description: 纬度
-          example: 39.9042
-        longitude:
-          type: number
-          format: double
-          description: 经度
-          example: 116.4074
-        status:
-          type: integer
-          description: 状态（1-启用，0-禁用）
-          example: 1
-
-    UserCityInfo:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 城市ID
-          example: 1
-        name:
-          type: string
-          description: 城市名称
-          example: "北京"
-        code:
-          type: string
-          description: 城市编码
-          example: "BJ"
-        latitude:
-          type: number
-          format: double
-          description: 纬度
-          example: 39.9042
-        longitude:
-          type: number
-          format: double
-          description: 经度
-          example: 116.4074
-
-    # 柜组相关模型
-    CreateGroupRequest:
-      type: object
-      required:
-        - location_point_id
-        - group_name
-        - group_code
-        - total_cells
-      properties:
-        location_point_id:
-          type: integer
-          description: 所属寄存点ID
-          example: 1
-        group_name:
-          type: string
-          description: 柜组名称
-          example: "A区柜组"
-        group_code:
-          type: string
-          description: 柜组编码
-          example: "GRP001"
-        group_type:
-          type: string
-          description: 柜组类型
-          enum: [standard, refrigerated, oversize]
-          example: "standard"
-        total_cells:
-          type: integer
-          description: 总格口数
-          example: 20
-        start_no:
-          type: integer
-          description: 起始编号
-          example: 1
-        end_no:
-          type: integer
-          description: 结束编号
-          example: 20
-        install_time:
-          type: string
-          format: date-time
-          description: 安装时间
-          example: "2024-01-01T10:00:00Z"
-
-    CreateGroupResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            group_id:
-              type: integer
-              description: 创建的柜组ID
-              example: 1
-
-    UpdateGroupRequest:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          type: integer
-          description: 柜组ID
-          example: 1
-        location_point_id:
-          type: integer
-          description: 所属寄存点ID
-          example: 1
-        group_name:
-          type: string
-          description: 柜组名称
-          example: "A区柜组"
-        group_code:
-          type: string
-          description: 柜组编码
-          example: "GRP001"
-        group_type:
-          type: string
-          description: 柜组类型
-          enum: [standard, refrigerated, oversize]
-          example: "standard"
-        status:
-          type: string
-          description: 柜组状态
-          enum: [normal, abnormal, disabled, damaged]
-          example: "normal"
-        total_cells:
-          type: integer
-          description: 总格口数
-          example: 20
-        start_no:
-          type: integer
-          description: 起始编号
-          example: 1
-        end_no:
-          type: integer
-          description: 结束编号
-          example: 20
-        install_time:
-          type: string
-          format: date-time
-          description: 安装时间
-          example: "2024-01-01T10:00:00Z"
-
-    UpdateGroupResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            group:
-              $ref: '#/components/schemas/GroupInfo'
-
-    DeleteGroupResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            success:
-              type: boolean
-              description: 删除是否成功
-              example: true
-
-    GetGroupResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            group:
-              $ref: '#/components/schemas/GroupInfo'
-
-    ListGroupRequest:
-      type: object
-      properties:
-        page:
-          type: integer
-          description: 页码
-          default: 1
-          example: 1
-        size:
-          type: integer
-          description: 每页数量
-          default: 10
-          example: 10
-        location_point_id:
-          type: integer
-          description: 寄存点ID过滤
-          example: 1
-        status:
-          type: string
-          description: 状态过滤
-          enum: [normal, abnormal, disabled, damaged]
-          example: "normal"
-        group_type:
-          type: string
-          description: 类型过滤
-          enum: [standard, refrigerated, oversize]
-          example: "standard"
-
-    ListGroupResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            groups:
-              type: array
-              items:
-                $ref: '#/components/schemas/GroupInfo'
-            total:
-              type: integer
-              description: 总数量
-              example: 100
-
-    SearchGroupRequest:
-      type: object
-      properties:
-        keyword:
-          type: string
-          description: 搜索关键词（柜组名称、编码）
-          example: "A区"
-        location_point_id:
-          type: integer
-          description: 寄存点ID过滤
-          example: 1
-        status:
-          type: string
-          description: 状态过滤
-          enum: [normal, abnormal, disabled, damaged]
-          example: "normal"
-        group_type:
-          type: string
-          description: 类型过滤
-          enum: [standard, refrigerated, oversize]
-          example: "standard"
-        page:
-          type: integer
-          description: 页码
-          default: 1
-          example: 1
-        size:
-          type: integer
-          description: 每页数量
-          default: 10
-          example: 10
-
-    SearchGroupResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            groups:
-              type: array
-              items:
-                $ref: '#/components/schemas/GroupInfo'
-            total:
-              type: integer
-              description: 总数量
-              example: 50
-
-    GroupInfo:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 柜组ID
-          example: 1
-        location_point_id:
-          type: integer
-          description: 所属寄存点ID
-          example: 1
-        group_name:
-          type: string
-          description: 柜组名称
-          example: "A区柜组"
-        group_code:
-          type: string
-          description: 柜组编码
-          example: "GRP001"
-        group_type:
-          type: string
-          description: 柜组类型
-          enum: [standard, refrigerated, oversize]
-          example: "standard"
-        status:
-          type: string
-          description: 柜组状态
-          enum: [normal, abnormal, disabled, damaged]
-          example: "normal"
-        total_cells:
-          type: integer
-          description: 总格口数
-          example: 20
-        start_no:
-          type: integer
-          description: 起始编号
-          example: 1
-        end_no:
-          type: integer
-          description: 结束编号
-          example: 20
-        install_time:
-          type: string
-          format: date-time
-          description: 安装时间
-          example: "2024-01-01T10:00:00Z"
-        create_time:
-          type: string
-          format: date-time
-          description: 创建时间
-          example: "2024-01-01T10:00:00Z"
-        update_time:
-          type: string
-          format: date-time
-          description: 更新时间
-          example: "2024-01-01T10:00:00Z"
-
-    # 附近寄存点相关模型
-    FindNearbyLockerPointsResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyLockerPointInfo'
-
-    NearbyLockerPointInfo:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 寄存点ID
-          example: 1
-        name:
-          type: string
-          description: 寄存点名称
-          example: "北京西站南广场寄存点"
-        address:
-          type: string
-          description: 地址
-          example: "南广场进站口东侧"
-        distance:
-          type: number
-          format: float
-          description: 距离（公里）
-          example: 1.5
-        longitude:
-          type: number
-          format: float
-          description: 经度
-          example: 116.4074
-        latitude:
-          type: number
-          format: float
-          description: 纬度
-          example: 39.9042
-
-    SearchLockerPointsInCityResponse:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/LockerPointDetail'
-        total:
-          type: integer
-          description: 总记录数
-          example: 100
-        page:
-          type: integer
-          description: 当前页码
-          example: 1
-        page_size:
-          type: integer
-          description: 每页大小
-          example: 10
-
-    LockerPointDetail:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 寄存点ID
-          example: 1
-        name:
-          type: string
-          description: 寄存点名称
-          example: "北京西站南广场寄存点"
-        address:
-          type: string
-          description: 地址
-          example: "南广场进站口东侧"
-        longitude:
-          type: number
-          format: float
-          description: 经度
-          example: 116.4074
-        latitude:
-          type: number
-          format: float
-          description: 纬度
-          example: 39.9042
-        available_large:
-          type: integer
-          description: 可用大柜数量
-          example: 5
-        available_medium:
-          type: integer
-          description: 可用中柜数量
-          example: 10
-        available_small:
-          type: integer
-          description: 可用小柜数量
-          example: 15
-        open_time:
-          type: string
-          description: 营业时间
-          example: "08:00-22:00"
-        mobile:
-          type: string
-          description: 联系电话
-          example: "400-123-4567"
-
-    GetCityLockerPointsMapResponse:
-      type: object
-      properties:
-        points:
-          type: array
-          items:
-            $ref: '#/components/schemas/MapPointInfo'
-        clusters:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClusterInfo'
-        total_count:
-          type: integer
-          description: 总寄存点数量
-          example: 50
-        zoom_level:
-          type: integer
-          description: 当前缩放级别
-          example: 10
-        is_clustered:
-          type: boolean
-          description: 是否返回聚合数据
-          example: true
-
-    MapPointInfo:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: 寄存点ID
-          example: 1
-        name:
-          type: string
-          description: 寄存点名称
-          example: "北京西站南广场寄存点"
-        address:
-          type: string
-          description: 地址
-          example: "南广场进站口东侧"
-        longitude:
-          type: number
-          format: double
-          description: 经度
-          example: 116.4074
-        latitude:
-          type: number
-          format: double
-          description: 纬度
-          example: 39.9042
-        total_available:
-          type: integer
-          description: 总可用柜数量
-          example: 30
-        status:
-          type: string
-          description: 状态
-          enum: [available, busy, full]
-          example: "available"
-
-    ClusterInfo:
-      type: object
-      properties:
-        longitude:
-          type: number
-          format: double
-          description: 聚合点经度
-          example: 116.4074
-        latitude:
-          type: number
-          format: double
-          description: 聚合点纬度
-          example: 39.9042
-        count:
-          type: integer
-          description: 聚合点数量
-          example: 5
-        total_available:
-          type: integer
-          description: 聚合点总可用柜数量
-          example: 150
-        point_ids:
-          type: array
-          items:
-            type: integer
-          description: 聚合的寄存点ID列表
-          example: [1, 2, 3, 4, 5]
-
-    GetMyNearbyInfoResponse:
-      type: object
-      properties:
-        user_location:
-          $ref: '#/components/schemas/UserLocationInfo'
-        nearby_points:
-          type: array
-          items:
-            $ref: '#/components/schemas/NearbyLockerPointInfo'
-        total_count:
-          type: integer
-          description: 附近寄存点总数
-          example: 20
-        search_radius:
-          type: number
-          format: double
-          description: 实际搜索半径
-          example: 5.0
-        baidu_map_ak:
-          type: string
-          description: 百度地图AK（前端使用）
-          example: "your_baidu_map_ak"
-
-    UserLocationInfo:
-      type: object
-      properties:
-        longitude:
-          type: number
-          format: double
-          description: 用户经度
-          example: 116.4074
-        latitude:
-          type: number
-          format: double
-          description: 用户纬度
-          example: 39.9042
-        address:
-          type: string
-          description: 详细地址
-          example: "北京市海淀区中关村大街1号"
-        city:
-          type: string
-          description: 城市名称
-          example: "北京"
-        district:
-          type: string
-          description: 区县
-          example: "海淀区"
-        province:
-          type: string
-          description: 省份
-          example: "北京市"
-        location_type:
-          type: string
-          description: 定位类型
-          enum: [ip, gps, city_center]
-          example: "gps"
+    schemas:
+        api.helloworld.v1.AddPointReq:
+            type: object
+            properties:
+                locationId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                address:
+                    type: string
+                availableLarge:
+                    type: integer
+                    format: int32
+                availableMedium:
+                    type: integer
+                    format: int32
+                availableSmall:
+                    type: integer
+                    format: int32
+                openTime:
+                    type: string
+                mobile:
+                    type: string
+                pointImage:
+                    type: string
+                pointType:
+                    type: string
+                latitude:
+                    type: number
+                    format: float
+                longitude:
+                    type: number
+                    format: float
+        api.helloworld.v1.AddPointRes:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        api.helloworld.v1.AdminLoginReq:
+            type: object
+            properties:
+                mobile:
+                    type: string
+                password:
+                    type: string
+                smsCode:
+                    type: string
+        api.helloworld.v1.AdminLoginRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                id:
+                    type: string
+                token:
+                    type: string
+        api.helloworld.v1.AdminRequest:
+            type: object
+            properties:
+                adminId:
+                    type: string
+                lockerPointId:
+                    type: string
+        api.helloworld.v1.AdminRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                pointNum:
+                    type: string
+                yesterdayOrderNum:
+                    type: string
+                lastOrderPrice:
+                    type: number
+                    format: float
+                lastOrderNum:
+                    type: string
+                mouthPrice:
+                    type: number
+                    format: float
+                monthNum:
+                    type: string
+        api.helloworld.v1.BatchCreateCabinetCellsReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                count:
+                    type: integer
+                    format: int32
+                success:
+                    type: boolean
+            description: 批量创建柜口响应
+        api.helloworld.v1.BatchCreateCabinetCellsRequest:
+            type: object
+            properties:
+                cabinetGroupId:
+                    type: integer
+                    format: int32
+                startNo:
+                    type: integer
+                    format: int32
+                endNo:
+                    type: integer
+                    format: int32
+                cellSize:
+                    type: string
+            description: 批量创建柜口请求
+        api.helloworld.v1.CabinetCellInfo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                cabinetGroupId:
+                    type: integer
+                    format: int32
+                cellNo:
+                    type: integer
+                    format: int32
+                cellSize:
+                    type: string
+                status:
+                    type: string
+                lastOpenTime:
+                    type: string
+                    format: date-time
+                createTime:
+                    type: string
+                    format: date-time
+                updateTime:
+                    type: string
+                    format: date-time
+            description: 柜口信息
+        api.helloworld.v1.CityInfo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                code:
+                    type: string
+                latitude:
+                    type: number
+                    format: double
+                longitude:
+                    type: number
+                    format: double
+                status:
+                    type: integer
+                    format: int32
+            description: 城市信息
+        api.helloworld.v1.CloseCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                success:
+                    type: boolean
+            description: 关闭柜口响应
+        api.helloworld.v1.CloseCabinetCellRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+            description: 关闭柜口请求
+        api.helloworld.v1.ClusterInfo:
+            type: object
+            properties:
+                longitude:
+                    type: number
+                    format: double
+                latitude:
+                    type: number
+                    format: double
+                count:
+                    type: integer
+                    format: int32
+                totalAvailable:
+                    type: integer
+                    format: int32
+                pointIds:
+                    type: array
+                    items:
+                        type: integer
+                        format: int32
+            description: 聚合点信息
+        api.helloworld.v1.CreateCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cellId:
+                    type: integer
+                    format: int32
+                cellInfo:
+                    $ref: '#/components/schemas/api.helloworld.v1.CabinetCellInfo'
+            description: 创建柜口响应
+        api.helloworld.v1.CreateCabinetCellRequest:
+            type: object
+            properties:
+                cabinetGroupId:
+                    type: integer
+                    format: int32
+                cellNo:
+                    type: integer
+                    format: int32
+                cellSize:
+                    type: string
+                status:
+                    type: string
+            description: 创建柜口请求
+        api.helloworld.v1.CreateCityReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                code:
+                    type: string
+                latitude:
+                    type: number
+                    format: double
+                longitude:
+                    type: number
+                    format: double
+                status:
+                    type: integer
+                    format: int32
+            description: 创建城市响应
+        api.helloworld.v1.CreateCityRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+            description: 创建城市请求
+        api.helloworld.v1.CreateDepositReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+                data:
+                    $ref: '#/components/schemas/api.helloworld.v1.DepositReplyData'
+        api.helloworld.v1.CreateDepositRequest:
+            type: object
+            properties:
+                scheduledDuration:
+                    type: integer
+                    format: int32
+                lockerType:
+                    type: integer
+                    format: int32
+                cabinetId:
+                    type: integer
+                    format: int32
+        api.helloworld.v1.CreateGroupReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                groupId:
+                    type: integer
+                    format: int32
+            description: 创建柜组响应
+        api.helloworld.v1.CreateGroupRequest:
+            type: object
+            properties:
+                locationPointId:
+                    type: integer
+                    format: int32
+                groupName:
+                    type: string
+                groupCode:
+                    type: string
+                groupType:
+                    type: string
+                totalCells:
+                    type: integer
+                    format: int32
+                startNo:
+                    type: integer
+                    format: int32
+                endNo:
+                    type: integer
+                    format: int32
+                installTime:
+                    type: string
+                    format: date-time
+            description: 创建柜组请求
+        api.helloworld.v1.CreateLocalReply:
+            type: object
+            properties: {}
+        api.helloworld.v1.CreateOrderReply:
+            type: object
+            properties:
+                Msg:
+                    type: string
+        api.helloworld.v1.CreateOrderRequest:
+            type: object
+            properties:
+                orderNumber:
+                    type: string
+                userId:
+                    type: string
+                scheduledDuration:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                discount:
+                    type: number
+                    format: double
+                amountPaid:
+                    type: number
+                    format: double
+                storageLocationName:
+                    type: string
+                cabinetId:
+                    type: string
+                depositStatus:
+                    type: string
+                title:
+                    type: string
+                orderId:
+                    type: string
+                status:
+                    type: string
+                hourlyRate:
+                    type: number
+                    format: float
+                lockerPointId:
+                    type: string
+                typeId:
+                    type: string
+            description: 创建订单请求
+        api.helloworld.v1.DeleteCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                success:
+                    type: boolean
+            description: 删除柜口响应
+        api.helloworld.v1.DeleteCabinetCellRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+            description: 删除柜口请求
+        api.helloworld.v1.DeleteGroupReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                success:
+                    type: boolean
+            description: 删除柜组响应
+        api.helloworld.v1.DeleteGroupRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+            description: 删除柜组请求
+        api.helloworld.v1.DeleteOrderReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        api.helloworld.v1.DeleteOrderRequest:
+            type: object
+            properties:
+                status:
+                    type: string
+                id:
+                    type: integer
+                    format: int32
+            description: 删除订单请求
+        api.helloworld.v1.DepositReplyData:
+            type: object
+            properties:
+                orderNo:
+                    type: string
+                lockerId:
+                    type: integer
+                    format: int32
+        api.helloworld.v1.FindNearbyLockerPointsReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.NearbyLockerPointInfo'
+            description: 查找附近的寄存点响应
+        api.helloworld.v1.GetCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cellInfo:
+                    $ref: '#/components/schemas/api.helloworld.v1.CabinetCellInfo'
+            description: 获取柜口响应
+        api.helloworld.v1.GetCabinetCellsByGroupReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cells:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.CabinetCellInfo'
+                total:
+                    type: string
+            description: 根据柜组获取所有柜口响应
+        api.helloworld.v1.GetCityLockerPointsMapReply:
+            type: object
+            properties:
+                points:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.MapPointInfo'
+                clusters:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.ClusterInfo'
+                totalCount:
+                    type: integer
+                    format: int32
+                zoomLevel:
+                    type: integer
+                    format: int32
+                isClustered:
+                    type: boolean
+            description: 获取城市寄存点分布图响应
+        api.helloworld.v1.GetCityReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                code:
+                    type: string
+                latitude:
+                    type: number
+                    format: double
+                longitude:
+                    type: number
+                    format: double
+                status:
+                    type: integer
+                    format: int32
+            description: 获取城市详情响应
+        api.helloworld.v1.GetDepositLockerRes:
+            type: object
+            properties:
+                address:
+                    type: string
+                name:
+                    type: string
+                longitude:
+                    type: number
+                    format: float
+                latitude:
+                    type: number
+                    format: float
+                locker:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.Locker'
+        api.helloworld.v1.GetGroupReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                group:
+                    $ref: '#/components/schemas/api.helloworld.v1.GroupInfo'
+            description: 获取柜组响应
+        api.helloworld.v1.GetMyNearbyInfoReply:
+            type: object
+            properties:
+                userLocation:
+                    $ref: '#/components/schemas/api.helloworld.v1.UserLocationInfo'
+                nearbyPoints:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.NearbyLockerPointInfo'
+                totalCount:
+                    type: integer
+                    format: int32
+                searchRadius:
+                    type: number
+                    format: double
+                baiduMapAk:
+                    type: string
+            description: 获取我的附近信息响应
+        api.helloworld.v1.GetOrderReply:
+            type: object
+            properties:
+                order:
+                    $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
+        api.helloworld.v1.GetPriceRuleRes:
+            type: object
+            properties:
+                rules:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.LockerPriceRule'
+        api.helloworld.v1.GetUserCityReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                code:
+                    type: string
+                latitude:
+                    type: number
+                    format: double
+                longitude:
+                    type: number
+                    format: double
+            description: 获取用户端城市详情响应
+        api.helloworld.v1.GroupInfo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                locationPointId:
+                    type: integer
+                    format: int32
+                groupName:
+                    type: string
+                groupCode:
+                    type: string
+                groupType:
+                    type: string
+                status:
+                    type: string
+                totalCells:
+                    type: integer
+                    format: int32
+                startNo:
+                    type: integer
+                    format: int32
+                endNo:
+                    type: integer
+                    format: int32
+                installTime:
+                    type: string
+                    format: date-time
+                createTime:
+                    type: string
+                    format: date-time
+                updateTime:
+                    type: string
+                    format: date-time
+            description: 柜组信息
+        api.helloworld.v1.InitLockerPointsGeoReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+            description: 初始化寄存点地理位置数据响应
+        api.helloworld.v1.InitLockerPointsGeoRequest:
+            type: object
+            properties: {}
+            description: 初始化寄存点地理位置数据请求
+        api.helloworld.v1.ListCabinetCellsReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cells:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.CabinetCellInfo'
+                total:
+                    type: string
+            description: 柜口列表响应
+        api.helloworld.v1.ListCabinetCellsRequest:
+            type: object
+            properties:
+                page:
+                    type: string
+                size:
+                    type: string
+                cabinetGroupId:
+                    type: integer
+                    format: int32
+                status:
+                    type: string
+            description: 柜口列表请求
+        api.helloworld.v1.ListCitiesReply:
+            type: object
+            properties:
+                total:
+                    type: string
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.CityInfo'
+            description: 获取城市列表响应
+        api.helloworld.v1.ListDepositReply:
+            type: object
+            properties: {}
+        api.helloworld.v1.ListGroupReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                groups:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.GroupInfo'
+                total:
+                    type: string
+            description: 柜组列表响应
+        api.helloworld.v1.ListGroupRequest:
+            type: object
+            properties:
+                page:
+                    type: string
+                size:
+                    type: string
+                locationPointId:
+                    type: integer
+                    format: int32
+                status:
+                    type: string
+                groupType:
+                    type: string
+            description: 柜组列表请求
+        api.helloworld.v1.ListHomeReply:
+            type: object
+            properties: {}
+        api.helloworld.v1.ListOrderReply:
+            type: object
+            properties:
+                orders:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
+                total:
+                    type: string
+        api.helloworld.v1.ListOrderRequest:
+            type: object
+            properties:
+                page:
+                    type: string
+                size:
+                    type: string
+                storageLocationName:
+                    type: string
+                status:
+                    type: string
+            description: 订单列表请求
+        api.helloworld.v1.ListUserCitiesReply:
+            type: object
+            properties:
+                total:
+                    type: string
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.UserCityInfo'
+            description: 获取用户端城市列表响应
+        api.helloworld.v1.Locker:
+            type: object
+            properties:
+                name:
+                    type: string
+                description:
+                    type: string
+                size:
+                    type: string
+                num:
+                    type: integer
+                    format: int32
+                hourlyRate:
+                    type: number
+                    format: float
+                lockerType:
+                    type: integer
+                    format: int32
+                freeDuration:
+                    type: number
+                    format: float
+        api.helloworld.v1.LockerPointDetail:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                address:
+                    type: string
+                longitude:
+                    type: number
+                    format: float
+                latitude:
+                    type: number
+                    format: float
+                availableLarge:
+                    type: integer
+                    format: int32
+                availableMedium:
+                    type: integer
+                    format: int32
+                availableSmall:
+                    type: integer
+                    format: int32
+                openTime:
+                    type: string
+                mobile:
+                    type: string
+            description: 寄存点详细信息
+        api.helloworld.v1.LockerPriceRule:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: 基础标识
+                ruleName:
+                    type: string
+                feeType:
+                    type: integer
+                    description: 核心配置
+                    format: int32
+                lockerType:
+                    type: integer
+                    format: int32
+                freeDuration:
+                    type: number
+                    format: float
+                hourlyRate:
+                    type: number
+                    description: 金额设置
+                    format: float
+                dailyCap:
+                    type: number
+                    format: float
+                dailyRate:
+                    type: number
+                    format: float
+                advanceAmount:
+                    type: number
+                    format: float
+                depositAmount:
+                    type: number
+                    format: float
+                isDepositEnabled:
+                    type: boolean
+                    description: 功能开关
+                isAdvancePay:
+                    type: boolean
+        api.helloworld.v1.LoginRequest:
+            type: object
+            properties:
+                mobile:
+                    type: string
+                password:
+                    type: string
+                smsCode:
+                    type: string
+                username:
+                    type: string
+        api.helloworld.v1.LoginRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                id:
+                    type: string
+                token:
+                    type: string
+        api.helloworld.v1.ManageOrderSearchReply:
+            type: object
+            properties: {}
+        api.helloworld.v1.ManageOrderSearchRequest:
+            type: object
+            properties: {}
+        api.helloworld.v1.MapPointInfo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                address:
+                    type: string
+                longitude:
+                    type: number
+                    format: double
+                latitude:
+                    type: number
+                    format: double
+                totalAvailable:
+                    type: integer
+                    format: int32
+                status:
+                    type: string
+            description: 地图点位信息（详细点位）
+        api.helloworld.v1.NearbyLockerPointInfo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                address:
+                    type: string
+                distance:
+                    type: number
+                    format: float
+                longitude:
+                    type: number
+                    format: float
+                latitude:
+                    type: number
+                    format: float
+            description: 附近寄存点信息
+        api.helloworld.v1.OpenCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                success:
+                    type: boolean
+            description: 开启柜口响应
+        api.helloworld.v1.OpenCabinetCellRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+            description: 开启柜口请求
+        api.helloworld.v1.OrderInfo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                orderNumber:
+                    type: string
+                userId:
+                    type: string
+                scheduledDuration:
+                    type: string
+                actualDuration:
+                    type: string
+                price:
+                    type: number
+                    format: double
+                discount:
+                    type: number
+                    format: double
+                amountPaid:
+                    type: number
+                    format: double
+                storageLocationName:
+                    type: string
+                cabinetId:
+                    type: string
+                status:
+                    type: string
+                depositStatus:
+                    type: string
+            description: 订单信息
+        api.helloworld.v1.OrderList:
+            type: object
+            properties:
+                OrderNumber:
+                    type: string
+                UserId:
+                    type: string
+                ScheduledDuration:
+                    type: string
+                ActualDuration:
+                    type: string
+                Price:
+                    type: number
+                    format: float
+                Discount:
+                    type: number
+                    format: float
+                AmountPaid:
+                    type: number
+                    format: float
+                StorageLocationName:
+                    type: string
+                CabinetId:
+                    type: string
+                Status:
+                    type: string
+                DepositStatus:
+                    type: string
+        api.helloworld.v1.OrderListRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.OrderList'
+        api.helloworld.v1.Point:
+            type: object
+            properties:
+                locationId:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                address:
+                    type: string
+                availableLarge:
+                    type: integer
+                    format: int32
+                availableMedium:
+                    type: integer
+                    format: int32
+                availableSmall:
+                    type: integer
+                    format: int32
+                openTime:
+                    type: string
+                mobile:
+                    type: string
+                pointImage:
+                    type: string
+                pointType:
+                    type: string
+                latitude:
+                    type: number
+                    format: float
+                longitude:
+                    type: number
+                    format: float
+                id:
+                    type: integer
+                    format: int32
+                status:
+                    type: string
+        api.helloworld.v1.PointInfoReq:
+            type: object
+            properties:
+                id:
+                    type: string
+        api.helloworld.v1.PointInfoRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                name:
+                    type: string
+                address:
+                    type: string
+                pointType:
+                    type: string
+                availableLarge:
+                    type: string
+                availableMedium:
+                    type: string
+                availableSmall:
+                    type: string
+                openTime:
+                    type: string
+                staus:
+                    type: string
+                pointImage:
+                    type: string
+        api.helloworld.v1.PointList:
+            type: object
+            properties:
+                name:
+                    type: string
+                address:
+                    type: string
+                availableLarge:
+                    type: string
+                availableMedium:
+                    type: string
+                availableSmall:
+                    type: string
+                id:
+                    type: string
+        api.helloworld.v1.PointListRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.PointList'
+        api.helloworld.v1.RegisterRequest:
+            type: object
+            properties:
+                mobile:
+                    type: string
+                password:
+                    type: string
+                smsCode:
+                    type: string
+                username:
+                    type: string
+        api.helloworld.v1.RegisterRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+        api.helloworld.v1.ReturnTokenRes:
+            type: object
+            properties:
+                token:
+                    type: string
+                coe:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        api.helloworld.v1.SearchCabinetCellsReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cells:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.CabinetCellInfo'
+                total:
+                    type: string
+            description: 搜索柜口响应
+        api.helloworld.v1.SearchCabinetCellsRequest:
+            type: object
+            properties:
+                keyword:
+                    type: string
+                cabinetGroupId:
+                    type: integer
+                    format: int32
+                page:
+                    type: string
+                size:
+                    type: string
+            description: 搜索柜口请求
+        api.helloworld.v1.SearchCitiesReply:
+            type: object
+            properties:
+                total:
+                    type: string
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.UserCityInfo'
+            description: 搜索城市响应
+        api.helloworld.v1.SearchGroupReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                groups:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.GroupInfo'
+                total:
+                    type: string
+            description: 搜索柜组响应
+        api.helloworld.v1.SearchGroupRequest:
+            type: object
+            properties:
+                keyword:
+                    type: string
+                locationPointId:
+                    type: integer
+                    format: int32
+                status:
+                    type: string
+                groupType:
+                    type: string
+                page:
+                    type: string
+                size:
+                    type: string
+            description: 搜索柜组请求
+        api.helloworld.v1.SearchLockerPointsInCityReply:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.LockerPointDetail'
+                total:
+                    type: string
+                page:
+                    type: string
+                pageSize:
+                    type: string
+            description: 搜索指定城市内寄存点响应
+        api.helloworld.v1.SendCodeByOrderReq:
+            type: object
+            properties:
+                orderNo:
+                    type: string
+        api.helloworld.v1.SendCodeByOrderRes:
+            type: object
+            properties:
+                msg:
+                    type: string
+                code:
+                    type: integer
+                    format: int32
+                data:
+                    type: string
+        api.helloworld.v1.SendSmsRequest:
+            type: object
+            properties:
+                mobile:
+                    type: string
+                source:
+                    type: string
+        api.helloworld.v1.SendSmsRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+        api.helloworld.v1.SetPriceRuleReq:
+            type: object
+            properties:
+                networkId:
+                    type: string
+                rules:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.LockerPriceRule'
+        api.helloworld.v1.SetPriceRuleRes:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        api.helloworld.v1.ShowOrderReply:
+            type: object
+            properties:
+                order:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
+                Msg:
+                    type: string
+        api.helloworld.v1.ShowOrderRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+        api.helloworld.v1.UpdateCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cellInfo:
+                    $ref: '#/components/schemas/api.helloworld.v1.CabinetCellInfo'
+            description: 更新柜口响应
+        api.helloworld.v1.UpdateCabinetCellRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                cabinetGroupId:
+                    type: integer
+                    format: int32
+                cellNo:
+                    type: integer
+                    format: int32
+                cellSize:
+                    type: string
+                status:
+                    type: string
+                lastOpenTime:
+                    type: string
+                    format: date-time
+            description: 更新柜口请求
+        api.helloworld.v1.UpdateCityReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                code:
+                    type: string
+                latitude:
+                    type: number
+                    format: double
+                longitude:
+                    type: number
+                    format: double
+                status:
+                    type: integer
+                    format: int32
+            description: 更新城市响应
+        api.helloworld.v1.UpdateCityRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+            description: 更新城市请求
+        api.helloworld.v1.UpdateCityStatusReply:
+            type: object
+            properties:
+                success:
+                    type: boolean
+            description: 更新城市状态响应
+        api.helloworld.v1.UpdateCityStatusRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                status:
+                    type: integer
+                    format: int32
+            description: 更新城市状态请求
+        api.helloworld.v1.UpdateDepositLockerIdReq:
+            type: object
+            properties:
+                orderId:
+                    type: string
+        api.helloworld.v1.UpdateDepositLockerIdRes:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+                lockerId:
+                    type: integer
+                    format: int32
+        api.helloworld.v1.UpdateGroupReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                group:
+                    $ref: '#/components/schemas/api.helloworld.v1.GroupInfo'
+            description: 更新柜组响应
+        api.helloworld.v1.UpdateGroupRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                locationPointId:
+                    type: integer
+                    format: int32
+                groupName:
+                    type: string
+                groupCode:
+                    type: string
+                groupType:
+                    type: string
+                status:
+                    type: string
+                totalCells:
+                    type: integer
+                    format: int32
+                startNo:
+                    type: integer
+                    format: int32
+                endNo:
+                    type: integer
+                    format: int32
+                installTime:
+                    type: string
+                    format: date-time
+            description: 更新柜组请求
+        api.helloworld.v1.UpdateOrderReply:
+            type: object
+            properties:
+                order:
+                    $ref: '#/components/schemas/api.helloworld.v1.OrderInfo'
+                payUrl:
+                    type: string
+        api.helloworld.v1.UpdateOrderRequest:
+            type: object
+            properties:
+                id:
+                    type: string
+                actualDuration:
+                    type: string
+                status:
+                    type: string
+                depositStatus:
+                    type: string
+                hourlyRate:
+                    type: number
+                    format: float
+                lockerType:
+                    type: string
+                title:
+                    type: string
+                lockerPointId:
+                    type: string
+                typeId:
+                    type: string
+                cabinetId:
+                    type: string
+            description: 更新订单请求
+        api.helloworld.v1.UpdatePointReq:
+            type: object
+            properties:
+                point:
+                    $ref: '#/components/schemas/api.helloworld.v1.Point'
+        api.helloworld.v1.UpdatePointRes:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                msg:
+                    type: string
+        api.helloworld.v1.UploadFileRes:
+            type: object
+            properties:
+                url:
+                    type: string
+        api.helloworld.v1.UserCityInfo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+                name:
+                    type: string
+                code:
+                    type: string
+                latitude:
+                    type: number
+                    format: double
+                longitude:
+                    type: number
+                    format: double
+            description: 用户端城市信息
+        api.helloworld.v1.UserLocationInfo:
+            type: object
+            properties:
+                longitude:
+                    type: number
+                    format: double
+                latitude:
+                    type: number
+                    format: double
+                address:
+                    type: string
+                city:
+                    type: string
+                district:
+                    type: string
+                province:
+                    type: string
+                locationType:
+                    type: string
+            description: 用户位置信息
+        helloworld.v1.HelloReply:
+            type: object
+            properties:
+                message:
+                    type: string
+            description: The response message containing the greetings
+tags:
+    - name: Admin
+    - name: CabinetCell
+      description: 柜口管理服务
+    - name: City
+      description: 城市服务定义
+    - name: Deposit
+    - name: Greeter
+      description: The greeting service definition.
+    - name: Group
+      description: 柜组管理服务
+    - name: Home
+    - name: Nearby
+      description: 附近服务定义
+    - name: Order
+    - name: User
