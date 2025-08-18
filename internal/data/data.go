@@ -160,23 +160,23 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 	sqlDB.SetMaxOpenConns(50)
 	sqlDB.SetConnMaxLifetime(time.Hour)
 	//从库
-	err = db.Use(
-		dbresolver.Register(
-			dbresolver.Config{
-				Replicas: []gorm.Dialector{
-					mysql.Open(slaveDsn), // 从库（读）
-				},
-				Policy: dbresolver.RandomPolicy{}, // 读负载均衡策略
-			},
-		).
-			SetMaxIdleConns(10).
-			SetMaxOpenConns(50).
-			SetConnMaxLifetime(time.Hour),
-	)
-	if err != nil {
-		helper.Errorf("failed to register dbresolver: %v", err)
-		panic(err)
-	}
+	//err = db.Use(
+	//	dbresolver.Register(
+	//		dbresolver.Config{
+	//			Replicas: []gorm.Dialector{
+	//				mysql.Open(slaveDsn), // 从库（读）
+	//			},
+	//			Policy: dbresolver.RandomPolicy{}, // 读负载均衡策略
+	//		},
+	//	).
+	//		SetMaxIdleConns(10).
+	//		SetMaxOpenConns(50).
+	//		SetConnMaxLifetime(time.Hour),
+	//)
+	//if err != nil {
+	//	helper.Errorf("failed to register dbresolver: %v", err)
+	//	panic(err)
+	//}
 	if err := db.AutoMigrate(&City{}, &LockerPoint{}); err != nil {
 		helper.Errorf("自动迁移数据库表结构失败: %v", err)
 	} else {
