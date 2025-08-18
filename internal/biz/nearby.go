@@ -3,10 +3,12 @@ package biz
 import (
 	"context"
 	"fmt"
-	"github.com/go-kratos/kratos/v2/log"
 	"ito-deposit/internal/pkg/baidumap"
 	"ito-deposit/internal/pkg/geo"
 	"math"
+	"strings"
+
+	"github.com/go-kratos/kratos/v2/log"
 )
 
 // NearbyLockerPoint 附近寄存点信息
@@ -195,9 +197,12 @@ func (uc *NearbyUsecase) GetLocationByCityName(ctx context.Context, cityName str
 func (uc *NearbyUsecase) GetUserLocationInCity(ctx context.Context, cityName string, userLongitude, userLatitude float64, ip string, useRealtime bool) (float64, float64, error) {
 	// 如果提供了用户位置，则直接使用
 	if userLongitude != 0 && userLatitude != 0 {
-		// 验证用户位置是否在城市范围内
-		// 这里可以添加验证逻辑，但为简单起见，我们直接返回用户位置
-		return userLongitude, userLatitude, nil
+		// 验证坐标是否在合理范围内（中国境内）
+		if uc.isValidCoordinate(userLongitude, userLatitude) {
+			return userLongitude, userLatitude, nil
+		} else {
+			uc.log.Warnf("用户提供的坐标超出合理范围: lng=%f, lat=%f", userLongitude, userLatitude)
+		}
 	}
 
 	// 获取城市信息，用于获取城市编码
@@ -212,26 +217,36 @@ func (uc *NearbyUsecase) GetUserLocationInCity(ctx context.Context, cityName str
 	// 如果启用了实时定位且提供了IP地址，则使用实时定位
 	if useRealtime && ip != "" {
 		lng, lat, _, err := uc.GetRealtimeLocation(ctx, cityCode, ip)
-		if err == nil {
-			// 保存用户实时位置到Redis
-			userID := "user:" + ip // 使用IP作为用户ID
-			if err := uc.geoSvc.SaveUserLocation(ctx, userID, lng, lat); err != nil {
-				uc.log.Warnf("保存用户位置失败: %v", err)
+		if err == nil && uc.isValidCoordinate(lng, lat) {
+			// 验证定位结果是否在目标城市附近（50公里范围内）
+			if uc.isNearCity(lng, lat, city.Longitude, city.Latitude, 50.0) {
+				// 保存用户实时位置到Redis
+				userID := "user:" + ip // 使用IP作为用户ID
+				if err := uc.geoSvc.SaveUserLocation(ctx, userID, lng, lat); err != nil {
+					uc.log.Warnf("保存用户位置失败: %v", err)
+				}
+				return lng, lat, nil
+			} else {
+				uc.log.Warnf("实时定位结果距离目标城市过远: lng=%f, lat=%f, 城市: %s", lng, lat, cityName)
 			}
-			return lng, lat, nil
 		}
 		// 如果实时定位失败，记录日志但继续使用城市中心点
 		uc.log.Warnf("实时定位失败，将使用城市中心点: %v", err)
 	} else if ip != "" {
 		// 如果没有启用实时定位但提供了IP，尝试使用IP定位
 		lng, lat, _, err := uc.GetLocationByIP(ctx, ip)
-		if err == nil {
-			// 保存用户位置到Redis
-			userID := "user:" + ip // 使用IP作为用户ID
-			if err := uc.geoSvc.SaveUserLocation(ctx, userID, lng, lat); err != nil {
-				uc.log.Warnf("保存用户位置失败: %v", err)
+		if err == nil && uc.isValidCoordinate(lng, lat) {
+			// 验证定位结果是否在目标城市附近
+			if uc.isNearCity(lng, lat, city.Longitude, city.Latitude, 100.0) {
+				// 保存用户位置到Redis
+				userID := "user:" + ip // 使用IP作为用户ID
+				if err := uc.geoSvc.SaveUserLocation(ctx, userID, lng, lat); err != nil {
+					uc.log.Warnf("保存用户位置失败: %v", err)
+				}
+				return lng, lat, nil
+			} else {
+				uc.log.Warnf("IP定位结果距离目标城市过远: lng=%f, lat=%f, 城市: %s", lng, lat, cityName)
 			}
-			return lng, lat, nil
 		}
 		// 如果IP定位失败，记录日志但继续使用城市中心点
 		uc.log.Warnf("IP定位失败，将使用城市中心点: %v", err)
@@ -243,8 +258,29 @@ func (uc *NearbyUsecase) GetUserLocationInCity(ctx context.Context, cityName str
 
 // GetCityByName 根据城市名称获取城市信息
 func (uc *NearbyUsecase) GetCityByName(ctx context.Context, cityName string) (*City, error) {
-	// 调用城市服务获取城市信息
-	return uc.cityUsecase.GetUserCityByName(ctx, cityName)
+	// 首先尝试精确匹配
+	city, err := uc.cityUsecase.GetUserCityByName(ctx, cityName)
+	if err == nil {
+		return city, nil
+	}
+
+	// 如果精确匹配失败，尝试各种变体
+	cityVariants := uc.generateCityVariants(cityName)
+	uc.log.Infof("尝试城市名称变体匹配: %v", cityVariants)
+
+	for _, variant := range cityVariants {
+		if variant != cityName { // 避免重复尝试原始名称
+			city, err = uc.cityUsecase.GetUserCityByName(ctx, variant)
+			if err == nil {
+				uc.log.Infof("城市名称变体匹配成功: %s -> %s", cityName, variant)
+				return city, nil
+			}
+		}
+	}
+
+	// 所有尝试都失败，返回原始错误
+	uc.log.Errorf("无法找到城市: %s，尝试的变体: %v", cityName, cityVariants)
+	return nil, fmt.Errorf("城市 %s 不存在", cityName)
 }
 
 // UserLocationInfo 用户位置信息
@@ -391,9 +427,9 @@ func (uc *NearbyUsecase) GetAllLockerPoints(ctx context.Context, keyword string,
 	if pageSize <= 0 {
 		pageSize = 10
 	}
-	
+
 	uc.log.Infof("获取所有寄存点，关键词: %s, 页码: %d, 页大小: %d", keyword, page, pageSize)
-	
+
 	// 调用数据仓库获取所有寄存点
 	return uc.repo.GetAllLockerPoints(ctx, keyword, page, pageSize)
 }
@@ -425,10 +461,41 @@ func (uc *NearbyUsecase) GetCityLockerPointsMap(ctx context.Context, cityName st
 	}
 
 	// 获取边界内的寄存点
+	uc.log.Infof("开始获取城市 %s 边界内的寄存点，边界: 北纬=%f, 南纬=%f, 东经=%f, 西经=%f",
+		cityName, northLat, southLat, eastLng, westLng)
+
 	lockerPoints, err := uc.repo.GetLockerPointsInBounds(ctx, cityName, northLat, southLat, eastLng, westLng)
 	if err != nil {
 		uc.log.Errorf("获取边界内寄存点失败: %v", err)
 		return nil, err
+	}
+
+	uc.log.Infof("边界查询获取到 %d 个寄存点", len(lockerPoints))
+
+	// 如果边界查询没有结果，尝试获取该城市的所有寄存点作为备用
+	if len(lockerPoints) == 0 {
+		uc.log.Warnf("边界查询无结果，尝试获取城市 %s 的所有寄存点", cityName)
+		allPoints, _, err := uc.repo.SearchLockerPointsInCity(ctx, cityName, "", 1, 100)
+		if err != nil {
+			uc.log.Errorf("获取城市所有寄存点失败: %v", err)
+		} else {
+			uc.log.Infof("备用查询获取到 %d 个寄存点", len(allPoints))
+			// 转换为LockerPoint类型
+			for _, point := range allPoints {
+				lockerPoints = append(lockerPoints, &LockerPoint{
+					Id:              point.Id,
+					Name:            point.Name,
+					Address:         point.Address,
+					Longitude:       point.Longitude,
+					Latitude:        point.Latitude,
+					AvailableLarge:  point.AvailableLarge,
+					AvailableMedium: point.AvailableMedium,
+					AvailableSmall:  point.AvailableSmall,
+					OpenTime:        point.OpenTime,
+					Mobile:          point.Mobile,
+				})
+			}
+		}
 	}
 
 	// 转换为地图点位信息
@@ -591,4 +658,131 @@ func (uc *NearbyUsecase) calculateDistanceInDegrees(lng1, lat1, lng2, lat2 float
 	dlng := lng1 - lng2
 	dlat := lat1 - lat2
 	return math.Sqrt(dlng*dlng + dlat*dlat)
+}
+
+// isValidCoordinate 验证坐标是否在合理范围内（中国境内）
+func (uc *NearbyUsecase) isValidCoordinate(lng, lat float64) bool {
+	// 中国大陆经纬度范围 (WGS84坐标系)
+	// 经度：73°33′E 至 135°05′E
+	// 纬度：3°51′N 至 53°33′N
+	if lng < 73.0 || lng > 135.0 {
+		uc.log.Warnf("经度超出中国范围: %f (应在73-135之间)", lng)
+		return false
+	}
+	if lat < 3.0 || lat > 54.0 {
+		uc.log.Warnf("纬度超出中国范围: %f (应在3-54之间)", lat)
+		return false
+	}
+
+	// 特别检查是否在海上（常见的坐标系错误）
+	if (lng > 100 && lng < 125) && (lat > 0 && lat < 25) {
+		// 这个范围可能是南海，需要更精确的验证
+		uc.log.Infof("坐标在南海区域，需要验证: lng=%f, lat=%f", lng, lat)
+	}
+
+	return true
+}
+
+// isNearCity 判断坐标是否在城市附近指定范围内
+func (uc *NearbyUsecase) isNearCity(lng, lat, cityLng, cityLat, maxDistanceKm float64) bool {
+	distance := uc.calculateDistance(lng, lat, cityLng, cityLat)
+	return distance <= maxDistanceKm
+}
+
+// convertBD09ToWGS84 将百度坐标系(BD09)转换为WGS84坐标系
+func (uc *NearbyUsecase) convertBD09ToWGS84(bdLng, bdLat float64) (float64, float64) {
+	// BD09 -> GCJ02
+	x := bdLng - 0.0065
+	y := bdLat - 0.006
+	z := math.Sqrt(x*x+y*y) - 0.00002*math.Sin(y*math.Pi)
+	theta := math.Atan2(y, x) - 0.000003*math.Cos(x*math.Pi)
+	gcjLng := z * math.Cos(theta)
+	gcjLat := z * math.Sin(theta)
+
+	// GCJ02 -> WGS84
+	dlat := uc.transformLat(gcjLng-105.0, gcjLat-35.0)
+	dlng := uc.transformLng(gcjLng-105.0, gcjLat-35.0)
+	radlat := gcjLat / 180.0 * math.Pi
+	magic := math.Sin(radlat)
+	magic = 1 - 0.00669342162296594323*magic*magic
+	sqrtmagic := math.Sqrt(magic)
+	dlat = (dlat * 180.0) / ((6378245.0 * (1 - 0.00669342162296594323)) / (magic * sqrtmagic) * math.Pi)
+	dlng = (dlng * 180.0) / (6378245.0 / sqrtmagic * math.Cos(radlat) * math.Pi)
+	mglat := gcjLat - dlat
+	mglng := gcjLng - dlng
+
+	return mglng, mglat
+}
+
+// transformLat 纬度转换辅助函数
+func (uc *NearbyUsecase) transformLat(lng, lat float64) float64 {
+	ret := -100.0 + 2.0*lng + 3.0*lat + 0.2*lat*lat + 0.1*lng*lat + 0.2*math.Sqrt(math.Abs(lng))
+	ret += (20.0*math.Sin(6.0*lng*math.Pi) + 20.0*math.Sin(2.0*lng*math.Pi)) * 2.0 / 3.0
+	ret += (20.0*math.Sin(lat*math.Pi) + 40.0*math.Sin(lat/3.0*math.Pi)) * 2.0 / 3.0
+	ret += (160.0*math.Sin(lat/12.0*math.Pi) + 320*math.Sin(lat*math.Pi/30.0)) * 2.0 / 3.0
+	return ret
+}
+
+// transformLng 经度转换辅助函数
+func (uc *NearbyUsecase) transformLng(lng, lat float64) float64 {
+	ret := 300.0 + lng + 2.0*lat + 0.1*lng*lng + 0.1*lng*lat + 0.1*math.Sqrt(math.Abs(lng))
+	ret += (20.0*math.Sin(6.0*lng*math.Pi) + 20.0*math.Sin(2.0*lng*math.Pi)) * 2.0 / 3.0
+	ret += (20.0*math.Sin(lng*math.Pi) + 40.0*math.Sin(lng/3.0*math.Pi)) * 2.0 / 3.0
+	ret += (150.0*math.Sin(lng/12.0*math.Pi) + 300.0*math.Sin(lng/30.0*math.Pi)) * 2.0 / 3.0
+	return ret
+}
+
+// generateCityVariants 生成城市名称的各种变体用于匹配
+func (uc *NearbyUsecase) generateCityVariants(cityName string) []string {
+	variants := []string{cityName} // 原始名称
+
+	// 去除常见的后缀和前缀
+	cleanName := cityName
+
+	// 去除省份后缀
+	if len(cleanName) > 1 && (cleanName[len(cleanName)-3:] == "省" || cleanName[len(cleanName)-3:] == "市") {
+		cleanName = cleanName[:len(cleanName)-3]
+		variants = append(variants, cleanName)
+	}
+
+	// 添加市后缀
+	if !strings.HasSuffix(cityName, "市") {
+		variants = append(variants, cityName+"市")
+	}
+
+	// 处理特殊情况
+	switch cleanName {
+	case "郑州":
+		variants = append(variants, "郑州市")
+	case "北京":
+		variants = append(variants, "北京市")
+	case "上海":
+		variants = append(variants, "上海市")
+	case "广州":
+		variants = append(variants, "广州市")
+	case "深圳":
+		variants = append(variants, "深圳市")
+	case "杭州":
+		variants = append(variants, "杭州市")
+	case "南京":
+		variants = append(variants, "南京市")
+	case "武汉":
+		variants = append(variants, "武汉市")
+	case "成都":
+		variants = append(variants, "成都市")
+	case "西安":
+		variants = append(variants, "西安市")
+	}
+
+	// 去重
+	uniqueVariants := make([]string, 0)
+	seen := make(map[string]bool)
+	for _, variant := range variants {
+		if !seen[variant] {
+			uniqueVariants = append(uniqueVariants, variant)
+			seen[variant] = true
+		}
+	}
+
+	return uniqueVariants
 }

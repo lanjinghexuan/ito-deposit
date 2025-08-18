@@ -12,16 +12,16 @@ import (
 type LocationResponse struct {
 	Status  int    `json:"status"`  // 状态码，0表示成功
 	Message string `json:"message"` // 错误信息
-	
+
 	// 位置信息
 	Content struct {
-		Address       string `json:"address"`        // 详细地址
+		Address       string `json:"address"` // 详细地址
 		AddressDetail struct {
-			City     string `json:"city"`     // 城市
+			City     string `json:"city"`      // 城市
 			CityCode int    `json:"city_code"` // 城市编码
-			District string `json:"district"` // 区县
-			Province string `json:"province"` // 省份
-			Street   string `json:"street"`   // 街道
+			District string `json:"district"`  // 区县
+			Province string `json:"province"`  // 省份
+			Street   string `json:"street"`    // 街道
 		} `json:"address_detail"`
 		Point struct {
 			X float64 `json:"x"` // 经度
@@ -34,16 +34,16 @@ type LocationResponse struct {
 type RealtimeLocationResponse struct {
 	Status  int    `json:"status"`  // 状态码，0表示成功
 	Message string `json:"message"` // 错误信息
-	
+
 	// 位置信息
 	Result struct {
 		Location struct {
 			Lng float64 `json:"lng"` // 经度
 			Lat float64 `json:"lat"` // 纬度
 		} `json:"location"`
-		Accuracy float64 `json:"accuracy"` // 精确度
-		Address  string  `json:"address"`  // 地址
-		City     string  `json:"city"`     // 城市
+		Accuracy float64 `json:"accuracy"`  // 精确度
+		Address  string  `json:"address"`   // 地址
+		City     string  `json:"city"`      // 城市
 		CityCode string  `json:"city_code"` // 城市编码
 	} `json:"result"`
 }
@@ -56,12 +56,16 @@ func (c *BaiduMapClient) GetLocation(ip string) (*LocationResponse, error) {
 	// 设置请求参数
 	params := url.Values{}
 	params.Set("ak", c.AK)
-	params.Set("coor", "bd09ll") // 百度坐标系
-	
+	params.Set("coor", "wgs84ll") // 使用WGS84坐标系，与前端地图一致
+
 	// 如果提供了IP地址，则使用该IP
 	if ip != "" {
 		params.Set("ip", ip)
 	}
+
+	// 添加更多参数提高定位精度
+	params.Set("extensions_poi", "0")     // 不返回POI信息
+	params.Set("extensions_town", "true") // 返回乡镇信息
 
 	// 发送HTTP GET请求
 	resp, err := http.Get(apiURL + "?" + params.Encode())
@@ -87,6 +91,10 @@ func (c *BaiduMapClient) GetLocation(ip string) (*LocationResponse, error) {
 		return nil, fmt.Errorf("百度地图API错误: %s", result.Message)
 	}
 
+	// 打印调试信息
+	fmt.Printf("百度地图IP定位API返回: 地址=%s, 经度=%f, 纬度=%f, 城市=%s\n",
+		result.Content.Address, result.Content.Point.X, result.Content.Point.Y, result.Content.AddressDetail.City)
+
 	return &result, nil
 }
 
@@ -102,18 +110,18 @@ func (c *BaiduMapClient) GetRealtimeLocation(cityCode, ip, coor string) (*Realti
 	// 设置请求参数
 	params := url.Values{}
 	params.Set("ak", c.AK)
-	
-	// 设置坐标系，默认为百度坐标系
+
+	// 设置坐标系，默认为WGS84坐标系
 	if coor == "" {
-		coor = "bd09ll"
+		coor = "wgs84ll"
 	}
 	params.Set("coor", coor)
-	
+
 	// 如果提供了城市编码，则使用该城市编码
 	if cityCode != "" {
 		params.Set("city_code", cityCode)
 	}
-	
+
 	// 如果提供了IP地址，则使用该IP
 	if ip != "" {
 		params.Set("ip", ip)

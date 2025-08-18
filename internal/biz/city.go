@@ -3,8 +3,9 @@ package biz
 import (
 	"context"
 	"errors"
-	"github.com/go-kratos/kratos/v2/log"
 	"ito-deposit/internal/pkg/baidumap"
+
+	"github.com/go-kratos/kratos/v2/log"
 )
 
 // City 城市业务实体
@@ -89,7 +90,12 @@ func (uc *CityUsecase) CreateCity(ctx context.Context, city *City) (*City, error
 	city.Longitude = geocodeResp.Longitude
 
 	// 打印调试信息
-	uc.log.Infof("城市编码: %s, 经度: %f, 纬度: %f", city.Code, city.Longitude, city.Latitude)
+	uc.log.Infof("百度地图API返回 - 城市: %s, 编码: %s, 经度: %f, 纬度: %f", city.Name, city.Code, city.Longitude, city.Latitude)
+
+	// 验证坐标是否合理
+	if city.Longitude < 70 || city.Longitude > 140 || city.Latitude < 10 || city.Latitude > 60 {
+		uc.log.Errorf("警告：城市 %s 的坐标可能不正确 - 经度: %f, 纬度: %f", city.Name, city.Longitude, city.Latitude)
+	}
 
 	// 调用数据仓库创建城市
 	return uc.repo.CreateCity(ctx, city)
@@ -172,12 +178,12 @@ func (uc *CityUsecase) GetUserCity(ctx context.Context, id int32) (*City, error)
 	if err != nil {
 		return nil, err
 	}
-	
+
 	// 检查城市状态是否为启用
 	if city.Status != 1 {
 		return nil, errors.New("城市不存在或已禁用")
 	}
-	
+
 	return city, nil
 }
 
@@ -187,12 +193,12 @@ func (uc *CityUsecase) GetUserCityByCode(ctx context.Context, code string) (*Cit
 	if err != nil {
 		return nil, err
 	}
-	
+
 	// 检查城市状态是否为启用
 	if city.Status != 1 {
 		return nil, errors.New("城市不存在或已禁用")
 	}
-	
+
 	return city, nil
 }
 
@@ -202,12 +208,12 @@ func (uc *CityUsecase) GetUserCityByName(ctx context.Context, name string) (*Cit
 	if err != nil {
 		return nil, err
 	}
-	
+
 	// 检查城市状态是否为启用
 	if city.Status != 1 {
 		return nil, errors.New("城市不存在或已禁用")
 	}
-	
+
 	return city, nil
 }
 
