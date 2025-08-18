@@ -162,3 +162,18 @@ kratos run -conf ./configs/config.yaml
 ```
 
 ---
+项目必须启动etcd
+```bash
+etcdctl --endpoints=http://localhost:2379 member list
+```
+
+## 定时任务方式实现
+项目中定时任务是采用官方的依赖注入形式进行实现的。
+主要代码在  
+`internal/basic/pkg/job/scheduler.go`
+`cmd/ito-deposit/wire.go`
+`cmd/ito-deposit/main.go`
+
+scheduler.go 代码主要是注入代码，并且定义定时任务
+wire是对代码进行依赖注入
+main是启动定时任务

@@ -14,6 +14,7 @@ require (
 	github.com/google/wire v0.6.0
 	github.com/minio/minio-go/v7 v7.0.95
 	github.com/redis/go-redis/v9 v9.11.0
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/smartwalle/alipay/v3 v3.2.25
 	github.com/stretchr/testify v1.10.0
 	github.com/zeromicro/go-zero v1.8.5

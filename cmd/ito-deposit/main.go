@@ -1,12 +1,16 @@
 package main
 
 import (
+	"context"
 	"flag"
+	"ito-deposit/internal/conf" // 项目内部配置定义
+	"os"
+
 	etcd "github.com/go-kratos/kratos/contrib/registry/etcd/v2" // etcd注册中心插件
 	"github.com/go-kratos/kratos/v2/registry"                   // kratos服务注册相关接口
 	clientv3 "go.etcd.io/etcd/client/v3"                        // etcd客户端v3版本
-	"ito-deposit/internal/conf"                                 // 项目内部配置定义
-	"os"
+
+	"ito-deposit/internal/basic/pkg/job"
 
 	"ito-deposit/internal/basic/pkg"
 
@@ -20,8 +24,9 @@ import (
 
 	"go.uber.org/zap"
 
-	_ "go.uber.org/automaxprocs" // 自动调整GOMAXPROCS与CPU配合
 	_ "net/http/pprof"
+
+	_ "go.uber.org/automaxprocs" // 自动调整GOMAXPROCS与CPU配合
 )
 
 // 通过 -ldflags 方式注入的版本信息
@@ -39,7 +44,7 @@ func init() {
 }
 
 // 构造 kratos 应用实例
-func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, reg registry.Registrar, c *conf.Server) *kratos.App {
+func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, reg registry.Registrar, c *conf.Server, scheduler *job.Scheduler) *kratos.App {
 	Name = c.Etcd.Name    // 读取配置中的服务名赋值
 	id = id + c.Grpc.Addr // 用 主机名+grpc地址 作为服务唯一id
 	return kratos.New(
@@ -53,6 +58,13 @@ func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, reg registry.Re
 			hs, // http服务
 		),
 		kratos.Registrar(reg), // 服务注册中心
+		kratos.BeforeStart(func(ctx context.Context) error {
+			scheduler.Start()
+			return nil
+		}),
+		kratos.BeforeStop(func(ctx context.Context) error {
+			return scheduler.Stop(ctx)
+		}),
 	)
 }
 
@@ -135,4 +147,8 @@ func NewEtcdClient(c *conf.Server) (*clientv3.Client, error) {
 // 基于etcd客户端创建kratos的注册器（注册服务实例到etcd）
 func NewRegistrar(cli *clientv3.Client) registry.Registrar {
 	return etcd.New(cli)
+}
+
+func NewContext() context.Context {
+	return context.Background()
 }

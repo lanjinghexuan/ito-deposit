@@ -1,9 +1,14 @@
 package service
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
+	"fmt"
 	"log"
+	"net/http"
 	"strings"
+	"time"
 
 	pb "ito-deposit/api/helloworld/v1"
 	"ito-deposit/internal/biz"
@@ -509,4 +514,54 @@ func (s *CabinetCellService) CloseCabinetCell(ctx context.Context, req *pb.Close
 		Msg:     "柜口关闭成功",
 		Success: true,
 	}, nil
+}
+func (s *CabinetCellService) CellStatus(ctx context.Context, req *pb.CellStatusReq) (*pb.CellStatusRes, error) {
+	var cell []data.CabinetCell
+	err := s.DB.Debug().Where("status = ?", "abnormal").Find(&cell).Error
+	if err != nil {
+		return &pb.CellStatusRes{
+			Code: 500,
+			Msg:  "监控状态失败",
+		}, nil
+	}
+	if len(cell) == 0 {
+		return &pb.CellStatusRes{
+			Code: 200,
+			Msg:  "当前无异常格口",
+		}, nil
+	}
+
+	content := fmt.Sprintf("❗ 快递柜异常告警：发现 %d 个格口状态为 abnormal", len(cell))
+	webhookURL := "https://open.feishu.cn/open-apis/bot/v2/hook/f298817f-d96b-4db0-9597-00ffbeb99c9f"
+	err = sendFeishuAlert(webhookURL, content)
+	if err != nil {
+		log.Printf("发送飞书告警失败: %v", err)
+	}
+	return &pb.CellStatusRes{
+		Code: 200,
+		Msg:  "监控状态",
+	}, nil
+}
+
+// 飞书告警消息发送（直接复制你 main.go 的函数）
+func sendFeishuAlert(webhookURL, content string) error {
+	msg := map[string]interface{}{
+		"msg_type": "text",
+		"content": map[string]string{
+			"text": content,
+		},
+	}
+	jsonData, _ := json.Marshal(msg) // 简单处理，实际可加 error 判断
+
+	client := &http.Client{Timeout: 5 * time.Second}
+	resp, err := client.Post(webhookURL, "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("飞书返回状态码异常: %d", resp.StatusCode)
+	}
+	return nil
 }

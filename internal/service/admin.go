@@ -4,12 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	jwt1 "github.com/go-kratos/kratos/v2/middleware/auth/jwt"
-	"github.com/golang-jwt/jwt/v5"
-	"github.com/minio/minio-go/v7/pkg/credentials"
-	"github.com/redis/go-redis/v9"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"ito-deposit/internal/biz"
 	"ito-deposit/internal/conf"
 	data2 "ito-deposit/internal/data"
@@ -17,9 +11,17 @@ import (
 	"path/filepath"
 	"time"
 
+	jwt1 "github.com/go-kratos/kratos/v2/middleware/auth/jwt"
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/minio/minio-go/v7/pkg/credentials"
+	"github.com/redis/go-redis/v9"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
+	pb "ito-deposit/api/helloworld/v1"
+
 	kratosHttp "github.com/go-kratos/kratos/v2/transport/http"
 	minio1 "github.com/minio/minio-go/v7"
-	pb "ito-deposit/api/helloworld/v1"
 )
 
 type AdminService struct {
@@ -427,4 +429,8 @@ func (s *AdminService) UpdatePoint(ctx context.Context, req *pb.UpdatePointReq) 
 
 	userId := (*mapClaims)["id"].(string)
 	return s.repo.UpdatePoint(ctx, req, userId)
+}
+
+func (s *AdminService) LockerStatus() {
+	fmt.Println("================================================")
 }

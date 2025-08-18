@@ -145,7 +145,7 @@ func (u *AdminUsecase) UpdatePoint(ctx context.Context,
 			Msg:  "无数据更新",
 		}, nil
 	}
-
+	updated.Id = req.Point.Id
 	// 执行更新
 	res, err := u.repo.UpdatePoint(ctx, &updated, int32(uid))
 	if err != nil {

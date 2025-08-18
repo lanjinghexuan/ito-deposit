@@ -3,11 +3,13 @@ package data
 import (
 	"context"
 	"fmt"
+
 	"github.com/apache/rocketmq-client-go/v2/consumer"
+
+	"time"
 
 	"github.com/apache/rocketmq-client-go/v2"
 	"github.com/apache/rocketmq-client-go/v2/producer"
-	"time"
 
 	"ito-deposit/internal/basic/pkg"
 	"ito-deposit/internal/conf"
@@ -158,30 +160,34 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 	sqlDB.SetMaxOpenConns(50)
 	sqlDB.SetConnMaxLifetime(time.Hour)
 	//从库
-	err = db.Use(
-		dbresolver.Register(
-			dbresolver.Config{
-				Replicas: []gorm.Dialector{
-					mysql.Open(slaveDsn), // 从库（读）
-				},
-				Policy: dbresolver.RandomPolicy{}, // 读负载均衡策略
-			},
-		).
-			SetMaxIdleConns(10).
-			SetMaxOpenConns(50).
-			SetConnMaxLifetime(time.Hour),
-	)
-	if err != nil {
-		helper.Errorf("failed to register dbresolver: %v", err)
-		panic(err)
-	}
+	//err = db.Use(
+	//	dbresolver.Register(
+	//		dbresolver.Config{
+	//			Replicas: []gorm.Dialector{
+	//				mysql.Open(slaveDsn), // 从库（读）
+	//			},
+	//			Policy: dbresolver.RandomPolicy{}, // 读负载均衡策略
+	//		},
+	//	).
+	//		SetMaxIdleConns(10).
+	//		SetMaxOpenConns(50).
+	//		SetConnMaxLifetime(time.Hour),
+	//)
+	//if err != nil {
+	//	helper.Errorf("failed to register dbresolver: %v", err)
+	//	panic(err)
+	//}
 	if err := db.AutoMigrate(&City{}, &LockerPoint{}); err != nil {
 		helper.Errorf("自动迁移数据库表结构失败: %v", err)
 	} else {
 		helper.Info("自动迁移数据库表结构成功")
 	}
 	//redis
-	redisDB := RedisInit(c)
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     c.Redis.Addr,
+		Password: c.Redis.Password,
+		DB:       int(c.Redis.Db),
+	})
 
 	mq, err := rocketmq.NewProducer(
 		producer.WithGroupName("deposit_group"),
@@ -220,29 +226,9 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 
 	return &Data{
 		DB:    db,
-		Redis: redisDB,
+		Redis: rdb,
 		Mq:    mq,
 	}, cleanup, nil
-}
-
-func RedisInit(c *conf.Data) *redis.Client {
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     c.Redis.Addr,
-		Password: c.Redis.Password,
-		DB:       int(c.Redis.Db),
-	})
-	// 可选：设置连接超时 context
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	// 检查是否能连接到 Redis
-	_, err := rdb.Ping(ctx).Result()
-	if err != nil {
-		panic(fmt.Sprintf("无法连接到 Redis: %v", err))
-		// 或者使用日志：log.Fatalf("无法连接到 Redis: %v", err)
-	}
-
-	return rdb
 }
 
 // 导出的接口工厂方法

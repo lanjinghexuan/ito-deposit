@@ -7,19 +7,20 @@
 package main
 
 import (
+	"github.com/go-kratos/kratos/v2"
+	"github.com/go-kratos/kratos/v2/log"
 	"ito-deposit/internal/basic/pkg"
+	"ito-deposit/internal/basic/pkg/job"
 	"ito-deposit/internal/biz"
 	"ito-deposit/internal/conf"
 	"ito-deposit/internal/data"
 	"ito-deposit/internal/pkg/geo"
 	"ito-deposit/internal/server"
 	"ito-deposit/internal/service"
+)
 
-	"github.com/go-kratos/kratos/v2"
-	"github.com/go-kratos/kratos/v2/log"
-
+import (
 	_ "go.uber.org/automaxprocs"
-
 	_ "net/http/pprof"
 )
 
@@ -37,12 +38,13 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	orderService := service.NewOrderService(dataData)
 	userService := service.NewUserService(dataData, confServer)
 	homeService := service.NewHomeService()
+	context := NewContext()
 	sendSms, cleanup2, err := pkg.NewSendSms(confData, logger)
 	if err != nil {
 		cleanup()
 		return nil, nil, err
 	}
-	depositService := service.NewDepositService(dataData, confServer, sendSms)
+	depositService := service.NewDepositService(context, dataData, confServer, sendSms)
 	adminRepo := data.NewAdminRepo(dataData, logger)
 	adminUsecase := biz.NewAdminUsecase(adminRepo, logger)
 	adminService := service.NewAdminService(dataData, confData, confServer, adminUsecase)
@@ -58,7 +60,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	cabinetCellUsecase := biz.NewCabinetCellUsecase(cabinetCellRepo, logger)
 	cabinetCellService := service.NewCabinetCellService(dataData, cabinetCellUsecase)
 	grpcServer := server.NewGRPCServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, groupService, cabinetCellService, logger)
-	httpServer := server.NewHTTPServerWithBlacklist(confServer, dataData, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, groupService, cabinetCellService, logger)
+	httpServer := server.NewHTTPServer(confServer, greeterService, orderService, userService, homeService, depositService, adminService, cityService, nearbyService, groupService, cabinetCellService, logger)
 	client, err := NewEtcdClient(confServer)
 	if err != nil {
 		cleanup2()
@@ -66,7 +68,8 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 		return nil, nil, err
 	}
 	registrar := NewRegistrar(client)
-	app := newApp(logger, grpcServer, httpServer, registrar, confServer)
+	scheduler := job.NewScheduler(cabinetCellService)
+	app := newApp(logger, grpcServer, httpServer, registrar, confServer, scheduler)
 	return app, func() {
 		cleanup2()
 		cleanup()

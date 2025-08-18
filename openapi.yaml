@@ -3,19 +3,21 @@
 
 openapi: 3.0.3
 info:
-    title: Order API
+    title: CabinetCell API
+    description: 柜口管理服务
     version: 0.0.1
 paths:
-    /create/locker/storage:
+    /v1/cabinet-cell/batch-create:
         post:
             tags:
-                - Order
-            operationId: Order_CreateLockerStorage
+                - CabinetCell
+            description: 批量创建柜口
+            operationId: CabinetCell_BatchCreateCabinetCells
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateLockerStorageRequest'
+                            $ref: '#/components/schemas/BatchCreateCabinetCellsRequest'
                 required: true
             responses:
                 "200":
@@ -23,214 +25,224 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CreateLockerStorageReply'
+                                $ref: '#/components/schemas/BatchCreateCabinetCellsReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /handle/remind/task:
-        post:
-            tags:
-                - Order
-            operationId: Order_HandleRemindTask
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/HandleRemindTaskRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/HandleRemindTaskReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /handle/timeout/task:
-        post:
-            tags:
-                - Order
-            operationId: Order_HandleTimeOutTask
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/HandleTimeOutTaskRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/HandleTimeOutTaskReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /manage/orders/del:
-        post:
-            tags:
-                - Order
-            operationId: Order_ManageOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ManageOrderDelRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ManageOrderDelReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /manage/orders/detail:
-        post:
-            tags:
-                - Order
-            operationId: Order_ManageOrderDetail
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ManageOrderDetailRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ManageOrderDetailReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /manage/orders/search:
-        post:
-            tags:
-                - Order
-            operationId: Order_ManageOrderSearch
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ManageOrderSearchRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ManageOrderSearchReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/order/create:
-        post:
-            tags:
-                - Order
-            operationId: Order_CreateOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreateOrderRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/CreateOrderReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/order/del:
-        post:
-            tags:
-                - Order
-            operationId: Order_DeleteOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/DeleteOrderRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DeleteOrderReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/order/get:
+    /v1/cabinet-cell/by-group:
         get:
             tags:
-                - Order
-            operationId: Order_GetOrder
+                - CabinetCell
+            description: 根据柜组获取所有柜口
+            operationId: CabinetCell_GetCabinetCellsByGroup
+            parameters:
+                - name: cabinetGroupId
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetCabinetCellsByGroupReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/cabinet-cell/close:
+        post:
+            tags:
+                - CabinetCell
+            description: 关闭柜口
+            operationId: CabinetCell_CloseCabinetCell
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CloseCabinetCellRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CloseCabinetCellReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/cabinet-cell/create:
+        post:
+            tags:
+                - CabinetCell
+            description: 创建柜口
+            operationId: CabinetCell_CreateCabinetCell
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateCabinetCellRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateCabinetCellReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/cabinet-cell/delete:
+        post:
+            tags:
+                - CabinetCell
+            description: 删除柜口
+            operationId: CabinetCell_DeleteCabinetCell
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DeleteCabinetCellRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteCabinetCellReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/cabinet-cell/get:
+        get:
+            tags:
+                - CabinetCell
+            description: 获取单个柜口
+            operationId: CabinetCell_GetCabinetCell
             parameters:
                 - name: id
                   in: query
                   schema:
-                    type: string
+                    type: integer
+                    format: int32
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/GetOrderReply'
+                                $ref: '#/components/schemas/GetCabinetCellReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /v1/order/update:
+    /v1/cabinet-cell/list:
+        post:
+            tags:
+                - CabinetCell
+            description: 获取柜口列表
+            operationId: CabinetCell_ListCabinetCells
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ListCabinetCellsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListCabinetCellsReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/cabinet-cell/open:
+        post:
+            tags:
+                - CabinetCell
+            description: 开启柜口
+            operationId: CabinetCell_OpenCabinetCell
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/OpenCabinetCellRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/OpenCabinetCellReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/cabinet-cell/search:
+        post:
+            tags:
+                - CabinetCell
+            description: 搜索柜口
+            operationId: CabinetCell_SearchCabinetCells
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SearchCabinetCellsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SearchCabinetCellsReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/cabinet-cell/update:
         put:
             tags:
-                - Order
-            operationId: Order_UpdateOrder
+                - CabinetCell
+            description: 更新柜口
+            operationId: CabinetCell_UpdateCabinetCell
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateOrderRequest'
+                            $ref: '#/components/schemas/UpdateCabinetCellRequest'
                 required: true
             responses:
                 "200":
@@ -238,23 +250,23 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UpdateOrderReply'
+                                $ref: '#/components/schemas/UpdateCabinetCellReply'
                 default:
                     description: Default error response
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Status'
-    /v1/orders/list:
+    status:
         post:
             tags:
-                - Order
-            operationId: Order_ListOrder
+                - CabinetCell
+            operationId: CabinetCell_CellStatus
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ListOrderRequest'
+                            $ref: '#/components/schemas/CellStatusReq'
                 required: true
             responses:
                 "200":
@@ -262,31 +274,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListOrderReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
-    /v1/orders/show:
-        post:
-            tags:
-                - Order
-            operationId: Order_ShowOrder
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ShowOrderRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ShowOrderReply'
+                                $ref: '#/components/schemas/CellStatusRes'
                 default:
                     description: Default error response
                     content:
@@ -295,91 +283,157 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
-        CreateLockerStorageReply:
+        BatchCreateCabinetCellsReply:
             type: object
             properties:
-                order:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/OrderInfo'
-                Msg:
+                code:
                     type: string
-        CreateLockerStorageRequest:
-            type: object
-            properties:
-                orderId:
+                msg:
                     type: string
-                cabinetId:
-                    type: string
-                userId:
-                    type: string
-                expireTime:
-                    type: string
-                status:
+                count:
                     type: integer
                     format: int32
-        CreateOrderReply:
-            type: object
-            properties:
-                Msg:
-                    type: string
-        CreateOrderRequest:
-            type: object
-            properties:
-                orderNumber:
-                    type: string
-                userId:
-                    type: string
-                scheduledDuration:
-                    type: string
-                price:
-                    type: number
-                    format: double
-                discount:
-                    type: number
-                    format: double
-                amountPaid:
-                    type: number
-                    format: double
-                storageLocationName:
-                    type: string
-                cabinetId:
-                    type: string
-                depositStatus:
-                    type: string
-                title:
-                    type: string
-                orderId:
-                    type: string
-                status:
-                    type: string
-                hourlyRate:
-                    type: number
-                    format: float
-                lockerPointId:
-                    type: string
-                typeId:
-                    type: string
-            description: 创建订单请求
-        DeleteOrderReply:
-            type: object
-            properties:
                 success:
                     type: boolean
-        DeleteOrderRequest:
+            description: 批量创建柜口响应
+        BatchCreateCabinetCellsRequest:
             type: object
             properties:
-                status:
+                cabinetGroupId:
+                    type: integer
+                    format: int32
+                startNo:
+                    type: integer
+                    format: int32
+                endNo:
+                    type: integer
+                    format: int32
+                cellSize:
                     type: string
+            description: 批量创建柜口请求
+        CabinetCellInfo:
+            type: object
+            properties:
                 id:
                     type: integer
                     format: int32
-            description: 删除订单请求
-        GetOrderReply:
+                cabinetGroupId:
+                    type: integer
+                    format: int32
+                cellNo:
+                    type: integer
+                    format: int32
+                cellSize:
+                    type: string
+                status:
+                    type: string
+                lastOpenTime:
+                    type: string
+                    format: date-time
+                createTime:
+                    type: string
+                    format: date-time
+                updateTime:
+                    type: string
+                    format: date-time
+            description: 柜口信息
+        CellStatusReq:
             type: object
             properties:
-                order:
-                    $ref: '#/components/schemas/OrderInfo'
+                status:
+                    type: string
+        CellStatusRes:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+        CloseCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                success:
+                    type: boolean
+            description: 关闭柜口响应
+        CloseCabinetCellRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+            description: 关闭柜口请求
+        CreateCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cellId:
+                    type: integer
+                    format: int32
+                cellInfo:
+                    $ref: '#/components/schemas/CabinetCellInfo'
+            description: 创建柜口响应
+        CreateCabinetCellRequest:
+            type: object
+            properties:
+                cabinetGroupId:
+                    type: integer
+                    format: int32
+                cellNo:
+                    type: integer
+                    format: int32
+                cellSize:
+                    type: string
+                status:
+                    type: string
+            description: 创建柜口请求
+        DeleteCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                success:
+                    type: boolean
+            description: 删除柜口响应
+        DeleteCabinetCellRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int32
+            description: 删除柜口请求
+        GetCabinetCellReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cellInfo:
+                    $ref: '#/components/schemas/CabinetCellInfo'
+            description: 获取柜口响应
+        GetCabinetCellsByGroupReply:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cells:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CabinetCellInfo'
+                total:
+                    type: string
+            description: 根据柜组获取所有柜口响应
         GoogleProtobufAny:
             type: object
             properties:
@@ -388,206 +442,77 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        HandleRemindTaskReply:
+        ListCabinetCellsReply:
             type: object
             properties:
-                Msg:
+                code:
                     type: string
-        HandleRemindTaskRequest:
-            type: object
-            properties:
-                orderId:
+                msg:
                     type: string
-                cabinetId:
-                    type: string
-                userId:
-                    type: string
-                expireTime:
-                    type: string
-                status:
-                    type: string
-                id:
-                    type: string
-                orderNumber:
-                    type: string
-        HandleTimeOutTaskReply:
-            type: object
-            properties:
-                Msg:
-                    type: string
-        HandleTimeOutTaskRequest:
-            type: object
-            properties:
-                orderId:
-                    type: string
-                cabinetId:
-                    type: string
-                userId:
-                    type: string
-                expireTime:
-                    type: string
-                status:
-                    type: string
-                id:
-                    type: string
-                orderNumber:
-                    type: string
-                scheduledDuration:
-                    type: string
-                hourlyRate:
-                    type: string
-        ListOrderReply:
-            type: object
-            properties:
-                orders:
+                cells:
                     type: array
                     items:
-                        $ref: '#/components/schemas/OrderInfo'
+                        $ref: '#/components/schemas/CabinetCellInfo'
                 total:
                     type: string
-        ListOrderRequest:
+            description: 柜口列表响应
+        ListCabinetCellsRequest:
             type: object
             properties:
                 page:
                     type: string
                 size:
                     type: string
-                storageLocationName:
-                    type: string
+                cabinetGroupId:
+                    type: integer
+                    format: int32
                 status:
                     type: string
-            description: 订单列表请求
-        ManageOrderDelReply:
+            description: 柜口列表请求
+        OpenCabinetCellReply:
             type: object
             properties:
-                Msg:
+                code:
                     type: string
-        ManageOrderDelRequest:
-            type: object
-            properties:
-                orderId:
+                msg:
                     type: string
-                cabinetId:
-                    type: string
-                userId:
-                    type: string
-                expireTime:
-                    type: string
-                status:
-                    type: string
-                id:
-                    type: string
-                orderNumber:
-                    type: string
-                scheduledDuration:
-                    type: string
-                hourlyRate:
-                    type: string
-                role:
-                    type: string
-        ManageOrderDetailReply:
-            type: object
-            properties:
-                Msg:
-                    type: string
-                order:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/OrderInfo'
-        ManageOrderDetailRequest:
-            type: object
-            properties:
-                orderId:
-                    type: string
-                cabinetId:
-                    type: string
-                userId:
-                    type: string
-                expireTime:
-                    type: string
-                status:
-                    type: string
-                id:
-                    type: string
-                orderNumber:
-                    type: string
-                scheduledDuration:
-                    type: string
-                hourlyRate:
-                    type: string
-                role:
-                    type: string
-        ManageOrderSearchReply:
-            type: object
-            properties:
-                order:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/OrderInfo'
-                Msg:
-                    type: string
-        ManageOrderSearchRequest:
-            type: object
-            properties:
-                orderNumber:
-                    type: string
-                title:
-                    type: string
-                orderId:
-                    type: string
-                status:
-                    type: string
-                role:
-                    type: string
-                Id:
-                    type: string
-        OrderInfo:
+                success:
+                    type: boolean
+            description: 开启柜口响应
+        OpenCabinetCellRequest:
             type: object
             properties:
                 id:
                     type: integer
                     format: int32
-                orderNumber:
-                    type: string
-                userId:
-                    type: string
-                scheduledDuration:
-                    type: string
-                actualDuration:
-                    type: string
-                price:
-                    type: number
-                    format: double
-                discount:
-                    type: number
-                    format: double
-                amountPaid:
-                    type: number
-                    format: double
-                storageLocationName:
-                    type: string
-                cabinetId:
-                    type: string
-                status:
-                    type: string
-                depositStatus:
-                    type: string
-            description: 订单信息
-        ShowOrderReply:
+            description: 开启柜口请求
+        SearchCabinetCellsReply:
             type: object
             properties:
-                order:
+                code:
+                    type: string
+                msg:
+                    type: string
+                cells:
                     type: array
                     items:
-                        $ref: '#/components/schemas/OrderInfo'
-                Msg:
+                        $ref: '#/components/schemas/CabinetCellInfo'
+                total:
                     type: string
-        ShowOrderRequest:
+            description: 搜索柜口响应
+        SearchCabinetCellsRequest:
             type: object
             properties:
-                id:
+                keyword:
+                    type: string
+                cabinetGroupId:
                     type: integer
                     format: int32
+                page:
+                    type: string
+                size:
+                    type: string
+            description: 搜索柜口请求
         Status:
             type: object
             properties:
@@ -604,37 +529,35 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-        UpdateOrderReply:
+        UpdateCabinetCellReply:
             type: object
             properties:
-                order:
-                    $ref: '#/components/schemas/OrderInfo'
-                payUrl:
+                code:
                     type: string
-        UpdateOrderRequest:
+                msg:
+                    type: string
+                cellInfo:
+                    $ref: '#/components/schemas/CabinetCellInfo'
+            description: 更新柜口响应
+        UpdateCabinetCellRequest:
             type: object
             properties:
                 id:
-                    type: string
-                actualDuration:
+                    type: integer
+                    format: int32
+                cabinetGroupId:
+                    type: integer
+                    format: int32
+                cellNo:
+                    type: integer
+                    format: int32
+                cellSize:
                     type: string
                 status:
                     type: string
-                depositStatus:
+                lastOpenTime:
                     type: string
-                hourlyRate:
-                    type: number
-                    format: float
-                lockerType:
-                    type: string
-                title:
-                    type: string
-                lockerPointId:
-                    type: string
-                typeId:
-                    type: string
-                cabinetId:
-                    type: string
-            description: 更新订单请求
+                    format: date-time
+            description: 更新柜口请求
 tags:
-    - name: Order
+    - name: CabinetCell
