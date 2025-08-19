@@ -532,7 +532,7 @@ func (s *CabinetCellService) CellStatus(ctx context.Context, req *pb.CellStatusR
 	}
 
 	content := fmt.Sprintf("❗ 快递柜异常告警：发现 %d 个格口状态为 abnormal", len(cell))
-	webhookURL := "https://open.feishu.cn/open-apis/bot/v2/hook/f298817f-d96b-4db0-9597-00ffbeb99c9f"
+	webhookURL := "https://open.feishu.cn/open-apis/bot/v2/hook/42fa1e28-3fac-4993-bea7-fb9ae23a2393"
 	err = sendFeishuAlert(webhookURL, content)
 	if err != nil {
 		log.Printf("发送飞书告警失败: %v", err)

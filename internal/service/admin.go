@@ -9,6 +9,7 @@ import (
 	data2 "ito-deposit/internal/data"
 	"mime/multipart"
 	"path/filepath"
+	"strconv"
 	"time"
 
 	jwt1 "github.com/go-kratos/kratos/v2/middleware/auth/jwt"
@@ -417,18 +418,19 @@ func (s *AdminService) AddPoint(ctx context.Context, req *pb.AddPointReq) (*pb.A
 }
 
 func (s *AdminService) UpdatePoint(ctx context.Context, req *pb.UpdatePointReq) (*pb.UpdatePointRes, error) {
-	kratosToken, ok := jwt1.FromContext(ctx)
-	if !ok {
-		return &pb.UpdatePointRes{
-			Code: 401,
-			Msg:  "token不正确或者未传",
-		}, nil
-	}
-
-	mapClaims, ok := kratosToken.(*jwt.MapClaims)
-
-	userId := (*mapClaims)["id"].(string)
-	return s.repo.UpdatePoint(ctx, req, userId)
+	//kratosToken, ok := jwt1.FromContext(ctx)
+	//if !ok {
+	//	return &pb.UpdatePointRes{
+	//		Code: 401,
+	//		Msg:  "token不正确或者未传",
+	//	}, nil
+	//}
+	//
+	//mapClaims, ok := kratosToken.(*jwt.MapClaims)
+	//
+	//userId := (*mapClaims)["id"].(string)
+	userId := 0
+	return s.repo.UpdatePoint(ctx, req, strconv.Itoa(userId))
 }
 
 func (s *AdminService) LockerStatus() {

@@ -153,6 +153,7 @@ func NewWhiteListMatcher() selector.MatchFunc {
 	whiteList["/api.helloworld.v1.Admin/GetPriceRule"] = struct{}{}
 	whiteList["/api.helloworld.v1.Order/UpdateOrder"] = struct{}{}
 	whiteList["/api.helloworld.v1.Admin/AdminLogin"] = struct{}{}
+	whiteList["/api.helloworld.v1.Admin/UpdatePoint"] = struct{}{}
 	// 寄存点相关API - 用户端不需要认证
 	whiteList["/api.helloworld.v1.Deposit/GetDepositLocker"] = struct{}{}
 	whiteList["/api.helloworld.v1.Deposit/ListDeposit"] = struct{}{}
