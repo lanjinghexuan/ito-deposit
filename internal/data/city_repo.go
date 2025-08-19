@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"ito-deposit/internal/biz"
+
 	"github.com/go-kratos/kratos/v2/log"
 	"gorm.io/gorm"
-	"ito-deposit/internal/biz"
 )
 
 // cityRepo 城市数据仓库实现
@@ -150,16 +151,31 @@ func (r *cityRepo) GetCityByCode(ctx context.Context, code string) (*biz.City, e
 // GetCityByName 根据城市名称获取城市
 func (r *cityRepo) GetCityByName(ctx context.Context, name string) (*biz.City, error) {
 	var city City
-	if err := r.data.DB.Where("name = ?", name).First(&city).Error; err != nil {
+
+	// 首先尝试精确匹配
+	err := r.data.DB.Where("name = ?", name).First(&city).Error
+	if err == nil {
+		return r.convertToBizCity(&city), nil
+	}
+
+	// 如果精确匹配失败且是记录不存在错误，尝试模糊匹配
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		r.log.Infof("精确匹配失败，尝试模糊匹配城市: %s", name)
+
+		// 尝试模糊匹配
+		err = r.data.DB.Where("name LIKE ? OR name LIKE ?", "%"+name+"%", name+"%").First(&city).Error
+		if err == nil {
+			r.log.Infof("模糊匹配成功: %s -> %s", name, city.Name)
+			return r.convertToBizCity(&city), nil
+		}
+
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errors.New("城市不存在")
 		}
-		r.log.Errorf("获取城市失败: %v", err)
-		return nil, err
 	}
 
-	// 将数据库模型转换为业务实体
-	return r.convertToBizCity(&city), nil
+	r.log.Errorf("获取城市失败: %v", err)
+	return nil, err
 }
 
 // ListCities 获取城市列表

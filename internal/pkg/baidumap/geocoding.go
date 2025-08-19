@@ -24,10 +24,10 @@ func NewBaiduMapClient(ak string) *BaiduMapClient {
 type GeocodeResponse struct {
 	Status  int    `json:"status"`  // 状态码，0表示成功
 	Message string `json:"message"` // 错误信息
-	
+
 	// 使用map来存储结果，避免结构体字段不匹配的问题
 	RawResult map[string]interface{} `json:"-"`
-	
+
 	// 提取后的关键信息
 	Longitude float64 // 经度
 	Latitude  float64 // 纬度
@@ -45,7 +45,7 @@ func (c *BaiduMapClient) Geocode(cityName string) (*GeocodeResponse, error) {
 	params.Set("address", cityName)
 	params.Set("output", "json")
 	params.Set("ak", c.AK)
-	params.Set("ret_coordtype", "gcj02ll") // 使用国测局坐标系
+	params.Set("ret_coordtype", "wgs84ll") // 使用WGS84坐标系，与前端地图一致
 	params.Set("extensions_town", "true")  // 返回乡镇信息
 	params.Set("extensions_poi", "0")      // 不返回POI信息
 
@@ -105,7 +105,7 @@ func (c *BaiduMapClient) Geocode(cityName string) (*GeocodeResponse, error) {
 			if adcode, ok := addressComponent["adcode"].(string); ok && adcode != "" {
 				result.AdCode = adcode
 			}
-			
+
 			// 尝试获取citycode（字母缩写）
 			if citycode, ok := addressComponent["citycode"].(string); ok && citycode != "" {
 				result.CityCode = citycode
@@ -116,7 +116,7 @@ func (c *BaiduMapClient) Geocode(cityName string) (*GeocodeResponse, error) {
 		if adcode, ok := resultData["adcode"].(string); ok && adcode != "" && result.AdCode == "" {
 			result.AdCode = adcode
 		}
-		
+
 		if citycode, ok := resultData["cityCode"].(string); ok && citycode != "" && result.CityCode == "" {
 			result.CityCode = citycode
 		}

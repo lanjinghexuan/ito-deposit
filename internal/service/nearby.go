@@ -2,9 +2,10 @@ package service
 
 import (
 	"context"
-	"github.com/go-kratos/kratos/v2/log"
 	v1 "ito-deposit/api/helloworld/v1"
 	"ito-deposit/internal/biz"
+
+	"github.com/go-kratos/kratos/v2/log"
 )
 
 // NearbyService 附近服务实现
@@ -216,21 +217,34 @@ func (s *NearbyService) SearchLockerPointsInCity(ctx context.Context, req *v1.Se
 
 // GetCityLockerPointsMap 获取城市寄存点分布图数据
 func (s *NearbyService) GetCityLockerPointsMap(ctx context.Context, req *v1.GetCityLockerPointsMapRequest) (*v1.GetCityLockerPointsMapReply, error) {
+	// 打印请求参数用于调试
+	s.log.Infof("获取城市寄存点分布图请求: 城市=%s, 北纬=%f, 南纬=%f, 东经=%f, 西经=%f, 缩放级别=%d",
+		req.CityName, req.NorthLat, req.SouthLat, req.EastLng, req.WestLng, req.ZoomLevel)
+
 	// 参数验证
 	if req.CityName == "" {
 		return nil, v1.ErrorBadRequest("城市名称不能为空")
 	}
 
 	if req.NorthLat <= req.SouthLat {
+		s.log.Errorf("纬度参数错误: 北纬=%f, 南纬=%f", req.NorthLat, req.SouthLat)
 		return nil, v1.ErrorBadRequest("北纬度必须大于南纬度")
 	}
 
 	if req.EastLng <= req.WestLng {
+		s.log.Errorf("经度参数错误: 东经=%f, 西经=%f", req.EastLng, req.WestLng)
 		return nil, v1.ErrorBadRequest("东经度必须大于西经度")
 	}
 
 	if req.ZoomLevel < 1 || req.ZoomLevel > 20 {
 		return nil, v1.ErrorBadRequest("缩放级别必须在1-20之间")
+	}
+
+	// 检查边界参数是否合理（中国境内）
+	if req.NorthLat > 60 || req.SouthLat < 0 || req.EastLng > 150 || req.WestLng < 70 {
+		s.log.Warnf("边界参数可能不合理: 北纬=%f, 南纬=%f, 东经=%f, 西经=%f",
+			req.NorthLat, req.SouthLat, req.EastLng, req.WestLng)
+		// 不返回错误，但记录警告
 	}
 
 	// 调用业务逻辑获取地图数据
@@ -383,27 +397,4 @@ func (s *NearbyService) GetAllLockerPoints(ctx context.Context, req *v1.GetAllLo
 		Page:     page,
 		PageSize: pageSize,
 	}, nil
-}
-
-// TestDatabaseConnection 测试数据库连接和查询（临时调试用）
-func (s *NearbyService) TestDatabaseConnection(ctx context.Context) error {
-	s.log.Info("=== 开始测试数据库连接 ===")
-
-	// 直接调用业务逻辑层
-	lockerPoints, total, err := s.uc.GetAllLockerPoints(ctx, "", 1, 10)
-	if err != nil {
-		s.log.Errorf("测试查询失败: %v", err)
-		return err
-	}
-
-	s.log.Infof("测试结果: 总数=%d, 返回数量=%d", total, len(lockerPoints))
-
-	for i, point := range lockerPoints {
-		if i < 5 { // 只显示前5个
-			s.log.Infof("寄存点 %d: ID=%d, Name=%s, Address=%s", i+1, point.Id, point.Name, point.Address)
-		}
-	}
-
-	s.log.Info("=== 数据库连接测试完成 ===")
-	return nil
 }
