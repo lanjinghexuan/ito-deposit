@@ -2,17 +2,24 @@ package service
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/redis/go-redis/v9"
 	v1 "ito-deposit/api/helloworld/v1"
 	"ito-deposit/internal/biz"
+	"ito-deposit/internal/conf"
+	data2 "ito-deposit/internal/data"
+	"time"
 )
 
 // CityService 城市服务实现
 type CityService struct {
 	v1.UnimplementedCityServer
-
-	uc  *biz.CityUsecase
-	log *log.Helper
+	data *data2.Data
+	conf *conf.Data
+	uc   *biz.CityUsecase
+	log  *log.Helper
 }
 
 // NewCityService 创建城市服务实例
@@ -91,6 +98,19 @@ func (s *CityService) UpdateCity(ctx context.Context, req *v1.UpdateCityRequest)
 
 // GetCity 获取城市详情
 func (s *CityService) GetCity(ctx context.Context, req *v1.GetCityRequest) (*v1.GetCityReply, error) {
+	key := fmt.Sprintf("ito-deposit/city/GetCity%s", req.Id)
+	res, err := s.data.Redis.Get(context.Background(), key).Result()
+	if err != nil && err != redis.Nil {
+		return &v1.GetCityReply{}, nil
+	}
+	if res != "" {
+		var data v1.GetCityReply
+		err = json.Unmarshal([]byte(res), &data)
+		if err != nil {
+			return &v1.GetCityReply{}, nil
+		}
+		return &data, nil
+	}
 	// 参数验证
 	if req.Id <= 0 {
 		return nil, v1.ErrorBadRequest("城市ID无效")
@@ -104,18 +124,35 @@ func (s *CityService) GetCity(ctx context.Context, req *v1.GetCityRequest) (*v1.
 	}
 
 	// 构建响应
-	return &v1.GetCityReply{
+	var res1 *v1.GetCityReply
+	res1 = &v1.GetCityReply{
 		Id:        city.ID,
 		Name:      city.Name,
 		Code:      city.Code,
 		Latitude:  city.Latitude,
 		Longitude: city.Longitude,
 		Status:    int32(city.Status),
-	}, nil
+	}
+	jsonList, err := json.Marshal(res1)
+	s.data.Redis.Set(context.Background(), key, jsonList, time.Minute*5)
+	return res1, nil
 }
 
 // ListCities 获取城市列表
 func (s *CityService) ListCities(ctx context.Context, req *v1.ListCitiesRequest) (*v1.ListCitiesReply, error) {
+	key := fmt.Sprintf("ito-deposit/city/ListCities%s", "111")
+	res, err := s.data.Redis.Get(context.Background(), key).Result()
+	if err != nil && err != redis.Nil {
+		return &v1.ListCitiesReply{}, nil
+	}
+	if res != "" {
+		var data v1.ListCitiesReply
+		err = json.Unmarshal([]byte(res), &data)
+		if err != nil {
+			return &v1.ListCitiesReply{}, err
+		}
+		return &data, nil
+	}
 	// 参数验证和默认值设置
 	page := req.Page
 	if page <= 0 {
@@ -172,8 +209,11 @@ func (s *CityService) ListCities(ctx context.Context, req *v1.ListCitiesRequest)
 		Items: items,
 	}
 	s.log.Infof("返回响应: total=%d, items.length=%d", reply.Total, len(reply.Items))
-
-	return reply, nil
+	var res1 *v1.ListCitiesReply
+	res1 = reply
+	jsonList, err := json.Marshal(res1)
+	s.data.Redis.Set(context.Background(), key, jsonList, time.Minute*5)
+	return res1, nil
 }
 
 // UpdateCityStatus 更新城市状态
@@ -201,6 +241,19 @@ func (s *CityService) UpdateCityStatus(ctx context.Context, req *v1.UpdateCitySt
 
 // ListUserCities 获取用户端城市列表
 func (s *CityService) ListUserCities(ctx context.Context, req *v1.ListUserCitiesRequest) (*v1.ListUserCitiesReply, error) {
+	key := fmt.Sprintf("ito-deaposit/city/ListUserCities%s", "111")
+	res, err := s.data.Redis.Get(context.Background(), key).Result()
+	if err != nil && err != redis.Nil {
+		return &v1.ListUserCitiesReply{}, err
+	}
+	if res != "" {
+		var data v1.ListUserCitiesReply
+		err = json.Unmarshal([]byte(res), &data)
+		if err != nil {
+			return &v1.ListUserCitiesReply{}, err
+		}
+		return &data, nil
+	}
 	// 参数验证和默认值设置
 	page := req.Page
 	if page <= 0 {
@@ -250,8 +303,11 @@ func (s *CityService) ListUserCities(ctx context.Context, req *v1.ListUserCities
 		Total: total,
 		Items: items,
 	}
-
-	return reply, nil
+	var res1 *v1.ListUserCitiesReply
+	res1 = reply
+	jsonList, err := json.Marshal(res1)
+	s.data.Redis.Set(context.Background(), key, jsonList, time.Minute*5)
+	return res1, nil
 }
 
 // SearchCities 搜索城市
@@ -311,6 +367,19 @@ func (s *CityService) SearchCities(ctx context.Context, req *v1.SearchCitiesRequ
 
 // GetUserCity 获取用户端城市详情
 func (s *CityService) GetUserCity(ctx context.Context, req *v1.GetUserCityRequest) (*v1.GetUserCityReply, error) {
+	key := fmt.Sprintf("ito-deaposit/city/GetUserCity%s", req.Id)
+	res, err := s.data.Redis.Get(context.Background(), key).Result()
+	if err != nil && err != redis.Nil {
+		return &v1.GetUserCityReply{}, err
+	}
+	if res != "" {
+		var data v1.GetUserCityReply
+		err = json.Unmarshal([]byte(res), &data)
+		if err != nil {
+			return &v1.GetUserCityReply{}, err
+		}
+		return &data, nil
+	}
 	// 参数验证
 	if req.Id <= 0 {
 		return nil, v1.ErrorBadRequest("城市ID无效")
@@ -322,15 +391,18 @@ func (s *CityService) GetUserCity(ctx context.Context, req *v1.GetUserCityReques
 		s.log.Errorf("获取用户端城市详情失败: %v", err)
 		return nil, v1.ErrorInternalError("获取城市详情失败: %v", err)
 	}
-
+	var res1 *v1.GetUserCityReply
 	// 构建响应
-	return &v1.GetUserCityReply{
+	res1 = &v1.GetUserCityReply{
 		Id:        city.ID,
 		Name:      city.Name,
 		Code:      city.Code,
 		Latitude:  city.Latitude,
 		Longitude: city.Longitude,
-	}, nil
+	}
+	jsonInfo, err := json.Marshal(res1)
+	s.data.Redis.Set(context.Background(), key, jsonInfo, time.Minute*5)
+	return res1, nil
 }
 
 // GetCityByCode 根据城市编码获取城市

@@ -290,6 +290,20 @@ func (s *CabinetCellService) GetCabinetCell(ctx context.Context, req *pb.GetCabi
 
 // ListCabinetCells 获取柜口列表
 func (s *CabinetCellService) ListCabinetCells(ctx context.Context, req *pb.ListCabinetCellsRequest) (*pb.ListCabinetCellsReply, error) {
+	key := fmt.Sprintf("ito-deaposit/cabinet_cell/ListCabinetCells%s", req.CabinetGroupId)
+	res, err := s.RedisDb.Get(context.Background(), key).Result()
+	if err != nil && err != redis.Nil {
+		return &pb.ListCabinetCellsReply{}, err
+	}
+	if res != "" {
+		var data pb.ListCabinetCellsReply
+		err = json.Unmarshal([]byte(res), &data)
+		if err != nil {
+			return &pb.ListCabinetCellsReply{}, err
+		}
+		return &data, nil
+	}
+
 	// 1. 分页参数处理
 	page := req.Page
 	if page <= 0 {
@@ -318,13 +332,16 @@ func (s *CabinetCellService) ListCabinetCells(ctx context.Context, req *pb.ListC
 		cellInfo := s.convertToPbCabinetCell(cell)
 		cellInfos = append(cellInfos, cellInfo)
 	}
-
-	return &pb.ListCabinetCellsReply{
+	var res1 *pb.ListCabinetCellsReply
+	res1 = &pb.ListCabinetCellsReply{
 		Code:  200,
 		Msg:   "查询成功",
 		Cells: cellInfos,
 		Total: total,
-	}, nil
+	}
+	jsonList, err := json.Marshal(res1)
+	s.RedisDb.Set(context.Background(), key, jsonList, time.Minute*1)
+	return res1, nil
 }
 
 // SearchCabinetCells 搜索柜口
